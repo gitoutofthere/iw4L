@@ -932,11 +932,11 @@ pub fn spread_direction_on_plane(
     let unit = |draw: u32| draw as f32 / u32::MAX as f32;
     let radius = unit(rng.next_u32());
     let theta = unit(rng.next_u32()) * core::f32::consts::TAU;
-    let lateral = plane * spread_degrees.to_radians().tan() * radius;
+    let lateral = plane * libm::tanf(spread_degrees.to_radians()) * radius;
     let q = [
-        plane * forward[0] + lateral * (theta.cos() * right[0] + theta.sin() * up[0]),
-        plane * forward[1] + lateral * (theta.cos() * right[1] + theta.sin() * up[1]),
-        plane * forward[2] + lateral * (theta.cos() * right[2] + theta.sin() * up[2]),
+        plane * forward[0] + lateral * (libm::cosf(theta) * right[0] + libm::sinf(theta) * up[0]),
+        plane * forward[1] + lateral * (libm::cosf(theta) * right[1] + libm::sinf(theta) * up[1]),
+        plane * forward[2] + lateral * (libm::cosf(theta) * right[2] + libm::sinf(theta) * up[2]),
     ];
     let len = (q[0] * q[0] + q[1] * q[1] + q[2] * q[2]).sqrt();
     if len > 0.0 {

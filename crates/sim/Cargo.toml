@@ -18,6 +18,7 @@ gamemode_iw4.workspace = true
 hud_iw4.workspace = true
 weapon_iw4.workspace = true
 entity_iw4.workspace = true
+libm = { version = "0.2.16", default-features = false }
 anim_iw4.workspace = true
 fx_iw4.workspace = true
 xmodel_runtime.workspace = true
