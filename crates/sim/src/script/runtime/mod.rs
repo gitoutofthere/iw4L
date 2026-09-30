@@ -1362,8 +1362,7 @@ fn run_ready(world: &mut World, program: &Program, now: i64) {
         let Some(entity) = find_thread(world, serial) else {
             continue;
         };
-        let receivers = entity_receivers(world, world.get::<Thread>(entity).unwrap());
-        if any_deleted(world, &receivers) {
+        if waits_on_deleted(world, serial) {
             kill(world, entity, serial);
             continue;
         }
@@ -1643,21 +1642,10 @@ fn threads_waiting_on_deleted(world: &World) -> std::collections::BTreeSet<u64> 
 }
 
 /// Deleting a waited-on object ends the thread; a thread whose self is deleted keeps running.
-fn entity_receivers(world: &World, thread: &Thread) -> Vec<Value> {
-    world
-        .resource::<Runtime>()
-        .waiters
-        .of_thread(thread.serial)
-        .map(|w| &w.receiver)
-        .filter(|value| matches!(value, Value::Object(_)))
-        .cloned()
-        .collect()
-}
-
-fn any_deleted(world: &World, receivers: &[Value]) -> bool {
+fn waits_on_deleted(world: &World, serial: u64) -> bool {
     let runtime = world.resource::<Runtime>();
-    receivers.iter().any(|value| {
-        matches!(value, Value::Object(id) if runtime.dead.contains(id) || !runtime.objects.contains_key(id))
+    runtime.waiters.of_thread(serial).any(|w| {
+        matches!(w.receiver, Value::Object(id) if runtime.dead.contains(&id) || !runtime.objects.contains_key(&id))
     })
 }
 
