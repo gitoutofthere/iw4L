@@ -96,6 +96,11 @@ pub(crate) fn install_level(
         .collect();
     let mut runtime = world.resource_mut::<Runtime>();
     runtime.program = Some(program.clone());
+    runtime.engine_player_fields = program
+        .symbols
+        .iter()
+        .map(|symbol| host::players::is_engine_field(symbol))
+        .collect();
     runtime.natives = bound;
     runtime.objects.insert(0, BTreeMap::new());
     runtime.objects.insert(1, BTreeMap::new());

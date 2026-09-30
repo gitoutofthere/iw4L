@@ -78,6 +78,8 @@ pub(crate) struct Runtime {
     pub(crate) thread_entities: BTreeMap<u64, bevy_ecs::entity::Entity>,
     pub(crate) collected_at: u64,
     pub(crate) live_after_collect: usize,
+    /// Empty until a program is installed: then every field asks the engine.
+    pub(crate) engine_player_fields: Vec<bool>,
 }
 
 impl Runtime {
