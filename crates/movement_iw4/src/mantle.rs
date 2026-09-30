@@ -1,5 +1,5 @@
 use math_iw4::{angle_normalize_360, angle_subtract};
-use playerstate_iw4::PlayerState;
+use playerstate_iw4::{PlayerState, pm_flags};
 use trace_iw4::Trace;
 
 use crate::add_predictable_event;
@@ -9,8 +9,6 @@ pub const CONTENTS_MANTLE: u32 = 0x0100_0000;
 pub const SURF_MANTLE_ON_OR_OVER: u32 = 0x0600_0000;
 
 pub const SURF_MANTLE_OVER: u32 = 0x0400_0000;
-
-pub const PMF_MANTLE: u32 = 0x4;
 
 const EV_MANTLE: i32 = 0xae;
 
@@ -387,7 +385,7 @@ pub fn find_ledge(
     if !context.mantle_enable {
         return false;
     }
-    if ps.pm_type >= 8 || (ps.pm_flags & PMF_MANTLE) != 0 || (ps.e_flags & 0xc) != 0 {
+    if ps.pm_type >= 8 || (ps.pm_flags & pm_flags::MANTLE) != 0 || (ps.e_flags & 0xc) != 0 {
         return false;
     }
 
@@ -499,7 +497,7 @@ pub fn is_weapon_inactive(ps: &PlayerState, mantle_enable: bool) -> bool {
     if !mantle_enable {
         return false;
     }
-    if (ps.pm_flags & PMF_MANTLE) == 0 {
+    if (ps.pm_flags & pm_flags::MANTLE) == 0 {
         return false;
     }
     trans_over_anim(ps.mantle_trans_index) != 10
@@ -548,7 +546,7 @@ pub fn enter(
         results.end_pos[1] - trans[1],
         results.end_pos[2] - trans[2],
     ];
-    ps.pm_flags |= PMF_MANTLE;
+    ps.pm_flags |= pm_flags::MANTLE;
     add_predictable_event(ps, EV_MANTLE, 0);
     ps.e_flags |= EF_MANTLE;
 }
@@ -699,8 +697,8 @@ pub fn clear_hint(ps: &mut PlayerState) {
 
 pub fn cap_view(ps: &mut PlayerState, context: MantleCapViewContext) {
     debug_assert!(
-        (ps.pm_flags & PMF_MANTLE) != 0,
-        "mantle view cap requires PMF_MANTLE"
+        (ps.pm_flags & pm_flags::MANTLE) != 0,
+        "mantle view cap requires pm_flags::MANTLE"
     );
     if !context.mantle_enable {
         return;
@@ -751,8 +749,8 @@ pub fn advance(
     root: &impl MantleRootDelta,
 ) {
     debug_assert!(
-        (ps.pm_flags & PMF_MANTLE) != 0,
-        "mantle move requires PMF_MANTLE"
+        (ps.pm_flags & pm_flags::MANTLE) != 0,
+        "mantle move requires pm_flags::MANTLE"
     );
     if !context.mantle_enable {
         return;
@@ -792,7 +790,7 @@ pub fn advance(
         return;
     }
 
-    ps.pm_flags &= !PMF_MANTLE;
+    ps.pm_flags &= !pm_flags::MANTLE;
     if (ps.mantle_flags & MANTLE_FLAG_EVENT6) != 0 {
         add_predictable_event(ps, EV_MANTLE_MOVE_BIT4, 0);
         ps.e_flags &= !EF_MANTLE;
@@ -817,7 +815,7 @@ pub fn check(
     lengths: &impl MantleXAnimLength,
     root: &impl MantleRootDelta,
 ) -> bool {
-    if (ps.pm_flags & PMF_MANTLE) != 0 {
+    if (ps.pm_flags & pm_flags::MANTLE) != 0 {
         return false;
     }
     let mut results = MantleResults::default();

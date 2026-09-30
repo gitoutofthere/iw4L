@@ -134,17 +134,37 @@ pub mod other_flags {
 }
 
 pub mod pm_flags {
+    pub const PRONE: u32 = 0x1;
+
+    pub const CROUCH: u32 = 0x2;
+
+    pub const MANTLE: u32 = 0x4;
+
+    pub const LADDER: u32 = 0x8;
+
+    pub const ADS_INTENT: u32 = 0x10;
+
+    pub const BACKWARDS_RUN: u32 = 0x20;
+
+    pub const WALKING: u32 = 0x40;
+
     pub const TIME_HARDLANDING: u32 = 0x80;
 
-    pub const BLOCK_OFFHAND_OTS: u32 = 0x4000;
+    pub const PRONEMOVE_OVERRIDDEN: u32 = 0x200;
 
-    pub const MELEE_CHARGE: u32 = 0x10000;
+    pub const LADDER_FALL: u32 = 0x1000;
+
+    pub const JUMPING: u32 = 0x2000;
+
+    pub const SPRINTING: u32 = 0x4000;
 
     pub const SHELLSHOCKED: u32 = 0x8000;
 
-    pub const LAST_STAND: u32 = 0x0040_0000;
+    pub const MELEE_CHARGE: u32 = 0x10000;
 
-    pub const PRONEMOVE_OVERRIDDEN: u32 = 0x200;
+    pub const SPRINT_BLOCKED: u32 = 0x0002_0000;
+
+    pub const LAST_STAND: u32 = 0x0040_0000;
 }
 
 pub mod weap_flags {

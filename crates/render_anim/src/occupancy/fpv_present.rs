@@ -617,9 +617,8 @@ pub fn tick_fpv_viewmodel(
         Some(snap) => {
             let ps = presented.player(local.0);
             let ws = ps.map(|p| p.weaponstate_primary).unwrap_or(0);
-            const PMF_SPRINTING: u32 = 0x4000;
             let sprinting = ps
-                .map(|p| (p.pm_flags & PMF_SPRINTING) != 0)
+                .map(|p| (p.pm_flags & playerstate_iw4::pm_flags::SPRINTING) != 0)
                 .unwrap_or(false);
             let ads_frac = ps.map(|p| p.f_weapon_pos_frac).unwrap_or(0.0);
             let weap_anim = ps.map(|p| p.weap_anim).unwrap_or(0);

@@ -1,8 +1,6 @@
-use playerstate_iw4::{ENTITYNUM_NONE, PlayerState};
+use playerstate_iw4::{ENTITYNUM_NONE, PlayerState, pm_flags};
 
-use crate::{CollisionBackend, GroundTraceInput, PMF_LADDER, PMF_PRONE, Pml, jump};
-
-const PMF_JUMPING: u32 = 0x2000;
+use crate::{CollisionBackend, GroundTraceInput, Pml, jump};
 
 const OVERCLIP: f32 = 1.001;
 
@@ -188,13 +186,13 @@ pub fn step_slide_move<C: CollisionBackend>(
     tracemask: u32,
     gravity: Option<f32>,
 ) {
-    let had_ground = if (ps.pm_flags & PMF_LADDER) != 0 {
+    let had_ground = if (ps.pm_flags & pm_flags::LADDER) != 0 {
         jump::clear_state(ps);
         false
     } else if pml.ground_plane != 0 {
         true
     } else {
-        if (ps.pm_flags & PMF_JUMPING) != 0 && ps.pm_time != 0 {
+        if (ps.pm_flags & pm_flags::JUMPING) != 0 && ps.pm_time != 0 {
             jump::clear_state(ps);
         }
         false
@@ -207,18 +205,18 @@ pub fn step_slide_move<C: CollisionBackend>(
     let down_origin = ps.origin;
     let down_velocity = ps.velocity;
 
-    let mut step_size = if (ps.pm_flags & PMF_PRONE) != 0 {
+    let mut step_size = if (ps.pm_flags & pm_flags::PRONE) != 0 {
         PRONE_STEP_SIZE
     } else {
         STEP_SIZE
     };
 
     if ps.ground_entity_num == ENTITYNUM_NONE {
-        if (ps.pm_flags & PMF_JUMPING) != 0 && ps.pm_time != 0 {
+        if (ps.pm_flags & pm_flags::JUMPING) != 0 && ps.pm_time != 0 {
             jump::clear_state(ps);
         }
-        let jumping = (ps.pm_flags & PMF_JUMPING) != 0;
-        let ladder_up = (ps.pm_flags & PMF_LADDER) != 0 && ps.velocity[2] > 0.0;
+        let jumping = (ps.pm_flags & pm_flags::JUMPING) != 0;
+        let ladder_up = (ps.pm_flags & pm_flags::LADDER) != 0 && ps.velocity[2] > 0.0;
         if bumped && jumping {
             match jump::get_step_height(ps, start_origin) {
                 Some(height) if height < 1.0 => return,

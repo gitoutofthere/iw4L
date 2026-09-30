@@ -10,6 +10,7 @@ use math_iw4::{add_lean_to_position, angle_vectors};
 use net::{
     AppliedEntityEventWalk, ClientActionInput, FrameClock, LocalPresentClient, PresentedSnapshot,
 };
+use playerstate_iw4::ENTITYNUM_NONE;
 use weapon_iw4::{
     VIEW_DAMAGE_UNDIRECTED, VIEW_ORG_BOB_Z_MIN_OFS, ViewAngleBobInputs, ViewOrgBobInputs,
     crash_land_fall_height, crash_land_view_dip, damage_feedback_kick, get_viewmodel_weapon_index,
@@ -505,8 +506,6 @@ fn apply_fpv_lens_fov(
     }
     Some(horiz)
 }
-
-const ENTITYNUM_NONE: i32 = 0x7FF;
 
 fn stamp_and_land_origin_z(
     kick: &mut SessionViewKick,

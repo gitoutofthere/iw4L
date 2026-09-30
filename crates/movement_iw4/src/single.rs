@@ -4,12 +4,12 @@ use crate::{
     AdsFracContext, AdsIntentContext, AirMoveContext, CheckLadderContext, CollisionBackend,
     LadderAttachBackend, LadderMoveContext, LadderTraceHit, MantleCapViewContext,
     MantleCapsuleTrace, MantleCheckContext, MantleFindLedgeContext, MantleMoveContext,
-    MantleRootDelta, MantleXAnimLength, MeleeChargeWeaponDelays, PMF_LADDER, PMF_MANTLE, Pml,
-    SprintContext, ViewAngleClamp, WalkMoveContext, air_move, calc_melee_charge_time,
-    check_ladder_move, complete_ground_trace, drop_timers, end_tick_velocity, footstep_event,
-    footsteps_bob_cycle, ladder_footsteps, ladder_move, mantle, melee_charge_move,
-    should_make_footsteps, sync_stance_tail, update_ads_frac, update_ads_intent, update_sprint,
-    update_stance_flags, update_stance_target, update_view_angles, update_view_height, walk_move,
+    MantleRootDelta, MantleXAnimLength, MeleeChargeWeaponDelays, Pml, SprintContext,
+    ViewAngleClamp, WalkMoveContext, air_move, calc_melee_charge_time, check_ladder_move,
+    complete_ground_trace, drop_timers, end_tick_velocity, footstep_event, footsteps_bob_cycle,
+    ladder_footsteps, ladder_move, mantle, melee_charge_move, should_make_footsteps,
+    sync_stance_tail, update_ads_frac, update_ads_intent, update_sprint, update_stance_flags,
+    update_stance_target, update_view_angles, update_view_height, walk_move,
 };
 use playerstate_iw4::pm_flags;
 
@@ -122,7 +122,7 @@ pub fn pmove<C: CollisionBackend, L: MantleXAnimLength, R: MantleRootDelta>(
         context.bounds,
         context.weapon_blocks_prone,
     );
-    let stance_event = if ps.pm_flags & crate::PMF_SPRINTING == 0 {
+    let stance_event = if ps.pm_flags & pm_flags::SPRINTING == 0 {
         match (previous_stance, ps.pm_flags & 3) {
             (1, 0) => Some(16),
             (1, 2) => Some(12),
@@ -153,7 +153,7 @@ pub fn pmove<C: CollisionBackend, L: MantleXAnimLength, R: MantleRootDelta>(
         // The trigger link owns the origin: no walk, no air move, no jump, and
         // velocity zeroed every pmove. Viewangles and stance stay live above,
         // and the weapon ticks separately.
-        ps.pm_flags &= !PMF_LADDER;
+        ps.pm_flags &= !pm_flags::LADDER;
         ps.ground_entity_num = ENTITYNUM_NONE;
         ps.velocity = [0.0; 3];
         drop_timers(ps, &pml);
@@ -165,7 +165,7 @@ pub fn pmove<C: CollisionBackend, L: MantleXAnimLength, R: MantleRootDelta>(
         };
     }
 
-    if (ps.pm_flags & PMF_MANTLE) == 0 {
+    if (ps.pm_flags & pm_flags::MANTLE) == 0 {
         // Mantle root motion owns the path through the ledge. Ground solid
         // correction during that path would push the player back off it.
         complete_ground_trace(ps, &mut pml, bounds, collision);
@@ -185,7 +185,7 @@ pub fn pmove<C: CollisionBackend, L: MantleXAnimLength, R: MantleRootDelta>(
         );
     }
 
-    if (ps.pm_flags & PMF_MANTLE) != 0 {
+    if (ps.pm_flags & pm_flags::MANTLE) != 0 {
         mantle::cap_view(ps, MantleCapViewContext::default());
         mantle::advance(ps, pml.msec, MantleMoveContext::default(), lengths, root);
         return PmoveResult {
@@ -212,7 +212,7 @@ pub fn pmove<C: CollisionBackend, L: MantleXAnimLength, R: MantleRootDelta>(
         );
     }
 
-    if (ps.pm_flags & PMF_LADDER) != 0 {
+    if (ps.pm_flags & pm_flags::LADDER) != 0 {
         ladder_move(
             ps,
             &mut pml,
@@ -245,7 +245,7 @@ pub fn pmove<C: CollisionBackend, L: MantleXAnimLength, R: MantleRootDelta>(
 
     complete_ground_trace(ps, &mut pml, bounds, collision);
 
-    if (ps.pm_flags & PMF_LADDER) != 0 {
+    if (ps.pm_flags & pm_flags::LADDER) != 0 {
         ladder_footsteps(ps, pml.msec, cmd.server_time);
     } else {
         let old_bob = ps.bob_cycle as u8;

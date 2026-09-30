@@ -5,9 +5,8 @@ use crate::placement::{
     WeaponIdleInputs, WeaponPlacementPsInputs, weapon_bob_ads_attenuation,
     weapon_idle_amount_speed,
 };
-use crate::sprint::PMF_SPRINTING;
 use math_iw4::{angle_vectors, get_lean_fraction};
-use playerstate_iw4::eflags;
+use playerstate_iw4::{eflags, pm_flags};
 
 pub const VIEW_BOB_MAX: f32 = 8.0;
 
@@ -141,7 +140,7 @@ fn view_bob_helper_amplitude(
         VIEW_BOB_AMP_PRONE[idx]
     } else if view_height_target == VIEWHEIGHT_TARGET_CROUCH {
         (1.0 - ads) * VIEW_BOB_AMP_DUCKED[idx] + ads * VIEW_BOB_AMP_DUCKED_ADS[idx]
-    } else if (pm_flags & PMF_SPRINTING) == 0 {
+    } else if (pm_flags & pm_flags::SPRINTING) == 0 {
         (1.0 - ads) * VIEW_BOB_AMP_STANDING[idx] + ads * VIEW_BOB_AMP_STANDING_ADS[idx]
     } else {
         VIEW_BOB_AMP_SPRINTING[idx]

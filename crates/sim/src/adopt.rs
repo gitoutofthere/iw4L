@@ -64,7 +64,7 @@ pub const ADOPT_GAPS: &[AdoptGap] = &[
                  `SimWorld::set_old_cmd` is how the client puts them back, and \
                  `net::ClientPrediction` calls it on every adopt — including Retired. \
                  Skipping Retired was the predicted-sprint toggle: held `BUTTON_SPRINT` on a \
-                 snapshot that already has `PMF_SPRINTING` looks like a fresh press.",
+                 snapshot that already has `pm_flags::SPRINTING` looks like a fresh press.",
     },
     AdoptGap {
         field: "clip_brushes / weapon_def_scales / weapon_combat / equipment_runtime / bootstrap",

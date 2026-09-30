@@ -34,9 +34,7 @@ mod walk;
 
 pub use accelerate::accelerate;
 pub use ads_frac::{AdsFracContext, update_ads_frac};
-pub use ads_intent::{
-    AdsIntentContext, AdsIntentResult, BUTTON_ADS, PMF_ADS_INTENT, update_ads_intent,
-};
+pub use ads_intent::{AdsIntentContext, AdsIntentResult, BUTTON_ADS, update_ads_intent};
 pub use air::{AirMoveContext, air_move};
 pub use check_prone::{PRONE_CHECK_HEIGHT, PRONE_FEET_DIST, check_prone, player_prone_allowed};
 pub use cmdscale::{CmdScaleWalkContext, cmd_scale_walk};
@@ -63,9 +61,8 @@ pub use is_in_air::is_in_air;
 pub use jump::{JumpAnimation, JumpCheckContext, JumpCheckResult, JumpLaunchContext};
 pub use ladder::{
     CheckLadderContext, LADDER_ATTRACT_SPEED, LADDER_JUMP_BLOCK_MS, LADDER_TRACE_DIST_AIR,
-    LADDER_TRACE_DIST_WALK, LadderAttachBackend, LadderMoveContext, LadderTraceHit, PMF_LADDER,
-    PMF_LADDER_FALL, SURF_LADDER, check_ladder_move, clear_ladder_flag, ladder_attract_velocity,
-    ladder_move, set_ladder_flag,
+    LADDER_TRACE_DIST_WALK, LadderAttachBackend, LadderMoveContext, LadderTraceHit, SURF_LADDER,
+    check_ladder_move, clear_ladder_flag, ladder_attract_velocity, ladder_move, set_ladder_flag,
 };
 pub use mantle::{
     CONTENTS_MANTLE, CreateAnimsMantleRootDelta, FlatMantleAnimLength, MANTLE_CHECK_RADIUS_DEFAULT,
@@ -75,7 +72,7 @@ pub use mantle::{
     MANTLE_XANIM_TREE_SIZE, MantleCapViewContext, MantleCapsuleTrace, MantleCheckContext,
     MantleFindLedgeContext, MantleFrontProbeCast, MantleLedgeBackend, MantleLedgeProbe,
     MantleLedgeProbeLog, MantleMoveContext, MantleResults, MantleRootDelta, MantleXAnimLength,
-    PMF_MANTLE, SURF_MANTLE_ON_OR_OVER, SURF_MANTLE_OVER, ZeroMantleRootDelta,
+    SURF_MANTLE_ON_OR_OVER, SURF_MANTLE_OVER, ZeroMantleRootDelta,
 };
 pub use melee_charge::{
     MeleeChargeWeaponDelays, PLAYER_MELEE_RANGE_DEFAULT as MELEE_CHARGE_PLAYER_MELEE_RANGE_DEFAULT,
@@ -90,14 +87,14 @@ pub(crate) use slide::project_velocity;
 pub use slide::{slide_move, step_slide_move};
 pub use snap::{end_tick_velocity, snap_vector};
 pub use sprint::{
-    PERK_MARATHON, PMF_SPRINTING, SprintContext, SprintResult, end_sprint, get_max_sprint_time,
+    PERK_MARATHON, SprintContext, SprintResult, end_sprint, get_max_sprint_time,
     sprint_ending_buttons, sprint_forward_below_minimum, sprint_recharge_penalty_ms,
     sprint_start_interfering_buttons, sprint_time_remaining, update_sprint,
 };
 pub use stance::{
-    CROUCH_MAXS_Z, PMF_CROUCH, PMF_PRONE, PRONE_MAXS_Z, STAND_MAXS_Z, StanceChange, StanceSurface,
-    stance_speed_scale, stance_surface_type, sync_stance_tail, update_stance_flags,
-    update_stance_target, update_view_height, view_height, view_height_lerp_duration,
+    CROUCH_MAXS_Z, PRONE_MAXS_Z, STAND_MAXS_Z, StanceChange, StanceSurface, stance_speed_scale,
+    stance_surface_type, sync_stance_tail, update_stance_flags, update_stance_target,
+    update_view_height, view_height, view_height_lerp_duration,
 };
 pub use viewangles::{ANGLE2SHORT, SHORT2ANGLE, ViewAngleClamp, update_view_angles};
 pub use walk::{WalkMoveContext, walk_move};

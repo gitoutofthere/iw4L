@@ -1,12 +1,8 @@
-use playerstate_iw4::{ENTITYNUM_NONE, PlayerState, UserCmd};
+use playerstate_iw4::{ENTITYNUM_NONE, PlayerState, UserCmd, pm_flags};
 
 use crate::{Pml, StanceSurface, add_predictable_event, stance_surface_type};
 
 const BUTTON_JUMP: u32 = 0x400;
-
-const PMF_LADDER: u32 = 0x8;
-
-const PMF_MOVEMENT_TIMER: u32 = 0x2000;
 
 const JUMP_CLEAR_FLAGS: u32 = 0x0040_2000;
 
@@ -70,7 +66,7 @@ pub struct JumpLaunchContext {
 
 pub fn start(ps: &mut PlayerState, pml: &mut Pml, cmd: &UserCmd, context: JumpLaunchContext) {
     let mut energy = (ps.gravity as f32) * (context.jump_height + context.jump_height);
-    if (ps.pm_flags & PMF_MOVEMENT_TIMER) != 0 && ps.pm_time <= 0x708 && !context.dive {
+    if (ps.pm_flags & pm_flags::JUMPING) != 0 && ps.pm_time <= 0x708 && !context.dive {
         energy /= context.crouch_jump_scale;
     }
 
@@ -93,7 +89,7 @@ pub fn start(ps: &mut PlayerState, pml: &mut Pml, cmd: &UserCmd, context: JumpLa
     ps.pm_flags = if context.dive {
         (flags & 0xffff_fe7f) | 0x0040_2000
     } else {
-        (flags & 0xffbf_fe7f) | PMF_MOVEMENT_TIMER
+        (flags & 0xffbf_fe7f) | pm_flags::JUMPING
     };
 }
 
@@ -105,7 +101,7 @@ pub fn ground_surface_type(surface_flags: u32) -> i32 {
 }
 
 pub fn event(ps: &mut PlayerState, surface_flags: u32) {
-    if (ps.pm_flags & PMF_LADDER) != 0 {
+    if (ps.pm_flags & pm_flags::LADDER) != 0 {
         add_predictable_event(ps, EV_JUMP, 0x15);
         return;
     }
@@ -116,7 +112,7 @@ pub fn event(ps: &mut PlayerState, surface_flags: u32) {
 }
 
 pub fn push_off_ladder(ps: &mut PlayerState, pml: &Pml, push_vel: f32) {
-    debug_assert!((ps.pm_flags & PMF_LADDER) != 0);
+    debug_assert!((ps.pm_flags & pm_flags::LADDER) != 0);
     ps.velocity[2] *= LADDER_JUMP_VZ_SCALE;
 
     let mut flat_forward = [pml.forward[0], pml.forward[1], 0.0];
@@ -143,7 +139,7 @@ pub fn push_off_ladder(ps: &mut PlayerState, pml: &Pml, push_vel: f32) {
 
     ps.velocity[0] = push_vel * push[0];
     ps.velocity[1] = push_vel * push[1];
-    ps.pm_flags &= !PMF_LADDER;
+    ps.pm_flags &= !pm_flags::LADDER;
 }
 
 fn normalize_inplace(v: &mut [f32; 3]) {
@@ -169,7 +165,7 @@ pub fn check(
 
     start(ps, pml, cmd, launch);
     event(ps, pml.ground_trace[4]);
-    if (ps.pm_flags & PMF_LADDER) != 0 {
+    if (ps.pm_flags & pm_flags::LADDER) != 0 {
         push_off_ladder(ps, pml, launch.jump_ladder_push_vel);
     }
 
