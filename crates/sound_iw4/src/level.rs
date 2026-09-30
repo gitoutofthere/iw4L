@@ -6,7 +6,6 @@ use crate::output::{Alias, ClientId, Output, PersTeam, Team};
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Player {
     pub client: ClientId,
-
     pub pers_team: Option<PersTeam>,
 }
 
@@ -40,19 +39,12 @@ impl TeamScores {
 #[derive(Clone, Copy, Debug)]
 pub struct Level<'a> {
     pub splitscreen: bool,
-
     pub team_based: bool,
-
     pub hardcore_mode: bool,
-
     pub roundlimit: i32,
-
     pub rounds_played: i32,
-
     pub team_scores: TeamScores,
-
     pub highest_scoring_player: Option<ClientId>,
-
     pub losing_players: &'a [ClientId],
 }
 

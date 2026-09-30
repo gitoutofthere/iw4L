@@ -91,7 +91,6 @@ pub fn fx_trail_index_quad_tris(pairs: [[u16; 2]; 3]) -> [[u16; 3]; 2] {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct FxTrailSegmentDrawState {
     pub pos_world: [f32; 3],
-
     pub basis: [[f32; 3]; 2],
     pub rotation: f32,
     pub size: [f32; 2],
@@ -105,9 +104,7 @@ pub struct FxTrailEmittedVert {
     pub color_rgba: [u8; 4],
     pub u: f32,
     pub v: f32,
-
     pub texcoord_packed: u32,
-
     pub normal_packed: u32,
     pub tangent_packed: f32,
 }

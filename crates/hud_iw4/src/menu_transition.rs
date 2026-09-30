@@ -12,17 +12,11 @@ pub const MENU_TRANSITION_STRIDE: usize = 0x1c;
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct MenuTransition {
     pub transition_type: i32,
-
     pub target_field: i32,
-
     pub start_time: i32,
-
     pub start_val: f32,
-
     pub end_val: f32,
-
     pub time: f32,
-
     pub end_trigger_type: i32,
 }
 
@@ -66,16 +60,13 @@ pub struct MenuLerpFromScript {
     pub alpha: MenuTransition,
     pub x: MenuTransition,
     pub y: MenuTransition,
-
     pub leftover: Vec<String>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct MenuAnim {
     pub scale: f32,
-
     pub alpha: f32,
-
     pub offset: [f32; 2],
 }
 

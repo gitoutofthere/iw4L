@@ -18,9 +18,7 @@ pub enum Signing {
 pub struct FileHeader {
     pub signing: Signing,
     pub version: u32,
-
     pub flag: u8,
-
     pub stamp: [u32; 2],
 }
 

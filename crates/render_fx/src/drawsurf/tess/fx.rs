@@ -17,9 +17,7 @@ use render_frame::RetailPackedVertexRefusal;
 #[derive(Clone, Debug)]
 pub struct FxPassMaterial {
     pub color: Option<Handle<Image>>,
-
     pub sort_key: u8,
-
     pub material_sorted_index: Option<u32>,
 }
 
@@ -28,9 +26,7 @@ pub struct FxSurfaceDraw {
     pub material: u32,
     pub index_start: u32,
     pub index_count: u32,
-
     pub arg_start: u32,
-
     pub arg_count: u16,
 }
 
@@ -38,17 +34,13 @@ pub struct FxSurfaceDraw {
 pub struct FxCodeMeshPlan {
     pub vertices: Arc<Vec<[u8; GFX_PACKED_VERTEX]>>,
     pub indices: Arc<Vec<u32>>,
-
     pub args: Vec<[f32; 4]>,
     pub materials: Vec<FxPassMaterial>,
     pub draws: Vec<FxSurfaceDraw>,
     pub revision: u64,
     pub miss_material: u32,
-
     pub mesh: GfxMeshData,
-
     pub overflow_n: u32,
-
     pub range_share: Option<Arc<Vec<(u32, u32)>>>,
 }
 

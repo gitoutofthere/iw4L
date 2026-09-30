@@ -12,7 +12,6 @@ use crate::drawsurf::gpu_resources::{padded_upload_len, write_buffer_padded};
 pub struct SmodelCacheGpu {
     vb: Option<Buffer>,
     ib: Option<Buffer>,
-
     dynamic_ib: Option<Buffer>,
     uploaded_revision: Option<u64>,
 }

@@ -121,7 +121,6 @@ pub(crate) struct WorldMarkPose<'a> {
     pub origin: [f32; 3],
     pub radius: f32,
     pub axis: Option<[[f32; 3]; 3]>,
-
     pub material: Option<&'a str>,
 }
 

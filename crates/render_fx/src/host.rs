@@ -50,7 +50,6 @@ pub struct FxMarkDvars {
     pub fx_marks_smodels: bool,
     pub fx_marks_ents: bool,
     pub fx_mark_profile: bool,
-
     pub fx_cull_elem_draw: bool,
 }
 
@@ -99,7 +98,6 @@ pub struct HostFxPostLights {
     pub cap_full: u32,
     pub drawn: u32,
     pub skipped_short: u32,
-
     pub miss_material: u32,
 }
 
@@ -154,11 +152,9 @@ pub struct FxJournalCursor {
     pub tracer_from_tag: u32,
     pub brass_gap: u32,
     pub brass_played: u32,
-
     pub pellet_played: u32,
     pub createfx_miss: u32,
     pub createfx_booted: bool,
-
     pub createfx_boot_msec: Option<i32>,
     pub draw_logged: bool,
     pub draw_miss_material: u32,
@@ -170,22 +166,17 @@ pub struct FxJournalCursor {
 pub struct CombatFxDump {
     pub muzzle_gap: u32,
     pub muzzle_played: u32,
-
     pub muzzle_bolted: u32,
-
     pub tracer_from_tag: u32,
     pub tracer_gap: u32,
     pub brass_gap: u32,
     pub brass_played: u32,
     pub last_brass_name: Option<String>,
-
     pub pellet_played: u32,
     pub explosion_played: u32,
     pub explosion_gap: u32,
     pub last_explosion_name: Option<String>,
-
     pub last_explosion_table: Option<String>,
-
     pub last_explosion_slot: Option<String>,
     pub impact_played: u32,
     pub impact_miss_table: u32,
@@ -195,45 +186,29 @@ pub struct CombatFxDump {
     pub last_surf_flags: Option<i64>,
     pub last_surf_name: Option<String>,
     pub last_impact_def: Option<String>,
-
     pub last_impact_miss_why: Option<String>,
-
     pub last_impact_cell_empty: Option<i64>,
-
     pub last_weapon_tracer_edge: Option<String>,
-
     pub last_weapon_flash_edge: Option<String>,
-
     pub last_weapon_brass_edge: Option<String>,
-
     pub last_weapon_explosion_edge: Option<String>,
     pub last_tracer_name: Option<String>,
     pub last_muzzle_name: Option<String>,
-
     pub last_fire_player_view: Option<i64>,
-
     pub fire_sound_gap: u32,
-
     pub last_fire_alias: Option<String>,
-
     pub last_fire_lastshot: Option<i64>,
-
     pub last_brass_lastshot: Option<i64>,
     pub last_tracer_material: Option<String>,
     pub last_tracer_bind: Option<String>,
-
     pub last_tracer_mat_edge: Option<String>,
-
     pub last_tracer_mat_index: Option<i64>,
     pub last_tracer_has_color: Option<i64>,
     pub last_tracer_speed: Option<f32>,
     pub last_tracer_beam_length: Option<f32>,
     pub last_tracer_draw_interval: Option<i64>,
-
     pub muzzle_msec: Option<i32>,
-
     pub impact_msec: Option<i32>,
-
     pub explosion_msec: Option<i32>,
     pub tracer_spawned: u32,
     pub tracer_skip_interval: u32,
@@ -246,7 +221,6 @@ pub struct CombatFxDump {
     pub beam_miss_color: u32,
     pub beam_miss_ordinal: u32,
     pub beam_miss_emissive: u32,
-
     pub beam_miss_unprepared: u32,
 }
 

@@ -21,9 +21,7 @@ impl CmdSeq {
 #[derive(Clone, Debug, PartialEq)]
 pub struct MoveRecord {
     pub seq: CmdSeq,
-
     pub tick: Tick,
-
     pub cmd: UserCmd,
     pub input: PlayerState,
     pub output: PlayerState,
@@ -130,9 +128,7 @@ impl MoveHistory {
 #[derive(Clone, Debug, PartialEq)]
 pub enum AckMatch {
     Matched(MoveRecord),
-
     Retired,
-
     Broken,
 }
 
@@ -141,18 +137,12 @@ pub struct PredictionMetrics {
     pub predicted_moves: u64,
     pub snapshots: u64,
     pub acks_matched: u64,
-
     pub deviations: u64,
     pub replayed_moves: u64,
-
     pub forced_adopts: u64,
-
     pub retired_acks: u64,
-
     pub evicted_moves: u64,
-
     pub deepest_history: usize,
-
     pub last_deviation: Option<(&'static str, f32)>,
 }
 
@@ -185,17 +175,11 @@ impl PredictionMetrics {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct ReconcileOutcome {
     pub adopted: bool,
-
     pub acked: bool,
-
     pub retired_ack: bool,
-
     pub deviation: Option<Deviation>,
-
     pub replayed_moves: usize,
-
     pub forced_adopt: bool,
-
     pub report: AdoptReport,
 }
 
@@ -208,24 +192,16 @@ pub struct ClientPrediction {
     history: MoveHistory,
     armed: bool,
     next_seq: CmdSeq,
-
     next_tick: u32,
-
     snapshots_since_ack: u32,
     predicted_error: PredictedError,
     metrics: PredictionMetrics,
-
     predicted_local: Option<PlayerState>,
-
     last_cmd: Option<UserCmd>,
     acknowledged_cmd: Option<UserCmd>,
-
     replay_floor: Option<(CmdSeq, UserCmd)>,
-
     last_predict_msec: Option<i32>,
-
     had_local_last_snap: bool,
-
     tick_input: TickInput,
 }
 

@@ -38,7 +38,6 @@ pub struct MenuDefCapture<'a> {
     pub expr_dvars: &'a str,
     pub fullscreen: i32,
     pub item_count: i32,
-
     pub rect: MenuRectCapture,
 }
 
@@ -48,47 +47,29 @@ pub struct MenuItemLayout<'a> {
     pub name: &'a str,
     pub text: &'a [u8],
     pub item_type: i32,
-
     pub style: i32,
     pub owner_draw: i32,
     pub rect: MenuRectCapture,
     pub fore_color: [f32; 4],
-
     pub back_color: [f32; 4],
-
     pub glow_color: [f32; 4],
     pub text_scale: f32,
-
     pub font_enum: i32,
-
     pub text_align_mode: i32,
-
     pub text_align_x: f32,
-
     pub text_align_y: f32,
-
     pub text_style: i32,
     pub background: &'a str,
     pub focus_sound: &'a str,
-
     pub dvar: &'a str,
-
     pub dvar_test: &'a str,
-
     pub enable_dvar: &'a str,
-
     pub local_var: &'a str,
-
     pub bg_ptr: u8,
-
     pub vis_ptr: u8,
-
     pub mat_ptr: u8,
-
     pub sound_ptr: u8,
-
     pub mouse_enter_ptr: u8,
-
     pub on_focus_ptr: u8,
     pub static_flags: i32,
 }

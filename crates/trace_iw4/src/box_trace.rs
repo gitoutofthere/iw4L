@@ -5,7 +5,6 @@ pub struct BrushRef<'a> {
     pub planes: &'a [[f32; 4]],
     pub contents: u32,
     pub plane_surface_flags: &'a [u32],
-
     pub glass_encoded: u16,
 }
 
@@ -22,9 +21,7 @@ const WALKABLE_NORMAL_Z: f32 = 0.7;
 #[derive(Clone, Copy, Debug)]
 struct CapsuleSize {
     offset: [f32; 3],
-
     radius: f32,
-
     offset_z: f32,
 }
 

@@ -188,7 +188,6 @@ impl ContentFlags {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum AdmissionFailure {
     Deadline,
-
     Cancelled,
     MapContent { host: u64, peer: u64 },
     WeaponRegistry { host: u64, peer: u64 },
@@ -367,9 +366,7 @@ pub struct Advert {
     pub mode: String,
     pub players: u8,
     pub max_players: u8,
-
     pub locked: bool,
-
     pub in_match: bool,
     pub requires: ContentFlags,
     pub generation: u64,

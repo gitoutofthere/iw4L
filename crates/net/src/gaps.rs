@@ -11,11 +11,8 @@ const NET_GAP_COUNT: usize = <NetGap as ledger::Gap>::ALL.len();
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum NetGap {
     CEntityNumber,
-
     EntityStateVector,
-
     EntityEventTarget,
-
     ScriptNotifyTarget,
 }
 
@@ -129,7 +126,6 @@ impl fmt::Display for NetGapCause {
 #[derive(Resource, Debug, Default)]
 pub struct NetIdentityGaps {
     ledger: GapLedger<NetGapCause, NET_GAP_COUNT>,
-
     reported: String,
 }
 

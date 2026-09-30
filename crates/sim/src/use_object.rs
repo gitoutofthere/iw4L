@@ -46,7 +46,6 @@ pub struct UseObject {
     pub kind: UseTriggerKind,
     pub mins: [f32; 3],
     pub maxs: [f32; 3],
-
     pub cylinder: Option<[f32; 2]>,
     pub use_time_ms: i32,
     pub use_weapon: Option<u32>,
@@ -59,17 +58,12 @@ pub struct UseObject {
     pub last_claim: ProxClaimTeam,
     pub last_claim_time_ms: i32,
     pub claim_player: Option<ClientId>,
-
     pub touching: Vec<(ClientId, ProxClaimTeam, i32)>,
-
     pub bound_entnum: Option<i32>,
     pub notify_slots: UseNotifySlots,
     pub callback_kind: UseCallbackKind,
-
     pub capture_time_ms: Option<i32>,
-
     pub script_label: gamemode_iw4::ScriptLabel,
-
     pub script_origin: [f32; 3],
 }
 
@@ -77,7 +71,6 @@ pub struct UseObject {
 pub struct UseObjectInstall {
     pub mins: [f32; 3],
     pub maxs: [f32; 3],
-
     pub cylinder: Option<[f32; 2]>,
     pub use_time_ms: i32,
     pub use_weapon: Option<u32>,
@@ -88,7 +81,6 @@ pub struct UseObjectInstall {
     pub notify_slots: UseNotifySlots,
     pub callback_kind: UseCallbackKind,
     pub script_label: gamemode_iw4::ScriptLabel,
-
     pub script_origin: [f32; 3],
 }
 

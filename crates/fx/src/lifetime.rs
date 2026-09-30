@@ -20,33 +20,19 @@ impl FxMsec {
 #[derive(Clone, Debug)]
 pub struct LocalEntitySlot {
     pub le_type: i32,
-
     pub pos_tr_time: i32,
-
     pub pos_tr_type: i32,
-
     pub pos_tr_duration: i32,
-
     pub pos_tr_delta: [f32; 3],
-
     pub pos_tr_base: [f32; 3],
-
     pub end_time: i32,
-
     pub material: Option<usize>,
-
     pub tracer_clip_dist: f32,
-
     pub beam_length: f32,
-
     pub beam_width: f32,
-
     pub screw_dist: f32,
-
     pub screw_radius: f32,
-
     pub colors: [[f32; 4]; 5],
-
     pub own_shot: bool,
 }
 

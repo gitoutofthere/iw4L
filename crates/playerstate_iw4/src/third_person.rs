@@ -45,7 +45,6 @@ pub struct CgIsThirdPersonViewInputs {
     pub pm_type: i32,
     pub other_flags: u32,
     pub link_flags: u32,
-
     pub cg_third_person: bool,
     pub in_killcam: bool,
     pub killcam_mode: KillCamMode,
@@ -82,9 +81,7 @@ pub struct OffsetThirdPersonViewInputs {
     pub view_height_current: f32,
     pub viewangles: [f32; 3],
     pub pm_type: i32,
-
     pub look_at_killer_yaw: f32,
-
     pub corpse_j_mainroot: Option<[f32; 3]>,
     pub other_flags: u32,
     pub delta_time: i32,

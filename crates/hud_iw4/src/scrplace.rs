@@ -25,31 +25,18 @@ pub const ALIGN_USER_MAX: i32 = 10;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct ScreenPlacement {
     pub scale_virtual_to_real: [f32; 2],
-
     pub scale_virtual_to_full: [f32; 2],
-
     pub scale_real_to_virtual: [f32; 2],
-
     pub real_viewport_position: [f32; 2],
-
     pub real_viewport_size: [f32; 2],
-
     pub virtual_viewable_min: [f32; 2],
-
     pub virtual_viewable_max: [f32; 2],
-
     pub real_viewable_min: [f32; 2],
-
     pub real_viewable_max: [f32; 2],
-
     pub virtual_adjustable_min: [f32; 2],
-
     pub virtual_adjustable_max: [f32; 2],
-
     pub real_adjustable_min: [f32; 2],
-
     pub real_adjustable_max: [f32; 2],
-
     pub sub_screen_left: f32,
 }
 

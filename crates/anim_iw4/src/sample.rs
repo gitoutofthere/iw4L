@@ -3,7 +3,6 @@ use crate::quat::{Quat, Vec3, lerp_vec3, slerp};
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FrameKind {
     Dense,
-
     Sparse,
 }
 

@@ -17,13 +17,11 @@ pub struct RawXAnimParts {
     pub random_data_int: Vec<u32>,
     pub numframes: u16,
     pub flags: u8,
-
     pub bone_count: [u8; 10],
     pub framerate: f32,
     pub names: Vec<String>,
     pub notifies: Vec<ClipNotify>,
     pub indices: Vec<u16>,
-
     pub delta_trans: Option<RawDeltaTrans>,
 }
 
@@ -31,11 +29,9 @@ pub struct RawXAnimParts {
 pub struct RawDeltaTrans {
     pub size: u16,
     pub small: bool,
-
     pub mins: [f32; 3],
     pub step: [f32; 3],
     pub indices: Vec<u16>,
-
     pub packed: Vec<u8>,
 }
 
@@ -121,7 +117,6 @@ pub struct AnimClip {
     pub looping: bool,
     pub tracks: Vec<Track>,
     pub notifies: Vec<ClipNotify>,
-
     pub delta_translation: Translation,
 }
 

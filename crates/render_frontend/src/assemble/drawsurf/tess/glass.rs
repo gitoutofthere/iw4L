@@ -41,19 +41,12 @@ pub struct GfxGlassMeshDraw {
     pub material: u32,
     pub index_start: u32,
     pub index_count: u32,
-
     pub lighting_handle: u32,
-
     pub lighting_prev: u32,
-
     pub pending_lighting: Option<ModelLightingRequest>,
-
     pub init_index: u16,
-
     pub piece: u16,
-
     pub origin: [f32; 3],
-
     pub reflection_probe_index: u8,
 }
 
@@ -84,18 +77,12 @@ pub struct GfxGlassMeshPlan {
     pub skipped_ordinal: u32,
     pub skipped_cap: u32,
     pub skipped_shatter: u32,
-
     pub weaken_n: u32,
-
     pub lighting_handle_n: u32,
     pub lighting_handle_nonzero: u32,
-
     pub lighting_handle_sample: Option<u16>,
-
     pub lighting_handle_max: Option<u16>,
-
     pub lighting_runtime: Option<GlassLightingRuntime>,
-
     pub applied: Vec<(u32, u8)>,
     pub range_share: Option<Arc<Vec<(u32, u32)>>>,
 }

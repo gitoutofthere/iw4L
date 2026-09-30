@@ -14,7 +14,6 @@ pub struct GamesRoot(pub PathBuf);
 pub struct ZoneFile {
     pub path: PathBuf,
     pub zone_name: String,
-
     pub alias_note: Option<String>,
 }
 

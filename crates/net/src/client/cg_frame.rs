@@ -5,22 +5,15 @@ use crate::ServerTime;
 #[derive(Resource, Clone, Copy, Debug, Default, PartialEq)]
 pub struct CgFrameClock {
     time: i32,
-
     old_time: i32,
-
     frametime: i32,
-
     started: bool,
-
     frac_ms: f32,
-
     last_server: Option<i32>,
     reset_n: u32,
     fast_n: u32,
     nudge_n: u32,
-
     last_adjust: u8,
-
     extrapolated: bool,
 }
 
@@ -40,9 +33,7 @@ impl CgameActive {
 #[derive(Resource, Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct CgameJoinCensus {
     pub level_ms: Option<i32>,
-
     pub tick: Option<u32>,
-
     pub bevy_elapsed_ms: Option<i32>,
 }
 

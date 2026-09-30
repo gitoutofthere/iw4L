@@ -146,7 +146,6 @@ impl WalkLocalMaterialIndex {
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub enum AssetRef {
     Real(String),
-
     Reference(String),
 }
 
@@ -307,7 +306,6 @@ impl Default for ZoneOwner {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum AssetEdgeReason {
     TempFieldNotAliasable,
-
     CatalogMiss,
 }
 

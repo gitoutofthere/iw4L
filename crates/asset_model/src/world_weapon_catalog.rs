@@ -11,9 +11,7 @@ use asset_material::{MaterialCatalog, MaterialDefinitions};
 #[derive(Clone, Debug)]
 pub struct WorldWeaponEntry {
     pub skel: std::sync::Arc<ModelSkel>,
-
     pub material_names: Vec<Option<String>>,
-
     pub material_edges: Vec<AssetEdge<crate::MaterialSpace>>,
 }
 

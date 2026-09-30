@@ -107,7 +107,6 @@ pub struct OptionsState {
     pub control_group: OptionsControlGroup,
     pub name_buffer: Option<String>,
     pub name_cursor: usize,
-
     pub display_resolutions: Vec<frame::DisplayResolution>,
     pub revision: u64,
 }

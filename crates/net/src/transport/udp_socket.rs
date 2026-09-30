@@ -18,7 +18,6 @@ pub struct UdpDatagramSocket {
     sock: UdpSocket,
     max_packet_bytes: usize,
     fragmenter: Fragmenter,
-
     inbound: HashMap<SocketAddr, Reassembler>,
 }
 

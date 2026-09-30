@@ -126,9 +126,7 @@ pub struct ClipNode {
 pub struct ClipLeaf {
     pub first_brush: u32,
     pub num_brushes: u16,
-
     pub first_coll_aabb_index: u16,
-
     pub coll_aabb_count: u16,
 }
 
@@ -306,9 +304,7 @@ pub fn walk_clip_tree<B: BrushView>(
 struct TreeWalk {
     start: [f32; 3],
     end: [f32; 3],
-
     size: [f32; 3],
-
     bounding_radius: f32,
 }
 

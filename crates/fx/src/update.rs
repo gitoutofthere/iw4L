@@ -27,7 +27,6 @@ fn slot_def_name(e: &FxEffectSlot) -> String {
 #[derive(Clone, Copy, Debug)]
 pub struct FxElemMotionQuery<'a> {
     pub def_name: &'a str,
-
     pub catalog_index: u16,
     pub def_index: u8,
     pub age0: f32,
@@ -35,18 +34,13 @@ pub struct FxElemMotionQuery<'a> {
     pub life_ms: f32,
     pub dt_sec: f32,
     pub base_vel: [f32; 3],
-
     pub elem_random_seed: u32,
-
     pub origin: [f32; 3],
     pub prev_msec: i32,
     pub msec_now: i32,
     pub msec_begin: i32,
-
     pub effect_axis: [[f32; 3]; 3],
-
     pub orient: fx_iw4::FxOrientation,
-
     pub at_rest_fraction: u8,
 }
 
@@ -98,18 +92,14 @@ impl PendingCollide {
 pub struct FxElemMotionResult {
     pub origin_delta: [f32; 3],
     pub base_vel: [f32; 3],
-
     pub remove: bool,
-
     pub at_rest_fraction: Option<u8>,
-
     pub spawn_impact: Option<FxImpactSpawn>,
 }
 
 #[derive(Clone, Copy, Debug)]
 pub struct FxImpactSpawn {
     pub origin: [f32; 3],
-
     pub pre_vel: [f32; 3],
 }
 
@@ -117,7 +107,6 @@ pub struct FxImpactSpawn {
 pub enum FxChildKind {
     Impact,
     Death,
-
     Emitted,
 }
 

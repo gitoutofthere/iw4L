@@ -87,35 +87,27 @@ pub struct CommonCensus {
     pub scene_models: crate::MapXModelSceneCatalog,
     pub shared_surfaces: asset_model::SharedXModelSurfaces,
     pub weapons: WeaponBuild,
-
     pub cac_tables: Vec<crate::CapturedStringTable>,
     pub fpv: FpvMeshBuild,
     pub world_weapons: WorldWeaponBuild,
-
     pub projectile_meshes: crate::ProjectileMeshBuild,
     pub xanims: XAnimBuild,
     pub player_anim_sources: crate::PlayerAnimSources,
     pub fx: crate::FxCatalog,
     pub fx_models: crate::FxModelCatalog,
-
     pub tracers: crate::TracerCatalog,
     pub impact_fx: Option<crate::OwnedFxImpactTable>,
-
     pub material_population: crate::MaterialCatalog,
-
     pub light_defs: Vec<crate::CapturedLightDef>,
     pub report: Vec<String>,
-
     pub pen_table: weapon_iw4::PenetrationDepthTable,
     pub pen_table_loaded: bool,
     pub lochit_table: Option<[f32; weapon_iw4::HITLOC_COUNT]>,
-
     pub xmodel_walk: crate::PreparedXModelWalkCensus,
 
     /// Bytes the common_mp arenas held while the walk read them; the arenas
     /// themselves do not outlive it.
     pub s1_common_bytes: usize,
-
     pub teamsets: std::collections::HashMap<String, crate::MapTeamSettings>,
     pub film_visions:
         std::collections::BTreeMap<String, Result<crate::FilmVision, crate::FilmVisionParseError>>,

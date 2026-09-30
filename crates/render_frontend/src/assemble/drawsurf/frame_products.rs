@@ -141,9 +141,7 @@ pub struct RenderFrameProducts {
     banks: [Arc<FrameProductsSnapshot>; PRODUCT_BANKS],
     write: usize,
     published: usize,
-
     world_run_revision: u64,
-
     pub last_bank_new: u8,
 }
 
@@ -247,38 +245,24 @@ impl Default for ExtractedRenderFrameProducts {
 pub struct MaterialGeneration {
     pub catalog: Arc<RuntimeMaterialCatalog>,
     pub programs: RuntimeProgramRegistry,
-
     pub prepared: Arc<PreparedMaterialTable>,
-
     pub exact_shaders: Vec<Handle<bevy::shader::Shader>>,
-
     pub postfx: super::RuntimePostFxResources,
-
     pub blood: Option<super::RuntimeBloodMaterial>,
 }
 
 #[derive(Resource, Clone, Debug, Default)]
 pub struct MaterialFrameInputs {
     pub code_sources: RuntimeCodeSources,
-
     pub view_origin: Vec3,
-
     pub float_time: f32,
-
     pub clip_from_world: Option<Mat4>,
-
     pub view_from_world: Option<Mat4>,
-
     pub clip_from_view: Option<Mat4>,
-
     pub outdoor: Option<super::MapOutdoor>,
-
     pub viewmodel_clip_from_world: Option<Mat4>,
-
     pub viewmodel_near: Option<f32>,
-
     pub sun_shadow: Option<super::SunShadowForcedFrame>,
-
     pub spot_receivers: Vec<Option<render_frame::SpotShadowReceiver>>,
 }
 
@@ -846,15 +830,11 @@ fn fill_product_list(
 #[derive(Resource, Debug, Default)]
 pub struct FrameAssemblyInputs {
     pub frame_id: u64,
-
     pub world_generation: frame::WorldGeneration,
-
     pub catalog_generation: MaterialGenerationId,
     pub inv_image_height: Option<f32>,
     pub dfog: bool,
-
     pub primary_lights: Vec<lighting_iw4::GfxLightPack>,
-
     pub map_light_n: usize,
     pub attenuation: Vec<LightAttenuationBind>,
     pub t5_falloff: Vec<T5LightFalloffPack>,

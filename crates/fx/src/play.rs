@@ -7,7 +7,6 @@ use crate::system::{FxBoltTarget, FxSystemHost, SpawnFail};
 #[derive(Clone, Copy, Debug)]
 pub struct FxPlayPose {
     pub origin: [f32; 3],
-
     pub axis: [[f32; 3]; 3],
     pub msec: i32,
 }
@@ -33,11 +32,8 @@ impl PlayResult {
 pub struct FxPlayRequest<'a> {
     pub def_name: &'a str,
     pub pose: FxPlayPose,
-
     pub wants_spotlight: bool,
-
     pub def: Option<FxEffectDefInfo<'a>>,
-
     pub catalog_index: u16,
 }
 

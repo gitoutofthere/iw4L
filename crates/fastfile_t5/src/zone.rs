@@ -24,7 +24,6 @@ pub const BLOCK_STACK_CAP: usize = 32;
 pub enum BlockType {
     Temp,
     Normal,
-
     Runtime,
 }
 
@@ -251,16 +250,13 @@ pub struct AlignWasteStats {
     pub pad_align_other: u64,
     pub insert_slots: u32,
     pub insert_pad_bytes: u64,
-
     pub zero_size_a16_allocs: u32,
     pub zero_size_a16_pad: u64,
     pub site_allocs: [u32; ALIGN_WASTE_SITE_COUNT],
     pub site_pad: [u64; ALIGN_WASTE_SITE_COUNT],
     pub site_a16_allocs: [u32; ALIGN_WASTE_SITE_COUNT],
     pub site_a16_pad: [u64; ALIGN_WASTE_SITE_COUNT],
-
     pub verts0_phase: [u32; 16],
-
     pub xmodel_entry_phase: [u32; 16],
 }
 
@@ -303,7 +299,6 @@ pub struct ZoneStream<'a> {
     first_unsettled: Option<(Ptr, usize, usize)>,
     align_waste: AlignWasteStats,
     align_waste_site: AlignWasteSite,
-
     diag_skip_coll_nodes_virtual: bool,
     header: ZoneHeader,
     xmodel: Option<XModelGeometry>,
@@ -317,7 +312,6 @@ pub struct ZoneStream<'a> {
     latest_image: Option<GfxImageGeometry>,
     latest_material: Option<MaterialGeometry>,
     latest_technique_set: Option<TechniqueSetGeometry>,
-
     technique_graph: TechniqueGraphGeometry,
     technique_graph_seen: bool,
     latest_shader: Option<ShaderGeometry>,
@@ -331,39 +325,22 @@ pub struct XModelGeometry {
     pub material_handles: Option<Ptr>,
     pub surfaces: Option<Ptr>,
     pub surface_count: usize,
-
     pub lod_surf_span: [(u16, u16); 4],
-
     pub lod_dist: [f32; 4],
-
     pub num_lods: i16,
-
     pub num_bones: usize,
-
     pub num_root_bones: usize,
-
     pub bone_names: Option<Ptr>,
-
     pub parent_list: Option<Ptr>,
-
     pub quats: Option<Ptr>,
-
     pub trans: Option<Ptr>,
-
     pub base_mat: Option<Ptr>,
-
     pub part_classification: Option<Ptr>,
-
     pub bone_info: Option<Ptr>,
-
     pub coll_surfs: Option<Ptr>,
-
     pub num_coll_surfs: usize,
-
     pub coll_lod: i16,
-
     pub contents: u32,
-
     pub radius: Option<f32>,
 }
 
@@ -381,47 +358,26 @@ pub struct FxEffectDefGeometry {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponGeometry {
     pub name: Option<Ptr>,
-
     pub display_name: Option<Ptr>,
-
     pub weap_def: Option<Ptr>,
-
     pub gun_xmodel_name: Option<Ptr>,
-
     pub hand_xmodel_name: Option<Ptr>,
-
     pub world_model_name: Option<Ptr>,
-
     pub rocket_model_name: Option<Ptr>,
-
     pub projectile_model_name: Option<Ptr>,
-
     pub move_speed_scale: f32,
-
     pub ads_move_speed_scale: f32,
-
     pub weap_type: i32,
-
     pub weap_class: i32,
-
     pub fire_type: i32,
-
     pub fire_time_ms: i32,
-
     pub rechamber_time_ms: i32,
-
     pub drop_time_ms: i32,
-
     pub raise_time_ms: i32,
-
     pub bolt_action: bool,
-
     pub clip_size: i32,
-
     pub sz_xanims: Option<Ptr>,
-
     pub hide_tags: Option<Ptr>,
-
     pub variant: Option<Ptr>,
 }
 
@@ -456,7 +412,6 @@ pub struct XAnimPartsGeometry {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct GfxLightGridGeometry {
     pub has_light_regions: bool,
-
     pub sun_primary_light_index: u32,
     pub mins: [u16; 3],
     pub maxs: [u16; 3],
@@ -485,7 +440,6 @@ pub struct GfxLightmapImages {
 pub struct GfxWorldGeometry {
     pub vertices: Option<Ptr>,
     pub vertex_count: usize,
-
     pub vertex_layer: Option<Ptr>,
     pub vertex_layer_size: usize,
     pub indices: Option<Ptr>,
@@ -493,34 +447,20 @@ pub struct GfxWorldGeometry {
     pub surfaces: Option<Ptr>,
     pub surface_count: usize,
     pub lightmap_count: usize,
-
     pub lightmaps: [GfxLightmapImages; MAX_LIGHTMAP_PAGES],
-
     pub first_sky_image: Option<Ptr>,
-
     pub sky_surf_count: usize,
-
     pub sky_start_surfs: Option<Ptr>,
-
     pub sky_box_model: Option<Ptr>,
-
     pub sun_light: Option<Ptr>,
-
     pub reflection_probes: Option<Ptr>,
     pub reflection_probe_count: usize,
-
     pub sun_primary_light_index: usize,
-
     pub sun_parse_exposure_bits: Option<u32>,
-
     pub sky_dynamic_intensity_bits: Option<[u32; 4]>,
-
     pub sun_parse_tree_scatter_intensity_bits: Option<u32>,
-
     pub sun_parse_tree_scatter_amount_bits: Option<u32>,
-
     pub exposure_volume_count: usize,
-
     pub light_grid: GfxLightGridGeometry,
     pub cell_count: usize,
     pub plane_count: usize,
@@ -529,17 +469,12 @@ pub struct GfxWorldGeometry {
     pub static_surface_count: usize,
     pub lit_surfs_begin: u32,
     pub lit_surfs_end: u32,
-
     pub decal_surfs_begin: u32,
     pub decal_surfs_end: u32,
-
     pub emissive_surfs_begin: u32,
     pub emissive_surfs_end: u32,
-
     pub planes: Option<Ptr>,
-
     pub nodes: Option<Ptr>,
-
     pub cells: Option<Ptr>,
     pub sorted_surf_index: Option<Ptr>,
     pub smodel_insts: Option<Ptr>,
@@ -565,9 +500,7 @@ pub struct ComWorldGeometry {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct ClipMapGeometry {
     pub name: Option<Ptr>,
-
     pub static_models: Option<Ptr>,
-
     pub static_model_count: usize,
     pub plane_count: usize,
     pub brush_count: usize,
@@ -578,26 +511,17 @@ pub struct ClipMapGeometry {
     pub tri_count: usize,
     pub planes: Option<Ptr>,
     pub brushes: Option<Ptr>,
-
     pub verts: Option<Ptr>,
-
     pub tri_indices: Option<Ptr>,
-
     pub materials: Option<Ptr>,
     pub material_count: usize,
-
     pub collision_partitions: Option<Ptr>,
     pub partition_count: usize,
-
     pub collision_aabb_trees: Option<Ptr>,
     pub aabb_tree_count: usize,
-
     pub nodes: Option<Ptr>,
-
     pub leaves: Option<Ptr>,
-
     pub leafbrush_nodes: Option<Ptr>,
-
     pub cmodels: Option<Ptr>,
 }
 
@@ -611,20 +535,13 @@ pub struct MapEntsGeometry {
 pub struct MaterialGeometry {
     pub name: Option<Ptr>,
     pub draw_surf: u64,
-
     pub surface_type_bits: u32,
     pub sort_key: u8,
-
     pub info_game_flags: u8,
-
     pub state_flags: u8,
-
     pub camera_region: u8,
-
     pub state_bits: Option<Ptr>,
-
     pub state_bits_count: usize,
-
     pub state_bits_entry: Option<[u8; crate::size::TECHNIQUE_SLOT_COUNT]>,
     pub textures: Option<Ptr>,
     pub texture_count: usize,
@@ -635,21 +552,13 @@ pub struct MaterialGeometry {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct TechniqueSetGeometry {
     pub name: Option<Ptr>,
-
     pub technique_slots: [u64; crate::size::TECHNIQUE_OCCUPANCY_WORDS],
-
     pub technique_slots_scanned: [u64; crate::size::TECHNIQUE_OCCUPANCY_WORDS],
-
     pub technique_body_by_slot: [Option<Ptr>; crate::size::TECHNIQUE_SLOT_COUNT],
-
     pub technique0_flags: u8,
-
     pub world_vert_format: u8,
-
     pub max_pass_count: u16,
-
     pub pass_count_by_slot: [u8; crate::size::TECHNIQUE_SLOT_COUNT],
-
     pub technique_flags_by_slot: [u16; crate::size::TECHNIQUE_SLOT_COUNT],
 }
 

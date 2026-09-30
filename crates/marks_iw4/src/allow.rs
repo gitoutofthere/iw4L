@@ -8,14 +8,12 @@ pub const GFX_SURFACE_MATERIAL_OFF: usize = 0x10;
 pub enum FxMarkAllow {
     Keep,
     Reject,
-
     Unknown,
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct MarkWorldAllowCensus {
     pub decal_list_n: u32,
-
     pub sphere_hit: u32,
     pub keep: u32,
     pub reject: u32,

@@ -157,13 +157,10 @@ fn d3d_blend_to_wgpu(factor: BlendFactor) -> Option<WgpuBlendFactor> {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct ChangeState0Host {
     pub blend: DrawBlend,
-
     pub cull: u8,
     pub srgb_write: bool,
-
     pub colour_write: u8,
     pub line_fill: bool,
-
     pub alpha_test: Option<d3d9_state::AlphaTest>,
 }
 
@@ -184,9 +181,7 @@ impl ChangeState0Host {
 pub struct ChangeState1Host {
     pub depth_write: bool,
     pub depth_test_enable: bool,
-
     pub depth_func: u8,
-
     pub polyoffset_level: u8,
 }
 

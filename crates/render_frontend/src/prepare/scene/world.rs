@@ -27,7 +27,6 @@ pub struct WorldPortal {
     pub neighbor: u16,
     pub vert_start: usize,
     pub vert_count: usize,
-
     pub hull_axis: Option<[[f32; 3]; 2]>,
 }
 
@@ -38,31 +37,21 @@ pub struct WorldDpvs {
     pub cell_count: usize,
     pub cell_roots: Vec<SurfRange>,
     pub aabb_trees: Vec<Vec<AabbNodeView>>,
-
     pub aabb_smodel_indices: Vec<Vec<u16>>,
-
     pub sorted_surf_index: Vec<u16>,
-
     pub static_surface_count: usize,
-
     pub static_surface_count_no_decal: usize,
-
     pub surface_bounds: Vec<Bounds>,
-
     pub smodel_bounds: Vec<Bounds>,
     pub portal_verts: Vec<[f32; 3]>,
     pub portals_per_cell: Vec<Vec<WorldPortal>>,
-
     pub cell_reflection_probes: Vec<Vec<u8>>,
-
     pub sky_start_surfs: Vec<u32>,
-
     pub cell_caster_bits: Vec<u32>,
     pub lit_opaque_begin: u32,
     pub lit_opaque_end: u32,
     pub camera_ranges: asset_world::CameraSurfRanges,
     pub emissive_surfs_begin: u32,
-
     pub emissive_surfs_end: u32,
 }
 
@@ -70,7 +59,6 @@ pub struct WorldDpvs {
 pub struct WorldDrawItem {
     pub key: u64,
     pub surf: u16,
-
     pub run: u16,
     pub kind: WorldDrawItemKind,
     pub setup_key_changed: bool,
@@ -85,53 +73,31 @@ pub enum WorldDrawItemKind {
 #[derive(Debug)]
 pub struct WorldCull {
     pub packed_indices: Vec<u32>,
-
     pub surface_index_ranges: Vec<(u32, u32)>,
-
     pub surface_draw_fields: Vec<asset_world::SurfaceDrawFields>,
     pub surface_batch_ranges: Vec<(usize, u32, u32)>,
-
     pub surface_materials: Vec<Option<assets::MaterialIndex>>,
-
     pub surface_lightmap_indices: Vec<u8>,
-
     pub surface_reflection_probes: Vec<u8>,
-
     pub surface_primary_lights: Vec<u8>,
-
     pub sort_key_distortion: Option<u32>,
-
     pub surface_sort_keys: Vec<u8>,
-
     pub capture: assets::WorldCapture,
-
     pub brush_models: Vec<assets::GfxBrushModelSurfs>,
-
     pub brush_model_bounds: Vec<assets::GfxBrushModelBounds>,
-
     pub bmodel_world_from_local: Vec<Mat4>,
     pub dpvs: WorldDpvs,
-
     pub batch_count: u32,
     pub batch_lightmapped: Vec<bool>,
-
     pub surface_vis: Vec<u8>,
-
     pub draw_items: Vec<WorldDrawItem>,
-
     pub bsp_run_scratch: Vec<dpvs_iw4::BspDrawSurfRun<asset_world::CameraRangeKind>>,
-
     pub draw_items_id: u64,
-
     pub g0_surfs: Vec<u16>,
-
     pub static_model_entities: Vec<Option<Entity>>,
     pub static_model_cull_dists: Vec<u16>,
-
     pub smodel_vis: Vec<u8>,
-
     pub cell_vis: Vec<u32>,
-
     pub cell_vis_all: bool,
 }
 
@@ -140,7 +106,6 @@ pub struct WorldSmodelLightingSample {
     pub authored_slot: usize,
     pub lighting_origin: [f32; 3],
     pub tile_rgba: [u8; 256],
-
     pub packed_lighting: [u8; 4],
 }
 
@@ -150,9 +115,7 @@ pub const SMODEL_LIGHTING_MAX_CLIENT_VIEWS: u32 = 1;
 pub struct WorldScene {
     pub sky_model: Option<WorldStaticModelMesh>,
     pub batches: Vec<WorldBatchGeometry>,
-
     pub runtime_material_catalog: std::sync::Arc<crate::assemble::drawsurf::RuntimeMaterialCatalog>,
-
     pub exact_material_images: Vec<Option<std::sync::Arc<Image>>>,
     pub common_profile_id: u64,
     pub products_id: u64,
@@ -163,75 +126,44 @@ pub struct WorldScene {
     /// images under the same sampler and colour space, so the upload gives
     /// them one asset and a cloned handle instead of two textures.
     pub exact_material_variants: Vec<Option<assets::ImageVariantId>>,
-
     pub exact_material_names: Vec<String>,
     pub lightmaps: Vec<Option<WorldLightmap>>,
     pub reflection_probes: Vec<Option<Image>>,
-
     pub reflection_probe_origins: Vec<[f32; 3]>,
-
     pub static_model_meshes: Vec<WorldStaticModelMesh>,
-
     pub smodel_mesh_names: Vec<String>,
-
     pub script_brush_gameobjects: Vec<String>,
-
     pub script_brush_exploders: Vec<String>,
-
     pub script_brush_targetnames: Vec<String>,
-
     pub script_brush_models: Vec<assets::ScriptBrushModelPlacement>,
-
     pub static_model_instances: Vec<Option<WorldStaticModelInstance>>,
-
     pub smodel_mark_cpu: Option<SmodelMarkCpu>,
-
     pub map_xmodel_scene_assets: assets::MapXModelSceneCatalog,
-
     pub script_model_instances: Vec<WorldScriptModelInstance>,
-
     pub dyn_ent_instances: Vec<WorldDynEntInstance>,
-
     pub dyn_ent_brush_n: usize,
-
     pub dyn_ent_brushes: Vec<WorldDynEntBrush>,
-
     pub smodel_lighting_samples: Vec<WorldSmodelLightingSample>,
-
     pub light_grid: Option<assets::OwnedLightGrid>,
-
     pub model_lighting_image: Option<Handle<Image>>,
     pub model_lighting_dims: Option<lighting_iw4::ModelLightingAtlasDims>,
-
     pub center: Vec3,
-
     pub radius: f32,
-
     pub world_bounds: Option<[f32; 6]>,
-
     pub cull: Option<WorldCull>,
-
     pub intermission_view: Option<WorldCameraPose>,
-
     pub fx_glass: Option<assets::FxGlassReset>,
-
     pub retained_retail_vertices: assets::RetailWorldVertexPayload,
-
     pub retained_vertex_layer: Vec<u8>,
     pub surface_vertex_layer: Vec<i32>,
     pub surface_first_vertex: Vec<u32>,
-
     pub retained_positions: Vec<[f32; 3]>,
-
     pub retained_normals: Vec<[f32; 3]>,
     pub retained_tangents: Vec<[f32; 4]>,
     pub retained_colors: Vec<[f32; 4]>,
     pub retained_texture_uvs: Vec<[f32; 2]>,
-
     pub retained_lightmap_uvs: Vec<[f32; 2]>,
-
     pub exp_fog: Option<assets::ExpFog>,
-
     pub film_vision: Option<assets::FilmVision>,
     pub film_visions: std::collections::BTreeMap<
         String,
@@ -239,59 +171,32 @@ pub struct WorldScene {
     >,
 
     pub createart_name: Option<String>,
-
     pub dir_primary_light: Option<MapDirPrimaryLight>,
-
     pub t5_sun_parse_exposure: Option<f32>,
-
     pub t5_sky_dynamic_intensity: Option<[f32; 4]>,
-
     pub t5_tree_scatter_intensity: Option<f32>,
-
     pub t5_tree_scatter_amount: Option<f32>,
-
     pub t5_exposure_volume_count: u32,
-
     pub primary_light_types: Vec<u8>,
-
     pub primary_light_cull: Vec<lighting_iw4::ComPrimaryLightCull>,
-
     pub primary_light_pack: Vec<lighting_iw4::GfxLightPack>,
-
     pub primary_light_attenuation: Vec<LightAttenuationBind>,
-
     pub dynamic_light: Option<crate::assemble::drawsurf::DynamicLightBind>,
-
     pub primary_light_def_names: Vec<Option<String>>,
-
     pub primary_light_t5_falloff: Vec<T5LightFalloffPack>,
-
     pub sun_primary_light_count: u32,
-
     pub light_region_hulls: Option<Vec<Vec<assets::WorldLightRegionHull>>>,
-
     pub shadow_geometry: Vec<assets::WorldShadowGeometry>,
-
     pub outdoor_image: Option<u32>,
-
     pub outdoor_lookup: [u32; 16],
-
     pub sun_effects: Option<render_frame::SunEffectsDef>,
-
     pub exact_world_refuse: Option<String>,
-
     pub exact_world_cause2: Option<String>,
-
     pub exact_packed_refuse: Option<String>,
-
     pub exact_pos_tex_refuse: Option<String>,
-
     pub exact_ifc_n: Option<i64>,
-
     pub exact_opcode: Option<String>,
-
     pub spawned: bool,
-
     pub asset_ref: assets::AssetRefDumpCensus,
 }
 
@@ -301,7 +206,6 @@ impl WorldScene {}
 pub struct WorldLightmap {
     pub primary_image: Option<Image>,
     pub secondary_image: Option<Image>,
-
     pub secondary_b_image: Option<Image>,
     pub ambient_image: Image,
     pub directional_image: Image,
@@ -317,14 +221,11 @@ pub struct WorldDrawGeometry {
     pub batches: Vec<WorldBatchGeometry>,
     pub lightmaps: Vec<Option<WorldLightmap>>,
     pub reflection_probes: Vec<Option<Image>>,
-
     pub retail_vertices: assets::RetailWorldVertexPayload,
-
     pub vertex_layer: Vec<u8>,
     pub surface_vertex_layer: Vec<i32>,
     pub surface_first_vertex: Vec<u32>,
     pub surface_draw_fields: Vec<asset_world::SurfaceDrawFields>,
-
     pub positions: Vec<[f32; 3]>,
     pub normals: Vec<[f32; 3]>,
     pub tangents: Vec<[f32; 4]>,
@@ -332,42 +233,29 @@ pub struct WorldDrawGeometry {
     pub texture_uvs: Vec<[f32; 2]>,
     pub lightmap_uvs: Vec<[f32; 2]>,
     pub packed_indices: Vec<u32>,
-
     pub surface_index_ranges: Vec<(u32, u32)>,
     pub surface_batch_ranges: Vec<(usize, u32, u32)>,
-
     pub surface_materials: Vec<Option<assets::MaterialIndex>>,
-
     pub surface_lightmap_indices: Vec<u8>,
-
     pub surface_reflection_probes: Vec<u8>,
-
     pub surface_primary_lights: Vec<u8>,
     pub sort_key_distortion: Option<u32>,
     pub surface_sort_keys: Vec<u8>,
-
     pub capture: assets::WorldCapture,
-
     pub brush_models: Vec<assets::GfxBrushModelSurfs>,
-
     pub brush_model_bounds: Vec<assets::GfxBrushModelBounds>,
-
     pub bmodel_world_from_local: Vec<Mat4>,
     pub static_model_meshes: Vec<WorldStaticModelMesh>,
-
     pub static_model_instances: Vec<Option<WorldStaticModelInstance>>,
     pub map_xmodel_scene_assets: assets::MapXModelSceneCatalog,
     pub script_model_instances: Vec<WorldScriptModelInstance>,
-
     pub smodel_lighting_samples: Vec<WorldSmodelLightingSample>,
 }
 
 #[derive(Debug)]
 pub struct WorldStaticModelMesh {
     pub name: String,
-
     pub lod_surfaces: [Vec<WorldStaticModelSurface>; 4],
-
     pub lod_smc: Option<[[u8; 4]; 4]>,
     pub lod: Option<assets::ModelLodSelector>,
 }
@@ -384,9 +272,7 @@ impl WorldStaticModelMesh {
 #[derive(Debug)]
 pub struct WorldStaticModelSurface {
     pub mesh: Mesh,
-
     pub material: Option<assets::MaterialIndex>,
-
     pub packed_vertices: Vec<[u8; asset_iw4::size::GFX_PACKED_VERTEX]>,
     pub xsurface_plus_1: Option<u8>,
     pub xsurface_base_index: u16,
@@ -401,13 +287,9 @@ pub struct WorldStaticModelInstance {
     pub origin: [f32; 3],
     pub axis: [[f32; 3]; 3],
     pub scale: f32,
-
     pub cull_dist: u16,
-
     pub reflection_probe_index: u8,
-
     pub primary_light_index: u8,
-
     pub flags: u8,
 }
 
@@ -433,11 +315,8 @@ pub use render_scene::{WorldDynEntInstance, WorldScriptModelInstance};
 pub struct WorldDynEntBrush {
     pub index: u16,
     pub origin: [f32; 3],
-
     pub bounds: Option<Bounds>,
-
     pub brush_model: u16,
-
     pub surface_count: u16,
 }
 
@@ -583,7 +462,6 @@ pub(crate) fn posed_brush_bounds(
 pub struct WorldBatchGeometry {
     pub mesh: Mesh,
     pub packed_indices: Vec<u32>,
-
     pub material: Option<assets::MaterialIndex>,
     pub lightmapped: bool,
     pub lightmap_index: u8,

@@ -48,18 +48,14 @@ pub fn pass_fragment_alpha_test_entry(index: usize) -> String {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Sm3Wgsl {
     pub source: String,
-
     pub output_masks: BTreeMap<Sm3Register, u8>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct PassWgsl {
     pub source: String,
-
     pub attribute_count: usize,
-
     pub varying_count: usize,
-
     pub vertex_constant_len: usize,
     pub pixel_constant_len: usize,
     pub sampler_count: usize,
@@ -68,9 +64,7 @@ pub struct PassWgsl {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Sm3WgslError {
     LoweringSurface(Sm3LoweringRefusal),
-
     RelativeConstantsNeedPassAbi,
-
     SamplersNeedPassAbi,
 
     UnboundSamplerRegister {
@@ -166,16 +160,12 @@ pub enum Sm3WgslError {
 #[derive(Clone, Debug, Default)]
 struct LoweringPlan {
     external: BTreeSet<Sm3Register>,
-
     external_read_masks: BTreeMap<Sm3Register, u8>,
-
     writable: BTreeSet<Sm3Register>,
-
     float_definitions: BTreeMap<Sm3Register, [u32; 4]>,
     integer_definitions: BTreeMap<Sm3Register, [u32; 4]>,
     samplers: BTreeMap<u16, SamplerTextureDimension>,
     output_masks: BTreeMap<Sm3Register, u8>,
-
     uses_relative_float: bool,
 }
 

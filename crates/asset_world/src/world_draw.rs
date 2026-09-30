@@ -35,15 +35,10 @@ pub struct GfxBrushModelBounds {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct SurfacePass {
     pub sky: bool,
-
     pub shadow_only: bool,
-
     pub multiply: bool,
-
     pub unlit: bool,
-
     pub unrouted: bool,
-
     pub state_bits_undecided: bool,
 }
 
@@ -85,7 +80,6 @@ pub struct OwnedPortal {
     pub neighbor: u16,
     pub vert_start: usize,
     pub vert_count: usize,
-
     pub hull_axis: Option<[[f32; 3]; 2]>,
 }
 
@@ -161,36 +155,23 @@ pub struct DpvsWorldData {
     pub planes: Vec<CPlane>,
     pub nodes: Vec<u16>,
     pub cell_count: usize,
-
     pub cell_roots: Vec<SurfRange>,
-
     pub aabb_trees: Vec<Vec<AabbNodeView>>,
-
     pub aabb_smodel_indices: Vec<Vec<u16>>,
-
     pub sorted_surf_index: Vec<u16>,
-
     pub static_surface_count: usize,
-
     pub static_surface_count_no_decal: usize,
-
     pub surface_bounds: Vec<Bounds>,
-
     pub smodel_bounds: Vec<Bounds>,
     pub portal_verts: Vec<[f32; 3]>,
     pub portals_per_cell: Vec<Vec<OwnedPortal>>,
-
     pub cell_reflection_probes: Vec<Vec<u8>>,
     pub lit_opaque_begin: u32,
     pub lit_opaque_end: u32,
     pub camera_ranges: CameraSurfRanges,
-
     pub emissive_surfs_begin: u32,
-
     pub emissive_surfs_end: u32,
-
     pub sky_start_surfs: Vec<u32>,
-
     pub cleared_boxes: usize,
 }
 
@@ -260,9 +241,7 @@ fn reject_negative_half(
 #[derive(Clone, Debug)]
 pub enum RetailWorldVertexPayload {
     Iw4(Vec<[u8; asset_iw4::size::GFX_WORLD_VERTEX]>),
-
     Iw5(Vec<[u8; fastfile_iw5::size::GFX_WORLD_VERTEX]>),
-
     T5(Vec<[u8; fastfile_t5::size::GFX_WORLD_VERTEX]>),
     Unavailable { source_layout: &'static str },
 }
@@ -302,84 +281,48 @@ impl RetailWorldVertexPayload {
 #[derive(Clone, Debug)]
 pub struct WorldDraw {
     pub batches: Vec<WorldBatch>,
-
     pub sky_model: Option<crate::model_mesh::ModelMesh>,
-
     pub lightmap: Result<Vec<Option<WorldLightmap>>, WorldLightmapGap>,
     pub stats: WorldMeshStats,
-
     pub retail_vertices: RetailWorldVertexPayload,
-
     pub vertex_layer: Vec<u8>,
-
     pub surface_vertex_layer: Vec<i32>,
-
     pub surface_first_vertex: Vec<u32>,
-
     pub surface_draw_fields: Vec<SurfaceDrawFields>,
-
     pub positions: Vec<[f32; 3]>,
     pub normals: Vec<[f32; 3]>,
     pub tangents: Vec<[f32; 4]>,
     pub colors: Vec<[f32; 4]>,
     pub texture_uvs: Vec<[f32; 2]>,
     pub lightmap_uvs: Vec<[f32; 2]>,
-
     pub packed_indices: Vec<u32>,
-
     pub surface_index_ranges: Vec<(u32, u32)>,
-
     pub surface_batch_ranges: Vec<(usize, u32, u32)>,
-
     pub surface_lightmapped: Vec<bool>,
-
     pub surface_lightmap_indices: Vec<u8>,
-
     pub surface_reflection_probes: Vec<u8>,
-
     pub surface_primary_lights: Vec<u8>,
-
     pub sort_key_distortion: Option<u32>,
-
     pub capture: WorldCapture,
-
     pub brush_models: Vec<GfxBrushModelSurfs>,
-
     pub brush_model_bounds: Vec<GfxBrushModelBounds>,
-
     pub surface_materials: Vec<Option<usize>>,
-
     pub primary_lights: Vec<WorldPrimaryLight>,
-
     pub light_defs: Vec<CapturedLightDef>,
-
     pub sun_primary_light_count: u32,
-
     pub light_region_hulls: Option<Vec<Vec<WorldLightRegionHull>>>,
-
     pub shadow_geometry: Vec<WorldShadowGeometry>,
-
     pub reflection_probes: Vec<WorldReflectionProbe>,
     pub dpvs: DpvsWorldData,
-
     pub outdoor_image_name: Option<String>,
-
     pub outdoor_image: Option<usize>,
-
     pub outdoor_lookup: [u32; 16],
-
     pub sun_effects: Option<SunEffectsCapture>,
-
     pub t5_sun_parse_exposure: Option<f32>,
-
     pub t5_sky_dynamic_intensity: Option<[f32; 4]>,
-
     pub t5_sun_light: Option<WorldSunLight>,
-
     pub t5_tree_scatter_intensity: Option<f32>,
-
     pub t5_tree_scatter_amount: Option<f32>,
-
     pub t5_exposure_volume_count: u32,
 }
 
@@ -422,7 +365,6 @@ pub struct WorldBatch {
     pub packed_indices: Vec<u32>,
     pub material: Option<usize>,
     pub lightmapped: bool,
-
     pub lightmap_index: u8,
     pub primary_light_index: u8,
     pub reflection_probe_index: u8,
@@ -431,11 +373,8 @@ pub struct WorldBatch {
 #[derive(Clone, Debug)]
 pub struct WorldLightmap {
     pub primary_image: Option<Image>,
-
     pub secondary_image: Option<Image>,
-
     pub secondary_b_image: Option<Image>,
-
     pub ambient_image: Image,
     pub directional_image: Image,
     pub sun_mask_image: Image,
@@ -463,35 +402,20 @@ pub struct WorldPrimaryLight {
     pub radius: f32,
     pub cos_outer: f32,
     pub cos_inner: f32,
-
     pub cos_half_fov_expanded: f32,
-
     pub def_name: Option<String>,
-
     pub falloff_image_width: Option<u16>,
-
     pub lmap_lookup_start: i32,
-
     pub attenuation_image: Option<usize>,
-
     pub attenuation_sampler: u8,
-
     pub t5_attenuation: Option<[f32; 4]>,
-
     pub t5_falloff: Option<[f32; 4]>,
-
     pub t5_a_ab_b: Option<[f32; 4]>,
-
     pub t5_angle: Option<[f32; 4]>,
-
     pub t5_cookie0: Option<[f32; 4]>,
-
     pub t5_cookie1: Option<[f32; 4]>,
-
     pub t5_cookie2: Option<[f32; 4]>,
-
     pub t5_diffuse_color: Option<[f32; 4]>,
-
     pub t5_specular_color: Option<[f32; 4]>,
 }
 

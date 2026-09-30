@@ -14,7 +14,6 @@ pub const PLAYER_MELEE_RANGE_DEFAULT: f32 = 64.0;
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct MeleeChargeWeaponDelays {
     pub melee_delay_ms: i32,
-
     pub melee_charge_delay_ms: i32,
 }
 

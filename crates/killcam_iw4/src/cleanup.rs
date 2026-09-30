@@ -22,15 +22,10 @@ impl CleanupEntry {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum CleanupStep {
     HideHud,
-
     ClearKillcamFlag,
-
     ClearLowerMessage,
-
     RestoreSpectatePermissions,
-
     NotifyKillcamEnded,
-
     ClearKillcamState,
 }
 

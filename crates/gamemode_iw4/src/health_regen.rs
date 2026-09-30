@@ -15,13 +15,9 @@ pub const BREATHING_HURT_ALIAS: &str = "breathing_hurt";
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct PlayerHealthRegenState {
     pub old_health: i32,
-
     pub hurt_time_ms: i32,
-
     pub very_hurt: bool,
-
     pub last_sound_time_recover_ms: i32,
-
     pub at_brink_of_death: bool,
 }
 
@@ -47,7 +43,6 @@ impl Default for PlayerHealthRegenState {
 pub enum HealthRegenSound {
     #[default]
     None,
-
     BreathingBetter,
 }
 

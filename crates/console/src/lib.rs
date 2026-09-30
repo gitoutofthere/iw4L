@@ -50,9 +50,7 @@ use bevy::prelude::{Message, Resource};
 pub struct ConsoleInputState {
     held: BTreeSet<u32>,
     timed: Vec<(u32, f32)>,
-
     pending_mouse: Option<(f32, f32)>,
-
     mouse_rate: Option<(f32, f32)>,
 }
 
@@ -164,9 +162,7 @@ pub struct ConsoleCommand {
     pub name: String,
     pub args: Vec<String>,
     pub raw: String,
-
     pub background: bool,
-
     pub interactive: bool,
 }
 

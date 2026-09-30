@@ -10,11 +10,8 @@ pub const SVC_PRINT: u8 = 0x66;
 #[derive(Message, Clone, Debug, PartialEq, Eq)]
 pub struct SvcGameNotify {
     pub id: u32,
-
     pub tag: u8,
-
     pub name: String,
-
     pub key: String,
 }
 

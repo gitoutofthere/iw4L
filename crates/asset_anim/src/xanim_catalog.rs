@@ -45,13 +45,9 @@ impl CapturedXAnim {
 #[derive(Debug)]
 pub struct XAnimCatalog {
     entries: Vec<CapturedXAnim>,
-
     indices: HashMap<XAnimKey, usize>,
-
     order: Vec<XAnimKey>,
-
     zones: Vec<ZoneOwner>,
-
     decoded: Mutex<Vec<Option<Arc<AnimClip>>>>,
 }
 

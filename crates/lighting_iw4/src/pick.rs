@@ -138,7 +138,6 @@ pub struct LightGridPickCorner {
     pub primary_light: Option<u8>,
     pub needs_trace: u8,
     pub weight: f32,
-
     pub is_valid_if_traced: bool,
 }
 
@@ -147,7 +146,6 @@ pub struct LightGridPickPrimary {
     pub primary_light: u8,
     pub best_weight: f32,
     pub honor_suppression: bool,
-
     pub entry_alive: [bool; 8],
 }
 
@@ -159,7 +157,6 @@ pub const fn light_grid_cell_as_xyz(cell: LightGridCell) -> [i32; 3] {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct LightGridPickRowRleCells {
     pub base: [i32; 3],
-
     pub adjacent: [i32; 3],
 }
 

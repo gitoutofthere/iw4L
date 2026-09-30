@@ -2,7 +2,6 @@
 pub enum ModelKind {
     Fpv,
     Soldier,
-
     WorldWeapon,
 }
 

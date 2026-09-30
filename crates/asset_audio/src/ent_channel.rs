@@ -4,13 +4,9 @@ use asset_iw4::{SND_ENTCHANNEL_DEFAULT_MAX_VOICES, SND_ENTCHANNEL_FILE, SND_ENTC
 pub struct EntChannel {
     pub name: String,
     pub priority: i32,
-
     pub is_3d: bool,
-
     pub is_restricted: bool,
-
     pub is_pausable: bool,
-
     pub max_voices: i32,
 }
 

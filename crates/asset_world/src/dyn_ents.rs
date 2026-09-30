@@ -12,7 +12,6 @@ pub enum DynEntType {
     Invalid,
     Clutter,
     Destruct,
-
     Unknown(u8),
 }
 
@@ -78,7 +77,6 @@ pub fn retail_dyn_ent_props(ty: DynEntType) -> Option<DynEntProps> {
 #[derive(Clone, Debug, PartialEq)]
 pub struct OwnedPhysPreset {
     pub name: String,
-
     pub preset_type: i32,
     pub mass: f32,
     pub bounce: f32,
@@ -139,21 +137,16 @@ impl PhysPresetCatalog {
 #[derive(Clone, Debug, PartialEq)]
 pub struct DynEntDef {
     pub draw_type: DynEntDrawType,
-
     pub index: u16,
     pub ty: DynEntType,
-
     pub quat: [f32; 4],
-
     pub origin: [f32; 3],
     pub xmodel: Option<String>,
-
     pub brush_model: u16,
     pub physics_brush_model: u16,
     pub destroy_fx: Option<String>,
     pub phys_preset: Option<OwnedPhysPreset>,
     pub health: i32,
-
     pub phys_mass: [f32; 9],
     pub contents: i32,
 }

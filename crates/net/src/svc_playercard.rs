@@ -43,7 +43,6 @@ struct PendingRow {
 #[derive(Resource, Debug, Default)]
 pub struct PendingPlayerCard {
     rows: Vec<PendingRow>,
-
     pub stranded: u64,
 }
 

@@ -3,17 +3,11 @@ use crate::drawsurf::{GfxDrawSurf, GfxDrawSurfFields, pack, with_primary_light_i
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct MaterialDrawSurfBakeInput {
     pub sort_key: u8,
-
     pub info_game_flags: u8,
-
     pub material_sorted_index: u16,
-
     pub technique0_absent: bool,
-
     pub technique1_present: bool,
-
     pub material_byte_4b: u8,
-
     pub technique0_flags: u8,
 }
 

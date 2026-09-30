@@ -148,19 +148,12 @@ pub enum ExprError {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponLockView {
     pub ads_javelin: bool,
-
     pub blink: bool,
-
     pub attack_top: bool,
-
     pub attack_direct: bool,
-
     pub locking: bool,
-
     pub locked: bool,
-
     pub too_close: bool,
-
     pub screen_pos: [f32; 2],
 }
 
@@ -337,7 +330,6 @@ fn pairs_with_right_paren(op: i32) -> bool {
 #[derive(Clone, Debug)]
 pub struct Statement {
     entries: Vec<Entry>,
-
     empty: bool,
 }
 

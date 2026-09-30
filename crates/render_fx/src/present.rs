@@ -50,36 +50,26 @@ pub struct FxCreateFxBoot {
     pub named: u32,
     pub held: u32,
     pub miss_def: u32,
-
     pub failed: Vec<String>,
 }
 
 #[derive(Debug, Default, Clone)]
 pub struct FxVertsGaps {
     pub lighting_frac: u32,
-
     pub lighting_frac_def_indices: Vec<u8>,
-
     pub lighting_applied: u32,
-
     pub lighting_white: u32,
-
     pub lighting_atpoint: u32,
-
     pub lighting_miss: u32,
     pub no_def: u32,
     pub no_elem: u32,
-
     pub no_material_visual: u32,
     pub no_size0_sample: u32,
     pub size0_not_positive: u32,
     pub no_size1_sample: u32,
     pub size1_not_positive: u32,
-
     pub color_fallback: u32,
-
     pub catalog_index_n: u32,
-
     pub catalog_name_n: u32,
 }
 

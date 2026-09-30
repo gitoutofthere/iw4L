@@ -202,7 +202,6 @@ impl CellFrustumWorkerCmd {
 pub struct DpvsEntWorkerCmd {
     pub scene_dobj: u32,
     pub plane_count: u16,
-
     pub cell: u16,
 }
 
@@ -306,7 +305,6 @@ impl SkinCachedStaticModelCmd {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum AddWorkerCmd {
     Queued,
-
     OverflowInline,
 }
 
@@ -318,7 +316,6 @@ pub enum WorkerCmdError {
 
 struct WorkerCmds {
     start_pos: i32,
-
     end_pos: i32,
     synced_end_pos: i32,
     in_size: i32,

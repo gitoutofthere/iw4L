@@ -25,32 +25,23 @@ pub use render_scene::{
 #[derive(Resource)]
 pub struct WorldModelLightingCache {
     pub handle: u16,
-
     body_handles: HashMap<ModelLightingOwner, u16>,
     rover: u32,
     alloc_fail: bool,
-
     mod_frame_count: u32,
     origins: Vec<[f32; 3]>,
     lighting_info: Vec<u16>,
-
     packed_lighting: Vec<Option<[u8; 4]>>,
-
     pixel_free_bits: [Vec<u32>; MODEL_LIGHTING_PIXEL_FREE_BITS_BUFFERS],
     warned_fail: bool,
-
     frame_assigned: u32,
     frame_reused: u32,
     frame_failed: u32,
-
     base_index: u32,
-
     logged_fpv_atpoint: bool,
-
     eye_atpoint_path: Option<String>,
     eye_live_corners: Option<u8>,
     eye_tile0: Option<[u8; 4]>,
-
     eye_picked_raw: Option<u8>,
 }
 

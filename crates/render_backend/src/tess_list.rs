@@ -9,7 +9,6 @@ pub use render_frame::{
 pub struct SmodelRigidFlush {
     pub index_byte_offset: u32,
     pub tri_count: u32,
-
     pub entry_start: u32,
     pub entry_count: u32,
 }
@@ -17,9 +16,7 @@ pub struct SmodelRigidFlush {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct SmodelRigidListStep {
     pub cur: usize,
-
     pub more: bool,
-
     pub consumed: bool,
 }
 
@@ -98,7 +95,6 @@ pub fn r_tess_static_model_rigid_draw_surf_lighting(
 pub struct XModelRigidFlush {
     pub index_byte_offset: u32,
     pub tri_count: u32,
-
     pub entry_start: u32,
     pub entry_count: u32,
 }
@@ -256,10 +252,8 @@ pub struct TrianglesListFlush {
     pub vertex_count: u32,
     pub base_index: u32,
     pub tri_count: u32,
-
     pub rebind_streams: bool,
     pub first_vertex: u32,
-
     pub entry_start: u32,
     pub entry_count: u32,
 }
@@ -269,7 +263,6 @@ pub enum TrianglesListArm {
     Prepass { n: u8 },
 
     ShadowmapBuild,
-
     Colour,
 }
 

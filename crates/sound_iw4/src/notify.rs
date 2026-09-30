@@ -1,29 +1,17 @@
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum NotifyKind {
     Connected,
-
     SpawnedPlayer,
-
     PrematchDone,
-
     LastAlive,
-
     RoundSwitch,
-
     RoundWin,
-
     GameWin,
-
     GameEnded,
-
     MatchEndingSoon,
-
     MatchEndingVerySoon,
-
     ShowingFinalKillcam,
-
     Disconnect,
-
     PlayLeaderDialogOnPlayer,
 }
 
@@ -65,7 +53,6 @@ impl NotifyKind {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MatchEndingReason {
     Time,
-
     Score,
 }
 

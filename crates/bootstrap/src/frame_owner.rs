@@ -10,9 +10,7 @@ pub fn prefer_performance_cores() -> Option<PerformanceCorePlan> {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct PerformanceCorePlan {
     pub performance: Vec<usize>,
-
     pub allowed: Vec<usize>,
-
     pub chosen: Vec<usize>,
 }
 

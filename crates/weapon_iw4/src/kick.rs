@@ -62,18 +62,14 @@ pub struct GunKickSpring {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct FireRecoilImpulse {
     pub kick_avel: [f32; 3],
-
     pub gun_speed_delta: [f32; 2],
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct FireRecoilPsScales {
     pub reduce_window_active: bool,
-
     pub reduced_percent: f32,
-
     pub weap_flags: u32,
-
     pub recoil_scale: i32,
 }
 

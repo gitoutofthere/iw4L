@@ -225,7 +225,6 @@ pub(super) struct ResidentShadowStaticDraws {
     world_owners: [Vec<Option<ShadowStaticOwner>>; 2],
     smodel_owners: [Vec<Option<ShadowStaticOwner>>; 2],
     smodel_entries: [Vec<render_frame::GfxSmodelRigidEntry>; 2],
-
     commands: [ResidentSunCommands; 2],
 }
 
@@ -320,12 +319,10 @@ struct ResidentSunCommands {
     placement_index: HashMap<[u32; 16], u32>,
     placement_wvp: Vec<[[u32; 4]; 4]>,
     bytes: Vec<u8>,
-
     dirty: Vec<ArenaDirty>,
     resident_slots: usize,
     resident_placements: usize,
     resident_bytes: usize,
-
     refused: u32,
 }
 
@@ -928,7 +925,6 @@ pub(super) struct SunShadowSubmit {
     pub(super) static_hit: u32,
     pub(super) world_ib_n: u32,
     pub(super) record_n: RecordCensus,
-
     pub(super) emit_ms: f32,
     pub(super) prepare_ms: f32,
     pub(super) patch_ms: f32,

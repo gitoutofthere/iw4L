@@ -14,18 +14,14 @@ pub use render_scene::{
 pub struct SmodelMeshSurfaces {
     pub surfaces: Vec<(u32, Option<assets::MaterialIndex>)>,
     pub surfaces_by_lod: [Vec<(u32, Option<assets::MaterialIndex>)>; 4],
-
     pub vert_start: u32,
     pub vert_count: u32,
     pub vert_count_by_lod: [u32; 4],
-
     pub lod_smc: Option<[u8; 4]>,
     pub lod_smc_rows: Option<[[u8; 4]; 4]>,
     pub lod: Option<assets::ModelLodSelector>,
-
     pub smc_surfs: Vec<SmodelCachedSurfSrc>,
     pub smc_surfs_by_lod: [Vec<SmodelCachedSurfSrc>; 4],
-
     pub xsurface_plus_1_by_lod: [Vec<Option<u8>>; 4],
 }
 
@@ -45,23 +41,14 @@ pub struct SmodelCachedSurfSrc {
 #[derive(Clone, Debug)]
 pub struct SmodelPlacement {
     pub mesh: usize,
-
     pub lit: bool,
-
     pub reflection_probe_index: u8,
-
     pub primary_light_index: u8,
-
     pub flags: u8,
-
     pub lighting_slot: Option<usize>,
-
     pub packed_lighting: Option<[u8; 4]>,
-
     pub entity: Entity,
-
     pub world_from_local: Mat4,
-
     pub origin: [f32; 3],
     pub axis: [[f32; 3]; 3],
     pub scale: f32,
@@ -70,29 +57,20 @@ pub struct SmodelPlacement {
 #[derive(Resource, Clone, Debug, Default)]
 pub struct SmodelGpuPlan {
     pub packed_vertices: assets::RetailPackedVertexPayload,
-
     pub packed_match_surfaces: u32,
-
     pub packed_skip_surfaces: u32,
-
     pub packed_skip_first: Option<String>,
-
     pub cached_vertices: Vec<[u8; asset_iw4::size::GFX_PACKED_VERTEX]>,
     pub cached_indices: Vec<u32>,
     pub cached_placement_n: u32,
     pub cached_skip_n: u32,
     pub materials: Vec<SmodelPassMaterial>,
     pub meshes: Vec<SmodelMeshSurfaces>,
-
     pub material_state_flags: std::collections::HashMap<assets::MaterialIndex, u8>,
     pub placements: Vec<SmodelPlacement>,
-
     pub authored_placement_indices: Vec<Option<usize>>,
-
     pub shadow_draw_insts: Vec<dpvs_iw4::GfxStaticModelDrawInstShadow>,
-
     pub lit_material_key: std::collections::HashMap<(Option<assets::MaterialIndex>, u8), u32>,
-
     pub unlit_material_key: std::collections::HashMap<Option<assets::MaterialIndex>, u32>,
     pub upload_pending: bool,
     pub packed_share: Option<Arc<Vec<[u8; asset_iw4::size::GFX_PACKED_VERTEX]>>>,

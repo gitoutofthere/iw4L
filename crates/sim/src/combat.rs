@@ -31,18 +31,14 @@ pub struct AcceptedShot {
     pub shot_id: ShotId,
     pub attacker: ClientId,
     pub attacker_life: LifeSequence,
-
     pub hand: u8,
     pub weapon: u32,
     pub ammo_used: i32,
     pub origin: [f32; 3],
     pub angles: [f32; 3],
     pub ads_frac: f32,
-
     pub view_height_current: f32,
-
     pub aim_spread_scale: f32,
-
     pub perks0: u32,
     pub combat_seed: u32,
     pub owner_velocity: [f32; 3],
@@ -120,13 +116,9 @@ pub struct ShotCollisionVerdict {
     pub bone_half_size: Option<[f32; 3]>,
     pub xmodel_contents: Option<u32>,
     pub model_key: Option<String>,
-
     pub end: Option<[f32; 3]>,
-
     pub entity_clip: Option<EntityClipKind>,
-
     pub impact_n: u32,
-
     pub event_n: u32,
 }
 

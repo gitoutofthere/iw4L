@@ -34,19 +34,12 @@ pub const PLAYERCARD_INFO_STR: i32 = 10;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct PlayerCardData {
     pub last_update_time: i32,
-
     pub title: i32,
-
     pub icon: i32,
-
     pub nameplate: i32,
-
     pub rank: i32,
-
     pub prestige: i32,
-
     pub team: i32,
-
     pub name: [u8; 32],
 }
 

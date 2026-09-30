@@ -2,7 +2,6 @@
 pub struct ImgFormatInfo {
     pub format: u8,
     pub channels: u8,
-
     pub d3d_format: u32,
     pub kind: ImgFormatKind,
 }
@@ -10,9 +9,7 @@ pub struct ImgFormatInfo {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ImgFormatKind {
     PlainBitmap,
-
     Wavelet,
-
     Dxt,
 }
 

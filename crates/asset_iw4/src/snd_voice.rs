@@ -3,13 +3,9 @@ pub const SND_VOICE_FINISHED_FRACTION: f32 = 1.0;
 #[derive(Clone, Copy, Debug)]
 pub struct SndVoiceOccupant {
     pub priority: i32,
-
     pub looping: bool,
-
     pub finished: bool,
-
     pub metric: f32,
-
     pub has_subtitle: bool,
 }
 

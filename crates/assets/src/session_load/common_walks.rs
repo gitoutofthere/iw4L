@@ -537,7 +537,6 @@ pub(super) struct Iw5WeaponBundle {
     pub(super) fpv: FpvMeshBuild,
     pub(super) world_guns: WorldWeaponBuild,
     pub(super) xanims: XAnimBuild,
-
     pub(super) materials: MaterialCatalog,
     pub(super) stats_tables: Vec<crate::CapturedStringTable>,
 }

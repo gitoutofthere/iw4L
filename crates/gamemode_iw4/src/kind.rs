@@ -5,9 +5,7 @@ use crate::{dd, dom, ffa};
 pub enum GameModeKind {
     #[default]
     FreeForAll = 0,
-
     Demolition = 1,
-
     Domination = 2,
 }
 

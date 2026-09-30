@@ -27,9 +27,7 @@ pub const BLOCK_STACK_CAP: usize = 32;
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum BlockType {
     Temp,
-
     Normal,
-
     Runtime,
 }
 
@@ -84,7 +82,6 @@ pub enum ZoneError {
     },
 
     UnknownAssetType(u32),
-
     NoAssetLoader(crate::asset_type::AssetType),
     UnterminatedString {
         block: usize,
@@ -181,11 +178,8 @@ impl Ptr {
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum ZonePtr {
     Null,
-
     Following,
-
     Insert,
-
     Offset(Ptr),
 }
 
@@ -230,7 +224,6 @@ pub struct GfxImageGeometry {
     pub depth: u16,
     pub level_count: u8,
     pub format: u32,
-
     pub source_offset: usize,
     pub source_len: usize,
 }
@@ -248,31 +241,19 @@ pub struct MaterialGeometry {
     pub name: Option<Ptr>,
     pub draw_surf: u64,
     pub sort_key: u8,
-
     pub info_game_flags: u8,
-
     pub texture_atlas: [u8; 2],
-
     pub surface_type_bits: Option<u32>,
-
     pub state_flags: u8,
-
     pub camera_region: u8,
-
     pub header: Option<Ptr>,
-
     pub state_bits: Option<Ptr>,
-
     pub state_bits_count: usize,
-
     pub state_bits_entry: Option<[u8; asset_iw4::size::TECHNIQUE_SLOT_COUNT]>,
-
     pub technique_set: Option<Ptr>,
     pub textures: Option<Ptr>,
-
     pub texture_stride: usize,
     pub texture_count: usize,
-
     pub constants: Option<Ptr>,
     pub constant_count: usize,
 }
@@ -280,7 +261,6 @@ pub struct MaterialGeometry {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct ShaderGeometry {
     pub name: Option<Ptr>,
-
     pub program: Option<Ptr>,
     pub program_words: usize,
 }
@@ -288,11 +268,8 @@ pub struct ShaderGeometry {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct VertexDeclGeometry {
     pub name: Option<Ptr>,
-
     pub stream_count: u8,
-
     pub has_optional_source: u8,
-
     pub routing: [[u8; 2]; asset_iw4::vertex_decl::ROUTING_COUNT],
 }
 
@@ -310,23 +287,14 @@ impl Default for VertexDeclGeometry {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct TechniqueSetGeometry {
     pub name: Option<Ptr>,
-
     pub technique_slots: u64,
-
     pub technique_slots_scanned: u64,
-
     pub technique_body_by_slot: [Option<Ptr>; asset_iw4::size::TECHNIQUE_SLOT_COUNT],
-
     pub technique0_flags: u8,
-
     pub world_vert_format: u8,
-
     pub uses_model_lighting_const: bool,
-
     pub max_pass_count: u16,
-
     pub pass_count_by_slot: [u8; asset_iw4::size::TECHNIQUE_SLOT_COUNT],
-
     pub technique_flags_by_slot: [u16; asset_iw4::size::TECHNIQUE_SLOT_COUNT],
 }
 
@@ -369,7 +337,6 @@ pub struct TechniquePassGeometry {
     pub per_prim_arg_count: u8,
     pub per_obj_arg_count: u8,
     pub stable_arg_count: u8,
-
     pub custom_sampler_flags: u8,
     pub argument_start: u16,
     pub argument_count: u16,
@@ -450,13 +417,9 @@ pub struct ComWorldGeometry {
 pub struct GfxLightDefGeometry {
     pub name: Option<Ptr>,
     pub lmap_lookup_start: i32,
-
     pub attenuation_width: Option<u16>,
-
     pub attenuation_image: Option<Ptr>,
-
     pub attenuation_image_name: Option<Ptr>,
-
     pub attenuation_sampler: u8,
 }
 
@@ -465,7 +428,6 @@ pub const MAX_LIGHT_DEFS: usize = 128;
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct GfxLightGridGeometry {
     pub has_light_regions: bool,
-
     pub sun_primary_light_index: u32,
     pub mins: [u16; 3],
     pub maxs: [u16; 3],
@@ -488,60 +450,37 @@ pub struct GfxWorldGeometry {
     pub vertex_count: usize,
     pub indices: Option<Ptr>,
     pub index_count: usize,
-
     pub surfaces: Option<Ptr>,
     pub surface_count: usize,
-
     pub lightmap_count: usize,
     pub lightmaps: [GfxLightmapPair; MAX_LIGHTMAP_PAGES],
-
     pub first_lightmap_primary: Option<GfxImageGeometry>,
     pub first_lightmap_secondary: Option<GfxImageGeometry>,
-
     pub first_sky_image: Option<Ptr>,
-
     pub skies: Option<Ptr>,
-
     pub sky_count: usize,
-
     pub outdoor_image: Option<Ptr>,
-
     pub outdoor_lookup: [u32; 16],
-
     pub reflection_probes: Option<Ptr>,
     pub reflection_probe_origins: Option<Ptr>,
     pub reflection_probe_count: usize,
     pub light_grid: GfxLightGridGeometry,
-
     pub sun_primary_light_count: usize,
-
     pub primary_light_count: usize,
-
     pub cell_count: usize,
-
     pub plane_count: usize,
-
     pub node_count: usize,
-
     pub portal_count: usize,
-
     pub aabb_node_count: usize,
-
     pub planes: Option<Ptr>,
-
     pub nodes: Option<Ptr>,
-
     pub cells: Option<Ptr>,
-
     pub aabb_tree_counts: Option<Ptr>,
-
     pub aabb_trees: Option<Ptr>,
-
     pub dpvs_static: Option<Ptr>,
     pub smodel_count: usize,
     pub static_surface_count: usize,
     pub static_surface_count_no_decal: usize,
-
     pub lit_opaque_surfs_begin: u32,
     pub lit_opaque_surfs_end: u32,
     pub lit_trans_surfs_begin: u32,
@@ -552,22 +491,14 @@ pub struct GfxWorldGeometry {
     pub emissive_surfs_end: u32,
     pub sorted_surf_index: Option<Ptr>,
     pub smodel_insts: Option<Ptr>,
-
     pub surfaces_bounds: Option<Ptr>,
     pub smodel_draw_insts: Option<Ptr>,
-
     pub dyn_model_count: usize,
-
     pub dyn_brush_count: usize,
-
     pub light_regions: Option<Ptr>,
-
     pub shadow_geometry: Option<Ptr>,
-
     pub model_count: usize,
-
     pub models: Option<Ptr>,
-
     pub bounds: Option<[u32; 6]>,
 
     /// Owned sunflare bytes and material slots. Copied during load; not a live zone pointer.
@@ -595,19 +526,12 @@ pub struct FxWorldGeometry {
     pub piece_limit: usize,
     pub init_piece_count: usize,
     pub init_geo_count: usize,
-
     pub geo_data_limit: usize,
-
     pub piece_word_count: usize,
-
     pub cell_count: usize,
-
     pub defs: Option<Ptr>,
-
     pub init_piece_indices: Option<Ptr>,
-
     pub init_piece_states: Option<Ptr>,
-
     pub init_geo_data: Option<Ptr>,
 }
 
@@ -616,9 +540,7 @@ pub struct GGlassDataGeometry {
     pub data: Option<Ptr>,
     pub piece_count: usize,
     pub name_count: usize,
-
     pub pieces: Option<Ptr>,
-
     pub names: Option<Ptr>,
 }
 
@@ -639,7 +561,6 @@ pub struct ClipMapGeometry {
     pub name: Option<Ptr>,
     pub plane_count: usize,
     pub static_model_count: usize,
-
     pub static_models: Option<Ptr>,
     pub material_count: usize,
     pub brush_side_count: usize,
@@ -650,118 +571,69 @@ pub struct ClipMapGeometry {
     pub cmodel_count: usize,
     pub vert_count: usize,
     pub tri_count: usize,
-
     pub planes: Option<Ptr>,
-
     pub materials: Option<Ptr>,
-
     pub brush_sides: Option<Ptr>,
-
     pub brushes: Option<Ptr>,
-
     pub brush_bounds: Option<Ptr>,
-
     pub brush_contents: Option<Ptr>,
-
     pub nodes: Option<Ptr>,
-
     pub leaves: Option<Ptr>,
-
     pub leafbrushes: Option<Ptr>,
     pub leafbrush_count: usize,
-
     pub leafbrush_nodes: Option<Ptr>,
-
     pub verts: Option<Ptr>,
-
     pub tri_indices: Option<Ptr>,
-
     pub collision_partitions: Option<Ptr>,
     pub partition_count: usize,
-
     pub collision_aabb_trees: Option<Ptr>,
     pub aabb_tree_count: usize,
-
     pub cmodels: Option<Ptr>,
-
     pub dyn_ent_count: [usize; 2],
-
     pub dyn_ent_defs: [Option<Ptr>; 2],
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct PhysPresetGeometry {
     pub header: Ptr,
-
     pub name: Option<Ptr>,
-
     pub snd_alias_prefix: Option<Ptr>,
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct XModelGeometry {
     pub name: Option<Ptr>,
-
     pub material_handles: Option<Ptr>,
-
     pub material_handle_count: usize,
-
     pub surfaces: Option<Ptr>,
     pub surface_count: usize,
-
     pub lod_xsurfaces: [Option<Ptr>; 4],
-
     pub lod_surface_names: [Option<Ptr>; 4],
-
     pub lod_numsurfs: [u16; 4],
-
     pub lod_surf_index: [u16; 4],
-
     pub num_bones: usize,
-
     pub num_root_bones: usize,
-
     pub scale: f32,
-
     pub no_scale_part_bits: [u32; 6],
-
     pub bone_names: Option<Ptr>,
-
     pub parent_list: Option<Ptr>,
-
     pub quats: Option<Ptr>,
-
     pub trans: Option<Ptr>,
-
     pub base_mat: Option<Ptr>,
-
     pub part_classification: Option<Ptr>,
-
     pub bone_info: Option<Ptr>,
-
     pub coll_surfs: Option<Ptr>,
-
     pub num_coll_surfs: i32,
-
     pub coll_lod: i16,
-
     pub lod_dist: [f32; 4],
-
     pub lod_part_bits: [[u32; 6]; 4],
-
     pub lod_smc: [[u8; 4]; 4],
-
     pub lod_start: u8,
-
     pub num_lods: u8,
-
     pub contents: u32,
-
     pub radius: Option<f32>,
-
     pub bounds_mid: Option<[f32; 3]>,
     pub bounds_half: Option<[f32; 3]>,
-
     pub phys_preset: Option<Ptr>,
 }
 
@@ -780,7 +652,6 @@ pub struct FxEffectDefGeometry {
 pub struct FxImpactTableGeometry {
     pub header: Ptr,
     pub name: Option<Ptr>,
-
     pub entries: Ptr,
     pub row_count: usize,
 }
@@ -811,7 +682,6 @@ pub struct XAnimPartsGeometry {
     pub indices: Option<Ptr>,
     pub index_count: usize,
     pub indices_are_bytes: bool,
-
     pub delta_trans: XAnimDeltaTransGeometry,
 }
 
@@ -819,9 +689,7 @@ pub struct XAnimPartsGeometry {
 pub struct XAnimDeltaTransGeometry {
     pub size: u16,
     pub small: u8,
-
     pub constant: Option<Ptr>,
-
     pub mins_step: Option<Ptr>,
     pub frames: Option<Ptr>,
     pub indices: Option<Ptr>,
@@ -831,7 +699,6 @@ pub struct XAnimDeltaTransGeometry {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponKickCapture {
     pub f_ads_view_kick_center_speed: f32,
-
     pub f_hip_view_kick_center_speed: f32,
     pub gun_max_pitch: f32,
     pub gun_max_yaw: f32,
@@ -873,7 +740,6 @@ pub struct WeaponSwayCapture {
     pub sway_yaw_scale: f32,
     pub sway_horiz_scale: f32,
     pub sway_vert_scale: f32,
-
     pub sway_shell_shock_scale: f32,
     pub ads_sway_max_angle: f32,
     pub ads_sway_lerp_speed: f32,
@@ -915,396 +781,206 @@ pub struct WeaponIdleCapture {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponGeometry {
     pub name: Option<Ptr>,
-
     pub weap_def: Option<Ptr>,
-
     pub display_name_at_0x8: Option<Ptr>,
-
     pub gun_xmodel_name: Option<Ptr>,
-
     pub hand_xmodel_name: Option<Ptr>,
-
     pub world_model_name: Option<Ptr>,
-
     pub projectile_model_name: Option<Ptr>,
-
     pub rocket_model_name: Option<Ptr>,
-
     pub sz_xanims: Option<Ptr>,
-
     pub sz_xanims_right: Option<Ptr>,
-
     pub sz_xanims_left: Option<Ptr>,
-
     pub hide_tags: Option<Ptr>,
-
     pub notetrack_sound_keys: Option<Ptr>,
-
     pub notetrack_sound_values: Option<Ptr>,
-
     pub notetrack_rumble_keys: Option<Ptr>,
-
     pub notetrack_rumble_values: Option<Ptr>,
-
     pub fire_sound_name: Option<Ptr>,
-
     pub fire_sound_player_name: Option<Ptr>,
-
     pub fire_last_sound_name: Option<Ptr>,
-
     pub fire_last_sound_player_name: Option<Ptr>,
-
     pub empty_fire_sound_name: Option<Ptr>,
-
     pub empty_fire_sound_player_name: Option<Ptr>,
-
     pub melee_swipe_sound_name: Option<Ptr>,
-
     pub melee_swipe_sound_player_name: Option<Ptr>,
-
     pub melee_hit_sound_name: Option<Ptr>,
-
     pub melee_miss_sound_name: Option<Ptr>,
-
     pub pickup_sound_name: Option<Ptr>,
-
     pub pickup_sound_player_name: Option<Ptr>,
-
     pub ammo_pickup_sound_name: Option<Ptr>,
-
     pub ammo_pickup_sound_player_name: Option<Ptr>,
-
     pub pullback_sound_name: Option<Ptr>,
-
     pub pullback_sound_player_name: Option<Ptr>,
-
     pub reload_sound_name: Option<Ptr>,
-
     pub reload_sound_player_name: Option<Ptr>,
-
     pub reload_empty_sound_name: Option<Ptr>,
-
     pub reload_empty_sound_player_name: Option<Ptr>,
-
     pub reload_start_sound_name: Option<Ptr>,
-
     pub reload_start_sound_player_name: Option<Ptr>,
-
     pub reload_end_sound_name: Option<Ptr>,
-
     pub reload_end_sound_player_name: Option<Ptr>,
-
     pub rechamber_sound_name: Option<Ptr>,
-
     pub rechamber_sound_player_name: Option<Ptr>,
-
     pub alt_switch_sound_name: Option<Ptr>,
-
     pub alt_switch_sound_player_name: Option<Ptr>,
-
     pub raise_sound_name: Option<Ptr>,
-
     pub raise_sound_player_name: Option<Ptr>,
-
     pub first_raise_sound_name: Option<Ptr>,
-
     pub first_raise_sound_player_name: Option<Ptr>,
-
     pub putaway_sound_name: Option<Ptr>,
-
     pub putaway_sound_player_name: Option<Ptr>,
-
     pub proj_explosion_sound_name: Option<Ptr>,
-
     pub projectile_sound_name: Option<Ptr>,
-
     pub proj_ignition_sound_name: Option<Ptr>,
-
     pub bounce_sound_names: [Option<Ptr>; asset_iw4::size::SURF_TYPE_NUM],
-
     pub fire_time_ms: i32,
-
     pub ads_zoom_fov: f32,
-
     pub ads_dof: [f32; 2],
-
     pub impact_type: i32,
-
     pub raise_time_ms: i32,
-
     pub drop_time_ms: i32,
-
     pub fire_delay_ms: i32,
-
     pub hold_fire_time_ms: i32,
-
     pub weap_type: i32,
-
     pub player_anim_type: i32,
-
     pub weap_class: i32,
-
     pub offhand_class: i32,
-
     pub shots_per_fire: i32,
-
     pub ammo_index: i32,
-
     pub clip_index: i32,
-
     pub ammo_counter_clip: i32,
-
     pub low_ammo_warning_threshold: f32,
-
     pub hip_spread_stand_min: f32,
-
     pub hip_spread_ducked_min: f32,
-
     pub hip_spread_prone_min: f32,
-
     pub hip_spread_stand_max: f32,
-
     pub hip_spread_ducked_max: f32,
-
     pub hip_spread_prone_max: f32,
-
     pub hip_spread_decay_rate: f32,
-
     pub hip_spread_fire_add: f32,
-
     pub hip_spread_turn_add: f32,
-
     pub hip_spread_move_add: f32,
-
     pub hip_spread_ducked_decay: f32,
-
     pub hip_spread_prone_decay: f32,
-
     pub reticle_center_material_slot: Option<Ptr>,
-
     pub reticle_side_material_slot: Option<Ptr>,
-
     pub overlay_material_slot: Option<Ptr>,
-
     pub hud_icon_slot: Option<Ptr>,
-
     pub pickup_icon_slot: Option<Ptr>,
     pub pickup_icon_ratio: i32,
     pub hud_icon_ratio: i32,
-
     pub kill_icon_slot: Option<Ptr>,
-
     pub kill_icon_name: Option<Ptr>,
     pub dpad_icon_name: Option<Ptr>,
     pub dpad_icon_ratio: i32,
-
     pub motion_tracker: bool,
-
     pub proj_trail_slot: Option<Ptr>,
-
     pub proj_beacon_slot: Option<Ptr>,
-
     pub proj_ignition_slot: Option<Ptr>,
-
     pub reticle_center_size_at_0x128: i32,
-
     pub i_reticle_side_size: i32,
-
     pub i_reticle_min_ofs: i32,
-
     pub hip_reticle_side_pos: f32,
-
     pub ads_aim_pitch: f32,
-
     pub ads_crosshair_in_frac: f32,
-
     pub ads_crosshair_out_frac: f32,
-
     pub ads_spread: f32,
-
     pub aim_down_sight: bool,
-
     pub no_ads_when_mag_empty: bool,
-
     pub inherits_perks: bool,
-
     pub ads_in_rate: f32,
-
     pub ads_out_rate: f32,
-
     pub rechamber_while_ads: bool,
-
     pub ads_fire_only: bool,
-
     pub dual_wield_view_model_offset: f32,
-
     pub no_dual_wield: bool,
-
     pub melee_damage: i32,
-
     pub overlay_reticle: i32,
     pub overlay_interface: i32,
-
     pub ads_zoom_in_frac: f32,
-
     pub ads_zoom_out_frac: f32,
-
     pub ads_overlay_width: f32,
-
     pub ads_overlay_height: f32,
-
     pub melee_time_ms: i32,
-
     pub melee_delay_ms: i32,
-
     pub melee_charge_time_ms: i32,
-
     pub melee_charge_delay_ms: i32,
-
     pub knife_model: u32,
-
     pub quick_raise_time_ms: i32,
-
     pub quick_drop_time_ms: i32,
-
     pub select_requires_ammo_at_0x667: Option<bool>,
-
     pub offhand_hold_is_cancelable_at_0x681: Option<bool>,
-
     pub move_speed_scale: f32,
-
     pub ads_move_speed_scale: f32,
-
     pub sprint_duration_scale: f32,
-
     pub stance_ofs_at_0x168: [f32; 3],
-
     pub stance_ofs_at_0x18c: [f32; 3],
-
     pub night_vision_wear_time: i32,
-
     pub ads_bob_factor_at_0x330: f32,
-
     pub ads_view_bob_mult_at_0x334: f32,
-
     pub movement: WeaponMovementOfsCapture,
-
     pub idle: WeaponIdleCapture,
-
     pub clip_size: i32,
-
     pub penetrate_type: i32,
-
     pub penetrate_multiplier: f32,
-
     pub rifle_bullet: bool,
-
     pub inventory_type: i32,
-
     pub fire_type: i32,
-
     pub max_ammo: i32,
-
     pub damage: i32,
-
     pub rechamber_time_ms: i32,
-
     pub rechamber_bolt_time_ms: i32,
-
     pub rechamber_bolt_delay_ms: i32,
-
     pub reload_time_ms: i32,
-
     pub reload_show_rocket_time_ms: i32,
-
     pub reload_empty_time_ms: i32,
-
     pub reload_add_time_ms: i32,
-
     pub reload_start_time_ms: i32,
-
     pub reload_start_add_time_ms: i32,
-
     pub reload_end_time_ms: i32,
-
     pub kill_icon_ratio: i32,
-
     pub flip_kill_icon: bool,
-
     pub reload_ammo_add: i32,
-
     pub reload_start_add: i32,
-
     pub no_partial_reload: bool,
-
     pub bolt_action: bool,
-
     pub segmented_reload: bool,
-
     pub sprint_raise_time_ms: i32,
-
     pub sprint_loop_time_ms: i32,
-
     pub sprint_drop_time_ms: i32,
-
     pub fuse_time_ms: i32,
-
     pub cook_off_hold: bool,
-
     pub clip_only: bool,
-
     pub timed_detonation: bool,
-
     pub proj_impact_explode: bool,
-
     pub stick_to_players: bool,
-
     pub explosion_radius: i32,
     pub explosion_radius_min: i32,
-
     pub explosion_inner_damage: i32,
     pub explosion_outer_damage: i32,
-
     pub projectile_speed: i32,
     pub projectile_speed_up: i32,
     pub projectile_speed_forward: i32,
-
     pub projectile_activate_dist: i32,
-
     pub projectile_explosion_type: i32,
-
     pub parallel_bounce: Option<[f32; 31]>,
     pub perpendicular_bounce: Option<[f32; 31]>,
     pub location_damage_mult: Option<[f32; 20]>,
-
     pub start_ammo: i32,
-
     pub min_damage: i32,
-
     pub min_player_damage: i32,
-
     pub max_damage_range: f32,
-
     pub min_damage_range: f32,
-
     pub kick: WeaponKickCapture,
-
     pub sway: WeaponSwayCapture,
-
     pub view_flash_slot: Option<Ptr>,
-
     pub world_flash_slot: Option<Ptr>,
-
     pub view_shell_eject_slot: Option<Ptr>,
-
     pub world_shell_eject_slot: Option<Ptr>,
-
     pub view_last_shot_eject_slot: Option<Ptr>,
-
     pub world_last_shot_eject_slot: Option<Ptr>,
-
     pub explosion_slot: Option<Ptr>,
-
     pub tracer_slot: Option<Ptr>,
 }
 
@@ -1312,11 +988,8 @@ pub struct WeaponGeometry {
 pub struct TracerDefGeometry {
     pub header: Option<Ptr>,
     pub name: Option<Ptr>,
-
     pub material_slot: Option<Ptr>,
-
     pub material_name: Option<Ptr>,
-
     pub material_fresh: bool,
     pub draw_interval: u32,
     pub speed: f32,
@@ -1372,10 +1045,8 @@ pub struct ZoneStream<'a> {
     stack_depth: usize,
     temp_saved: [usize; BLOCK_STACK_CAP],
     temp_depth: usize,
-
     insert_map: &'a mut [u8],
     pending_insert: Option<Ptr>,
-
     unsettled_offsets: usize,
     first_unsettled: Option<(Ptr, usize, usize)>,
     com_world: Option<ComWorldGeometry>,
@@ -1392,7 +1063,6 @@ pub struct ZoneStream<'a> {
     latest_material: Option<MaterialGeometry>,
     latest_image: Option<GfxImageGeometry>,
     latest_technique_set: Option<TechniqueSetGeometry>,
-
     technique_graph: TechniqueGraphGeometry,
     technique_graph_seen: bool,
     latest_shader: Option<ShaderGeometry>,
@@ -1400,12 +1070,10 @@ pub struct ZoneStream<'a> {
     latest_sound_name: Option<Ptr>,
     image_serial: u64,
     header: ZoneHeader,
-
     expr_stmt_keys: [u32; EXPR_STMT_CACHE_N],
     expr_stmt_blobs: [[u8; EXPR_STMT_CACHE_BLOB]; EXPR_STMT_CACHE_N],
     expr_stmt_lens: [u16; EXPR_STMT_CACHE_N],
     expr_stmt_n: usize,
-
     alloc_tag: u32,
     alloc_align: u32,
     alloc_bytes: u32,

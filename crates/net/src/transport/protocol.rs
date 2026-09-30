@@ -14,13 +14,9 @@ pub const UDP_IMPLEMENTED: bool = true;
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct ContentFingerprint {
     pub gameplay: u64,
-
     pub map: u64,
-
     pub models: u64,
-
     pub weapons: u64,
-
     pub classes: u64,
 }
 
@@ -85,7 +81,6 @@ pub struct ProtocolLimits {
     pub authority_hz: u32,
     pub max_cmds_per_tick: u16,
     pub max_actions_per_tick: u16,
-
     pub max_packet_bytes: u32,
 }
 
@@ -215,9 +210,7 @@ pub struct ConnectionId(pub u64);
 pub struct PacketHeader {
     pub connection: ConnectionId,
     pub sequence: u32,
-
     pub ack: u32,
-
     pub epoch: u32,
 }
 
@@ -702,7 +695,6 @@ pub fn decode_server_packet(
 pub struct ConnectionTable {
     next_conn: u64,
     next_client: u32,
-
     assigned: std::collections::HashMap<ConnectionId, u32>,
 }
 

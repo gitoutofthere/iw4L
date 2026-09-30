@@ -13,11 +13,8 @@ pub const CORPSE_INFO_WAIST_PITCH_AT: usize = 0x424;
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct CorpseInfoPlayerAnimCopy {
     pub legs_anim: i32,
-
     pub torso_anim: i32,
-
     pub torso_pitch: u32,
-
     pub waist_pitch: u32,
 }
 

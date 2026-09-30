@@ -46,23 +46,17 @@ pub enum Span {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Counter {
     CounterBindGroup0,
-
     CounterBindGroup1,
-
     CounterCmdState,
-
     CounterMultiDraws,
     CounterMultiDrawCommands,
-
     CounterDipsColour,
-
     CounterDipsSun,
     CounterDraws,
     CounterFxElemAllocFail,
     CounterFxElemLive,
     CounterProcessAllocations,
     CounterSubmittedBatches,
-
     RenderGraphRenderMs,
     /// The wall between the last system of the render graph's `Render` set and
     /// the first of its `Finish` set: bevy's `submit_pending_command_buffers`
@@ -88,13 +82,11 @@ pub enum Counter {
     /// Work the frame did to fill values a shader may or may not read; it
     /// falls when a run knows what its shell reads before filling them.
     CounterOverlayConstWrites,
-
     RenderSubmitSunMs,
     RenderSubmitGatherMs,
     RenderSubmitPrepareMs,
     RenderSubmitArenaMs,
     RenderSubmitRecordMs,
-
     PresentPublishMs,
     HudSurfacesScheduleMs,
     HudStageMaxScheduleMs,
@@ -104,30 +96,20 @@ pub enum Counter {
     UiApplyDeferredMs,
     UiHudVisibilityMs,
     HudStageMaxScheduleAt,
-
     RenderGpuColourMs,
-
     RenderGpuSunMs,
-
     RenderGpuSpotMs,
-
     RenderGpuFloatzMs,
-
     RenderGpuPostfxMs,
-
     RenderGpuFrameMs,
     SpotShadowGpu,
     SpotShadowGpuMiss,
     SpotShadowSlotN,
     XmodelColourCameraFrustum,
     XmodelColourNoLighting,
-
     XmodelLayoutOverlay,
-
     FxLayoutOverlay,
-
     WorldPretessSkip,
-
     SmodelIbSkip,
 
     /// Bevy `PrepareViews` set as a wall interval: the render systems between

@@ -69,9 +69,7 @@ pub fn fx_mark_tri_aabb_hits_box(
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct MarkWorldBoundsHits {
     pub hit: u32,
-
     pub raw: u32,
-
     pub capped: bool,
 }
 

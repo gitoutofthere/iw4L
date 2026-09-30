@@ -41,31 +41,18 @@ pub struct GfxViewport {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct GfxCmdBufSource2d {
     pub view_mode: i32,
-
     pub viewport_is_dirty: u8,
-
     pub eye_offset: [f32; 4],
-
     pub viewport_select: i32,
-
     pub render_target_width: i32,
-
     pub render_target_height: i32,
-
     pub scene_viewport: GfxViewport,
-
     pub view_parms: [u32; GFX_VIEWPARMS_DWORDS],
-
     pub scene_def: [u32; GFX_SCENE_DEF_DWORDS],
-
     pub skinned_placement_origin: [f32; 3],
-
     pub material_time: u32,
-
     pub nearplane_org: [f32; 4],
-
     pub nearplane_dx: [f32; 4],
-
     pub nearplane_dy: [f32; 4],
 }
 

@@ -44,9 +44,7 @@ pub struct FpvBoltTags {
     pub flash: Option<u16>,
     pub flash_silenced: Option<u16>,
     pub brass: Option<u16>,
-
     pub knife: Option<u16>,
-
     pub laser: Option<u16>,
 }
 

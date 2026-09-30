@@ -3,11 +3,8 @@ use bevy::prelude::Resource;
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct MapScriptSoundFacts {
     pub ambient_alias: Option<String>,
-
     pub attackers: Option<String>,
-
     pub defenders: Option<String>,
-
     pub script: Option<String>,
 }
 

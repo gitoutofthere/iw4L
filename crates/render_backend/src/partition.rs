@@ -37,7 +37,6 @@ pub fn r_set_viewport_and_scissor(viewport: SunShadowViewport) -> D3dScissorRect
 #[derive(Clone, Debug)]
 pub struct SunShadowPartitionPass {
     pub partition: u32,
-
     pub render_target_id: u8,
     pub cleared: bool,
     pub scissor: D3dScissorRect,

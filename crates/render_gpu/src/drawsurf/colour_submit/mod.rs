@@ -269,7 +269,6 @@ struct ExactColourGeometry {
     world_vertex_count: usize,
     world_layer_count: usize,
     world_index_count: usize,
-
     world_cpu_indices: Vec<u32>,
     smodel_vertex: Option<Buffer>,
     smodel_index: Option<Buffer>,
@@ -279,12 +278,9 @@ struct ExactColourGeometry {
     smodel_cached_vertex: Option<Buffer>,
     smodel_cached_index: Option<Buffer>,
     smodel_cached_vertex_count: usize,
-
     xmodel: residency::GpuMesh,
     xmodel_surface_ranges: Vec<(u32, u32)>,
-
     xmodel_resident_segments: render_frame::PackedSegments,
-
     xmodel_resident_allocation: u64,
     fx_vertex: Option<Buffer>,
     fx_index: Option<Buffer>,
@@ -292,7 +288,6 @@ struct ExactColourGeometry {
     fx_vertex_count: usize,
     fx_index_count: usize,
     fx_revision: u64,
-
     fx_copy_dst: bool,
     particle_cloud_vertex: Option<Buffer>,
     particle_cloud_index: Option<Buffer>,
@@ -434,9 +429,7 @@ struct GpuConstantArena {
     buffer: Option<Buffer>,
     capacity: u64,
     bind_group: Option<BindGroup>,
-
     uploaded: Vec<u8>,
-
     dirty_scratch: Vec<(usize, usize)>,
 }
 
@@ -456,7 +449,6 @@ struct ShadowmapSunArena {
 struct ShadowmapSpotArena {
     generation: MaterialGenerationId,
     gpu: GpuConstantArena,
-
     pack: ArenaPack,
 }
 
@@ -467,13 +459,9 @@ pub(super) struct ExactColourPipelineKey {
     samples: u32,
     state0: ChangeState0Host,
     state1: ChangeState1Host,
-
     pub(super) port: PortId,
-
     cached_lighting: bool,
-
     mark_mesh: bool,
-
     forward_z: bool,
 }
 
@@ -789,76 +777,41 @@ pub(super) struct ExactColourSubmitCensus {
     ready_draws: u32,
     refused_draws: u32,
     log_frame: u32,
-
     pub submitted_keys: Vec<u64>,
-
     pub world_exec_ready_keys: Vec<u64>,
-
     pub bsp_submitted_surfaces: [u32; 4],
-
     pub bsp_submit_refused_surfaces: [u32; 4],
-
     pub bsp_drawn_surfaces: [u32; 4],
-
     pub bsp_draw_refused_surfaces: [u32; 4],
     submit_prepare_ms: Option<f32>,
-
     colour_submit_ms: Option<f32>,
-
     submit_encode_ms: Option<f32>,
-
     submit_gather_ms: Option<f32>,
-
     pass_end_ms: Option<f32>,
-
     encoder_finish_ms: Option<f32>,
-
     submit_arena_ms: Option<f32>,
-
     submit_record_ms: Option<f32>,
-
     pack_intern_hit_n: Option<u32>,
-
     pack_intern_miss_n: Option<u32>,
-
     pack_arena_share_n: Option<u32>,
-
     gpu_exec_reuse_n: Option<u32>,
-
     gpu_exec_unique_n: Option<u32>,
-
     pack_overlay_n: Option<u32>,
-
     pack_overlay_row_n: Option<u32>,
-
     pack_overlay_pixel_share_n: Option<u32>,
-
     pack_arena_vertex_n: Option<u32>,
-
     pack_arena_pixel_n: Option<u32>,
-
     pack_seed_n: Option<u32>,
-
     pack_walk_n: Option<u32>,
-
     tex_bind_hit_n: Option<u32>,
-
     tex_bind_miss_n: Option<u32>,
-
     markmesh_hits: Option<u32>,
-
     markmesh_prepared: Option<u32>,
-
     last_markmesh_refusal: Option<String>,
-
     last_markmesh_exec_skip: Option<String>,
-
     markmesh_missing_58: Option<u32>,
-
     last_mark_packed_custom: Option<u8>,
-
     last_mark_packed_scene_light: Option<u8>,
-
     last_mark_lmap_sampler: Option<u32>,
     glassmesh_hits: Option<u32>,
     glassmesh_prepared: Option<u32>,
@@ -866,197 +819,105 @@ pub(super) struct ExactColourSubmitCensus {
     last_glassmesh_refusal: Option<String>,
     last_glass_packed_probe: Option<u8>,
     last_glass_probe_sampler: Option<u32>,
-
     gpu_ready: Option<u32>,
-
     pub set_bind_group0_n: Option<u32>,
-
     pub set_bind_group1_n: Option<u32>,
-
     pub material_runs_n: Option<u32>,
-
     pub pass_setups_n: Option<u32>,
-
     pub obj_binds_n: Option<u32>,
-
     pub shell_hits_n: Option<u32>,
-
     pub shell_misses_n: Option<u32>,
-
     pub overlay_const_writes_n: Option<u32>,
-
     pub overlay_need_known_n: Option<u32>,
-
     set_bind_group_n: Option<u32>,
-
     pub set_state_n: Option<u32>,
-
     pub multi_draw_n: Option<u32>,
     pub multi_draw_commands_n: Option<u32>,
-
     gpu_prepared: Option<u32>,
-
     gpu_world_ready: Option<u32>,
-
     gpu_smodel_ready: Option<u32>,
-
     gpu_xmodel_ready: Option<u32>,
-
     end_depth_restore_n: Option<u32>,
-
     end_depth_range_type: Option<i32>,
-
     code_mesh_gpu_kind: Option<i32>,
-
     sun_shadow_gpu: Option<u32>,
-
     sun_shadow_gpu_miss: Option<u32>,
-
     sun_shadow_gpu_cause: Option<String>,
-
     sun_shadow_gpu_causes: Option<String>,
-
     spot_shadow_gpu: Option<u32>,
     spot_shadow_gpu_miss: Option<u32>,
     spot_shadow_gpu_cause: Option<String>,
     spot_shadow_slot_n: Option<u32>,
-
     sun_shadow_submit_ms: Option<f32>,
-
     sun_shadow_prepare_ms: Option<f32>,
-
     sun_shadow_patch_ms: Option<f32>,
-
     sun_shadow_arena_ms: Option<f32>,
-
     sun_shadow_record_ms: Option<f32>,
-
     sun_shadow_finish_ms: Option<f32>,
-
     sun_shadow_queue_ms: Option<f32>,
-
     sun_shadow_unnamed_ms: Option<f32>,
-
     sun_shadow_static_hit: Option<u32>,
-
     sun_shadow_world_ib_n: Option<u32>,
-
     sun_shadow_static_n: Option<u32>,
-
     sun_shadow_dynamic_n: Option<u32>,
-
     sun_shadow_wvp_intern_hit: Option<u32>,
-
     sun_shadow_wvp_intern_miss: Option<u32>,
-
     sun_shadow_wvp_intern_n: Option<u32>,
-
     sun_shadow_wvp_unique_base: Option<u32>,
-
     sun_shadow_wvp_unique_wvp: Option<u32>,
-
     sun_shadow_state_pipe_n: Option<u32>,
-
     sun_shadow_state_tess_n: Option<u32>,
-
     sun_shadow_state_bind_n: Option<u32>,
-
     sun_shadow_state_off_n: Option<u32>,
-
     sun_shadow_state_group_n: Option<u32>,
-
     sun_shadow_state_run_n: Option<u32>,
-
     sun_shadow_state_run_max: Option<u32>,
-
     sun_shadow_state_top10: Option<u32>,
-
     world_index_gaps: Option<u32>,
-
     world_run_indices_n: Option<u32>,
-
     world_material_runs: Option<u32>,
-
     world_material_runs_seq: Option<u32>,
-
     world_key_runs: Option<u32>,
-
     world_key_runs_seq: Option<u32>,
-
     world_mixed_breaks: Option<u32>,
-
     world_gathered: Option<u32>,
-
     world_ib_skip: Option<u32>,
-
     world_gpu_runs: Option<u32>,
-
     world_gpu_runs_seq: Option<u32>,
-
     world_sampler_runs_seq: Option<u32>,
-
     world_probe_runs_seq: Option<u32>,
-
     world_light_runs_seq: Option<u32>,
-
     smodel_reuse_n: Option<u32>,
-
     xmodel_reuse_n: Option<u32>,
-
     xmodel_material_runs: Option<u32>,
-
     smodel_index_gaps: Option<u32>,
-
     smodel_material_runs: Option<u32>,
-
     smodel_material_runs_seq: Option<u32>,
-
     smodel_material_run_max: Option<u32>,
-
     smodel_same_surface_n: Option<u32>,
-
     smodel_unique_surfaces: Option<u32>,
-
     smodel_hits: Option<u32>,
-
     smodel_lighting_runs: Option<u32>,
     smodel_lighting_run_max: Option<u32>,
-
     smodel_pretess_runs: Option<u32>,
     smodel_pretess_hits: Option<u32>,
     smodel_pretess_verts: Option<u32>,
     smodel_pretess_indices: Option<u32>,
-
     smodel_cached_lighting: Option<u32>,
-
     smodel_pretess_local: Option<u32>,
-
     smodel_pretess_length1: Option<u32>,
-
     smodel_pretess_skip: Option<u32>,
-
     submit_cause: Option<String>,
-
     submit_cause2: Option<String>,
-
     gpu_not_ready_n: Option<u32>,
-
     gpu_no_port_n: Option<u32>,
-
     pnr_smodel_mat: Option<String>,
-
     pnr_world_mat: Option<String>,
-
     pnr_smodel_ps: Option<String>,
-
     pnr_world_ps: Option<String>,
-
     pnr_smodel_key_n: Option<u32>,
-
     pnr_world_key_n: Option<u32>,
-
     pnr_port_n: Option<u32>,
-
     gpu_smodel_bind_mat: Option<String>,
 }
 
@@ -1191,9 +1052,7 @@ fn colour_census_ms(start: Option<Instant>) -> Option<f32> {
 struct RecordCensus {
     group0: u32,
     group1: u32,
-
     state: u32,
-
     multi_draws: u32,
     multi_draw_commands: u32,
 }
@@ -1224,22 +1083,16 @@ struct ShadowExecScratch {
 #[derive(Resource, Default)]
 struct ColourSubmitScratch {
     run_pack: RunPackCache,
-
     arena_pack: ArenaPack,
-
     executor: MaterialRunExecutor,
-
     world_exec_ready_keys: Vec<u64>,
     prepared: Vec<PreparedExactDraw>,
     submitted_keys: Vec<u64>,
     pending_viewmodel_prepared: Vec<PreparedExactDraw>,
     pending_viewmodel_keys: Vec<u64>,
     pack_draws: Vec<PackDraw>,
-
     pack_plan: Option<ColourPackPlan>,
-
     skinned_tess: smodel_skinned::SmodelSkinnedTess,
-
     prepared_scene_epoch: TableEpoch,
 }
 
@@ -1247,12 +1100,9 @@ struct ColourSubmitScratch {
 struct ShadowSubmitScratch {
     sun_exec: ShadowExecScratch,
     spot_exec: ShadowExecScratch,
-
     skinned_tess: smodel_skinned::SmodelSkinnedTess,
-
     sun_prepared: PreparedSunWork,
     spot_prepared: PreparedSpotWork,
-
     prepared_shadow_epoch: TableEpoch,
 }
 
@@ -1280,10 +1130,8 @@ struct ColourPackKey {
 struct ColourRowPlan {
     draw_index: u32,
     world_surface_override: Option<u16>,
-
     technique: TechType,
     index_span: Option<(u32, u32)>,
-
     layout_epoch: u64,
 }
 
@@ -1291,9 +1139,7 @@ struct ColourPackPlan {
     key: ColourPackKey,
     packed: PackedFrontendLists,
     work: render_backend::ColourDrawListWork,
-
     world_rows: Vec<Option<WorldPackedRowMeta>>,
-
     row_plan: Vec<ColourRowPlan>,
 }
 
@@ -1650,7 +1496,6 @@ struct XModelUploadQuery {
     uploaded_topology: u64,
     resident_verts: usize,
     resident_indices: usize,
-
     vertex_fits: bool,
     index_fits: bool,
     cpu_vertices_revision: u64,
@@ -1957,40 +1802,26 @@ enum ExactTessBind {
 struct PreparedExactDraw {
     pipeline: ExactPipelineSlot,
     port: PortId,
-
     constants: Option<Arc<PassConstantBuffers>>,
-
     constant_base: Option<u32>,
-
     texture_slots: Arc<[u32]>,
     start: u32,
     count: u32,
     tess: ExactTessBind,
-
     after_scene_resolve: bool,
-
     owner_object_id: Option<u16>,
-
     depth_min: f32,
     depth_max: f32,
-
     ring_epoch: u32,
-
     smc_stream_off: u64,
-
     state: super::state::GfxPassState,
-
     bsp_kind: Option<BspCameraLane>,
     bsp_run_first: u16,
     bsp_first_surf: u16,
     bsp_surf_count: u16,
-
     bsp_counted: bool,
-
     binds_sun_shadow: bool,
-
     binds_spot_shadow: bool,
-
     indirect_arg: Option<u32>,
 }
 
@@ -2309,7 +2140,6 @@ fn identity_placement_kind(kind: &RetainedDrawKind) -> bool {
 struct RunPackCache {
     serial: u64,
     passes: Vec<Option<Arc<PassConstantBuffers>>>,
-
     pipelines: Vec<Option<(usize, ExactPipelineSlot)>>,
     intern: HashMap<PackedBankKey, (Arc<PassConstantBuffers>, u32)>,
     intern_stamp: u32,
@@ -2499,18 +2329,14 @@ enum PrepareTextureTables<'a> {
 struct ExactPrepare<'a> {
     extracted: ExtractedColourRefs<'a>,
     geometry: &'a ExactColourGeometry,
-
     pretess: Option<&'a CameraWorldPretess>,
     pipeline_res: &'a ExactColourPipeline,
     registry: &'a ExactPipelineRegistry,
     device: &'a RenderDevice,
     uploaded: &'a RuntimeUploadedImageRegistry,
-
     spot_shadow_select: Option<u8>,
     sampler_table: &'a RetailSamplerTable,
-
     textures: PrepareTextureTables<'a>,
-
     arena: Option<&'a mut ArenaPack>,
     run_pack: RunPackCache,
     cost: PrepareCost,
@@ -2554,7 +2380,6 @@ impl PrepareCost {
 struct WorldRunGather {
     indices: Vec<u32>,
     ranges: Vec<(u32, u32)>,
-
     index_gaps: u32,
 }
 
@@ -2983,7 +2808,6 @@ struct WorldPretessLayout {
 #[derive(Resource, Default)]
 struct CameraWorldPretess {
     layout: Option<WorldPretessLayout>,
-
     epoch: u64,
 }
 

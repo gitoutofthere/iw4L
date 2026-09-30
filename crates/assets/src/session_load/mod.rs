@@ -88,39 +88,23 @@ pub struct PreparedWorld {
     pub draw: Option<WorldDraw>,
     pub dynamic_light: Option<crate::ResolvedLightDef>,
     pub static_model_meshes: Vec<crate::ModelMesh>,
-
     pub static_model_instances: Vec<Option<crate::StaticModelPlacement>>,
-
     pub map_xmodel_scene_assets: crate::MapXModelSceneCatalog,
-
     pub script_model_instances: Vec<crate::ScriptModelSceneInstance>,
-
     pub script_brush_models: Vec<crate::ScriptBrushModelPlacement>,
-
     pub map_use_triggers: Vec<crate::MapUseTrigger>,
-
     pub flag_descriptors: Vec<crate::FlagDescriptor>,
-
     pub script_structs: Vec<crate::MapScriptStruct>,
-
     pub dyn_ents: crate::DynEntCatalog,
-
     pub smodel_lighting_samples: Vec<crate::SmodelLightingSample>,
-
     pub light_grid: Option<crate::OwnedLightGrid>,
-
     pub fx: crate::FxCatalog,
-
     pub fx_models: crate::FxModelCatalog,
-
     pub fx_glass: Option<crate::FxGlassReset>,
-
     pub impact_fx: Option<crate::OwnedFxImpactTable>,
     pub reflection_probe_images: Vec<Option<bevy::prelude::Image>>,
     pub intermission_view: Option<IntermissionView>,
-
     pub exp_fog: Option<crate::ExpFog>,
-
     pub film_vision: Option<crate::FilmVision>,
     pub film_visions:
         std::collections::BTreeMap<String, Result<crate::FilmVision, crate::FilmVisionParseError>>,
@@ -128,7 +112,6 @@ pub struct PreparedWorld {
     pub createart_name: Option<String>,
     pub min: [f32; 3],
     pub max: [f32; 3],
-
     pub world_bounds: Option<[f32; 6]>,
     pub policy: WorldDrawPolicy,
 }
@@ -136,7 +119,6 @@ pub struct PreparedWorld {
 #[derive(Default, Clone)]
 pub struct PreparedMatch {
     pub world: PreparedWorld,
-
     pub fx: crate::FxDefinitions,
     pub materials: crate::MatchMaterials,
     pub clip: Option<Arc<ClipCollision>>,
@@ -144,25 +126,18 @@ pub struct PreparedMatch {
     pub fpv_meshes: FpvMeshCatalog,
     pub bodies: Arc<BodyMeshCatalog>,
     pub world_weapons: WorldWeaponCatalog,
-
     pub projectile_meshes: crate::ProjectileMeshCatalog,
     pub xanims: XAnimCatalog,
     pub destructible_death: Vec<crate::DestructibleDeathRow>,
     pub player_anim_sources: crate::PlayerAnimSources,
-
     pub tracers: crate::TracerDefinitions,
-
     pub strings: LocalizeCatalog,
     pub report: Vec<String>,
-
     pub prepared_map: PreparedMap,
-
     pub pen_table: weapon_iw4::PenetrationDepthTable,
     pub pen_table_loaded: bool,
     pub lochit_table: Option<[f32; weapon_iw4::HITLOC_COUNT]>,
-
     pub xmodel_walk: crate::PreparedXModelWalkCensus,
-
     pub sound: Option<Result<asset_audio::SoundCatalog, String>>,
 }
 

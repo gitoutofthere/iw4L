@@ -7,9 +7,7 @@ pub fn normalize_command_paste(text: &str) -> String {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum PromptCopy {
     Ignored,
-
     Copied,
-
     Failed(String),
 }
 

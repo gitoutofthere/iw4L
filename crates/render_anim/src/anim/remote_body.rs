@@ -20,13 +20,9 @@ pub struct PersistentRemoteTree {
     pub torso: u16,
     pub legs_restart: bool,
     pub torso_restart: bool,
-
     pub cloned: bool,
-
     pub occupation_tr_time: Option<i32>,
-
     pub legs_rate_sample: ClientAnimSample,
-
     pub torso_rate_sample: ClientAnimSample,
 }
 
@@ -524,7 +520,6 @@ pub fn occupy_lod_byte(lod: Option<u8>) -> i8 {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum WrittenSlotLod {
     Missing,
-
     Invalid,
     Written(u8),
 }
@@ -632,7 +627,6 @@ pub struct RemoteModelSet<'a> {
     pub body: &'a assets::BodyMeshEntry,
     pub head: Option<&'a assets::BodyMeshEntry>,
     pub gun: Option<&'a assets::WorldWeaponEntry>,
-
     pub world_gun_gap: Option<WorldGunGap>,
     pub dobj_models: Vec<(&'a assets::ModelPoseSrc, Option<assets::Attach>)>,
     pub gun_model_index: usize,
@@ -674,7 +668,6 @@ pub(crate) fn world_attachments<'a>(
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct WorldGunGap {
     pub weapon: u32,
-
     pub world_model: String,
 }
 
@@ -1093,7 +1086,6 @@ pub struct RemoteSkinPoseHashes {
     geometry_revision: u64,
     last: HashMap<u32, u64>,
     skinned: HashMap<u32, CachedSkinnedBody>,
-
     last_cache_hits: HashSet<u32>,
 }
 
@@ -1125,7 +1117,6 @@ pub struct CachedSkinnedBody {
     pub geom: Arc<CpuBodyGeom>,
     pub radii: Vec<f32>,
     pub radius_parents: Vec<u8>,
-
     pub lods: (Option<u8>, Option<u8>, Option<u8>),
 }
 

@@ -16,7 +16,6 @@ pub struct FxSparkCloudHistorySlot {
     pub write_idx: u32,
     pub last_time: i32,
     pub samples: [GfxParticleCloud; FX_SPARK_CLOUD_SAMPLE_RING as usize],
-
     pub next_free: u16,
 }
 
@@ -36,7 +35,6 @@ impl Default for FxSparkCloudHistorySlot {
 #[derive(Clone, Copy, Debug)]
 pub struct FxSparkFillVisual {
     pub size0: f32,
-
     pub scale: f32,
     pub color_rgba: [u8; 4],
     pub spawn_angles: [[f32; 2]; 3],
@@ -50,7 +48,6 @@ pub struct FxSparkCloudInstance {
     pub origin: [f32; 3],
     pub write_idx: u32,
     pub size0: f32,
-
     pub vis_size1: f32,
     pub clouds: [GfxParticleCloud; 3],
 }

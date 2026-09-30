@@ -389,7 +389,6 @@ pub struct ClassSlotState {
     pub perk2: String,
     pub perk3: String,
     pub deathstreak: String,
-
     pub lock_reason: Option<String>,
 }
 
@@ -485,18 +484,13 @@ impl ClassPickerFolder {
 #[derive(Resource, Clone, Debug)]
 pub struct ClassSetupScratch {
     pub selected: usize,
-
     pub summary_active: bool,
     pub editing: Option<ClassEditRow>,
-
     pub editing_attachment: Option<ClassEditRow>,
-
     pub picker_category: Option<ClassPickerFolder>,
     pub picker_page: usize,
-
     pub rename_buffer: Option<String>,
     pub slots: Vec<ClassSlotState>,
-
     pub revision: u64,
 }
 

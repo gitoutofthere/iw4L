@@ -11,9 +11,7 @@ use crate::recipes;
 pub enum MusicStep {
     #[default]
     WaitingForSoon,
-
     WaitingForVerySoon,
-
     Done,
 }
 

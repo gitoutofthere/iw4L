@@ -125,7 +125,6 @@ pub struct SunShadowPartition {
     pub projection: glam::Mat4,
     pub polygon_offset: [f32; 4],
     pub viewport: SunShadowViewport,
-
     pub clip_planes: SunShadowClipPlanes,
 }
 
@@ -136,19 +135,12 @@ pub struct SunShadowForcedFrame {
     pub lookup: glam::Mat4,
     pub receiver: SunShadowReceiverConstants,
     pub partition_fraction: [f32; 4],
-
     pub axes: [[f32; 3]; 3],
-
     pub view_forward: [f32; 3],
-
     pub view_right: [f32; 3],
-
     pub tan_half_fov: [f32; 2],
-
     pub near_shadow_min_dist: f32,
-
     pub shadow_org_pixel_center: [f32; 2],
-
     pub projection_offset_clip: [f32; 2],
 }
 

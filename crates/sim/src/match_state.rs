@@ -8,14 +8,11 @@ pub enum ClientLifecycle {
     #[default]
     Connecting,
     ChoosingClass,
-
     SpawnPending,
     Alive,
     Dead,
-
     RespawnPending,
     Spectating,
-
     Intermission,
 }
 
@@ -29,11 +26,8 @@ pub(crate) struct CopyCatLoadout {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ClassRejectReason {
     UnknownOrStaleClass,
-
     NoSpawnAvailable,
-
     LockedContent,
-
     UnknownWeaponId,
 }
 
@@ -51,13 +45,9 @@ impl ClassRejectReason {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum GiveRejectReason {
     NotAlive,
-
     InvalidWeapon,
-
     UnknownWeaponId,
-
     UnsupportedWeapon,
-
     EmptyCombatProfile,
 }
 
@@ -110,7 +100,6 @@ pub struct LoadoutSpec {
     pub secondary_attachments: [u32; 4],
     pub lethal: u32,
     pub tactical: u32,
-
     pub perks: [u32; 3],
 }
 
@@ -119,7 +108,6 @@ pub enum EventAudience {
     All,
     AllExcept(ClientId),
     Client(ClientId),
-
     Clients(Vec<ClientId>),
 }
 
@@ -157,16 +145,13 @@ pub struct EntityEventPayload {
     pub attacker_entity_num: i32,
     pub event_parm: i32,
     pub weapon: u32,
-
     pub correlation: u32,
-
     pub pellet: u16,
     pub hand: u8,
     pub origin: [f32; 3],
     pub origin2: [f32; 3],
     pub direction: [f32; 3],
     pub surf_type: u8,
-
     pub surface_flags: u32,
     pub simulation_flags: u8,
 }
@@ -184,22 +169,14 @@ pub struct EntityEventRecord {
 pub struct PelletFxRecord {
     pub attacker: i32,
     pub weapon: u32,
-
     pub correlation: u32,
-
     pub pellet: u16,
-
     pub hand: u8,
-
     pub start: [f32; 3],
-
     pub end: [f32; 3],
-
     pub normal: [f32; 3],
     pub surf_type: u8,
-
     pub surface_flags: u32,
-
     pub flesh_flags: u8,
 }
 
@@ -278,9 +255,7 @@ pub const UNRELIABLE_SIM_EVENT_COUNT: usize = 1;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct SimEventRow {
     pub variant: &'static str,
-
     pub reliable: bool,
-
     pub control_fact: &'static str,
 }
 
@@ -380,9 +355,7 @@ pub enum MatchEndReason {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct KillcamHud {
     pub final_kill: bool,
-
     pub time_until_respawn_ms: i32,
-
     pub kc_timer_ms: i32,
 }
 
@@ -392,48 +365,29 @@ pub struct ClientSnapshotMeta {
     pub lifecycle: ClientLifecycle,
     pub loadout: Option<LoadoutSpec>,
     pub life_sequence: LifeSequence,
-
     pub item_use_spawn_ms: i32,
     pub item_use_entity: Option<crate::EntityRef>,
-
     pub ammo_clip: i32,
-
     pub ammo_stock: i32,
-
     pub score: i32,
     pub kills: i32,
     pub deaths: i32,
-
     pub ammo_by_weapon: Vec<(u32, i32, i32)>,
-
     pub taped_mag_spent: Vec<u32>,
-
     pub weapon_shot_count: u8,
     pub burst_latch: bool,
     pub rechamber_pending: bool,
-
     pub dead_since_tick: Option<u32>,
-
     pub look_at_killer_yaw: i32,
-
     pub name: [u8; 16],
-
     pub hud_archival: Vec<hud_iw4::HudElem>,
-
     pub hud_current: Vec<hud_iw4::HudElem>,
-
     pub ffa_team: Option<u8>,
-
     pub client_state_team: i32,
-
     pub rank: i32,
-
     pub prestige: i32,
-
     pub player_card_icon: u32,
-
     pub player_card_title: u32,
-
     pub player_card_nameplate: u32,
 }
 
@@ -442,33 +396,20 @@ pub struct SnapshotMeta {
     pub objectives: crate::ObjectiveMatch,
     pub map_doors: Option<crate::MapDoors>,
     pub phase: MatchPhase,
-
     pub match_elapsed_ms: u32,
     pub prematch: gamemode_iw4::PrematchStep,
-
     pub score_limit: i32,
-
     pub time_limit_ms: u32,
-
     pub kind: gamemode_iw4::GameModeKind,
     pub clients: Vec<(ClientId, ClientSnapshotMeta)>,
-
     pub journal: Vec<EventRecord>,
-
     pub entity_events: Vec<EntityEventRecord>,
-
     pub pellet_fx: Vec<PelletFxRecord>,
-
     pub sound_aliases: crate::SoundAliasCsOccupied,
-
     pub effect_names: crate::EffectNameCsOccupied,
-
     pub hud_materials: crate::HudMaterialCsOccupied,
-
     pub rng: RngDebugMeta,
-
     pub world_objects: WorldObjectSnapshot,
-
     pub area_entities: Option<crate::AreaEntityWorldSnapshot>,
 
     pub entity_dobjs: Vec<(
@@ -477,15 +418,10 @@ pub struct SnapshotMeta {
     )>,
 
     pub entities: Vec<entity_iw4::EntityState>,
-
     pub script_movers: Vec<crate::ScriptMoverGentity>,
-
     pub entity_kernel: crate::EntityKernelSnapshot,
-
     pub corpses: crate::PlayerCorpsePool,
-
     pub item_ammo: Vec<DroppedItemAmmo>,
-
     pub item_pickups: Vec<ItemPickupRecord>,
 }
 
@@ -537,7 +473,6 @@ pub struct HealthRegenCensus {
     pub old_health: i32,
     pub hurt_time_ms: i32,
     pub very_hurt: bool,
-
     pub named_sound: Option<&'static str>,
 }
 
@@ -546,61 +481,35 @@ pub struct ClientMatchState {
     pub lifecycle: ClientLifecycle,
     pub loadout: Option<LoadoutSpec>,
     pub life_sequence: LifeSequence,
-
     pub item_use_spawn_ms: i32,
     pub item_use_entity: Option<crate::EntityRef>,
-
     pub(crate) ammo_clip: i32,
-
     pub(crate) ammo_stock: i32,
-
     pub(crate) ammo_by_weapon: Vec<(u32, i32, i32)>,
-
     pub(crate) taped_mag_spent: Vec<u32>,
-
     pub(crate) weapon_shot_count: u8,
     pub(crate) burst_latch: bool,
-
     pub(crate) rechamber_pending: bool,
-
     pub(crate) health_regen: gamemode_iw4::PlayerHealthRegenState,
-
     pub(crate) last_named_sound: gamemode_iw4::HealthRegenSound,
-
     pub(crate) dead_since_tick: Option<u32>,
-
     pub(crate) forced_spawn: Option<crate::SpawnPick>,
-
     pub(crate) look_at_killer_yaw: i32,
-
     pub(crate) name: [u8; 16],
-
     pub kills: i32,
     pub deaths: i32,
     pub score: i32,
-
     pub(crate) cur_death_streak: i32,
-
     pub(crate) attackers_this_life: Vec<(ClientId, i32)>,
-
     pub(crate) last_kill: Option<(ClientId, i32)>,
-
     pub(crate) combathigh_until_ms: Option<i32>,
-
     pub(crate) pistoldeath_this_life: bool,
-
     pub(crate) laststand_until_ms: Option<i32>,
-
     pub(crate) copycat_this_life: bool,
-
     pub(crate) copycat_class_this_life: bool,
-
     pub(crate) copycat_loadout: Option<CopyCatLoadout>,
-
     pub(crate) ffa_team: Option<u8>,
-
     pub(crate) client_state_team: i32,
-
     pub(crate) rank: i32,
     pub(crate) prestige: i32,
     pub(crate) player_card_icon: u32,
@@ -744,13 +653,11 @@ pub struct ClassDef {
     pub revision: u32,
     pub primary: u32,
     pub secondary: u32,
-
     pub primary_attachments: [u32; 4],
     pub secondary_attachments: [u32; 4],
     pub lethal: u32,
     pub tactical: u32,
     pub perks: [u32; 3],
-
     pub deathstreak: String,
     pub locked: bool,
 }

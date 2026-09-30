@@ -23,11 +23,8 @@ pub struct MaterialExecView<'a> {
     pub catalog: &'a RuntimeMaterialCatalog,
     pub prepared: &'a PreparedMaterialTable,
     pub frame: &'a MaterialExecFrame,
-
     pub clip_from_world: Option<Mat4>,
-
     pub view_from_world: Option<Mat4>,
-
     pub code_sources: &'a RuntimeCodeSources,
 }
 
@@ -103,7 +100,6 @@ fn execution_smodel_packed(packed: u64) -> u64 {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 struct ExecutionShareKey {
     gpu_packed: u64,
-
     material_rank: u32,
     material_id: Option<render_material::MaterialAssetId>,
     tech: u8,
@@ -544,10 +540,8 @@ impl<'a> PlaceLanes<'a> {
 struct RunState {
     share: ExecutionShareKey,
     execution: MaterialExecution,
-
     first_matrix: Option<[u32; 16]>,
     first_overlay: OverlayKeepKey,
-
     need: OverlayCodeNeed,
 }
 
@@ -576,7 +570,6 @@ pub struct MaterialRunExecutor {
     run: Option<RunState>,
     place_rows: Vec<(u32, u32)>,
     place_lanes: Vec<PackedCodeConstantLane>,
-
     run_serial: u64,
     census: MaterialRunCensus,
     shells: HashMap<ShellInternKey, ShellEntry>,

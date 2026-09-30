@@ -13,36 +13,23 @@ pub const ARCHIVE_TRIM_EPSILON: f32 = 0.0001;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum CamtimeBranch {
     DvarOverride,
-
     ArtilleryOrStealthBomb,
-
     FinalKillcam,
-
     Javelin,
-
     RemoteMissile,
-
     NoRespawnOrLongRespawn,
-
     Grenade,
-
     Default,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct CamtimeInput<'a> {
     pub now_ms: Millis,
-
     pub weapon: &'a str,
-
     pub killcam_entity_start_time: Millis,
-
     pub predelay: f32,
-
     pub showing_final_killcam: bool,
-
     pub time_until_respawn: f32,
-
     pub scr_killcam_time: Option<f32>,
 }
 
@@ -89,24 +76,17 @@ pub fn postdelay(scr_killcam_posttime: Option<f32>) -> f32 {
 pub struct Window {
     pub camtime: f32,
     pub postdelay: f32,
-
     pub killcamlength: f32,
-
     pub killcamoffset: f32,
-
     pub trim: MaxtimeTrim,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MaxtimeTrim {
     None,
-
     CamtimeClamped,
-
     PostdelayReduced,
-
     CamtimeReduced,
-
     CamtimeClampedThenReduced,
 }
 
@@ -173,7 +153,6 @@ pub fn plan_window(
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Recalc {
     ArchiveGrew,
-
     Cancel,
     Continue {
         camtime: f32,

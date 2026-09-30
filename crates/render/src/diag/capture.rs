@@ -42,7 +42,6 @@ pub fn exit_is_user_quit() {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct CaptureRequest {
     pub path: PathBuf,
-
     pub exit_after_capture: bool,
 }
 
@@ -59,13 +58,9 @@ impl CaptureRequest {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct CaptureFrameFacts {
     pub screen: AppScreen,
-
     pub loading_overlay: bool,
-
     pub has_world: bool,
-
     pub submitted_batches: u32,
-
     pub g0_world: u32,
 }
 
@@ -96,9 +91,7 @@ impl CaptureFrameFacts {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum CaptureWait {
     MatchLoading,
-
     LoadingOverlayUp,
-
     WorldNotSubmitted,
 
     Settling { frames_left: u32 },
@@ -130,7 +123,6 @@ struct PendingCapture {
     request: CaptureRequest,
     waited_frames: u32,
     queued_at: std::time::Instant,
-
     reported: Option<std::mem::Discriminant<CaptureWait>>,
 }
 
@@ -191,7 +183,6 @@ fn arm_write_drain_at_exit() {}
 #[derive(Resource, Default)]
 pub struct CaptureQueue {
     pending: VecDeque<PendingCapture>,
-
     settled_frames: u32,
 
     /// Readbacks handed to an I/O worker and not yet reported back. Lowered
@@ -199,11 +190,8 @@ pub struct CaptureQueue {
     /// file does not exist until then, and `exit_after_drained` is waiting on
     /// the file.
     writing: usize,
-
     write_completed: bool,
-
     exit_when_drained: bool,
-
     writes: CaptureWrites,
 }
 

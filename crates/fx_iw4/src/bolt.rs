@@ -38,7 +38,6 @@ pub const FX_BOLT_CENTITY_TELEPORT_MASK: u32 = 2;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum FxGetBoneOrientationRoute {
     EntityPose,
-
     DObjBone(u16),
 }
 
@@ -52,9 +51,7 @@ pub enum FxGetBoneOrientationRefuse {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum FxUpdateEffectBolt {
     Skip,
-
     Refresh,
-
     Lost,
 }
 

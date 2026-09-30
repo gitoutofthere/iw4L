@@ -80,11 +80,8 @@ pub struct AssetKey {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum AssetKeyError {
     MissingNamespace,
-
     UnknownNamespace,
-
     UnknownKind,
-
     EmptyName,
 }
 

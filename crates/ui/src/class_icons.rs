@@ -16,7 +16,6 @@ pub struct UiAssetRoot(pub Option<PathBuf>);
 #[derive(Resource, Default)]
 pub struct ClassSelectIconCache {
     pub images: HashMap<String, Handle<Image>>,
-
     pub warmed: bool,
 }
 

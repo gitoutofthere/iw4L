@@ -3,17 +3,11 @@ use crate::client::cg_frame::CgFrameClock;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct PredictedError {
     error: [f32; 3],
-
     error_time_ms: i32,
-
     time_ms: i32,
-
     old_time_ms: i32,
-
     last_miss_len: f32,
-
     reset_count: u32,
-
     new_entity_count: u32,
 }
 

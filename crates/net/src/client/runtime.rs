@@ -58,14 +58,12 @@ impl Default for ClientPredictionState {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct ClockTick {
     pub released: u32,
-
     pub dropped: u32,
 }
 
 #[derive(Resource, Clone, Copy, Debug, Default)]
 pub struct ClientClock {
     pub accumulator_ms: f32,
-
     pub dropped_slots: u32,
 }
 
@@ -110,7 +108,6 @@ pub struct ReceivedTicks(pub VecDeque<ReceivedTick>);
 pub struct LastAdoptedSnapshot {
     pub snap: Option<Arc<Snapshot>>,
     pub next_snap: Option<Arc<Snapshot>>,
-
     pub applied_this_frame: bool,
 }
 
@@ -145,7 +142,6 @@ impl LastAdoptedSnapshot {
 #[derive(Resource, Default, Debug, Clone)]
 pub struct PendingClientSends {
     cmds: VecDeque<(CmdSeq, UserCmd, sim::ShotSampleProvenance)>,
-
     evicted_unacked: u32,
 }
 
@@ -202,13 +198,9 @@ pub struct ClientCmdTemplate {
 #[derive(Resource, Default, Debug, Clone, Copy, PartialEq, Eq)]
 pub struct CgWeaponSelect {
     pub index: u32,
-
     pub time: i32,
-
     pub life_sequence: u32,
-
     pub held_index: u32,
-
     pub last_primary: u32,
 }
 
@@ -839,9 +831,7 @@ pub const BACKLOG_STALLS_BEFORE_FAIL: u32 = 3;
 #[derive(Debug, Default)]
 pub struct BacklogStalls {
     counted: u32,
-
     acks_at_last: u64,
-
     last_ms: Option<i32>,
 }
 
@@ -1085,11 +1075,8 @@ pub const GAMEPLAY_SEND_INTERVAL_MS: i32 =
 #[derive(Resource, Debug, Default)]
 pub struct GameplaySendPacer {
     last_send_ms: Option<i32>,
-
     last_sent_seq: Option<CmdSeq>,
-
     last_sent_ack: u16,
-
     last_control_ms: Option<i32>,
 }
 

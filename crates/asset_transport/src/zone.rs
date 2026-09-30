@@ -29,7 +29,6 @@ pub enum ZoneOpenError {
 
     BadAuthHeader,
     Inflate(String),
-
     Truncated,
     Iw4WireLayout {
         x86: WireTableError,
@@ -97,7 +96,6 @@ pub struct ZoneImage {
     pub game: ZoneGame,
     pub version: u32,
     pub bytes: Vec<u8>,
-
     pub iw4_wire_format: Option<Iw4WireFormat>,
 }
 

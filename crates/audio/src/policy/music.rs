@@ -23,7 +23,6 @@ pub struct ScriptMusicHost {
     pub controller: MusicController,
     pub now_ms: Millis,
     suspense: Option<SuspenseMusic>,
-
     rng_state: u64,
     rng_seeded: bool,
     players: Vec<Player>,
@@ -34,11 +33,8 @@ pub struct ScriptMusicHost {
     faction_allies: String,
     faction_axis: String,
     prefixes_bound: bool,
-
     bound_zone: Option<String>,
-
     prematch_done_flag: bool,
-
     spawned_once: HashSet<ClientId>,
 
     /// Only the first side switch of a match is ever spoken.
@@ -50,7 +46,6 @@ pub struct ScriptMusicHost {
     round_dialog_done: bool,
     pending_game_dialog: Option<(Millis, Winner)>,
     game_dialog_done: bool,
-
     pub unhandled_glass_destroyed: u32,
 }
 

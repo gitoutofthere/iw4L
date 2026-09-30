@@ -23,15 +23,12 @@ pub trait GapCause: fmt::Display {
 
 enum GapState<C> {
     Absent,
-
     Standing,
-
     Raised(C),
 }
 
 pub struct GapLedger<C: GapCause, const N: usize> {
     live: [GapState<C>; N],
-
     hits: [u64; N],
 }
 

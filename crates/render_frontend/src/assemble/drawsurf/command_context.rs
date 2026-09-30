@@ -277,11 +277,8 @@ pub struct MapSunEffects {
 #[derive(Clone, Debug, Default, Resource)]
 pub struct MapPrimaryLights {
     pub lights: Vec<lighting_iw4::GfxLightPack>,
-
     pub attenuation: Vec<LightAttenuationBind>,
-
     pub t5_falloff: Vec<T5LightFalloffPack>,
-
     pub dynamic: Option<DynamicLightBind>,
 }
 

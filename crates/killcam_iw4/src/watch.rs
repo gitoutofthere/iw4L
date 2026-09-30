@@ -4,7 +4,6 @@ use crate::notify::NotifyKind;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum NothingToShow {
     KeepWatching,
-
     Abort,
 }
 

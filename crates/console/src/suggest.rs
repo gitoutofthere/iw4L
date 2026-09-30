@@ -3,13 +3,9 @@ pub const SUGGEST_WINDOW: usize = 8;
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum SuggestTone {
     Indent,
-
     Matched,
-
     RestSelected,
-
     RestMuted,
-
     Ellipsis,
 }
 

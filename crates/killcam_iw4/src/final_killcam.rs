@@ -11,25 +11,20 @@ pub const FINAL_KILLCAM_POLL_MS: Millis = 50;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct FinalKillcamConfig {
     pub death_time_ms: Millis,
-
     pub death_time_offset: f32,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct FinalKillcamStart {
     pub predelay: f32,
-
     pub time_until_respawn: f32,
-
     pub maxtime: f32,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum FinalKillcamOutput {
     ShowingFinalKillcam,
-
     Start(FinalKillcamStart),
-
     Done,
 }
 
@@ -38,9 +33,7 @@ pub type FinalKillcamLog = Log<FinalKillcamOutput, 4>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum Pc {
     WaitRoundEnd,
-
     Settle,
-
     PollPlayers,
     Done,
 }

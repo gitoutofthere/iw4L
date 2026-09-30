@@ -21,26 +21,18 @@ pub const TECHNIQUE_UNIVERSAL_MASK: u64 = (1 << 4) | (1 << 44);
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MaterialPass {
     ShadowOnly,
-
     Sky(u8),
-
     Lit,
-
     Unlit,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct MaterialDrawRoute {
     pub primary_sort_key: u8,
-
     pub prepass: u8,
-
     pub custom_index: u8,
-
     pub pass: MaterialPass,
-
     pub technique_slots: u64,
-
     pub uses_model_lighting_const: bool,
 }
 
@@ -122,7 +114,6 @@ pub enum ColorPassAgreement<T> {
     EntryOutOfRange { entry: u8, len: u8 },
 
     NoColorTechnique,
-
     Absent,
 }
 

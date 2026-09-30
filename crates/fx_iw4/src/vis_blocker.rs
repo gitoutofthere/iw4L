@@ -21,9 +21,7 @@ pub const FX_ELEM_FLAG_VIS_BLOCKER: i32 = 0x1000;
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct FxVisBlockerRec {
     pub origin: [f32; 3],
-
     pub param3_x16: i16,
-
     pub one_minus_param4_x16: i16,
 }
 

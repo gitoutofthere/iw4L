@@ -29,9 +29,7 @@ pub struct MapDoors {
     pub completed: bool,
     pub alarm_count: u8,
     pub activations: u32,
-
     pub hints: Vec<ClientId>,
-
     pub held: Vec<ClientId>,
 }
 

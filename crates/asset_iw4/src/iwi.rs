@@ -15,7 +15,6 @@ pub const IWI_USAGE_SKYBOX_B: u8 = 0x9;
 pub enum IwiHeaderError {
     ShortHeader,
     BadMagic,
-
     UnsupportedVersion(u8),
 }
 

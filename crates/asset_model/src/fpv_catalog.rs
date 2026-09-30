@@ -134,9 +134,7 @@ pub struct TagViewBind {
 pub struct FpvMeshEntry {
     pub namespace: AssetNamespace,
     pub skel: std::sync::Arc<FpvSkel>,
-
     pub material_names: Vec<Option<String>>,
-
     pub material_edges: Vec<AssetEdge<crate::MaterialSpace>>,
 }
 
@@ -206,9 +204,7 @@ pub struct FpvMeshCatalog {
     entries: Vec<FpvMeshEntry>,
     indices: HashMap<FpvMeshKey, usize>,
     order: Vec<FpvMeshKey>,
-
     zones: Vec<crate::ZoneOwner>,
-
     pub map_namespace: Option<AssetNamespace>,
 }
 

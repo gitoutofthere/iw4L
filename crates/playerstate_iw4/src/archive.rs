@@ -3,9 +3,7 @@ use crate::PlayerState;
 #[derive(Clone, Copy, Debug)]
 pub struct RemappedTimer {
     pub offset: usize,
-
     pub retail_name: &'static str,
-
     pub unconditional: bool,
 }
 

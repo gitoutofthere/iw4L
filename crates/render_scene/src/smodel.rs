@@ -8,20 +8,14 @@ pub struct SmodelPassMaterial {
     pub color: Option<Handle<Image>>,
     pub specular: Option<Handle<Image>>,
     pub probe: Option<Handle<Image>>,
-
     pub atlas: Option<Handle<Image>>,
     pub alpha_mode: AlphaMode,
-
     pub draw_mode: Option<assets::MaterialDrawMode>,
-
     pub cull_mode: Option<bevy::render::render_resource::Face>,
     pub env_map_parms: [f32; 4],
-
     pub lighting_lookup_scale: [f32; 4],
     pub atlas_lookup: [f32; 4],
-
     pub sort_key: u8,
-
     pub material_sorted_index: Option<u32>,
 }
 
@@ -30,11 +24,8 @@ pub struct LodRampArgs {
     pub scale_mid: Option<f32>,
     pub bias_mid: Option<f32>,
     pub scale_last: Option<f32>,
-
     pub world_unit: Option<f32>,
-
     pub t5: assets::t5_lod::LodParmsAxis,
-
     pub t5_no_lod_cull_out: bool,
 }
 
@@ -113,7 +104,6 @@ pub struct AuthoredMaps {
     pub color: Option<Handle<Image>>,
     pub specular: Option<Handle<Image>>,
     pub alpha_mode: AlphaMode,
-
     pub draw_mode: Option<assets::MaterialDrawMode>,
     pub cull_mode: Option<bevy::render::render_resource::Face>,
     pub env_map_parms: [f32; 4],

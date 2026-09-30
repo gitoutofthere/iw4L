@@ -4,16 +4,11 @@ use std::f32::consts::LN_2;
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct ExpFog {
     pub start_dist: f32,
-
     pub halfway_dist: f32,
     pub color_rgb: [f32; 3],
-
     pub max_opacity: f32,
-
     pub transition_time: f32,
-
     pub sun: Option<SunFog>,
-
     pub volumetric: Option<VolFog>,
 }
 
@@ -27,11 +22,9 @@ pub struct VolFog {
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct SunFog {
     pub color_rgb: [f32; 3],
-
     pub sun_dir: [f32; 3],
     pub begin_angle_deg: f32,
     pub end_angle_deg: f32,
-
     pub scale: f32,
 }
 

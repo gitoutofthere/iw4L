@@ -16,7 +16,6 @@ pub struct ClipAabbNode {
     pub half_size: [f32; 3],
     pub material_index: u16,
     pub child_count: u16,
-
     pub u: i32,
 }
 
@@ -24,7 +23,6 @@ pub struct ClipAabbNode {
 pub struct ClipPartition {
     pub tri_count: u8,
     pub first_tri: i32,
-
     pub first_vert_segment: u8,
 }
 
@@ -32,9 +30,7 @@ pub struct ClipPartition {
 pub struct MeshWalkCensus {
     pub tris_tested: u32,
     pub aabb_nodes_visited: u32,
-
     pub forest_fallback: u8,
-
     pub aabb_roots: u32,
 }
 
@@ -44,16 +40,11 @@ pub struct MeshWalkCensus {
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct ClipMeshTables {
     pub verts: Vec<[f32; 3]>,
-
     pub tri_indices: Vec<u16>,
-
     pub tri_surface_flags: Vec<u32>,
-
     pub tri_content_flags: Vec<u32>,
-
     pub aabb_trees: Vec<ClipAabbNode>,
     pub partitions: Vec<ClipPartition>,
-
     pub aabb_roots: Vec<u16>,
 }
 
@@ -78,16 +69,11 @@ impl ClipMeshTables {
 #[derive(Clone, Copy, Debug)]
 pub struct ClipMeshRef<'a> {
     pub verts: &'a [[f32; 3]],
-
     pub tri_indices: &'a [u16],
-
     pub tri_surface_flags: &'a [u32],
-
     pub tri_content_flags: &'a [u32],
-
     pub aabb_trees: &'a [ClipAabbNode],
     pub partitions: &'a [ClipPartition],
-
     pub aabb_roots: &'a [u16],
 }
 

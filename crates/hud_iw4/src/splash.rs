@@ -21,11 +21,8 @@ pub const SPLASH_COL_MENU: i32 = 0xb;
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct SplashSlot {
     pub row: i32,
-
     pub start_ms: i32,
-
     pub duration_ms: i32,
-
     pub optional_number: i32,
 }
 

@@ -34,32 +34,21 @@ pub struct MoveBounds {
 #[derive(Clone, Copy, Debug)]
 pub struct PmoveResult {
     pub pml: Pml,
-
     pub bounds: MoveBounds,
 }
 
 #[derive(Clone, Copy, Debug)]
 pub struct PmoveSingleContext {
     pub walk: WalkMoveContext,
-
     pub air: AirMoveContext,
-
     pub bounds: MoveBounds,
-
     pub view_angles: ViewAngleClamp,
-
     pub sprint: SprintContext,
-
     pub ads_intent: AdsIntentContext,
-
     pub ads_frac: AdsFracContext,
-
     pub melee_charge: MeleeChargeWeaponDelays,
-
     pub player_melee_range: f32,
-
     pub old_buttons: u32,
-
     pub weapon_blocks_prone: bool,
 }
 

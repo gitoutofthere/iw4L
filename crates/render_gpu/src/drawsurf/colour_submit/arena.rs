@@ -121,10 +121,8 @@ struct PlacedSpan {
     len: usize,
     stamp: u32,
     version: u64,
-
     vertex_len: u32,
     pixel_len: u32,
-
     lanes: Vec<SpanLane>,
 }
 
@@ -372,19 +370,15 @@ fn place_span(placed: &mut Vec<u8>, free: &mut Vec<(u32, usize)>, packed: &[u8])
 #[derive(Default)]
 pub(super) struct ArenaPack {
     identity: Vec<u8>,
-
     identity_reserved: usize,
-
     seen: HashMap<(usize, usize), (u32, Arc<PassConstantBuffers>, Arc<[u32]>, u32)>,
     placed: Vec<u8>,
-
     placed_seen: HashMap<PlacedPackKey, PlacedSpan>,
     identity_free: Vec<(u32, usize)>,
     placed_free: Vec<(u32, usize)>,
     share_n: u32,
     stamp: u32,
     dirty: Vec<ArenaDirty>,
-
     pack_scratch: Vec<u8>,
     placed_dirty_scratch: Vec<(usize, usize)>,
     full_upload: bool,

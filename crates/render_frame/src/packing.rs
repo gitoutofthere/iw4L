@@ -43,7 +43,6 @@ pub enum PackKind {
 #[derive(Clone, Copy, Debug)]
 pub struct PackDraw {
     pub key: u64,
-
     pub material_rank: u32,
     pub kind: PackKind,
 }

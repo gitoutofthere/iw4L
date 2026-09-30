@@ -44,15 +44,10 @@ pub struct RetainedModelCapability {
     pub key: String,
     pub pose: ModelPoseSrc,
     pub bone_collision: Vec<Option<BoneCollision>>,
-
     pub contents: Option<u32>,
-
     pub coll_lod: i16,
-
     pub coll_surfs: Vec<CollSurfCollision>,
-
     pub bounds: Option<([f32; 3], [f32; 3])>,
-
     pub radius: Option<f32>,
 }
 

@@ -11,27 +11,16 @@ pub const QUARTER_SECOND_MS: Millis = 250;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct DeathConfig {
     pub is_faux_death: bool,
-
     pub final_kill: bool,
-
     pub do_killcam: bool,
-
     pub nuke_detonated: bool,
-
     pub level_killcam: bool,
-
     pub showing_final_killcam: bool,
-
     pub victim_has_copycat: bool,
-
     pub game_state_playing: bool,
-
     pub is_using_remote: bool,
-
     pub lives_left: bool,
-
     pub time_until_spawn: f32,
-
     pub death_time_offset: f32,
 }
 
@@ -57,45 +46,30 @@ impl Default for DeathConfig {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct StartKillcam {
     pub predelay: f32,
-
     pub time_until_respawn: f32,
-
     pub will_respawn_immediately: bool,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum NoKillcam {
     CancelledByPlayer,
-
     NotForThisDeath,
-
     DisabledByTweakable,
-
     NotPlaying,
-
     UsingRemote,
-
     FinalKillcamOwnsIt,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum DeathOutput {
     ThreadFinalKillcam,
-
     ThreadDeathCopyCatButton,
-
     ArmCancelOnUse,
-
     PredictAboutToSpawn,
-
     DeathDelayFinished,
-
     PostDeathDelay(f32),
-
     CancelKillcamPressed,
-
     StartKillcam(StartKillcam),
-
     NoKillcam(NoKillcam),
 }
 
@@ -115,7 +89,6 @@ enum Pc {
 #[derive(Clone, Copy, Debug)]
 pub struct DeathSequence {
     cfg: DeathConfig,
-
     death_time: Millis,
     sched: Scheduler<NotifyKind, 4>,
     main: TaskId,

@@ -37,7 +37,6 @@ pub struct ExactFloatZResolve {
     layout_msaa: BindGroupLayoutDescriptor,
     params: Buffer,
     target: Option<ExactFloatZGpu>,
-
     prepared: Option<PreparedFloatZBlit>,
 }
 
@@ -45,7 +44,6 @@ struct PreparedFloatZBlit {
     depth_view: TextureViewId,
     multisampled: bool,
     pipeline: CachedRenderPipelineId,
-
     params: [f32; 4],
     bind_group: BindGroup,
 }

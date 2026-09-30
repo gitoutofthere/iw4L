@@ -3,11 +3,8 @@ use crate::{dd, dom, ffa, kind::GameModeKind, prematch};
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct MatchLimits {
     pub score_limit: Option<i32>,
-
     pub win_limit: Option<u32>,
-
     pub round_limit: Option<u32>,
-
     pub time_limit_ms: Option<u32>,
 }
 

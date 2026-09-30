@@ -3,7 +3,6 @@ use crate::phase::Team;
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MatchEndingReason {
     Time,
-
     Score,
 }
 
@@ -19,7 +18,6 @@ impl MatchEndingReason {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum MatchSoundNotify {
     MatchEndingSoon(MatchEndingReason),
-
     MatchEndingVerySoon,
 }
 
@@ -71,15 +69,10 @@ pub fn estimated_time_till_score_limit(score: i32, score_limit: i32, time_passed
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct ScoreLimitSoonInput {
     pub score_limit: i32,
-
     pub objective_based: bool,
-
     pub score_limit_override: bool,
-
     pub team_based: bool,
-
     pub time_passed_ms: i32,
-
     pub score: i32,
 }
 
@@ -122,7 +115,6 @@ fn score_pace_notify(input: ScoreLimitSoonInput) -> Option<MatchSoundNotify> {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum ScoringTeam {
     Allies,
-
     Axis,
 }
 

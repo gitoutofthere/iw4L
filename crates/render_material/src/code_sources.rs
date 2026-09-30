@@ -5,11 +5,8 @@ use crate::RuntimeImageId;
 #[derive(Clone, Debug, Default)]
 pub struct RuntimeCodeSources {
     constants: Vec<CodeConstantSlot>,
-
     textures: Vec<Option<u8>>,
-
     texture_images: Vec<Option<RuntimeImageId>>,
-
     overlay_mode: bool,
     written_const: Vec<u16>,
     written_tex: Vec<u32>,

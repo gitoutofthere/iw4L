@@ -10,14 +10,12 @@ use crate::recipes;
 pub enum SuspenseStep {
     #[default]
     Waiting,
-
     Done,
 }
 
 #[derive(Clone, Copy, Debug)]
 pub struct SuspenseMusic {
     step: SuspenseStep,
-
     wake_at_ms: Millis,
 }
 

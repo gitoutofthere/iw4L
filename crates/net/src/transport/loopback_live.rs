@@ -12,13 +12,9 @@ pub struct ListenLoopback {
     transport: LoopbackTransport,
     encoder: SnapshotEncoder,
     decoder: SnapshotDecoder,
-
     pub sent: u64,
-
     pub received: u64,
-
     pub last_backlog: usize,
-
     pub peak_backlog: usize,
 }
 

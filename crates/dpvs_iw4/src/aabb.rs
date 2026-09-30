@@ -107,36 +107,23 @@ pub const MAX_CLIP_PLANES: usize = 16;
 #[derive(Clone, Copy, Debug)]
 pub struct AabbNodeView {
     pub bounds: Bounds,
-
     pub child_count: u16,
-
     pub children_offset: i32,
-
     pub start_surf: u16,
-
     pub surface_count: u16,
-
     pub start_surf_no_decal: u16,
-
     pub surface_count_no_decal: u16,
-
     pub smodel_index_start: u32,
-
     pub smodel_index_count: u16,
 }
 
 #[derive(Clone, Copy, Debug)]
 pub struct AabbTreeCull<'a> {
     pub nodes: &'a [AabbNodeView],
-
     pub smodel_indexes: &'a [u16],
-
     pub sorted_surf_index: &'a [u16],
-
     pub surfaces_bounds: &'a [Bounds],
-
     pub smodel_bounds: &'a [Bounds],
-
     pub draw_decals: bool,
 }
 
@@ -157,21 +144,15 @@ pub struct DpvsVisData<'a> {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct AabbCullStats {
     pub nodes_visited: u32,
-
     pub nodes_rejected: u32,
-
     pub nodes_accepted_whole: u32,
-
     pub planes_dropped: u32,
     pub surfaces_admitted: u32,
     pub surfaces_rejected_by_bounds: u32,
-
     pub surfaces_admitted_unbounded: u32,
     pub smodels_admitted: u32,
     pub smodels_rejected_by_bounds: u32,
-
     pub smodels_admitted_unbounded: u32,
-
     pub clip_planes_overflow: u32,
 }
 
@@ -208,9 +189,7 @@ pub struct SkyCullStats {
     pub already_visible: u32,
     pub admitted: u32,
     pub rejected_by_bounds: u32,
-
     pub admitted_unbounded: u32,
-
     pub missing_slot: u32,
 }
 

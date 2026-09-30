@@ -30,7 +30,6 @@ use crate::ui_write::adopt_display;
 #[derive(Component, Clone, Copy, PartialEq, Eq, Debug)]
 pub(crate) enum ReticleQuad {
     Side(u8),
-
     Center,
 }
 
@@ -396,14 +395,12 @@ pub(crate) fn update_reticle(
 
 struct SlotResolution {
     slot: ReticleSlot,
-
     authored: bool,
     image: SlotImage,
 }
 
 enum SlotImage {
     Unnamed,
-
     Drawn(Handle<Image>),
 
     Missing { name: String, miss: ImageMiss },

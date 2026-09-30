@@ -23,9 +23,7 @@ fn evaluate_round_clock(world: &mut FrameWorld, tick: Tick, remaining_ms: u32) {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct ObjectiveFlash {
     pub teams: u8,
-
     pub start_ms: u32,
-
     pub stop_ms: Option<u32>,
 }
 
@@ -60,7 +58,6 @@ pub struct ObjectiveView {
     pub capturing: Team,
     pub contested: bool,
     pub users: Vec<ClientId>,
-
     pub flash: Option<ObjectiveFlash>,
 }
 

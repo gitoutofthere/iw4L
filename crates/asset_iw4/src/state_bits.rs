@@ -64,9 +64,7 @@ pub const S_ALPHA_TEST_TABLE: [(u32, u8); 3] = [
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Gfxs0AlphaTest {
     GreaterThanZero,
-
     LessThan128,
-
     GreaterEqual128,
 }
 

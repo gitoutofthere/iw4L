@@ -38,7 +38,6 @@ pub struct Channel3d {
     pub dist_max: f32,
     pub knots: Arc<[[f32; 2]]>,
     pub base_volume: f32,
-
     pub live_pan: crate::pcm::LivePan,
 }
 

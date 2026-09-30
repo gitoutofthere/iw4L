@@ -19,7 +19,6 @@ pub const LIGHT_GRID_COMPRESS_DIRS: [usize; 8] = [0, 3, 12, 15, 40, 43, 52, 55];
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct ModelLightingExpandPitch {
     pub row_pitch: i32,
-
     pub slice_minus_3_rows: i32,
 }
 
@@ -124,13 +123,9 @@ pub const MODEL_LIGHTING_SMODEL_ENTRY_LIMIT_FLOOR: u32 = 0x800;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct ModelLightingAtlasDims {
     pub max_client_views: u32,
-
     pub xmodel_entry_limit: u32,
-
     pub smodel_entry_limit: u32,
-
     pub total_entry_limit: u32,
-
     pub image_height: u32,
 }
 

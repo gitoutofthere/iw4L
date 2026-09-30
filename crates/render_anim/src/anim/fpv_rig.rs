@@ -47,7 +47,6 @@ pub struct PreparedFpvGeometry {
     pub draws: Vec<FpvSurfaceDraw>,
     pub dest_n: usize,
     pub packed_ok: bool,
-
     pub hands_plan_n: u32,
     pub gun_plan_n: u32,
     pub scope_plan_n: u32,

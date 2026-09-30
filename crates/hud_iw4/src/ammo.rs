@@ -1,17 +1,11 @@
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum AmmoCounterClipKind {
     None,
-
     Magazine,
-
     ShortMagazine,
-
     Shotgun,
-
     Rocket,
-
     Beltfed,
-
     AltWeapon,
 }
 
@@ -37,12 +31,9 @@ pub fn ammo_counter_clip_kind(ordinal: i32) -> Option<AmmoCounterClipKind> {
 pub struct ClipPipMetrics {
     pub width: f32,
     pub height: f32,
-
     pub step_x: f32,
-
     pub wrap: i32,
     pub step_y: f32,
-
     pub image: &'static str,
 }
 
@@ -169,9 +160,7 @@ pub fn clip_pip_metrics(kind: AmmoCounterClipKind) -> Option<ClipPipMetrics> {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum LowAmmoWarningKind {
     Reload,
-
     LowAmmo,
-
     NoAmmo,
 }
 
@@ -267,13 +256,11 @@ pub struct LowAmmoWarningQuery {
     pub weapon: u32,
     pub ammo_counter_clip: i32,
     pub weaponstate: [i32; 2],
-
     pub hands: usize,
     pub clip: [i32; 2],
     pub clip_size: i32,
     pub stock: i32,
     pub threshold: f32,
-
     pub clip_only: bool,
 }
 

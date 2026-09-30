@@ -18,20 +18,15 @@ pub(crate) struct SunShadowStaging {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct SunShadowMapMetrics {
     pub pixels_per_tile: u32,
-
     pub tiles_per_texture: u32,
-
     pub min_coord: u32,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct SunShadowProjectionSetup {
     pub near_shadow_min_dist: f32,
-
     pub shadow_org_pixel_center: [f32; 2],
-
     pub snapped_shadow_org: [[f32; 2]; 2],
-
     pub sample_size: [f32; 2],
 }
 
@@ -97,7 +92,6 @@ impl SunShadowProjectionSetup {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SunShadowSamplingPath {
     DepthTexture,
-
     Fallback,
 }
 
@@ -327,7 +321,6 @@ pub struct SunShadowCamera {
     pub up: [f32; 3],
     pub tan_half_fov_x: f32,
     pub tan_half_fov_y: f32,
-
     pub z_near: f32,
 }
 

@@ -328,9 +328,7 @@ pub struct VehicleDestructibleDefinition {
     pub death_fx: &'static str,
     pub death_sound: &'static str,
     pub explode_force: (u32, u32),
-
     pub explode_range_mp: u32,
-
     pub explode_damage: (u32, u32),
     pub earthquake: (f32, u32),
     pub death: DestructibleDeathPresentation,

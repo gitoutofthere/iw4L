@@ -8,11 +8,8 @@ pub const MAX_PENDING_RELIABLE: usize = 64;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ActionVerdict {
     Applied,
-
     Refused,
-
     PayloadMismatch,
-
     Expired,
 }
 
@@ -46,7 +43,6 @@ pub enum ReliableRow {
     Splash(crate::SvcHudSplash),
     Notify(crate::SvcGameNotify),
     Scores(String),
-
     Event(SimEvent),
 
     ActionOutcome {
@@ -58,11 +54,8 @@ pub enum ReliableRow {
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct ReliableEventQueue {
     next_seq: u16,
-
     ack_through: u16,
-
     pending: Vec<(u16, ReliableRow)>,
-
     pub dropped_oldest: u32,
 }
 

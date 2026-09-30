@@ -240,17 +240,13 @@ fn seed_write(
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct PreparedPass {
     pub port: [Option<PortId>; VERTEX_TYPE_COUNT],
-
     pub shader_pair: Option<RuntimeShaderPair>,
     pub state: GfxPassStateBits,
-
     pub per_prim_arg_count: u8,
     pub per_obj_arg_count: u8,
     pub stable_arg_count: u8,
     pub belts: Option<PreparedArgBelts>,
-
     pub local_banks: [Option<Arc<PackedLocalBanks>>; VERTEX_TYPE_COUNT],
-
     pub local_samplers: Option<Arc<PackedLocalSamplers>>,
 }
 
@@ -336,7 +332,6 @@ fn is_material_local(argument: &RuntimeArgumentBinding) -> bool {
 pub struct PreparedTechnique {
     pub flags: u16,
     pub passes: Vec<PreparedPass>,
-
     pub code_sampler_mask: u64,
 }
 
@@ -368,7 +363,6 @@ pub struct PreparedMaterial {
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct PreparedMaterialTable {
     materials: Vec<PreparedMaterial>,
-
     census: PreparedTableCensus,
 }
 

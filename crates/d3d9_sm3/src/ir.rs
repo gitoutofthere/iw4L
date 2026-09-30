@@ -23,19 +23,12 @@ pub fn named_sm3_opcode_count() -> usize {
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct OpcodeSurfaceCoverage {
     pub supported_opcodes: usize,
-
     pub named_sm3_opcodes: usize,
-
     pub programs_measured: usize,
-
     pub programs_passed: usize,
-
     pub programs_refused: usize,
-
     pub programs_decode_failed: usize,
-
     pub refused_unknown_opcodes: BTreeMap<u16, usize>,
-
     pub refused_other: BTreeMap<&'static str, usize>,
 }
 
@@ -148,7 +141,6 @@ pub enum Sm3RegisterFile {
     Input,
     FloatConstant,
     Texture,
-
     Address,
     RasterOutput,
     AttributeOutput,
@@ -181,12 +173,10 @@ pub struct Sm3RelativeAddress {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct Sm3Destination {
     pub register: Sm3Register,
-
     pub write_mask: u8,
     pub saturate: bool,
     pub partial_precision: bool,
     pub centroid: bool,
-
     pub unknown_modifier_bits: u8,
     pub relative: Option<Sm3RelativeAddress>,
 }
@@ -213,7 +203,6 @@ pub enum Sm3SourceModifier {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct Sm3Source {
     pub register: Sm3Register,
-
     pub swizzle: [u8; 4],
     pub modifier: Sm3SourceModifier,
     pub relative: Option<Sm3RelativeAddress>,
@@ -293,7 +282,6 @@ pub enum Sm3InstructionBody {
 pub struct Sm3Instruction {
     pub at_word: usize,
     pub opcode: Sm3Opcode,
-
     pub controls: u8,
     pub predicated: bool,
     pub coissue: bool,

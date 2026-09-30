@@ -9,7 +9,6 @@ pub const R_DLIGHT_BACKEND_MAX: usize = 5;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct SceneDlight {
     pub light: GfxLightPack,
-
     pub used: bool,
 }
 

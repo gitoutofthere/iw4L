@@ -21,24 +21,17 @@ pub const RESYNC_MIN_SECONDS: f32 = 0.05;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct ClockTick {
     pub time_remaining_ms: i32,
-
     pub time_limit_minutes: f32,
-
     pub half_time: bool,
-
     pub timer_stopped: bool,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct ClockTickEmit {
     pub time_left_int: i32,
-
     pub ending_soon: bool,
-
     pub ending_very_soon: bool,
-
     pub countdown_tick: bool,
-
     pub clock_stops: bool,
 }
 

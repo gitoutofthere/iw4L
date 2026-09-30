@@ -25,33 +25,24 @@ pub const SCENE_ENT_CULL_LOD_COUNT: usize = 32;
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct PreSkinSurface {
     pub part_bits: [u32; 6],
-
     pub vert_count: u16,
-
     pub deformed: bool,
-
     pub vert_list_count: u32,
 }
 
 #[derive(Clone, Copy, Debug)]
 pub struct PreSkinModel<'a> {
     pub lod: i8,
-
     pub bone_count: u8,
-
     pub surfaces: &'a [PreSkinSurface],
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct SceneEntSkinEntry {
     pub model: u16,
-
     pub surface: u16,
-
     pub tag: i32,
-
     pub bone_base: u8,
-
     pub bone_count: u8,
     pub bytes: u32,
 }
@@ -457,13 +448,9 @@ pub fn skin_vert_info_bucket_blend_off(counts: [i16; 4], bucket: usize) -> Optio
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct PreSkinSummary {
     pub surface_count: u32,
-
     pub skinned_vert_count: u32,
-
     pub bytes: u32,
-
     pub local_overflow: bool,
-
     pub frame_overflow: bool,
 }
 

@@ -15,34 +15,22 @@ pub const OTHER_FLAGS_EMP_OVERLAY_MATERIAL: u32 = 0x400;
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponAdsOverlayFacts {
     pub ads_zoom_in_frac: f32,
-
     pub ads_zoom_out_frac: f32,
-
     pub overlay_material: u32,
-
     pub overlay_material_low_res: u32,
-
     pub overlay_material_emp: u32,
-
     pub overlay_material_emp_low_res: u32,
-
     pub overlay_reticle: i32,
-
     pub ads_overlay_width: f32,
-
     pub ads_overlay_height: f32,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum AdsOverlayMaterialSlot {
     None,
-
     OverlayMaterial,
-
     OverlayMaterialLowRes,
-
     OverlayMaterialEmp,
-
     OverlayMaterialEmpLowRes,
 }
 
@@ -62,7 +50,6 @@ impl AdsOverlayMaterialSlot {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct CgWeapReticleZoom {
     pub active: bool,
-
     pub zoom: f32,
 }
 
@@ -80,7 +67,6 @@ pub struct AdsOverlayQuad {
 pub struct CgDrawAdsOverlayLayout {
     pub quads: [AdsOverlayQuad; 4],
     pub quad_count: u8,
-
     pub inner_x: f32,
     pub inner_y: f32,
     pub inner_w: f32,
@@ -97,9 +83,7 @@ impl CgDrawAdsOverlayLayout {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct CgDrawWeapReticle {
     pub hip_reticle_alpha: f32,
-
     pub overlay_alpha: Option<f32>,
-
     pub material: AdsOverlayMaterialSlot,
 }
 

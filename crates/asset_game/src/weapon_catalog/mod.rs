@@ -23,205 +23,111 @@ pub use registry::*;
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponBodyFacts {
     pub body_resolved: bool,
-
     pub fire_time_ms: i32,
-
     pub impact_type: i32,
-
     pub raise_time_ms: i32,
-
     pub drop_time_ms: i32,
-
     pub fire_delay_ms: i32,
-
     pub hold_fire_time_ms: i32,
-
     pub weap_type: i32,
-
     pub player_anim_type: i32,
-
     pub weap_class: i32,
-
     pub offhand_class: i32,
-
     pub shots_per_fire: i32,
-
     pub ammo_index: i32,
-
     pub clip_index: i32,
-
     pub ammo_counter_clip: i32,
-
     pub low_ammo_warning_threshold: f32,
-
     pub hip_spread_stand_min: f32,
-
     pub hip_spread_ducked_min: f32,
-
     pub hip_spread_prone_min: f32,
-
     pub hip_spread_stand_max: f32,
-
     pub hip_spread_ducked_max: f32,
-
     pub hip_spread_prone_max: f32,
-
     pub hip_spread_decay_rate: f32,
-
     pub hip_spread_fire_add: f32,
-
     pub hip_spread_turn_add: f32,
-
     pub hip_spread_move_add: f32,
-
     pub hip_spread_ducked_decay: f32,
-
     pub hip_spread_prone_decay: f32,
-
     pub i_reticle_side_size: i32,
-
     pub i_reticle_min_ofs: i32,
-
     pub hip_reticle_side_pos: f32,
-
     pub ads_aim_pitch: f32,
-
     pub ads_crosshair_in_frac: f32,
-
     pub ads_crosshair_out_frac: f32,
-
     pub ads_spread: f32,
-
     pub aim_down_sight: bool,
-
     pub ads_zoom_fov: f32,
-
     pub ads_dof: Option<[f32; 2]>,
-
     pub ads_zoom_in_frac: f32,
-
     pub ads_zoom_out_frac: f32,
-
     pub no_ads_when_mag_empty: bool,
-
     pub inherits_perks: bool,
-
     pub ads_in_rate: f32,
-
     pub ads_out_rate: f32,
-
     pub rechamber_while_ads: bool,
-
     pub ads_fire_only: bool,
-
     pub melee_damage: i32,
-
     pub overlay_reticle: i32,
-
     pub overlay_interface: i32,
-
     pub ads_overlay_width: f32,
-
     pub ads_overlay_height: f32,
-
     pub melee_time_ms: i32,
-
     pub melee_delay_ms: i32,
-
     pub melee_charge_time_ms: i32,
-
     pub melee_charge_delay_ms: i32,
-
     pub knife_model: u32,
-
     pub quick_raise_time_ms: i32,
-
     pub quick_drop_time_ms: i32,
-
     pub select_requires_ammo_at_0x667: Option<bool>,
-
     pub offhand_hold_is_cancelable_at_0x681: Option<bool>,
-
     pub move_speed_scale: f32,
-
     pub ads_move_speed_scale: f32,
-
     pub sprint_duration_scale: f32,
-
     pub stance_ofs_at_0x168: [f32; 3],
-
     pub stance_ofs_at_0x18c: [f32; 3],
-
     pub night_vision_wear_time: i32,
-
     pub ads_bob_factor_at_0x330: f32,
-
     pub ads_view_bob_mult_at_0x334: f32,
-
     pub movement: WeaponMovementOfsInputs,
-
     pub idle: WeaponIdleInputs,
-
     pub clip_size: i32,
     pub penetrate_type: i32,
-
     pub penetrate_multiplier: f32,
-
     pub motion_tracker: bool,
-
     pub rifle_bullet: bool,
     pub inventory_type: i32,
     pub fire_type: i32,
     pub max_ammo: i32,
     pub damage: i32,
     pub rechamber_time_ms: i32,
-
     pub rechamber_bolt_time_ms: i32,
-
     pub rechamber_bolt_delay_ms: i32,
     pub reload_time_ms: i32,
-
     pub reload_show_rocket_time_ms: i32,
     pub reload_empty_time_ms: i32,
     pub reload_add_time_ms: i32,
-
     pub reload_empty_add_time_ms: i32,
     pub reload_start_time_ms: i32,
-
     pub reload_start_add_time_ms: i32,
     pub reload_end_time_ms: i32,
-
     pub dual_mag: Option<weapon_iw4::DualMagTimes>,
-
     pub kill_icon_ratio: i32,
-
     pub flip_kill_icon: bool,
-
     pub reload_ammo_add: i32,
-
     pub reload_start_add: i32,
-
     pub no_partial_reload: bool,
-
     pub bolt_action: bool,
-
     pub segmented_reload: bool,
-
     pub sprint_raise_time_ms: i32,
-
     pub sprint_loop_time_ms: i32,
-
     pub sprint_drop_time_ms: i32,
     pub fuse_time_ms: i32,
-
     pub cook_off_hold: bool,
-
     pub clip_only: bool,
-
     pub timed_detonation: bool,
-
     pub proj_impact_explode: bool,
-
     pub stick_to_players: bool,
     pub explosion_radius: i32,
     pub explosion_radius_min: i32,
@@ -236,19 +142,14 @@ pub struct WeaponBodyFacts {
     pub perpendicular_bounce: Option<[f32; 31]>,
     pub location_damage_mult: Option<[f32; 20]>,
     pub start_ammo: i32,
-
     pub ammo_count_clip_relative: bool,
     pub min_damage: i32,
     pub min_player_damage: i32,
     pub max_damage_range: f32,
     pub min_damage_range: f32,
-
     pub kick: WeaponKickFacts,
-
     pub sway: WeaponSwayFacts,
-
     pub dual_wield_view_model_offset: f32,
-
     pub no_dual_wield: bool,
 }
 
@@ -277,7 +178,6 @@ fn leftover_clip_relative_rounds(count: i32, clip_size: i32, clip_relative: bool
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponKickFacts {
     pub f_ads_view_kick_center_speed: f32,
-
     pub f_hip_view_kick_center_speed: f32,
     pub gun_max_pitch: f32,
     pub gun_max_yaw: f32,
@@ -358,7 +258,6 @@ pub struct WeaponSwayFacts {
     pub sway_yaw_scale: f32,
     pub sway_horiz_scale: f32,
     pub sway_vert_scale: f32,
-
     pub sway_shell_shock_scale: f32,
     pub ads_sway_max_angle: f32,
     pub ads_sway_lerp_speed: f32,
@@ -427,33 +326,22 @@ pub fn cac_offhand_bucket(offhand_class: i32) -> Option<CacOffhandBucket> {
 #[derive(Clone, Debug)]
 pub struct CatalogWeapon {
     pub name: String,
-
     pub weap_def: Option<(u8, u32)>,
-
     pub display_name_key: Option<String>,
-
     pub reticle: WeaponReticleAssets,
-
     pub hud_material_edges: WeaponHudMaterialEdges,
-
     pub overlay_material: Option<String>,
-
     pub overlay_image: Option<String>,
     pub reticle_center_slot: Option<Ptr>,
     pub reticle_side_slot: Option<Ptr>,
-
     pub overlay_material_slot: Option<Ptr>,
-
     pub scope_name: Option<String>,
-
     pub scope_rows: [Iw5ScopeRow; 6],
-
     pub iw5_attachment_slots: [Option<String>; fastfile_iw5::size::WEAPON_ATTACHMENT_SLOT_COUNT],
     pub iw5_reload_overrides: Vec<fastfile_iw5::ReloadOverride>,
     pub iw5_anim_overrides: Vec<LeftoverAnimOverride>,
     pub iw5_fx_overrides: Vec<Iw5FxOverride>,
     pub iw5_notetrack_overrides: Vec<Iw5NotetrackOverride>,
-
     pub hud_icon: Option<String>,
     pub hud_icon_slot: Option<Ptr>,
     pub pickup_icon: Option<String>,
@@ -461,51 +349,32 @@ pub struct CatalogWeapon {
     pub pickup_icon_image: Option<String>,
     pub pickup_icon_ratio: i32,
     pub hud_icon_ratio: i32,
-
     pub hud_icon_image: Option<String>,
-
     pub dpad_icon: Option<String>,
     pub dpad_icon_image: Option<String>,
     pub dpad_icon_atlas: Option<[u8; 2]>,
     pub dpad_icon_ratio: i32,
     pub kill_icon: Option<String>,
     pub kill_icon_slot: Option<Ptr>,
-
     pub kill_icon_image: Option<String>,
-
     pub proj_trail: Option<String>,
     pub proj_trail_slot: Option<Ptr>,
-
     pub proj_beacon: Option<String>,
     pub proj_beacon_slot: Option<Ptr>,
-
     pub proj_ignition: Option<String>,
     pub proj_ignition_slot: Option<Ptr>,
-
     pub projectile_fx: WeaponProjectileFx,
-
     pub gun_xmodel: Option<String>,
-
     pub hand_xmodel: Option<String>,
-
     pub world_model: Option<String>,
-
     pub projectile_model: Option<String>,
-
     pub rocket_model: Option<String>,
-
     pub sz_xanims: [Option<String>; WEAPON_ANIM_SLOTS],
-
     pub sz_xanims_right: [Option<String>; WEAPON_ANIM_SLOTS],
-
     pub sz_xanims_left: [Option<String>; WEAPON_ANIM_SLOTS],
-
     pub hide_tags: Vec<String>,
-
     pub sounds: WeaponSoundAliases,
-
     pub combat_fx: WeaponCombatFx,
-
     pub(crate) combat_slots: CombatFxSlots,
     pub facts: WeaponBodyFacts,
 }
@@ -607,26 +476,18 @@ impl Iw5AttachmentSelection {
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct WeaponReticleAssets {
     pub center_material: Option<String>,
-
     pub side_material: Option<String>,
-
     pub center_edge: AssetEdge<MaterialSpace>,
-
     pub side_edge: AssetEdge<MaterialSpace>,
-
     pub center_image: Option<String>,
-
     pub side_image: Option<String>,
-
     pub center_size: i32,
-
     pub side_size: i32,
 
     /// Whether the zone authored a reticle material at all. The slot pointers
     /// that answered this during the walk stay on the build row: the HUD, and
     /// the edge stamping beside it, only ever asked whether there was one.
     pub center_authored: bool,
-
     pub side_authored: bool,
 }
 
@@ -655,7 +516,6 @@ impl WeaponProjectileFx {
 pub enum NotetrackConvention {
     #[default]
     SoundMap,
-
     InlinePrefix,
 }
 
@@ -727,35 +587,22 @@ pub struct WeaponSoundAliases {
     pub putaway: Option<String>,
     pub putaway_player: Option<String>,
     pub proj_explosion: Option<String>,
-
     pub projectile: Option<String>,
-
     pub proj_ignition_sound: Option<String>,
-
     pub bounce: [Option<String>; asset_iw4::size::SURF_TYPE_NUM],
-
     pub notetrack_sound_map: Vec<(String, String)>,
-
     pub notetrack_rumble_map: Vec<(String, String)>,
-
     pub fire_player_akimbo: Option<String>,
-
     pub fire_loop: Option<String>,
     pub fire_loop_player: Option<String>,
-
     pub fire_stop: Option<String>,
     pub fire_stop_player: Option<String>,
-
     pub fire_last: Option<String>,
-
     pub fire_last_player: Option<String>,
-
     pub leftover_sound_overrides: Vec<LeftoverSoundOverride>,
-
     pub fire_ptr_kind: Option<&'static str>,
     pub fire_player_ptr_kind: Option<&'static str>,
     pub reload_player_ptr_kind: Option<&'static str>,
-
     pub notetrack_convention: NotetrackConvention,
 }
 
@@ -970,11 +817,8 @@ pub struct WeaponCombatFx {
     pub world_last_shot_eject_hint: Option<String>,
     pub explosion: AssetEdge<FxSpace>,
     pub explosion_hint: Option<String>,
-
     pub tracer: AssetEdge<TracerSpace>,
-
     pub tracer_hint: Option<String>,
-
     last_shot_eject_pair_authored: bool,
 }
 

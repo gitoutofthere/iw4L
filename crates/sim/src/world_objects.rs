@@ -125,7 +125,6 @@ pub struct DestructibleDamageIntent {
     /// `true` for radius damage, which is what the GSC damage filters and the
     /// per-type splash scaler key off.
     pub splash: bool,
-
     pub epoch: EntityCollisionEpoch,
 }
 
@@ -136,9 +135,7 @@ pub struct DestructibleExplodeEvent {
     pub attacker: ClientId,
     pub attacker_life: LifeSequence,
     pub source: DamageSource,
-
     pub explode_range_mp: u32,
-
     pub explode_damage: (u32, u32),
 }
 
@@ -228,15 +225,11 @@ impl DestructibleApply {
 pub struct WorldObjectState {
     destructible_stages: Vec<(ScriptModelId, u8)>,
     vehicle_bodies: Vec<(ScriptModelId, VehicleDestructibleKind, VehicleBodyState)>,
-
     vehicle_origins: Vec<(ScriptModelId, [f32; 3])>,
     vehicle_drains: Vec<(ScriptModelId, VehicleHealthDrain)>,
-
     vehicle_loopfx: Vec<(ScriptModelId, &'static str, u32)>,
-
     vehicle_death_fx_emitted: Vec<ScriptModelId>,
     death_anim_times: Vec<(ScriptModelId, f32)>,
-
     toy_bodies: Vec<(ScriptModelId, ToyDestructibleKind, VehicleBodyState)>,
     toy_origins: Vec<(ScriptModelId, [f32; 3])>,
     toy_drains: Vec<(ScriptModelId, VehicleHealthDrain)>,
@@ -244,22 +237,15 @@ pub struct WorldObjectState {
     toy_sound_pulses: Vec<VehicleSoundPulse>,
     toy_part_launches: Vec<ScriptModelId>,
     destructible_loop_sounds: Vec<DestructibleLoopSound>,
-
     barrel_bodies: Vec<(ScriptModelId, VehicleBodyState)>,
     barrel_origins: Vec<(ScriptModelId, [f32; 3])>,
-
     barrel_drains: Vec<(ScriptModelId, VehicleHealthDrain)>,
-
     barrel_burn_start: Vec<VehicleFxPulse>,
     pending_barrel_downs: Vec<ScriptModelId>,
     glass_pieces: Vec<(GlassPieceId, GGlassPiece)>,
-
     glass_native: Vec<(GlassPieceId, GlassNativeMeta)>,
-
     glass_panes: Vec<(GlassPieceId, GlassPaneBasis)>,
-
     pending_glass_destroyed: Vec<GlassPieceId>,
-
     destructable_bodies: Vec<(ScriptModelId, DestructableBody)>,
     destructable_origins: Vec<(ScriptModelId, [f32; 3])>,
     blocked_spawn_areas: Vec<String>,

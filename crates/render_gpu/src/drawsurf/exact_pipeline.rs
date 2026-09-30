@@ -76,9 +76,7 @@ pub(super) struct ExactPipelineRegistry {
         ),
     >,
     jobs: Vec<Task<PortBuild>>,
-
     layouts: Mutex<HashMap<BindGroupLayoutDescriptor, BindGroupLayout>>,
-
     discovered: Mutex<Vec<super::colour_submit::ExactColourPipelineKey>>,
 }
 

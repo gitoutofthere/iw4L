@@ -61,9 +61,7 @@ pub const SURFACE_TYPE_NAMES: [&str; PEN_SURF_TYPE_COUNT] = [
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct BulletPenFacts {
     pub penetrate_type: i32,
-
     pub penetrate_multiplier: f32,
-
     pub rifle_bullet: bool,
 }
 

@@ -62,21 +62,13 @@ pub struct MeleeChargeState {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct MeleeWeaponFacts {
     pub melee_damage: i32,
-
     pub overlay_reticle: i32,
-
     pub melee_time_ms: i32,
-
     pub melee_delay_ms: i32,
-
     pub melee_charge_time_ms: i32,
-
     pub melee_charge_delay_ms: i32,
-
     pub melee_charge_anim: bool,
-
     pub knife_model: u32,
-
     pub quick_raise_time_ms: i32,
 }
 

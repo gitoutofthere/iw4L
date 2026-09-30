@@ -21,7 +21,6 @@ pub const START_SPAWN_CLASSNAME: &str = "mp_dm_spawn_start";
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MatchEndCause {
     ScoreLimit,
-
     TimeLimit,
 }
 
@@ -51,9 +50,7 @@ pub fn score_limit_reached(score: i32) -> bool {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum FfaOutcomeTitle {
     Victory,
-
     Defeat,
-
     Tie,
 }
 

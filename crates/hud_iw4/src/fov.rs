@@ -22,23 +22,14 @@ const RAD2DEG: f32 = 180.0 / core::f32::consts::PI;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct CgCalcFovInputs {
     pub cg_fov: f32,
-
     pub pm_type: i32,
-
     pub link_flags: u32,
-
     pub e_flags: u32,
-
     pub weapon_index_nonzero: bool,
-
     pub aim_down_sight: bool,
-
     pub ads_zoom_fov: f32,
-
     pub overlay_zoom: f32,
-
     pub fov_scale: f32,
-
     pub fov_min: f32,
 }
 

@@ -51,11 +51,8 @@ pub(crate) struct RenderFrameSample {
     prepare_ms: Option<f32>,
     render_ms: Option<f32>,
     pub(crate) submit_prepare_ms: Option<f32>,
-
     pub(crate) colour_submit_ms: Option<f32>,
-
     pub(crate) submit_encode_ms: Option<f32>,
-
     pub(crate) submit_gather_ms: Option<f32>,
     pub(crate) pack_intern_hit_n: Option<u32>,
     pub(crate) pack_intern_miss_n: Option<u32>,
@@ -71,30 +68,21 @@ pub(crate) struct RenderFrameSample {
     pub(crate) pack_walk_n: Option<u32>,
     pub(crate) tex_bind_hit_n: Option<u32>,
     pub(crate) tex_bind_miss_n: Option<u32>,
-
     pub(crate) pass_end_ms: Option<f32>,
     pub(crate) encoder_finish_ms: Option<f32>,
     pub(crate) submit_arena_ms: Option<f32>,
     pub(crate) submit_record_ms: Option<f32>,
-
     pub(crate) diag_ms: Option<f32>,
-
     pub(crate) diag_pass: Option<u32>,
-
     pub(crate) diag_draw_n: Option<u32>,
-
     pub(crate) diag_world_n: Option<u32>,
-
     pub(crate) diag_smodel_n: Option<u32>,
-
     pub(crate) diag_xmodel_n: Option<u32>,
-
     pub(crate) graph_render_ms: Option<f32>,
 
     /// The wall across bevy's whole submit set, not a `Queue::submit` body.
     pub(crate) graph_submit_ms: Option<f32>,
     pub(crate) graph_submit_pending_n: Option<u32>,
-
     pub(crate) graph_present_ms: Option<f32>,
     pub(crate) wgpu_floor_encode_ms: Option<f32>,
     pub(crate) wgpu_floor_finish_ms: Option<f32>,
@@ -102,15 +90,10 @@ pub(crate) struct RenderFrameSample {
     pub(crate) wgpu_floor_encode_1bind_ms: Option<f32>,
     pub(crate) wgpu_floor_n: Option<u32>,
     pub(crate) wgpu_floor_binds: Option<u32>,
-
     pub(crate) markmesh_hits: Option<u32>,
-
     pub(crate) markmesh_prepared: Option<u32>,
-
     pub(crate) last_markmesh_refusal: Option<String>,
-
     pub(crate) last_markmesh_exec_skip: Option<String>,
-
     pub(crate) markmesh_missing_58: Option<u32>,
     pub(crate) last_mark_packed_custom: Option<u8>,
     pub(crate) last_mark_packed_scene_light: Option<u8>,
@@ -122,9 +105,7 @@ pub(crate) struct RenderFrameSample {
     pub(crate) last_glass_packed_probe: Option<u8>,
     pub(crate) last_glass_probe_sampler: Option<u32>,
     pub(crate) gpu_ready: Option<u32>,
-
     pub(crate) set_bind_group_n: Option<u32>,
-
     pub(crate) gpu_prepared: Option<u32>,
     pub(crate) gpu_world_ready: Option<u32>,
     pub(crate) bsp_submitted_surfaces: [u32; 4],
@@ -179,7 +160,6 @@ pub(crate) struct RenderFrameSample {
     pub(crate) world_key_runs_seq: Option<u32>,
     pub(crate) world_mixed_breaks: Option<u32>,
     pub(crate) world_gathered: Option<u32>,
-
     pub(crate) world_ib_skip: Option<u32>,
     pub(crate) world_gpu_runs: Option<u32>,
     pub(crate) world_gpu_runs_seq: Option<u32>,
@@ -229,11 +209,8 @@ pub(crate) struct RenderFrameSample {
     pub(crate) extract_xmodel_arc: Option<u32>,
     pub(crate) extract_fx_arc: Option<u32>,
     pub(crate) extract_fx_clone_bytes: Option<u64>,
-
     pub(crate) extract_products_arc: Option<u32>,
-
     pub(crate) extract_images_arc: Option<u32>,
-
     pub(crate) extract_products_bank_new: Option<u32>,
 }
 
@@ -346,352 +323,188 @@ impl SharedRenderStagesSlot {
 #[derive(Resource, Debug, Clone, Default)]
 pub struct RenderFrameDiag {
     pub render_extract_ms: Option<f32>,
-
     pub render_extract_commands_ms: Option<f32>,
-
     pub render_prepare_assets_ms: Option<f32>,
-
     pub render_prepare_meshes_ms: Option<f32>,
-
     pub render_create_views_ms: Option<f32>,
-
     pub render_specialize_ms: Option<f32>,
-
     pub render_prepare_views_ms: Option<f32>,
-
     pub render_queue_ms: Option<f32>,
-
     pub render_phase_sort_ms: Option<f32>,
-
     pub render_prepare_ms: Option<f32>,
-
     pub render_render_ms: Option<f32>,
-
     pub present_mode: Option<String>,
-
     pub submit_prepare_ms: Option<f32>,
-
     pub colour_submit_ms: Option<f32>,
-
     pub submit_encode_ms: Option<f32>,
-
     pub submit_gather_ms: Option<f32>,
-
     pub pass_end_ms: Option<f32>,
-
     pub encoder_finish_ms: Option<f32>,
-
     pub submit_arena_ms: Option<f32>,
-
     pub submit_record_ms: Option<f32>,
-
     pub diag_ms: Option<f32>,
-
     pub diag_pass: Option<u32>,
-
     pub diag_draw_n: Option<u32>,
-
     pub diag_world_n: Option<u32>,
-
     pub diag_smodel_n: Option<u32>,
-
     pub diag_xmodel_n: Option<u32>,
-
     pub graph_render_ms: Option<f32>,
-
     pub graph_submit_ms: Option<f32>,
     pub graph_submit_pending_n: Option<u32>,
-
     pub graph_present_ms: Option<f32>,
     /// How old the drawn state was when the render graph finished with it, and
     /// how many main frames the main world had opened since it was extracted.
     pub presented_state_age_ms: Option<f32>,
     pub presented_frames_behind: Option<u32>,
-
     pub wgpu_floor_encode_ms: Option<f32>,
     pub wgpu_floor_finish_ms: Option<f32>,
     pub wgpu_floor_submit_ms: Option<f32>,
     pub wgpu_floor_encode_1bind_ms: Option<f32>,
     pub wgpu_floor_n: Option<u32>,
     pub wgpu_floor_binds: Option<u32>,
-
     pub pack_intern_hit_n: Option<u32>,
-
     pub pack_intern_miss_n: Option<u32>,
-
     pub pack_arena_share_n: Option<u32>,
-
     pub gpu_exec_reuse_n: Option<u32>,
-
     pub gpu_exec_unique_n: Option<u32>,
-
     pub pack_overlay_n: Option<u32>,
     pub pack_overlay_row_n: Option<u32>,
     pub pack_overlay_pixel_share_n: Option<u32>,
     pub pack_arena_vertex_n: Option<u32>,
     pub pack_arena_pixel_n: Option<u32>,
-
     pub pack_seed_n: Option<u32>,
-
     pub pack_walk_n: Option<u32>,
-
     pub tex_bind_hit_n: Option<u32>,
-
     pub tex_bind_miss_n: Option<u32>,
-
     pub markmesh_hits: Option<u32>,
-
     pub markmesh_prepared: Option<u32>,
-
     pub last_markmesh_refusal: Option<String>,
-
     pub last_markmesh_exec_skip: Option<String>,
-
     pub markmesh_missing_58: Option<u32>,
-
     pub last_mark_packed_custom: Option<u8>,
-
     pub last_mark_packed_scene_light: Option<u8>,
-
     pub last_mark_lmap_sampler: Option<u32>,
-
     pub glassmesh_hits: Option<u32>,
-
     pub glassmesh_prepared: Option<u32>,
-
     pub last_glassmesh_exec_skip: Option<String>,
-
     pub last_glassmesh_refusal: Option<String>,
-
     pub last_glass_packed_probe: Option<u8>,
-
     pub last_glass_probe_sampler: Option<u32>,
-
     pub gpu_ready: Option<u32>,
-
     pub set_bind_group_n: Option<u32>,
-
     pub gpu_prepared: Option<u32>,
-
     pub gpu_world_ready: Option<u32>,
-
     pub bsp_submitted_surfaces: [u32; 4],
-
     pub bsp_submit_refused_surfaces: [u32; 4],
-
     pub bsp_drawn_surfaces: [u32; 4],
-
     pub bsp_draw_refused_surfaces: [u32; 4],
-
     pub gpu_smodel_ready: Option<u32>,
-
     pub gpu_xmodel_ready: Option<u32>,
-
     pub end_depth_restore_n: Option<u32>,
-
     pub end_depth_range_type: Option<i32>,
-
     pub code_mesh_gpu_kind: Option<i32>,
-
     pub tess_stream_bind_n: Option<u32>,
-
     pub tess_stream_skip_n: Option<u32>,
-
     pub sun_shadow_gpu: Option<u32>,
-
     pub sun_shadow_gpu_miss: Option<u32>,
-
     pub sun_shadow_gpu_cause: Option<String>,
-
     pub sun_shadow_gpu_causes: Option<String>,
-
     pub spot_shadow_gpu: Option<u32>,
     pub spot_shadow_gpu_miss: Option<u32>,
     pub spot_shadow_gpu_cause: Option<String>,
     pub spot_shadow_slot_n: Option<u32>,
-
     pub sun_shadow_submit_ms: Option<f32>,
-
     pub sun_shadow_prepare_ms: Option<f32>,
-
     pub sun_shadow_patch_ms: Option<f32>,
-
     pub sun_shadow_arena_ms: Option<f32>,
-
     pub sun_shadow_record_ms: Option<f32>,
-
     pub sun_shadow_finish_ms: Option<f32>,
-
     pub sun_shadow_queue_ms: Option<f32>,
-
     pub sun_shadow_unnamed_ms: Option<f32>,
-
     pub sun_shadow_static_hit: Option<u32>,
     pub sun_shadow_world_ib_n: Option<u32>,
-
     pub sun_shadow_static_n: Option<u32>,
-
     pub sun_shadow_dynamic_n: Option<u32>,
-
     pub sun_shadow_wvp_intern_hit: Option<u32>,
-
     pub sun_shadow_wvp_intern_miss: Option<u32>,
-
     pub sun_shadow_wvp_intern_n: Option<u32>,
-
     pub sun_shadow_wvp_unique_base: Option<u32>,
-
     pub sun_shadow_wvp_unique_wvp: Option<u32>,
-
     pub sun_shadow_state_pipe_n: Option<u32>,
-
     pub sun_shadow_state_tess_n: Option<u32>,
-
     pub sun_shadow_state_bind_n: Option<u32>,
-
     pub sun_shadow_state_off_n: Option<u32>,
-
     pub sun_shadow_state_group_n: Option<u32>,
-
     pub sun_shadow_state_run_n: Option<u32>,
-
     pub sun_shadow_state_run_max: Option<u32>,
-
     pub sun_shadow_state_top10: Option<u32>,
-
     pub world_index_gaps: Option<u32>,
-
     pub world_run_indices_n: Option<u32>,
-
     pub world_material_runs: Option<u32>,
-
     pub world_material_runs_seq: Option<u32>,
-
     pub world_key_runs: Option<u32>,
-
     pub world_key_runs_seq: Option<u32>,
-
     pub world_mixed_breaks: Option<u32>,
     pub world_gathered: Option<u32>,
-
     pub world_ib_skip: Option<u32>,
-
     pub world_gpu_runs: Option<u32>,
-
     pub world_gpu_runs_seq: Option<u32>,
-
     pub world_sampler_runs_seq: Option<u32>,
-
     pub world_probe_runs_seq: Option<u32>,
-
     pub world_light_runs_seq: Option<u32>,
-
     pub smodel_reuse_n: Option<u32>,
-
     pub xmodel_reuse_n: Option<u32>,
-
     pub xmodel_material_runs: Option<u32>,
-
     pub smodel_index_gaps: Option<u32>,
-
     pub smodel_material_runs: Option<u32>,
-
     pub smodel_material_runs_seq: Option<u32>,
-
     pub smodel_material_run_max: Option<u32>,
-
     pub smodel_same_surface_n: Option<u32>,
-
     pub smodel_unique_surfaces: Option<u32>,
-
     pub smodel_hits: Option<u32>,
-
     pub smodel_lighting_runs: Option<u32>,
-
     pub smodel_lighting_run_max: Option<u32>,
-
     pub smodel_pretess_runs: Option<u32>,
-
     pub smodel_pretess_hits: Option<u32>,
-
     pub smodel_pretess_verts: Option<u32>,
-
     pub smodel_pretess_indices: Option<u32>,
-
     pub smodel_cached_lighting: Option<u32>,
-
     pub smodel_pretess_local: Option<u32>,
-
     pub smodel_pretess_length1: Option<u32>,
-
     pub smodel_pretess_skip: Option<u32>,
-
     pub submit_cause: Option<String>,
-
     pub submit_cause2: Option<String>,
-
     pub gpu_not_ready_n: Option<u32>,
-
     pub gpu_no_port_n: Option<u32>,
-
     pub pnr_smodel_mat: Option<String>,
-
     pub pnr_world_mat: Option<String>,
-
     pub pnr_smodel_ps: Option<String>,
-
     pub pnr_world_ps: Option<String>,
-
     pub pnr_smodel_key_n: Option<u32>,
-
     pub pnr_world_key_n: Option<u32>,
-
     pub pnr_port_n: Option<u32>,
-
     pub gpu_smodel_bind_mat: Option<String>,
-
     pub extract_ports_ms: Option<f32>,
-
     pub extract_tess_ms: Option<f32>,
-
     pub extract_products_ms: Option<f32>,
-
     pub extract_images_ms: Option<f32>,
-
     pub extract_diag_ms: Option<f32>,
-
     pub extract_world_skip: Option<u32>,
-
     pub extract_world_clone_bytes: Option<u64>,
-
     pub extract_xmodel_clone_bytes: Option<u64>,
-
     pub extract_xmodel_arc: Option<u32>,
-
     pub extract_fx_arc: Option<u32>,
-
     pub extract_fx_clone_bytes: Option<u64>,
-
     pub extract_products_arc: Option<u32>,
-
     pub extract_images_arc: Option<u32>,
-
     pub extract_products_bank_new: Option<u32>,
-
     pub gpu_frame_ms: Option<f32>,
-
     pub gpu_opaque_ms: Option<f32>,
-
     pub cpu_graph_ms: Option<f32>,
-
     pub cpu_opaque_ms: Option<f32>,
-
     pub cpu_present_ms: Option<f32>,
-
     pub cpu_graph_top: Option<String>,
-
     pub drawn_entities: Option<u32>,
-
     pub drawn_index_count: Option<u64>,
 }
 

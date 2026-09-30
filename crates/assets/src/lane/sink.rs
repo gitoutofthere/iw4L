@@ -155,7 +155,6 @@ use crate::{
 #[derive(Default)]
 pub(crate) struct ZoneWalkSink {
     pub walked: usize,
-
     pub stage: Option<StageHandle>,
     pub models: ModelCensus,
     pub materials: MaterialCatalog,
@@ -164,39 +163,26 @@ pub(crate) struct ZoneWalkSink {
     pub impact_fx: ImpactFxCatalog,
     pub tracers: crate::TracerCatalog,
     pub map_xmodels: MapXModelCatalog,
-
     pub phys_presets: crate::PhysPresetCatalog,
-
     pub fx_glass_def_materials: Vec<(String, String)>,
-
     script_strings: ScriptStrings,
     pub bodies: BodyMeshBuild,
     pub fpv_meshes: FpvMeshBuild,
     pub xanims: XAnimBuild,
-
     pub xmodel_coll: crate::XModelCollCatalog,
-
     pub compass: crate::MapCompassSource,
-
     pub script_sound: crate::MapScriptSoundSource,
-
     pub t5_teamset: Option<String>,
-
     pub exp_fog: Option<crate::ExpFog>,
-
     pub film_visions: BTreeMap<String, Result<crate::FilmVision, crate::FilmVisionParseError>>,
-
     pub createart_name: Option<String>,
-
     pub light_def_table: usize,
     pub light_def_bodies: usize,
     strings_t5: fastfile_t5::ScriptStrings,
     strings_iw5: fastfile_iw5::ScriptStrings,
-
     xmodel_names: HashMap<Ptr, Ptr>,
     xmodel_surfaces: HashMap<Ptr, Ptr>,
     xmodel_surface_names: HashMap<Ptr, Ptr>,
-
     pub sound: Option<asset_audio::ZoneSoundCapture>,
 }
 
@@ -206,7 +192,6 @@ pub(crate) struct CommonWalkSink {
     pub shared_surfaces: asset_model::SharedXModelSurfaces,
     script_strings: ScriptStrings,
     pub walked: usize,
-
     pub stage: Option<StageHandle>,
     pub models: ModelCensus,
     pub materials: MaterialCatalog,
@@ -220,7 +205,6 @@ pub(crate) struct CommonWalkSink {
     pub fx_models: crate::FxModelCatalog,
     pub impact_fx: ImpactFxCatalog,
     pub tracers: crate::TracerCatalog,
-
     xmodel_names: HashMap<Ptr, Ptr>,
     xmodel_surfaces: HashMap<Ptr, Ptr>,
     xmodel_surface_names: HashMap<Ptr, Ptr>,
@@ -231,19 +215,13 @@ pub(crate) struct CommonWalkSink {
     fx_names_iw5: HashMap<fastfile_iw5::Ptr, String>,
     fx_aliases_iw5: HashMap<fastfile_iw5::Ptr, fastfile_iw5::Ptr>,
     last_fx_name_iw5: Option<String>,
-
     pub light_def_table: usize,
     pub light_def_bodies: usize,
-
     pub pen_table: Option<weapon_iw4::PenetrationDepthTable>,
     pub lochit_table: Option<[f32; weapon_iw4::HITLOC_COUNT]>,
-
     pub teamsets: HashMap<String, crate::MapTeamSettings>,
-
     pub stats_tables: BTreeMap<String, crate::CapturedStringTable>,
-
     pub film_visions: BTreeMap<String, Result<crate::FilmVision, crate::FilmVisionParseError>>,
-
     pub sound: Option<asset_audio::ZoneSoundCapture>,
 }
 
@@ -1393,9 +1371,7 @@ pub(crate) struct MaterialPopulationSink {
     pub walked: usize,
     pub stage: Option<StageHandle>,
     pub materials: MaterialCatalog,
-
     pub stats_tables: BTreeMap<String, crate::CapturedStringTable>,
-
     pub sound: Option<asset_audio::ZoneSoundCapture>,
 }
 
@@ -1679,9 +1655,7 @@ pub(crate) struct ModelCensus {
     soldier: ModelTotals,
     soldier_names: Vec<String>,
     failed: usize,
-
     walked_names: BTreeSet<String>,
-
     unclassified_names: BTreeSet<String>,
 }
 

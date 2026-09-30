@@ -38,72 +38,46 @@ pub const WEAPON_BOB_AMP_SPRINTING: [f32; 2] = [0.02, 0.014];
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponBobState {
     pub pitch: f32,
-
     pub yaw: f32,
-
     pub roll: f32,
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponStanceStaticOfsInputs {
     pub ofs_at_0x168: [f32; 3],
-
     pub ofs_at_0x18c: [f32; 3],
-
     pub ads_aim_pitch: f32,
-
     pub night_vision_wear_time: i32,
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponMovementOfsInputs {
     pub stand_move_at_0x138: [f32; 3],
-
     pub stand_rot_at_0x144: [f32; 3],
-
     pub strafe_move_at_0x150: [f32; 3],
-
     pub strafe_rot_at_0x15c: [f32; 3],
-
     pub ducked_move_at_0x174: [f32; 3],
-
     pub ducked_rot_at_0x180: [f32; 3],
-
     pub prone_move_at_0x198: [f32; 3],
-
     pub prone_rot_at_0x1a4: [f32; 3],
-
     pub pos_move_rate_at_0x1b0: f32,
-
     pub pos_prone_move_rate_at_0x1b4: f32,
-
     pub stand_move_min_speed_at_0x1b8: f32,
-
     pub ducked_move_min_speed_at_0x1bc: f32,
-
     pub prone_move_min_speed_at_0x1c0: f32,
-
     pub pos_rot_rate_at_0x1c4: f32,
-
     pub pos_prone_rot_rate_at_0x1c8: f32,
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponMovementKinematics {
     pub xyspeed: f32,
-
     pub speed: f32,
-
     pub velocity: [f32; 3],
-
     pub viewangles: [f32; 3],
-
     pub weaponstate: i32,
-
     pub weaponstate_secondary: i32,
-
     pub pm_flags: u32,
-
     pub frametime: f32,
 }
 
@@ -115,15 +89,10 @@ pub struct WeaponBobInputs {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponIdleInputs {
     pub ads_idle_amount_at_0x36c: f32,
-
     pub hip_idle_amount_at_0x370: f32,
-
     pub ads_idle_speed_at_0x374: f32,
-
     pub hip_idle_speed_at_0x378: f32,
-
     pub idle_crouch_factor_at_0x37c: f32,
-
     pub idle_prone_factor_at_0x380: f32,
 }
 
@@ -152,20 +121,15 @@ pub const GUN_DAMAGE_OVERLAY_MIX: f32 = 0.75;
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponBobWaveformInputs {
     pub bob_cycle: u8,
-
     pub xyspeed: f32,
-
     pub view_height_target: i32,
-
     pub pm_flags: u32,
-
     pub weapon_pos_frac: f32,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct StanceTransitionFadeGlobals {
     pub fade_start_frac: f32,
-
     pub fade_end_frac: f32,
 }
 
@@ -181,51 +145,35 @@ impl Default for StanceTransitionFadeGlobals {
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct WeaponPlacementState {
     pub movement_angles: [f32; 3],
-
     pub movement_origin: [f32; 3],
-
     pub unfaded_angles_at_0x0f: [f32; 3],
     pub sway_springs: SwaySpringState,
     pub gun_recoil: GunRecoilPlacementState,
     pub bob: WeaponBobState,
-
     pub weap_idle_time: i32,
-
     pub last_idle_factor: f32,
-
     pub idle_sway_angles: [f32; 3],
-
     pub damage_kick_time: i32,
-
     pub damage_time: i32,
-
     pub v_dmg_pitch: f32,
     pub v_dmg_roll: f32,
-
     pub damage_kick_angles: [f32; 3],
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponPlacementPsInputs {
     pub e_flags: u32,
-
     pub weapon_pos_frac: f32,
-
     pub weapon_time: i32,
-
     pub aim_down_sight: bool,
-
     pub overlay_reticle: i32,
-
     pub weapon_transition_active: bool,
-
     pub lean_fraction: f32,
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponPlacementContribution {
     pub origin: [f32; 3],
-
     pub angles: [f32; 3],
 }
 

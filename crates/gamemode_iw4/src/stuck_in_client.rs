@@ -21,9 +21,7 @@ pub struct StuckClient {
     pub health: i32,
     pub pm_time: i32,
     pub pm_flags: u32,
-
     pub maxs_x: f32,
-
     pub bounds_mid: [f32; 3],
     pub bounds_half: [f32; 3],
 }

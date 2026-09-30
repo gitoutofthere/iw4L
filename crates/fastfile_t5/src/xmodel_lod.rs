@@ -50,9 +50,7 @@ fn first_lod_under(num_lods: i16, lod_dist: [f32; MAX_LODS], dist: f32) -> Optio
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct LodParmsAxis {
     pub applied_inv_scale: f32,
-
     pub scale: f32,
-
     pub bias: f32,
 }
 

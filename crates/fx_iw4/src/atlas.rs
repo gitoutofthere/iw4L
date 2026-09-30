@@ -19,7 +19,6 @@ pub struct FxSpriteAtlasUv {
     pub t0: f32,
     pub dt: f32,
     pub entry_count: u16,
-
     pub atlas_index: u16,
 }
 

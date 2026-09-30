@@ -67,14 +67,12 @@ pub struct AuthoredImage {
     /// row nothing has answered yet. It is what lets the merge census say
     /// *who* won a disputed name rather than only that somebody did.
     pub decoded_by: Option<u64>,
-
     pub pending_decode: Option<u64>,
 }
 
 #[derive(Clone, Debug)]
 pub struct MaterialTextureBinding {
     pub name_hash: u32,
-
     pub name_start: u8,
     pub name_end: u8,
     pub sampler_state: u8,
@@ -93,7 +91,6 @@ pub struct MaterialConstant {
 pub struct AuthoredShader {
     pub name: AssetRef,
     pub kind: AssetType,
-
     pub program: Vec<u8>,
 }
 
@@ -119,9 +116,7 @@ pub struct AuthoredVertexDecl {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct ShaderSourceCensus {
     pub programs: usize,
-
     pub unresolved_aliases: usize,
-
     pub byteless: usize,
 }
 
@@ -139,7 +134,6 @@ pub struct AssetRefDumpCensus {
     pub images: AssetRefCensus,
     pub shaders: AssetRefCensus,
     pub decls: AssetRefCensus,
-
     pub mat_iw4_n: usize,
     pub mat_t5_n: usize,
     pub mat_iw5_n: usize,
@@ -229,16 +223,13 @@ pub enum OwnedShaderArgument {
 pub struct OwnedMaterialPass {
     pub pass_index: u8,
     pub vertex_decl_identity: AssetPointerIdentity,
-
     pub vertex_decl: Option<usize>,
     pub vertex_shader: OwnedShaderRef,
     pub pixel_shader: OwnedShaderRef,
     pub per_prim_arg_count: u8,
     pub per_obj_arg_count: u8,
     pub stable_arg_count: u8,
-
     pub custom_sampler_flags: u8,
-
     pub t5_custom_sampler_flags: u8,
     pub arguments: Vec<OwnedShaderArgument>,
     pub arguments_truncated: bool,
@@ -261,17 +252,11 @@ pub struct OwnedTechniqueGraph {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct TechniqueTable {
     pub slots: u64,
-
     pub scanned: u64,
-
     pub technique0_flags: u8,
-
     pub model_lighting_const: Option<bool>,
-
     pub max_pass_count: u16,
-
     pub pass_count_by_slot: [u8; asset_iw4::size::TECHNIQUE_SLOT_COUNT],
-
     pub graph: Option<OwnedTechniqueGraph>,
 }
 
@@ -334,17 +319,11 @@ pub struct CrossGameTechsetResolution {
 pub struct TechniqueSetFacts {
     pub namespace: crate::AssetNamespace,
     pub name: AssetRef,
-
     pub zone: crate::ZoneOwner,
-
     pub table: Option<TechniqueTable>,
-
     pub t5_occupancy: Option<T5TechniqueOccupancy>,
-
     pub iw5_fallback_table: Option<TechniqueTable>,
-
     pub t5_fallback_table: Option<TechniqueTable>,
-
     pub world_vert_format: u8,
 }
 
@@ -381,38 +360,24 @@ pub enum TechsetResolve<'a> {
 #[derive(Clone, Debug)]
 pub struct AuthoredMaterial {
     pub name: AssetRef,
-
     pub namespace: crate::AssetNamespace,
     pub technique_set: AssetRef,
-
     pub technique_set_edge: crate::AssetEdge<crate::TechniqueSetSpace>,
     pub draw_surf: u64,
     pub sort_key: u8,
-
     pub info_game_flags: u8,
-
     pub texture_atlas: Option<[u8; 2]>,
-
     pub surface_type_bits: Option<u32>,
-
     pub state_flags: u8,
-
     pub camera_region: u8,
-
     pub state_bits: Vec<[u32; 2]>,
-
     pub state_bits_entry: Option<[u8; asset_iw4::size::TECHNIQUE_SLOT_COUNT]>,
-
     pub t5_state_bits_entry: Option<[u8; fastfile_t5::TECHNIQUE_SLOT_COUNT]>,
-
     pub iw5_state_bits_entry: Option<[u8; fastfile_iw5::size::TECHNIQUE_SLOT_COUNT]>,
-
     pub technique_table: Option<TechniqueTable>,
-
     pub route: Option<asset_iw4::MaterialDrawRoute>,
     pub textures: Vec<MaterialTextureBinding>,
     pub constants: Vec<MaterialConstant>,
-
     pub zone: crate::asset_graph::ZoneOwner,
 }
 
@@ -451,18 +416,13 @@ pub struct MaterialDefinitions {
     pub shaders: Vec<AuthoredShader>,
     pub vertex_decls: Vec<AuthoredVertexDecl>,
     techsets: Vec<TechniqueSetFacts>,
-
     pub capture_gaps: usize,
-
     pub leftover_iw5_arg_n: u32,
     leftover_iw5_arg_hits: BTreeMap<String, u32>,
-
     pub leftover_t5_arg_n: u32,
     leftover_t5_arg_hits: BTreeMap<String, u32>,
-
     pub link_reused_materials: usize,
     pub link_reused_images: usize,
-
     pub cross_game_techset_resolutions: Vec<CrossGameTechsetResolution>,
 }
 
@@ -472,11 +432,9 @@ pub struct MaterialDefinitions {
 #[derive(Clone, Debug, Default)]
 pub struct MaterialCatalog {
     defs: MaterialDefinitions,
-
     link: ZoneLinkState,
     capture_zone: crate::asset_graph::ZoneOwner,
     capture_ns: crate::AssetNamespace,
-
     cross_zone_link: bool,
 }
 

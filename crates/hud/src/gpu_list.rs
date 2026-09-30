@@ -30,7 +30,6 @@ impl From<hud_iw4::GfxTessVertex2d> for HudTessVertex {
 pub enum HudTessTechnique {
     #[default]
     Modulate,
-
     SplatterAlt,
 }
 
@@ -39,13 +38,10 @@ pub struct HudTessBatch {
     pub image: Handle<Image>,
     pub mask: Option<Handle<Image>>,
     pub technique: HudTessTechnique,
-
     pub state_bits: Option<[u32; 2]>,
     pub first_index: u32,
     pub index_count: u32,
-
     pub first_vertex: u32,
-
     pub vertex_count: u32,
 }
 
@@ -54,7 +50,6 @@ pub struct HudTessGpuFrame {
     pub vertices: Vec<HudTessVertex>,
     pub indices: Vec<u16>,
     pub batches: Vec<HudTessBatch>,
-
     pub surface_w: f32,
     pub surface_h: f32,
     pub visible: bool,

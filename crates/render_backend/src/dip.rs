@@ -114,7 +114,6 @@ fn index_byte_source_span(index_byte_offset: u32, tri_count: u32) -> (u32, u32) 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ModelIndexRingCopyRefuse {
     SourceMissing,
-
     ExceedsCapacity,
 }
 

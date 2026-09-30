@@ -12,9 +12,7 @@ pub enum FpvSurfOwner {
     Hands,
     #[default]
     Gun,
-
     Scope,
-
     Rocket,
 }
 

@@ -7,17 +7,11 @@ pub const KILLCAM_TURRET_LERP_MS: i32 = 900;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum KillcamEnterStep {
     ResetLocals,
-
     ResetTurretFx,
-
     SelectWeaponIndex,
-
     EnterFxPass,
-
     ResetScriptMoverTrees,
-
     StopExplosionFx,
-
     FreeActiveFx,
 }
 
@@ -34,15 +28,10 @@ pub const KILLCAM_ENTER_STEPS: [KillcamEnterStep; 7] = [
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum KillcamExitStep {
     ResetTurretFx,
-
     ClearInKillCam,
-
     EnterFxPass,
-
     ResetScriptMoverTrees,
-
     RestoreSnapEntities,
-
     FreeActiveFx,
 }
 

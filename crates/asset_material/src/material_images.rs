@@ -30,7 +30,6 @@ use crate::{
 struct DecodedMips {
     width: u32,
     height: u32,
-
     packed: Vec<u8>,
     level_sizes: Vec<u32>,
     storage: MipStorage,
@@ -1675,9 +1674,7 @@ struct IwiHeaderInfo {
     height: u32,
     format: PixelFormat,
     header_len: usize,
-
     mip0_end: usize,
-
     mip0_start: usize,
 }
 
@@ -2070,7 +2067,6 @@ pub fn retail_lightmap_bake(
 pub struct ImageDemandPlan {
     id: u64,
     zone_ff: PathBuf,
-
     demands: Vec<AuthoredImage>,
     requests: Vec<(u8, bool, bool, bool)>,
     /// Catalog rows that pointed at one of `demands`. More rows than demands

@@ -9,7 +9,6 @@ use crate::iwd::game_main_for_zone;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct NamespaceTree {
     pub anchor: PathBuf,
-
     pub main: Option<PathBuf>,
 }
 

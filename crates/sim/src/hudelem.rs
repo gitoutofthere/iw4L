@@ -23,11 +23,8 @@ pub const HUDELEM_UPDATE_BOTH: u8 = HUDELEM_UPDATE_ARCHIVAL | HUDELEM_UPDATE_CUR
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct GameHudElemSlot {
     pub elem: HudElem,
-
     pub client_num: i32,
-
     pub team: i32,
-
     pub archived: i32,
 }
 

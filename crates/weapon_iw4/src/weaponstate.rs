@@ -12,7 +12,6 @@ pub enum WeaponState {
     RaisingAltswitch = 0x2,
     Dropping = 0x3,
     DroppingQuick = 0x4,
-
     DroppingAltswitch = 0x5,
     Firing = 0x6,
     Rechambering = 0x7,
@@ -30,7 +29,6 @@ pub enum WeaponState {
     OffhandStart = 0x13,
     Offhand = 0x14,
     OffhandEnd = 0x15,
-
     Detonating = 0x16,
     SprintIn = 0x17,
     SprintLoop = 0x18,

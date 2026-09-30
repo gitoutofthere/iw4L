@@ -68,13 +68,9 @@ fn missile_scene_slot(scene: &render_scene::GfxScene, entnum: u32) -> MissileSce
 #[derive(Resource, Default)]
 pub struct MissileBoltState {
     pub rows: HashMap<u32, MissileBoltRow>,
-
     pub predicted_rows_skipped: u64,
-
     pub pose_gaps: u64,
-
     pub play_gaps: u64,
-
     pub ignition_gaps: u64,
 }
 

@@ -17,18 +17,14 @@ pub struct WeaponSwayParams {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct SwaySpringState {
     pub horiz: f32,
-
     pub vert: f32,
-
     pub pitch: f32,
-
     pub yaw: f32,
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct SwayContribution {
     pub origin: [f32; 3],
-
     pub angles: [f32; 3],
 }
 

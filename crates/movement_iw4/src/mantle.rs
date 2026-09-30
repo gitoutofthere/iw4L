@@ -44,11 +44,8 @@ pub const MANTLE_FRONT_MAXS_Z: f32 = 70.0;
 pub struct MantleFindLedgeContext {
     pub mantle_enable: bool,
     pub ledge_heights: [f32; 3],
-
     pub check_angle_deg: f32,
-
     pub check_range: f32,
-
     pub check_radius: f32,
 }
 
@@ -69,7 +66,6 @@ pub struct MantleResults {
     pub dir: [f32; 3],
     pub start_pos: [f32; 3],
     pub ledge_pos: [f32; 3],
-
     pub end_pos: [f32; 3],
     pub flags: u32,
 }
@@ -477,13 +473,9 @@ pub fn mantle_find_ledge_recording(
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct MantleCheckContext {
     pub find: MantleFindLedgeContext,
-
     pub buttons: u32,
-
     pub forwardmove: i8,
-
     pub facing_xy: [f32; 2],
-
     pub tracemask: u32,
 }
 
@@ -678,7 +670,6 @@ pub fn mantle_active_xanim(ps: &PlayerState, lengths: &impl MantleXAnimLength) -
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct MantleCapViewContext {
     pub mantle_enable: bool,
-
     pub view_yawcap: f32,
 }
 
@@ -728,7 +719,6 @@ const EV_MANTLE_MOVE_BIT4: i32 = 6;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct MantleMoveContext {
     pub mantle_enable: bool,
-
     pub max_vertical_end_velocity: f32,
 }
 

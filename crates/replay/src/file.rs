@@ -15,7 +15,6 @@ pub struct MatchRecordIdentity {
     pub rng_scheme: u32,
     pub root_seed: u64,
     pub content_digest: u64,
-
     pub zone: [u8; ZONE_FIELD_LEN],
 }
 

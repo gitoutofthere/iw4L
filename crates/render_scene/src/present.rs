@@ -7,7 +7,6 @@ use render_material::{PreparedMaterialTable, RuntimeMaterialCatalog};
 pub struct TessMaterials {
     pub catalog: Arc<RuntimeMaterialCatalog>,
     pub prepared: Arc<PreparedMaterialTable>,
-
     pub material_images: Arc<Vec<Option<Handle<Image>>>>,
 }
 

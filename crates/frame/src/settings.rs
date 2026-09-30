@@ -32,7 +32,6 @@ pub struct GameSettings {
     pub sensitivity: f32,
     pub invert_mouse: bool,
     pub player_name: String,
-
     pub revision: u64,
 }
 

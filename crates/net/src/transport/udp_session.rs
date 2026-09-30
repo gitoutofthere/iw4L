@@ -124,7 +124,6 @@ pub struct CommittedAdmission {
     pub epoch: u32,
     pub bootstrap_id: u32,
     pub connection_id: u64,
-
     pub first_commit: bool,
 }
 
@@ -137,16 +136,13 @@ pub struct UdpAuthorityHub {
     pub connections: ConnectionTable,
     peers: HashMap<ConnectionId, PeerTarget>,
     by_addr: HashMap<SocketAddr, ConnectionId>,
-
     pending_replies: Vec<(SocketAddr, ServerPacket)>,
     replication: HashMap<ConnectionId, PeerReplicationState>,
-
     bootstrap: Option<Arc<BootstrapLane>>,
     next_bootstrap_id: HashMap<ConnectionId, u32>,
     member_by_addr: HashMap<SocketAddr, master_protocol::MemberId>,
     member_by_conn: HashMap<ConnectionId, master_protocol::MemberId>,
     committed_admissions: Vec<CommittedAdmission>,
-
     denied: HashSet<master_protocol::MemberId>,
 }
 
@@ -947,7 +943,6 @@ pub struct UdpClientLink {
     pub limits: ProtocolLimits,
     pub connection: Option<ConnectionId>,
     pub assigned_client: Option<ClientId>,
-
     baselines: BTreeMap<u32, Snapshot>,
     out_seq: u32,
     in_ack: u32,
@@ -955,9 +950,7 @@ pub struct UdpClientLink {
     applied_bootstrap_id: Option<u32>,
     last_applied_offer: Option<(u32, u32)>,
     pending_applied: Vec<BootstrapMessage>,
-
     held_bootstrap: Vec<Vec<u8>>,
-
     failed: Option<HandshakeReject>,
     bootstrap: Option<Arc<BootstrapLane>>,
     controls: Vec<crate::ReliablePayload>,

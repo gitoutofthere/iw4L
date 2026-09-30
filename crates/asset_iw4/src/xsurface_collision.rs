@@ -1,11 +1,8 @@
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct XSurfaceCollisionNode {
     pub mins: [u16; 3],
-
     pub maxs: [u16; 3],
-
     pub child_begin_index: u16,
-
     pub child_count: u16,
 }
 

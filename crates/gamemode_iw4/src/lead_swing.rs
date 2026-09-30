@@ -11,7 +11,6 @@ pub const OBJECTIVE_POINTS_MOD_DEFAULT: i32 = 1;
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum StatusDialog {
     LeadTaken,
-
     LeadLost,
 }
 
@@ -27,9 +26,7 @@ impl StatusDialog {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct LeaderDialogRequest {
     pub dialog: StatusDialog,
-
     pub team: ScoringTeam,
-
     pub group: &'static str,
 }
 
@@ -74,40 +71,30 @@ impl TeamScores {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct LeadSwing {
     pub was_winning: Option<ScoringTeam>,
-
     pub last_status_time_ms: i32,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ScoreFollowUp {
     CheckScoreLimitSoon,
-
     OvertimeScoreLimit,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct ObjectiveGrant {
     pub kind: GameModeKind,
-
     pub team: ScoringTeam,
-
     pub points: i32,
-
     pub now_ms: i32,
-
     pub splitscreen: bool,
-
     pub nuke_incoming: bool,
-
     pub score_limit: i32,
-
     pub overtime: bool,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ObjectiveGrantOutcome {
     NukeIncoming,
-
     NotTeamBased,
 
     Granted {

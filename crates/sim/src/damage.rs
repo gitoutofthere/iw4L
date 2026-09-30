@@ -47,11 +47,8 @@ pub struct DamageAttempt {
     pub target_life: LifeSequence,
     pub weapon: u32,
     pub amount: i32,
-
     pub killcam_entity_start_time: i32,
-
     pub inflictor_origin: Option<[f32; 3]>,
-
     pub hitloc: u8,
 }
 

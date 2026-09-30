@@ -10,7 +10,6 @@ pub const SVC_STOP_LOCAL: u8 = 0x68;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct SvcSound {
     pub stop: bool,
-
     pub index: u8,
 }
 
@@ -51,15 +50,10 @@ struct PendingAlias {
 pub struct PendingSvcSounds {
     queued: Vec<PendingAlias>,
     indexed: Vec<(ClientId, SvcSound)>,
-
     pub dropped_index_zero: u64,
-
     pub stranded: u64,
-
     pub last_queued_alias: Option<String>,
-
     pub last_index: u8,
-
     pub last_dropped_alias: Option<String>,
 }
 

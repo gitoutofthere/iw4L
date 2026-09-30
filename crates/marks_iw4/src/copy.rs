@@ -52,7 +52,6 @@ pub struct FxMarkCopyCensus {
     pub copied_point: u32,
     pub tri_groups: u32,
     pub point_groups: u32,
-
     pub first_xyz: [f32; 3],
 }
 

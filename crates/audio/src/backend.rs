@@ -35,7 +35,6 @@ enum VoiceKind {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum VoiceOwner {
     Exclusive,
-
     Attached,
 }
 

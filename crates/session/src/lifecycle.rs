@@ -42,9 +42,7 @@ struct PendingSessionSwap {
     id: u64,
     target: SessionSwapTarget,
     phase: SessionSwapPhase,
-
     abort_install: bool,
-
     tore_down_world: bool,
 }
 

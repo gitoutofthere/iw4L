@@ -14,17 +14,11 @@ pub fn perk_fastreload_eligible(perks0: u32, inherits_perks: bool) -> bool {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MissingCombatFacts {
     FireOrRaiseTime,
-
     ClipSize,
-
     BurstCooldown,
-
     SegmentedReloadAmmoAdd,
-
     BulletRange,
-
     UnknownFireType,
-
     LocationDamage,
 }
 
@@ -42,34 +36,24 @@ pub struct CapturedCombatInput {
     pub ammo_index: i32,
     pub clip_index: i32,
     pub fire_type: i32,
-
     pub weap_type: i32,
-
     pub weap_class: i32,
-
     pub player_anim_type: i32,
-
     pub inventory_type: i32,
-
     pub impact_type: i32,
     pub shots_per_fire: i32,
     pub burst_cooldown_ms: i32,
     pub bolt_action: bool,
     pub rechamber_time_ms: i32,
     pub rechamber_bolt_time_ms: i32,
-
     pub rechamber_bolt_delay_ms: i32,
     pub segmented_reload: bool,
     pub reload_start_time_ms: i32,
     pub reload_end_time_ms: i32,
     pub reload_ammo_add: i32,
-
     pub reload_add_time_ms: i32,
-
     pub reload_empty_add_time_ms: i32,
-
     pub reload_start_add_time_ms: i32,
-
     pub reload_start_add: i32,
     pub no_partial_reload: bool,
     pub sprint_raise_time_ms: i32,
@@ -91,51 +75,28 @@ pub struct CapturedCombatInput {
     pub hip_spread_ducked_decay: f32,
     pub hip_spread_prone_decay: f32,
     pub ads_spread: f32,
-
     pub aim_down_sight: bool,
-
     pub no_ads_when_mag_empty: bool,
-
     pub inherits_perks: bool,
-
     pub ads_in_rate: f32,
-
     pub ads_out_rate: f32,
-
     pub rechamber_while_ads: bool,
-
     pub ads_fire_only: bool,
-
     pub melee_damage: i32,
-
     pub overlay_reticle: i32,
-
     pub melee_time_ms: i32,
-
     pub melee_delay_ms: i32,
-
     pub melee_charge_time_ms: i32,
-
     pub melee_charge_delay_ms: i32,
-
     pub melee_charge_anim: bool,
-
     pub knife_model: u32,
-
     pub quick_raise_time_ms: i32,
-
     pub quick_drop_time_ms: i32,
-
     pub select_requires_ammo_at_0x667: Option<bool>,
-
     pub offhand_hold_is_cancelable_at_0x681: Option<bool>,
-
     pub ads_gun_kick_reduced_kick_bullets: i32,
-
     pub hip_gun_kick_reduced_kick_bullets: i32,
-
     pub location_damage: [f32; crate::HITLOC_COUNT],
-
     pub dual_mag: Option<crate::reload::DualMagTimes>,
 }
 
@@ -150,54 +111,31 @@ pub struct WeaponCombatFacts {
     pub clip_size: i32,
     pub start_ammo: i32,
     pub max_ammo: i32,
-
     pub ammo_index: i32,
-
     pub clip_index: i32,
     pub fire_type: i32,
-
     pub weap_type: i32,
-
     pub weap_class: i32,
-
     pub player_anim_type: i32,
-
     pub inventory_type: i32,
-
     pub impact_type: i32,
-
     pub shots_per_fire: i32,
-
     pub burst_cooldown_ms: i32,
-
     pub bolt_action: bool,
-
     pub rechamber_time_ms: i32,
-
     pub rechamber_bolt_time_ms: i32,
-
     pub rechamber_bolt_delay_ms: i32,
-
     pub segmented_reload: bool,
     pub reload_start_time_ms: i32,
     pub reload_end_time_ms: i32,
-
     pub reload_ammo_add: i32,
-
     pub reload_add_time_ms: i32,
-
     pub reload_empty_add_time_ms: i32,
-
     pub reload_start_add_time_ms: i32,
-
     pub reload_start_add: i32,
-
     pub no_partial_reload: bool,
-
     pub inherits_perks: bool,
-
     pub sprint_raise_time_ms: i32,
-
     pub sprint_drop_time_ms: i32,
     pub damage: i32,
     pub min_damage: i32,
@@ -216,49 +154,27 @@ pub struct WeaponCombatFacts {
     pub hip_spread_ducked_decay: f32,
     pub hip_spread_prone_decay: f32,
     pub ads_spread: f32,
-
     pub aim_down_sight: bool,
-
     pub no_ads_when_mag_empty: bool,
-
     pub ads_in_rate: f32,
-
     pub ads_out_rate: f32,
-
     pub rechamber_while_ads: bool,
-
     pub ads_fire_only: bool,
-
     pub melee_damage: i32,
-
     pub overlay_reticle: i32,
-
     pub melee_time_ms: i32,
-
     pub melee_delay_ms: i32,
-
     pub melee_charge_time_ms: i32,
-
     pub melee_charge_delay_ms: i32,
-
     pub melee_charge_anim: bool,
-
     pub knife_model: u32,
-
     pub quick_raise_time_ms: i32,
-
     pub quick_drop_time_ms: i32,
-
     pub select_requires_ammo_at_0x667: Option<bool>,
-
     pub offhand_hold_is_cancelable_at_0x681: Option<bool>,
-
     pub ads_gun_kick_reduced_kick_bullets: i32,
-
     pub hip_gun_kick_reduced_kick_bullets: i32,
-
     pub location_damage: [f32; crate::HITLOC_COUNT],
-
     pub dual_mag: Option<crate::reload::DualMagTimes>,
 }
 
@@ -564,23 +480,15 @@ pub struct WeaponHandState {
     pub weaponstate: i32,
     pub weapon_time: i32,
     pub weapon_delay: i32,
-
     pub weap_anim: i32,
-
     pub hand_index: u8,
     pub clip: i32,
     pub stock: i32,
-
     pub shot_count: u8,
-
     pub burst_latch: bool,
-
     pub rechamber_pending: bool,
-
     pub delayed_rechamber: bool,
-
     pub weapon_restrict_kick_time: i32,
-
     pub quick_reload: bool,
 }
 
@@ -589,47 +497,26 @@ pub struct WeaponCmd {
     pub msec: i32,
     pub buttons: u32,
     pub old_buttons: u32,
-
     pub cmd_weapon: u16,
-
     pub pm_flags: u32,
-
     pub weap_flags: u32,
-
     pub pm_type: i32,
-
     pub e_flags: u32,
-
     pub last_weapon_hand: i32,
-
     pub f_weapon_pos_frac: f32,
-
     pub melee_charge_yaw: f32,
-
     pub melee_charge_dist: u8,
-
     pub player_melee_range: f32,
-
     pub is_in_air: bool,
-
     pub melee_charge: crate::MeleeChargeState,
-
     pub mantle_weapon_inactive: bool,
-
     pub mantle_quick_raise: bool,
-
     pub cmd_weapon_owned: bool,
-
     pub cmd_weapon_pistol_quick: bool,
-
     pub switch_raise_time_ms: i32,
-
     pub switch_quick_raise_time_ms: i32,
-
     pub offhand: crate::offhand::OffhandCmd,
-
     pub perks0: u32,
-
     pub perk_weap_reload_multiplier: f32,
 }
 
@@ -715,9 +602,7 @@ pub enum WeaponTickEvent {
     },
     EmptyClick,
     ReloadStarted,
-
     ReloadInsert,
-
     ReloadEnded,
 
     ReloadAmmoAdded {
@@ -725,13 +610,10 @@ pub enum WeaponTickEvent {
     },
 
     RechamberWeapon,
-
     EjectBrass,
     RaiseFinished,
     DropFinished,
-
     PutawayStarted,
-
     RaiseStarted,
 
     OffhandUsed {

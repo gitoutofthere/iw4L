@@ -3,7 +3,6 @@ pub enum WireError {
     Truncated { needed: usize, available: usize },
 
     UnknownField(usize),
-
     Malformed(&'static str),
 }
 

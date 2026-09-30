@@ -36,9 +36,7 @@ pub struct WalkScratch {
     pub queue: [Queued; QUEUED_PORTAL_POOL],
     pub heap: [PortalHeapNode; QUEUED_PORTAL_POOL],
     pub heap_n: usize,
-
     pub free_head: u16,
-
     pub next_free: [u16; QUEUED_PORTAL_POOL],
     pub path: [bool; 512],
     pub buf_a: [[f32; 3]; 128],
@@ -69,11 +67,8 @@ impl Default for WalkScratch {
 #[derive(Clone, Copy, Debug)]
 pub struct PortalView<'a> {
     pub plane: [f32; 4],
-
     pub neighbor: u16,
-
     pub vertices: &'a [[f32; 3]],
-
     pub hull_axis: Option<[[f32; 3]; 2]>,
 }
 
@@ -86,16 +81,13 @@ pub struct Queued {
     pub cell: u16,
     pub parent_plane: [f32; 4],
     pub has_parent: bool,
-
     pub clip_n: u8,
     pub clip: [[f32; 4]; MAX_CLIP_PLANES],
     pub hull: PortalHullPoints,
     pub hull_axis: Option<[[f32; 3]; 2]>,
     pub from_cell: u16,
     pub edge: u16,
-
     pub parent_idx: u16,
-
     pub ancestor_bits: [u64; 8],
 }
 

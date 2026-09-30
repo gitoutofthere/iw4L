@@ -6,11 +6,8 @@ use crate::{AddDrawTextCmd, GfxCmdDrawText2DArgs, r_add_cmd_draw_text};
 #[derive(Debug)]
 pub struct GfxRenderCommandBuf<'a> {
     pub buf: &'a mut [u8],
-
     pub used: u32,
-
     pub cap: u32,
-
     pub last: u32,
 }
 

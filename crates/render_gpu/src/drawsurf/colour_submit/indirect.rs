@@ -18,15 +18,10 @@ pub(super) fn multi_draw_requested() -> bool {
 #[derive(bevy::prelude::Resource, Default)]
 pub(super) struct ExactIndirectDraws {
     stream: GpuStream,
-
     words: Vec<u32>,
-
     live: u32,
-
     resident_allocation: u64,
-
     pub(super) uploaded_words: u32,
-
     pub(super) folded: u32,
     pub(super) batches: u32,
 }

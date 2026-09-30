@@ -21,7 +21,6 @@ pub struct WorldPassMaterial {
     pub sun_mask: Option<Handle<Image>>,
     pub sun: Option<WorldSun>,
     pub alpha_mode: AlphaMode,
-
     pub draw_mode: Option<assets::MaterialDrawMode>,
     pub square_color_map: bool,
     pub env_map_parms: [f32; 4],
@@ -37,12 +36,9 @@ pub use render_frame::RetailWorldVertexRefusal;
 #[derive(Resource, Clone, Debug, Default)]
 pub struct WorldDrawGpuPlan {
     pub retail_vertices: assets::RetailWorldVertexPayload,
-
     pub surface_material: Vec<u32>,
-
     pub surface_sampler_inputs: Vec<SurfaceSamplerInputs>,
     pub materials: Vec<WorldPassMaterial>,
-
     pub upload_pending: bool,
     pub vertex_share: Option<Arc<Vec<[u8; asset_iw4::size::GFX_WORLD_VERTEX]>>>,
     pub index_share: Option<Arc<Vec<u32>>>,

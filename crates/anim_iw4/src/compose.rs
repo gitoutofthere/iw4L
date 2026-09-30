@@ -3,9 +3,7 @@ use crate::quat::{QUAT_IDENTITY, Quat, VEC3_ZERO, Vec3, vec3_add_scaled};
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Local {
     pub rotation: Quat,
-
     pub control: bool,
-
     pub translation: Vec3,
 }
 

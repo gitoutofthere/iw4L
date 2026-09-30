@@ -10,7 +10,6 @@ pub const SMODEL_CACHED_CMD_MAX_BYTES: usize = (crate::SMODEL_BUCKET_CAP * 2 + 9
 pub enum SmodelCmdKind {
     Pretess,
     Cached,
-
     Unchanged,
 }
 

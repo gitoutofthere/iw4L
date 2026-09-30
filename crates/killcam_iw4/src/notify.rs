@@ -1,25 +1,15 @@
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum NotifyKind {
     Disconnect,
-
     Spawned,
-
     SpawnedPlayer,
-
     GameEnded,
-
     BeginKillcam,
-
     KillcamEnded,
-
     AbortKillcam,
-
     DeathDelayFinished,
-
     ShowingFinalKillcam,
-
     RoundEndFinished,
-
     UseCopycat,
 }
 

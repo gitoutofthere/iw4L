@@ -27,7 +27,6 @@ pub struct GlassZoneCensus {
     pub fx_init_piece_n: usize,
     pub fx_init_geo_n: usize,
     pub fx_origins: Vec<[f32; 3]>,
-
     pub fx_def_materials: Vec<(String, String)>,
     pub g_recorded: bool,
     pub g_piece_n: usize,
@@ -133,9 +132,7 @@ pub struct FxGlassReset {
     pub piece_places: Vec<[u8; FX_GLASS_PIECE_PLACE]>,
     pub piece_states: Vec<[u8; FX_GLASS_PIECE_STATE]>,
     pub geo_data: Vec<[u8; FX_GLASS_GEOMETRY_DATA]>,
-
     pub defs: Vec<[u8; FX_GLASS_DEF]>,
-
     pub def_materials: Vec<(String, String)>,
 
     pub def_material_edges: Vec<(
@@ -145,11 +142,8 @@ pub struct FxGlassReset {
 
     pub lighting_handles: Vec<u16>,
     pub half_thickness: Vec<Option<f32>>,
-
     pub geo_cursor: u16,
-
     pub piece_limit: usize,
-
     pub geo_data_limit: usize,
 }
 

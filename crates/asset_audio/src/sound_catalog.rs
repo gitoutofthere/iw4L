@@ -58,7 +58,6 @@ pub const MSS_PCM: i32 = 1;
 #[derive(Clone, Debug, Default)]
 pub struct LoadedSoundPcm {
     pub name: String,
-
     pub game: ZoneGame,
     pub(crate) format: i32,
     pub rate: u32,
@@ -67,9 +66,7 @@ pub struct LoadedSoundPcm {
     pub samples: u32,
     pub block_size: u32,
     pub(crate) pcm: std::sync::Arc<[u8]>,
-
     pub zone: ZoneOwner,
-
     pub seek_table: Vec<u32>,
 }
 
@@ -137,69 +134,40 @@ pub struct CapturedSndCurve {
 #[derive(Clone, Debug, Default)]
 pub struct CapturedAlias {
     pub alias_name: String,
-
     pub subtitle: Option<String>,
-
     pub secondary: Option<String>,
-
     pub chain: Option<String>,
-
     pub mixer_group: Option<String>,
-
     pub loaded_name: Option<String>,
-
     pub loaded: LoadedSoundEdge,
-
     pub streamed: Option<(String, String)>,
-
     pub file_type: Option<u8>,
-
     pub file_exists: Option<u8>,
-
     pub file_name: Option<String>,
-
     pub file_u: Option<&'static str>,
-
     pub file_u_ptr: Option<String>,
-
     pub file_u_deref: Option<&'static str>,
-
     pub sequence: i32,
-
     pub vol_min: f32,
     pub vol_max: f32,
     pub pitch_min: f32,
     pub pitch_max: f32,
-
     pub dist_min: f32,
     pub dist_max: f32,
-
     pub velocity_min: f32,
-
     pub flags: Option<u32>,
-
     pub slave_percentage: f32,
-
     pub probability: f32,
-
     pub lfe_percentage: f32,
-
     pub center_percentage: f32,
-
     pub start_delay: i32,
-
     pub volume_falloff: Option<CapturedSndCurve>,
-
     pub t5_distance_curves: Option<[u8; 2]>,
-
     pub envelop_min: f32,
     pub envelop_max: f32,
     pub envelop_percentage: f32,
-
     pub speaker_map: Option<String>,
-
     pub limit_count: Option<u8>,
-
     pub entity_limit_count: Option<u8>,
 }
 
@@ -292,9 +260,7 @@ fn capture_loaded_edge(
 pub struct CapturedSound {
     pub name: String,
     pub aliases: Vec<CapturedAlias>,
-
     pub game: ZoneGame,
-
     pub zone: ZoneOwner,
 }
 
@@ -322,7 +288,6 @@ pub struct PickedSound<'a> {
     pub variant_index: usize,
     pub volume: f32,
     pub pitch: f32,
-
     pub layer: Option<String>,
 }
 
@@ -330,34 +295,23 @@ pub struct PickedSound<'a> {
 pub struct SoundCatalog {
     pub sounds: Vec<CapturedSound>,
     pub loaded: Vec<LoadedSoundPcm>,
-
     pub curves: HashMap<String, CapturedSndCurve>,
-
     pub rawfiles: HashMap<(AssetNamespace, String), Vec<u8>>,
-
     pub ent_channels: Vec<EntChannel>,
     by_alias: HashMap<(AssetNamespace, String), usize>,
-
     by_alias_ci: HashMap<(AssetNamespace, String), usize>,
     by_loaded: HashMap<(AssetNamespace, String), usize>,
-
     file_to_loaded: HashMap<(u8, u32), String>,
-
     file_to_streamed: HashMap<(u8, u32), (String, String)>,
-
     loaded_by_insert: HashMap<(u8, u32), String>,
-
     curve_by_ptr: HashMap<(u8, u32), String>,
     last_loaded_name: Option<String>,
     last_curve_name: Option<String>,
     capture_game: ZoneGame,
     pub capture_gaps: usize,
-
     pub alias_flags_missing: usize,
-
     pub curve_capture_gaps: usize,
     capture_zone: ZoneOwner,
-
     revision: u64,
 }
 

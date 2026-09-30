@@ -34,9 +34,7 @@ pub struct OwnedLightGrid {
     pub row_axis: usize,
     pub col_axis: usize,
     pub color_count: u32,
-
     pub has_light_regions: bool,
-
     pub sun_primary_light_index: u32,
     pub row_data_start: Vec<u8>,
     pub raw_row_data: Vec<u8>,
@@ -208,16 +206,11 @@ pub struct GridView<'a> {
     pub maxs: [u16; 3],
     pub row_axis: usize,
     pub col_axis: usize,
-
     pub has_light_regions: bool,
-
     pub sun_primary_light_index: u32,
-
     pub row_data_start: &'a [u8],
     pub raw_row_data: &'a [u8],
-
     pub entries: &'a [u8],
-
     pub colors: &'a [u8],
     pub color_encoding: LightGridColorEncoding,
     pub color_count: u32,
@@ -394,9 +387,7 @@ fn row_rle(grid: &GridView<'_>, cell: [i32; 3]) -> RowRleOutcome {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum BlockedReason {
     UnmodelledRowBranch,
-
     TruncatedZoneData,
-
     NoLiveCorner,
 }
 
@@ -410,17 +401,11 @@ pub struct SampledLighting {
     pub traced_influence: f32,
     pub total: f32,
     pub picked_primary: u8,
-
     pub picked_before_remap: u8,
-
     pub corner_primaries: [Option<u8>; 8],
-
     pub needs_trace_flag: bool,
-
     pub corners_needing_sight: u8,
-
     pub corners_sight_cleared: u8,
-
     pub corners_sight_suppressed: u8,
     pub colors: [u8; LIGHT_GRID_COLORS_BYTE_COUNT],
     pub compressed: [u8; 3],
@@ -740,10 +725,8 @@ pub fn tile_corners_match_compress(tile: &[u8; MODEL_LIGHTING_TILE_BYTES], color
 pub struct SmodelLightingSample {
     pub authored_slot: usize,
     pub lighting_origin: [f32; 3],
-
     pub tile_rgba: [u8; MODEL_LIGHTING_TILE_BYTES],
     pub colors: [u8; LIGHT_GRID_COLORS_BYTE_COUNT],
-
     pub packed_lighting: [u8; 4],
     pub path: LightGridAtPointPath,
 }
@@ -755,9 +738,7 @@ pub struct SmodelLightingCensus {
     pub blocked_unmodelled_row: usize,
     pub blocked_truncated: usize,
     pub blocked_no_live_corner: usize,
-
     pub corners_sight_suppressed: usize,
-
     pub corners_needing_sight: usize,
 }
 

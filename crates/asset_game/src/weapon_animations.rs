@@ -12,7 +12,6 @@ use asset_anim::xanim_clip::AnimClip;
 pub enum AdsOverlayConvention {
     #[default]
     WeightIsFrac,
-
     PlayAdsAnim,
 }
 
@@ -114,41 +113,23 @@ impl WeaponAnimSlot {
 #[derive(Clone)]
 pub struct WeaponAnimations {
     pub name: String,
-
     pub fire_time_ms: i32,
-
     pub melee_time_ms: i32,
-
     pub melee_charge_time_ms: i32,
-
     pub raise_time_ms: i32,
-
     pub drop_time_ms: i32,
-
     pub quick_drop_time_ms: i32,
-
     pub quick_raise_time_ms: i32,
-
     pub sprint_raise_time_ms: i32,
-
     pub sprint_loop_time_ms: i32,
-
     pub sprint_drop_time_ms: i32,
-
     pub reload_time_ms: i32,
-
     pub reload_empty_time_ms: i32,
-
     pub reload_start_time_ms: i32,
-
     pub reload_end_time_ms: i32,
-
     pub reload_quick_time_ms: i32,
-
     pub reload_quick_empty_time_ms: i32,
-
     pub ads_overlay: AdsOverlayConvention,
-
     pub inherits_perks: bool,
     clips: [Option<Arc<AnimClip>>; WEAPON_ANIM_SLOTS],
     clip_orders: [Option<usize>; WEAPON_ANIM_SLOTS],

@@ -3,85 +3,49 @@ use super::*;
 #[derive(Clone, Debug)]
 struct WeaponRow {
     name: String,
-
     namespace: crate::AssetNamespace,
-
     facts: WeaponBodyFacts,
-
     weap_def: Option<(u8, u32)>,
-
     gun_xmodel: Option<String>,
-
     hand_xmodel: Option<String>,
-
     gun_xmodel_edge: AssetEdge<FpvMeshSpace>,
-
     hand_xmodel_edge: AssetEdge<FpvMeshSpace>,
-
     rocket_model_edge: AssetEdge<FpvMeshSpace>,
-
     attachment_view_model_edges: Vec<AssetEdge<FpvMeshSpace>>,
-
     fpv_hands: [Option<(asset_model::FpvHands, crate::FpvMeshIndex)>; 2],
-
     fpv_mount_plan: Option<Result<asset_model::FpvMountPlan, asset_model::FpvMountError>>,
-
     fpv_assemblies: [Option<Result<crate::FpvSideAssemblies, String>>; 2],
-
     world_model: Option<String>,
-
     world_model_edge: AssetEdge<WorldWeaponSpace>,
-
     attachment_world_model_edges: Vec<AssetEdge<WorldWeaponSpace>>,
-
     attachment_world_mounts: Vec<Option<String>>,
-
     projectile_model: Option<String>,
-
     projectile_model_edge: AssetEdge<ProjectileModelSpace>,
-
     rocket_model: Option<String>,
-
     sz_xanims: [Option<String>; WEAPON_ANIM_SLOTS],
-
     sz_xanim_edges: [AssetEdge<XAnimSpace>; WEAPON_ANIM_SLOTS],
-
     sz_xanim_right_edges: [AssetEdge<XAnimSpace>; WEAPON_ANIM_SLOTS],
-
     sz_xanim_left_edges: [AssetEdge<XAnimSpace>; WEAPON_ANIM_SLOTS],
-
     notetrack_actions: HashMap<String, LinkedNotetrackAction>,
-
     sz_xanims_right: [Option<String>; WEAPON_ANIM_SLOTS],
-
     sz_xanims_left: [Option<String>; WEAPON_ANIM_SLOTS],
-
     hide_tags: Vec<String>,
-
     attachment_view_models: Vec<String>,
     attachment_world_models: Vec<String>,
-
     iw5_configuration: Option<(u32, Iw5AttachmentSelection)>,
     prepared_attachments: Vec<String>,
-
     iw5_attachment_slots: [Option<String>; fastfile_iw5::size::WEAPON_ATTACHMENT_SLOT_COUNT],
     iw5_reload_overrides: Vec<fastfile_iw5::ReloadOverride>,
     iw5_anim_overrides: Vec<LeftoverAnimOverride>,
     iw5_fx_overrides: Vec<Iw5FxOverride>,
     iw5_notetrack_overrides: Vec<Iw5NotetrackOverride>,
-
     sounds: WeaponSoundAliases,
-
     combat_fx: WeaponCombatFx,
-
     reticle: WeaponReticleAssets,
-
     hud_material_edges: WeaponHudMaterialEdges,
-
     overlay_material: Option<String>,
     overlay_image: Option<String>,
     overlay_material_from_slot: bool,
-
     hud_icon: Option<String>,
     hud_icon_from_slot: bool,
     pickup_icon: Option<String>,
@@ -89,24 +53,19 @@ struct WeaponRow {
     pickup_icon_authored: bool,
     pickup_icon_ratio: i32,
     hud_icon_ratio: i32,
-
     hud_icon_image: Option<String>,
-
     dpad_icon_image: Option<String>,
     dpad_icon_ratio: i32,
     kill_icon: Option<String>,
     kill_icon_from_slot: bool,
     kill_icon_image: Option<String>,
-
     projectile_fx: WeaponProjectileFx,
-
     proj_trail: Option<String>,
     proj_trail_from_slot: bool,
     proj_beacon: Option<String>,
     proj_beacon_from_slot: bool,
     proj_ignition: Option<String>,
     proj_ignition_from_slot: bool,
-
     display_name_key: Option<String>,
 }
 
@@ -185,25 +144,15 @@ impl Default for WeaponRow {
 #[derive(Clone, Debug, Default)]
 pub struct WeaponRegistry {
     rows: Vec<WeaponRow>,
-
     world_catalog_identity: u64,
-
     iw5_attachments: HashMap<String, Iw5ScopeRow>,
-
     iw5_candidates: Vec<Iw5ConfigurationCandidate>,
-
     configurations: HashMap<crate::WeaponSelection, u32>,
-
     by_name: HashMap<String, u32>,
-
     by_namespaced: HashMap<(crate::AssetNamespace, String), u32>,
-
     item_groups: HashMap<(crate::AssetNamespace, String), String>,
-
     families: crate::WeaponFamilies,
-
     fpv_clip_tracks: Arc<crate::FpvClipTracks>,
-
     revision: u64,
 }
 

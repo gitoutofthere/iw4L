@@ -49,7 +49,6 @@ pub struct Bone {
     pub parent: Option<usize>,
     pub bind_rotation: Quat,
     pub bind_translation: Vec3,
-
     pub bind_world: Mat4,
     pub no_scale: bool,
 }
@@ -64,7 +63,6 @@ pub struct DObj {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct DObjBoneOrientation {
     pub origin: [f32; 3],
-
     pub axis: [[f32; 3]; 3],
 }
 
@@ -149,13 +147,9 @@ pub struct ModelPoseSrc {
     pub scale: f32,
     pub no_scale_part_bits: [u32; 6],
     pub bone_names: Vec<String>,
-
     pub parent_list: Vec<u8>,
-
     pub quats: Vec<[i16; 4]>,
-
     pub trans: Vec<[f32; 3]>,
-
     pub base_mat: Vec<(Quat, Vec3)>,
 }
 
@@ -566,7 +560,6 @@ pub struct PlayerControllerInput {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct PlayerControllerResult {
     pub tags: u8,
-
     pub tag_origin: bool,
     pub tag_origin_offset: [f32; 3],
     pub tag_origin_angles: [f32; 3],

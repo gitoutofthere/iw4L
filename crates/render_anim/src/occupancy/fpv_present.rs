@@ -120,9 +120,7 @@ pub struct FpvStatusGap(pub Option<FpvState>);
 #[derive(Clone, Debug, PartialEq)]
 pub enum FpvState {
     ClearedNotAlive,
-
     ClearedNoWeapon,
-
     Queued,
 
     Drawn { idle_sampled: bool },

@@ -235,29 +235,20 @@ pub struct OwnedFxSparkFountainDef {
 #[derive(Clone, Debug)]
 pub struct OwnedFxElemDef {
     pub view: FxElemDefView,
-
     pub raw: Vec<u8>,
     pub vel_samples: Vec<u8>,
-
     pub vel_graph_local: Vec<fx_iw4::FxElemVec3Range>,
-
     pub vel_graph_world: Vec<fx_iw4::FxElemVec3Range>,
     pub vis_samples: Vec<u8>,
     pub visuals: Vec<OwnedFxVisual>,
-
     pub effect_on_impact: FxChildEdge,
     pub effect_on_impact_hint: Option<String>,
-
     pub effect_on_death: FxChildEdge,
     pub effect_on_death_hint: Option<String>,
-
     pub effect_emitted: FxChildEdge,
     pub effect_emitted_hint: Option<String>,
-
     pub has_extended: bool,
-
     pub trail_def: Option<OwnedFxTrailDef>,
-
     pub spark_fountain_def: Option<OwnedFxSparkFountainDef>,
 }
 
@@ -354,9 +345,7 @@ pub struct OwnedFxEffectDef {
 #[derive(Clone, Debug, Default)]
 pub struct FxDefinitions {
     by_name: HashMap<String, usize>,
-
     defs: Vec<OwnedFxEffectDef>,
-
     order: Vec<String>,
     zones: Vec<ZoneOwner>,
     capture_zone: ZoneOwner,
@@ -368,7 +357,6 @@ pub struct FxDefinitions {
 #[derive(Clone, Debug, Default)]
 pub struct FxCatalog {
     published: FxDefinitions,
-
     links: HashMap<fastfile_iw4::Ptr, FxLink>,
     last_captured: Option<String>,
 }

@@ -82,16 +82,13 @@ impl Level {
 struct DiagState {
     file: Option<File>,
     file_path: PathBuf,
-
     latest: Option<PathBuf>,
     traces: Option<File>,
     traces_path: Option<PathBuf>,
     stderr_threshold: Level,
     file_threshold: Level,
-
     last_key: Option<(Channel, Level, String)>,
     last_count: u32,
-
     started: Instant,
 }
 

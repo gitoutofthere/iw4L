@@ -133,7 +133,6 @@ impl LoopingPcmAudio {
 
 pub struct PcmDecoder {
     samples: Arc<[f32]>,
-
     pos: usize,
     src_channels: u16,
     sample_rate: u32,

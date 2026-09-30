@@ -18,7 +18,6 @@ pub struct DecodedSamplerState {
     pub mag_filter: TextureFilter,
     pub min_filter: TextureFilter,
     pub mip_filter: TextureFilter,
-
     pub uses_mipmaps: bool,
     pub anisotropy_clamp: u16,
 }

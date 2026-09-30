@@ -66,11 +66,8 @@ pub const fn smodel_lighting_bits_words(smodel_count: u32) -> usize {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct SModelLightingCounters {
     pub assigned_count: u32,
-
     pub freeable_count: u32,
-
     pub frame_count: i32,
-
     pub any_new_lighting: bool,
 }
 
@@ -93,15 +90,10 @@ impl Default for SModelLightingCounters {
 pub struct SModelLightingGlob<'a> {
     entry_limit: u32,
     smodel_count: u32,
-
     counters: &'a mut SModelLightingCounters,
-
     freeable_handles: &'a mut [u16],
-
     smodel_index: &'a mut [u16],
-
     used_frame_count: &'a mut [i32],
-
     lighting_bits: &'a mut [u32],
 }
 

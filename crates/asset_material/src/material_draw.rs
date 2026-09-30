@@ -4,7 +4,6 @@ pub enum MaterialDrawMode {
 
     AlphaTest { ge_half: bool },
     Blend,
-
     Multiply,
     Additive,
     Screen,
@@ -68,7 +67,6 @@ pub fn srgb_write_enable_from_state_bits(load_bits: [u32; 2]) -> bool {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ColorMapTransform {
     Square,
-
     Unknown,
 }
 

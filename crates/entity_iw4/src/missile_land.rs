@@ -99,9 +99,7 @@ pub struct MissileLandAnglesIn {
     pub normal: [f32; 3],
     pub hit_time_ms: i32,
     pub force_align: bool,
-
     pub g_random: f32,
-
     pub wall_spin_addend: f32,
 }
 

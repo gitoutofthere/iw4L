@@ -14,9 +14,7 @@ const RENDER_GAP_COUNT: usize = <RenderGap as ledger::Gap>::ALL.len();
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum RenderGap {
     RemoteBodyAnimation,
-
     RemoteBodyWorldGun,
-
     FpvViewmodel,
 }
 
@@ -49,9 +47,7 @@ pub enum RenderGapCause {
     },
 
     MultiplayerAtrAbsent,
-
     PlayeranimScriptAbsent,
-
     AnimtreeCompilerMissing,
 
     AnimtreeCompileFailed {
@@ -65,7 +61,6 @@ pub enum RenderGapCause {
     },
 
     XAnimLeafBindMissing,
-
     XAnimCalcMissing,
 
     XAnimCalcFailed {
@@ -73,7 +68,6 @@ pub enum RenderGapCause {
     },
 
     RemoteBodySubmitMissing,
-
     RemoteBodyLightingAllocFailed,
 
     RemoteBodyMaterialMissing {
@@ -102,9 +96,7 @@ pub enum RenderGapCause {
     },
 
     FpvNoCamera,
-
     FpvNoLightingAtlas,
-
     FpvNoActiveClips,
 }
 
@@ -232,7 +224,6 @@ pub struct RenderPresentationGaps {
 struct RenderPresentationGapsInner {
     ledger: GapLedger<RenderGapCause, RENDER_GAP_COUNT>,
     reported: String,
-
     report_dirty: bool,
 }
 

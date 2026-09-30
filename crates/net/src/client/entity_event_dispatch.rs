@@ -112,18 +112,14 @@ pub struct AppliedEntityEventWalk {
     pub dispatched: u32,
     pub local_fire: u32,
     pub seen_through: u32,
-
     pub occupancy_fired: u32,
-
     pub last_event: i32,
-
     pub last_number: i32,
 }
 
 #[derive(Resource, Default, Debug)]
 pub struct UnsupportedEntityEvents {
     pub total: u32,
-
     pub first: Option<EntityEventKind>,
     warned: bool,
 }

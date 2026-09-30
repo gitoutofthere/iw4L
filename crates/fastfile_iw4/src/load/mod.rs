@@ -55,7 +55,6 @@ impl GlyphCapture {
 #[derive(Clone, Copy, Debug)]
 pub struct FontCapture<'a> {
     pub name: &'a str,
-
     pub pixel_height: i32,
     pub material: &'a str,
     pub glow_material: &'a str,

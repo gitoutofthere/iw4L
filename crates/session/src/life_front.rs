@@ -22,7 +22,6 @@ pub struct LifeFrontCensus {
     pub ended: u32,
     pub tick_started: u32,
     pub tick_ended: u32,
-
     pub local_seq: Option<u32>,
     cursors: HashMap<u32, LifeFrontCursor>,
 }
