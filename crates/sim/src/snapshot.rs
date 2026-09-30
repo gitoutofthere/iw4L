@@ -33,9 +33,7 @@ pub struct AreaEntityLinkSnapshot {
 pub struct AreaEntityWorldSnapshot {
     pub world_mid: [f32; 3],
     pub world_half: [f32; 3],
-
     pub free_prefix: Vec<u16>,
-
     pub contiguous_free_head: u16,
     pub sectors: Vec<AreaSectorSnapshot>,
     pub entities: Vec<AreaEntityLinkSnapshot>,
@@ -221,7 +219,6 @@ pub struct Snapshot {
     pub tick: Tick,
     pub players: Vec<(ClientId, PlayerState)>,
     pub projectiles: Vec<ProjectileState>,
-
     pub meta: SnapshotMeta,
 }
 

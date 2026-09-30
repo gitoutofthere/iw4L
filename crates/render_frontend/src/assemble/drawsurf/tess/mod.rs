@@ -8,17 +8,11 @@ pub use render_fx::drawsurf::tess::{fx, mark, particle_cloud};
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum TessKind {
     World,
-
     Smodel,
-
     XModel,
-
     CodeMesh,
-
     ParticleCloud,
-
     MarkMesh,
-
     Glass,
 }
 

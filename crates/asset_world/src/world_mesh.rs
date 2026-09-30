@@ -30,20 +30,13 @@ pub struct WorldMeshStats {
     pub vertices: usize,
     pub triangles: usize,
     pub surfaces: usize,
-
     pub skipped_surfaces: usize,
-
     pub sky_surfaces: usize,
-
     pub sky_material: Option<usize>,
-
     pub unrouted_surfaces: usize,
-
     pub undecided_state_bits_surfaces: usize,
-
     pub min: [f32; 3],
     pub max: [f32; 3],
-
     pub bounds: Option<[f32; 6]>,
 }
 
@@ -74,7 +67,6 @@ pub enum BoundsTable {
     AabbNode { cell: usize },
 
     Surface,
-
     SmodelInst,
 }
 

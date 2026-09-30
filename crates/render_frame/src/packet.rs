@@ -31,20 +31,15 @@ pub struct PackedFrontendLists {
     pub world: Vec<GfxTrianglesListEntry>,
     pub smodel: Vec<GfxSmodelRigidEntry>,
     pub xmodel: Vec<GfxXModelRigidEntry>,
-
     pub world_draw_indices: Vec<u32>,
     pub xmodel_draw_indices: Vec<u32>,
-
     pub smodel_draw_indices: Vec<u32>,
-
     pub smodel_cached: Vec<GfxSmodelRigidEntry>,
     pub smodel_pretess: Vec<GfxSmodelRigidEntry>,
     pub smodel_cached_draw_indices: Vec<u32>,
     pub smodel_pretess_draw_indices: Vec<u32>,
-
     pub smodel_skinned: Vec<GfxSmodelRigidEntry>,
     pub smodel_skinned_draw_indices: Vec<u32>,
-
     pub skipped_other: u32,
     pub skipped_empty_ib: u32,
 }

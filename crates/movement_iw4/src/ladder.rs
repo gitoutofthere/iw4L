@@ -33,11 +33,8 @@ pub struct LadderTraceHit {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct CheckLadderContext {
     pub server_time: i32,
-
     pub walking: bool,
-
     pub forward_xy: [f32; 2],
-
     pub forwardmove: i8,
 }
 

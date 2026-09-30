@@ -38,7 +38,6 @@ pub struct VaryingLink {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct ConstantSlot {
     pub register: u16,
-
     pub program_defined: bool,
 }
 
@@ -56,6 +55,5 @@ pub struct PassLoweringAbi {
     pub vertex_constants: Vec<ConstantSlot>,
     pub pixel_constants: Vec<ConstantSlot>,
     pub samplers: Vec<SamplerSlot>,
-
     pub alpha_tests: Vec<AlphaTest>,
 }

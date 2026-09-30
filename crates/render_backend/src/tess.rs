@@ -9,9 +9,7 @@ pub const TESS_VB_LOCK_NOOVERWRITE: u32 = 0x1000;
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct GfxDrawPrimArgs {
     pub vertex_count: u32,
-
     pub tri_count: u32,
-
     pub base_index: u32,
 }
 
@@ -38,18 +36,14 @@ pub fn copy_u16_indices_into_ring(dest: &mut Vec<u16>, base_index: u32, source: 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct GfxDynamicIndexBuffer {
     pub cur_index_count: u32,
-
     pub capacity: u32,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct IndexDataAppend {
     pub base_index: u32,
-
     pub lock_byte_offset: u32,
-
     pub lock_byte_len: u32,
-
     pub discard: bool,
 }
 
@@ -74,13 +68,9 @@ impl GfxDynamicIndexBuffer {
 #[derive(Clone, Debug, Default)]
 pub struct GfxTess {
     pub vertex_count: u32,
-
     pub index_count: u32,
-
     pub indices: Vec<u16>,
-
     pub pending_prim_count: u32,
-
     pub pending_prim_base: u32,
 }
 
@@ -109,36 +99,28 @@ impl GfxTess {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct GfxTessTechniqueCache {
     pub orig_material: u32,
-
     pub orig_tech_type: i32,
-
     pub technique: u32,
-
     pub pass_count: u16,
-
     pub pending_pass_index: u32,
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct TessTechniqueSlot {
     pub token: u32,
-
     pub pass_count: u16,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct VertexDataAppend {
     pub lock_byte_offset: u32,
-
     pub lock_byte_len: u32,
-
     pub lock_flags: u32,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct GfxDynamicVertexBuffer {
     pub used_bytes: u32,
-
     pub capacity: u32,
 }
 
@@ -204,7 +186,6 @@ pub struct GfxCmdBufStreams {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct StreamSourceAction {
     pub bind_stream0: bool,
-
     pub clear_stream1: bool,
 }
 
@@ -265,7 +246,6 @@ pub struct TessTechniqueDraw {
     pub wrap_to_zero: bool,
     pub vertex: VertexDataAppend,
     pub pass_count: u16,
-
     pub dip_count: u16,
     pub stream0_stride: u32,
 }

@@ -43,7 +43,6 @@ impl DynEntPhysWorld {
 #[derive(Clone, Copy, Debug, Message)]
 pub struct DynEntPhysImpulse {
     pub entity: Entity,
-
     pub impulse: Vec3,
 }
 

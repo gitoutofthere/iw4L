@@ -311,6 +311,5 @@ pub const PERK_HEARTBREAKER: u32 = 1 << 28;
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct AnimPair {
     pub legs_anim: i32,
-
     pub torso_anim: i32,
 }

@@ -5,16 +5,13 @@ pub const DOUBLE_TAP_LIMIT_SECONDS: f32 = 0.5;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum CancelTick {
     Waiting,
-
     Fired,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum TapState {
     Idle,
-
     Pressing,
-
     Gap,
 }
 
@@ -92,7 +89,6 @@ impl DoubleTap {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum SkipState {
     Drain,
-
     WaitEdge,
 }
 

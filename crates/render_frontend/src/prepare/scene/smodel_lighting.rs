@@ -26,15 +26,10 @@ const SMODEL_LIGHTING_HOST_FLAGS_UNKNOWN: u8 = 0;
 #[derive(Resource)]
 pub struct WorldSmodelLighting {
     smodel_entry_limit: u32,
-
     pub div_0x100_by_height: u32,
-
     pub tiles: Vec<Option<[u8; MODEL_LIGHTING_TILE_BYTES]>>,
-
     pub packed_lighting: Vec<Option<[u8; 4]>>,
-
     pub handles: Vec<u16>,
-
     pub parents: Vec<Option<Entity>>,
     counters: SModelLightingCounters,
     freeable_handles: Vec<u16>,
@@ -42,16 +37,12 @@ pub struct WorldSmodelLighting {
     used_frame_count: Vec<i32>,
     lighting_bits: Vec<u32>,
     warned_too_much: bool,
-
     last_assigned: u32,
     last_reused: u32,
     last_evicted: u32,
     last_failed: u32,
-
     last_dirty: u32,
-
     pub spawn_lit_n: u32,
-
     pub spawn_sample_without_technique: u32,
 }
 

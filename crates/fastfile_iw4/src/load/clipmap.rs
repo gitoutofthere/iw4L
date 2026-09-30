@@ -1,10 +1,8 @@
 use asset_iw4::size as sz;
 
-use super::{AssetLinkSink, asset_ptr_at_linked, follow_name};
+use super::{AssetLinkSink, asset_ptr_at_linked, follow_name, runtime_array};
 use crate::asset_type::AssetType;
-use crate::zone::{
-    ClipMapGeometry, Ptr, Result, XFILE_BLOCK_RUNTIME, XFILE_BLOCK_VIRTUAL, ZoneStream,
-};
+use crate::zone::{ClipMapGeometry, Ptr, Result, XFILE_BLOCK_VIRTUAL, ZoneStream};
 
 pub(super) fn load_clipmap(s: &mut ZoneStream<'_>, links: &mut dyn AssetLinkSink) -> Result<()> {
     let p = s.alloc_load(4, s.layout(sz::CLIP_MAP, 512))?;
@@ -295,20 +293,4 @@ fn load_dyn_entity_defs(
         asset_ptr_at_linked(s, links, AssetType::PhysPreset, def.at(s.layout(44, 56)))?;
     }
     Ok(Some(defs))
-}
-
-fn runtime_array(
-    s: &mut ZoneStream<'_>,
-    p: Ptr,
-    field: usize,
-    align: usize,
-    elem: usize,
-    count: usize,
-) -> Result<()> {
-    if s.begin_body(p.at(field))? {
-        s.push(XFILE_BLOCK_RUNTIME)?;
-        s.alloc_load(align, elem * count)?;
-        s.pop()?;
-    }
-    Ok(())
 }

@@ -27,22 +27,17 @@ pub struct LookState {
 #[derive(Resource, Clone, Debug)]
 pub struct ClientActionInput {
     pub client: ClientInput,
-
     pub scripted_ids: BTreeSet<u32>,
     pub mouse_x: f32,
     pub mouse_y: f32,
     pub sensitivity: f32,
     pub mouse_accel: f32,
     pub fov_scale: f32,
-
     pub shellshock_look_scale: f32,
-
     pub cgame_max_pitch_speed: f32,
-
     pub cgame_max_yaw_speed: f32,
     pub m_yaw: f32,
     pub m_pitch: f32,
-
     pub cl_yawspeed: f32,
     pub now_msec: i32,
     pub frame_msec: u32,

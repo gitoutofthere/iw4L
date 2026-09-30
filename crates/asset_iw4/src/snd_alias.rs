@@ -90,7 +90,6 @@ pub const SND_ENTCHANNEL_DEFAULT_MAX_VOICES: i32 = 0x34;
 pub enum SndAliasSampleKind {
     Loaded,
     Streamed,
-
     Reject,
 }
 

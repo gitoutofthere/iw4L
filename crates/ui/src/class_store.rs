@@ -7,7 +7,6 @@ use frame::{HostClassLoadouts, HostClassSlot};
 #[derive(Resource, Clone, Debug, PartialEq, Eq)]
 pub struct SessionClassStore {
     pub slots: Vec<ClassSlotState>,
-
     pub equipped: Option<usize>,
     pub selected: usize,
 }

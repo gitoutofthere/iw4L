@@ -6,7 +6,6 @@ use crate::prepare::scene::world::{WorldCull, WorldDrawItemKind, WorldScene};
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct DrawSurfItem {
     pub key: u64,
-
     pub surf: u16,
     pub run: u16,
     pub kind: WorldDrawItemKind,
@@ -18,7 +17,6 @@ pub struct DrawSurfList {
     pub items: Vec<DrawSurfItem>,
     pub keys: u32,
     pub rebinds: u32,
-
     pub draw_items_id: u64,
 }
 

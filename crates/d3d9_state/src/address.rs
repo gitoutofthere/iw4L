@@ -1,15 +1,10 @@
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum AddressMode {
     Wrap,
-
     Mirror,
-
     Clamp,
-
     Border,
-
     MirrorOnce,
-
     Unknown(u32),
 }
 

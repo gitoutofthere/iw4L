@@ -3,11 +3,8 @@ use sim::Tick;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum StateClass {
     Authoritative,
-
     Predicted,
-
     PresentationOnly,
-
     DeclaredGap,
 }
 
@@ -88,7 +85,6 @@ pub const IDENTITY_CONTRACT: &[IdentityContractRow] = &[
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct CorrectionBoundary {
     pub snapshot_tick: Tick,
-
     pub replay_tick: Tick,
 }
 
@@ -120,13 +116,9 @@ pub const fn classify_snapshot(last: Option<Tick>, incoming: Tick) -> SnapshotOr
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SideEffectReplayRule {
     Recompute,
-
     SuppressPredicted,
-
     DeduplicateAuthoritative,
-
     Resample,
-
     RefuseUnwired,
 }
 

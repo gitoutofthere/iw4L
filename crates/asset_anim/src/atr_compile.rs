@@ -125,7 +125,7 @@ fn parse_internal(
                     continue;
                 }
                 if scr_is_identifier(&on_line) {
-                    return Err(parser.bad_token("FIXME: aliases not yet implemented"));
+                    return Err(parser.bad_token("animtree aliases are not supported"));
                 }
                 if on_line != ":" {
                     return Err(parser.bad_token("bad token"));

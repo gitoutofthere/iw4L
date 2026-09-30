@@ -11,17 +11,11 @@ use crate::transport::archive::{ARCHIVE_TICK_MS, ArchiveLookup, FrameArchive};
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct KillcamSession {
     pub archivetime_ms: i32,
-
     pub focus_client: ClientId,
-
     pub focus: SeatFocus,
-
     pub ends_at_ms: i32,
-
     pub kc_info_tus_ms: i32,
-
     pub kc_timer_ends_at_ms: i32,
-
     pub final_kill: bool,
 }
 
@@ -73,7 +67,6 @@ impl ActiveKillcams {
 pub struct SeatSample {
     pub player_state: PlayerState,
     pub lookup: ArchiveLookup,
-
     pub rebase_ms: i32,
 }
 

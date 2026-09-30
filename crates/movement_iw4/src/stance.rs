@@ -166,11 +166,8 @@ pub fn pm_sync_stance_tail(ps: &mut PlayerState) -> f32 {
 #[repr(u8)]
 pub enum StanceSurface {
     Stand = 0,
-
     Prone = 1,
-
     Crouch = 2,
-
     LastStand = 3,
 }
 
@@ -484,9 +481,7 @@ pub fn pm_update_stance_target(ps: &mut PlayerState) -> StanceChange {
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum StanceChange {
     Unchanged,
-
     Changed,
-
     EnteredProne,
 }
 

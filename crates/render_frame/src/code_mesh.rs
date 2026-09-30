@@ -17,21 +17,13 @@ pub const CODE_MESH_WARN_ARGS: u32 = 0x25;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct GfxMeshData {
     pub vert_used: u32,
-
     pub index_used: u32,
-
     pub args_used: u32,
-
     pub vert_cap: u32,
-
     pub index_cap: u32,
-
     pub args_cap: u32,
-
     pub warn_verts: u32,
-
     pub warn_inds: u32,
-
     pub warn_args: u32,
 }
 

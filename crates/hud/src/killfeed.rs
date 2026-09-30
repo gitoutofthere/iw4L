@@ -51,7 +51,6 @@ impl KillfeedLine {
 
 struct KillIconPick {
     stem: String,
-
     namespace: assets::AssetNamespace,
     ratio: i32,
     flip: bool,

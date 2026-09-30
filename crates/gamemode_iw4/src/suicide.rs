@@ -17,9 +17,7 @@ pub const SUICIDE_INTERNAL_P10: i32 = 1116;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SuicideAction {
     PlayerKilledInternal,
-
     BuiltinSuicide,
-
     None,
 }
 

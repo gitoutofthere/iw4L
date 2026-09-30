@@ -15,34 +15,22 @@ use crate::prepare::scene::world::{WorldDrawItem, WorldDrawItemKind, WorldScene}
 #[derive(Resource, Clone, Debug, Default)]
 pub struct DpvsFrameStats {
     pub eye_cell: Option<usize>,
-
     pub eye_cell_unresolved: u32,
     pub visible_cells: u32,
-
     pub portals_frustum_skipped: u32,
-
     pub child_planes_unported: u32,
-
     pub aabb_nodes_visited: u32,
-
     pub aabb_planes_dropped: u32,
-
     pub surfaces_rejected_by_bounds: u32,
-
     pub surfaces_admitted_unbounded: u32,
     pub smodels_rejected_by_bounds: u32,
     pub smodels_admitted_unbounded: u32,
-
     pub bsp_visible_surfaces: u32,
-
     pub bsp_admitted_surfaces: u32,
     pub bsp_run_n: u32,
-
     pub bsp_input_gap_n: u32,
-
     pub bsp_ranges_unavailable: u32,
     pub keys: u32,
-
     pub material_ordinal_refused: u32,
     pub rebinds: u32,
     pub surfaces: u32,
@@ -53,42 +41,24 @@ pub struct DpvsFrameStats {
     pub single_cell: bool,
     pub aspect: f32,
     pub fov_deg: f32,
-
     pub cell_static_started: Option<std::time::Instant>,
-
     pub submitted_batches: u32,
-
     pub rewritten_index_bytes: u64,
-
     pub visibility_changes: u32,
-
     pub sky_surf_n: u32,
-
     pub sky_mesh_n: u32,
-
     pub sky_vis_n: u32,
-
     pub sky_drawn_n: u32,
-
     pub sky_admitted: u32,
-
     pub view_prepared: u8,
-
     pub lock_pvs: u8,
-
     pub smodel_vis: Vec<u8>,
-
     pub smodel_vis_id: u64,
-
     pub g0_world_surfs: Vec<u16>,
-
     pub frustum_planes: Vec<[f32; 4]>,
-
     pub cell_vis: Vec<u32>,
     pub cell_vis_count: usize,
-
     pub cell_clips: Vec<CellClipPlanes>,
-
     pub cell_vis_all: bool,
 }
 

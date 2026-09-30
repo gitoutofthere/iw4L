@@ -135,7 +135,6 @@ pub fn load_sound_catalog(path: &Path) -> Result<SoundCatalog, String> {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct SoundZoneGap {
     pub namespace: AssetNamespace,
-
     pub zone: String,
     pub reason: String,
 }

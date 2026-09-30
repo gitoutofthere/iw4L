@@ -54,54 +54,34 @@ pub fn dobj_has_lod_for_dist(
 pub struct ModelSkel {
     pub name: String,
     pub bones: Vec<BoneBind>,
-
     pub bone_collision: Vec<Option<BoneCollision>>,
-
     pub bone_names: Vec<String>,
     pub tag_view: Option<usize>,
     pub tag_weapon: Option<usize>,
-
     pub pose: Option<ModelPoseSrc>,
     pub positions: Vec<[f32; 3]>,
     pub normals: Vec<[f32; 3]>,
     pub colors: Vec<[f32; 4]>,
     pub uvs: Vec<[f32; 2]>,
     pub indices: Vec<u32>,
-
     pub surface_materials: Vec<Option<crate::WalkLocalMaterialIndex>>,
-
     pub surface_vertex_ranges: Vec<(usize, usize)>,
-
     pub surface_index_ranges: Vec<(usize, usize)>,
-
     pub surface_part_bits: Vec<[u32; 6]>,
-
     pub surface_deformed: Vec<Option<bool>>,
-
     pub surface_vert_list_count: Vec<Option<u32>>,
-
     pub vert_skin: Vec<VertSkin>,
     pub rigid_verts: usize,
     pub blend_verts: usize,
-
     pub packed_vertices: Vec<[u8; sz::GFX_PACKED_VERTEX]>,
-
     pub radius: Option<f32>,
-
     pub bounds: Option<([f32; 3], [f32; 3])>,
-
     pub contents: Option<u32>,
-
     pub coll_lod: i16,
-
     pub coll_surfs: Vec<xmodel_runtime::CollSurfCollision>,
-
     pub lod: Option<crate::ModelLodSelector>,
-
     pub lod_smc: Option<[[u8; 4]; 4]>,
-
     pub lod_part_bits: Option<[[u32; 6]; 4]>,
-
     pub lod_surf_span: [(u16, u16); 4],
 }
 
@@ -162,7 +142,6 @@ pub type FpvSkel = ModelSkel;
 pub struct VertSkin {
     pub bones: [u16; 4],
     pub weights: [f32; 4],
-
     pub weight_u16: [u16; 4],
 }
 

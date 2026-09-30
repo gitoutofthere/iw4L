@@ -8,55 +8,30 @@ const HUD_GAP_COUNT: usize = <HudGap as ledger::Gap>::ALL.len();
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Debug)]
 pub enum HudGap {
     ScriptedHudElem,
-
     ReticleWeaponDef,
-
     ReticleMaterial,
-
     ReticleSideQuadOffsets,
-
     CompassMap,
-
     CompassObjectives,
-
     WeaponDisplayName,
-
     LocalizedText,
-
     GameMessage,
-
     Obituary,
-
     Weaponbar,
-
     Scoreboard,
-
     BloodOverlay,
-
     FlashWhiteout,
-
     Hitmarker,
-
     AdsOverlay,
-
     DeathIcons,
-
     RetailFont,
-
     MenuVisExp,
-
     EngineSplash,
-
     MantleHint,
-
     OverheadNames,
-
     PlayerCard,
-
     PerkDisplay,
-
     CompassRing,
-
     TextDecodeFx,
 }
 
@@ -166,7 +141,6 @@ impl fmt::Display for ReticleSlot {
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum ImageMiss {
     NoGamesRoot,
-
     NotDecoded,
 }
 
@@ -209,13 +183,9 @@ pub enum GapCause {
     },
 
     CompassNoMinimapCorners,
-
     CompassCornersDegenerate,
-
     CompassNoCatalog,
-
     CompassNoMapItem,
-
     NameNoWeaponCatalog,
 
     NameNoDisplayNameKey {
@@ -261,7 +231,6 @@ pub enum GapCause {
     },
 
     AdsOverlayNoSize,
-
     ScorebarNoCatalog,
 
     VisExpUneval {

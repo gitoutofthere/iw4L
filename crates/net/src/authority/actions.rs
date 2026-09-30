@@ -34,13 +34,9 @@ impl ActionRequestIds {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ActionAdmission {
     Fresh,
-
     Pending,
-
     Repeat(ActionVerdict),
-
     PayloadMismatch,
-
     Expired,
 }
 
@@ -48,7 +44,6 @@ pub enum ActionAdmission {
 struct ClientActionMemory {
     admitted: BTreeMap<ActionRequestId, ClientAction>,
     resolved: BTreeMap<ActionRequestId, (ClientAction, ActionVerdict)>,
-
     forgotten_through: Option<ActionRequestId>,
 }
 

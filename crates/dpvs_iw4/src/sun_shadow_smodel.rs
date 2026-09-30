@@ -3,9 +3,7 @@ pub const STATIC_MODEL_FLAG_NO_CAST_SHADOW: u8 = 0x10;
 #[derive(Clone, Copy, Debug)]
 pub struct GfxStaticModelDrawInstShadow {
     pub flags: u8,
-
     pub cull_dist: u16,
-
     pub origin: [f32; 3],
 }
 

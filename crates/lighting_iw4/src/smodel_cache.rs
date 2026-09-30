@@ -386,9 +386,7 @@ pub struct StaticModelCache<'a> {
     leaf_word0: &'a mut [u32],
     leaf_base: &'a mut [u32],
     leaf_frame: &'a mut [i32],
-
     cache_index: &'a mut [u16],
-
     leaf_verts: &'a mut [u32],
     link_next: &'a mut [u16],
     link_prev: &'a mut [u16],

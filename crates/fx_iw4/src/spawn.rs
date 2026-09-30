@@ -17,7 +17,6 @@ pub fn fx_spawn_def_from_bytes(bytes: &[u8; 8]) -> (i32, i32) {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct FxLoopingSpawn {
     pub msec: i32,
-
     pub sequence: i32,
 }
 

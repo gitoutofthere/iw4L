@@ -26,9 +26,7 @@ pub struct AuthoredSpawnPoint {
     pub classname: String,
     pub origin: [f32; 3],
     pub angles: [f32; 3],
-
     pub script_linkto: String,
-
     pub script_destructable_area: String,
 }
 
@@ -53,23 +51,14 @@ pub struct MatchBootstrap {
     pub spawns: Vec<AuthoredSpawnPoint>,
     pub flag_descriptors: Vec<DomFlagDescriptor>,
     pub classes: Vec<ClassDef>,
-
     pub seed: u64,
-
     pub kind: gamemode_iw4::GameModeKind,
-
     pub allow_debug_actions: bool,
-
     pub respawn_delay_ticks: u32,
-
     pub host_owns_respawn: bool,
-
     pub score_limit: i32,
-
     pub score_kill_points: i32,
-
     pub time_limit_ms: u32,
-
     pub intermission_view: Option<AuthoredSpawnPoint>,
 }
 

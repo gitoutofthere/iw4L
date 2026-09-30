@@ -2,7 +2,6 @@
 #[repr(C)]
 pub struct FxElemVec3Range {
     pub base: [f32; 3],
-
     pub amplitude: [f32; 3],
 }
 

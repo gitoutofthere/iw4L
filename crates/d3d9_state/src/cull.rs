@@ -1,11 +1,8 @@
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum CullMode {
     None,
-
     Cw,
-
     Ccw,
-
     Unknown(u32),
 }
 

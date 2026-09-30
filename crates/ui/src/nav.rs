@@ -72,7 +72,6 @@ pub struct Focusable {
     pub y: f32,
     pub w: f32,
     pub h: f32,
-
     pub order: Option<u32>,
 }
 

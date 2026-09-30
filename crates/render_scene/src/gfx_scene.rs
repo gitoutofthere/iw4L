@@ -108,11 +108,8 @@ pub enum SceneAddError {
 pub struct AddDObjArgs {
     pub render_fx_flags: u32,
     pub material_time: f32,
-
     pub has_tree: bool,
-
     pub num_models: u8,
-
     pub pose: Option<AddDObjPose>,
 }
 
@@ -120,11 +117,8 @@ pub struct AddDObjArgs {
 pub struct AddDObjPose {
     pub origin: [f32; 3],
     pub lighting_origin: [f32; 3],
-
     pub radius: Option<f32>,
-
     pub entnum: u32,
-
     pub quat: Option<[f32; 4]>,
 }
 
@@ -134,10 +128,8 @@ pub struct GfxSceneModel {
     pub lighting_origin: [f32; 3],
     pub radius: Option<f32>,
     pub info: u32,
-
     pub scale: f32,
     pub quat: Option<[f32; 4]>,
-
     pub posed_bounds: Option<dpvs_iw4::Bounds>,
 }
 
@@ -148,13 +140,9 @@ pub struct GfxSceneDobj {
     pub radius: Option<f32>,
     pub info: u32,
     pub quat: Option<[f32; 4]>,
-
     pub cull_gate: u32,
-
     pub posed_bounds: Option<dpvs_iw4::Bounds>,
-
     pub lods: Vec<i8>,
-
     pub skinned_surfs: Option<SceneEntSkinnedSurfs>,
 }
 
@@ -172,11 +160,8 @@ pub struct AddBModelArgs {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct AddBModelPose {
     pub model_index: u32,
-
     pub origin: [f32; 3],
-
     pub quat: Option<[f32; 4]>,
-
     pub param_4: Option<u16>,
 }
 
@@ -199,13 +184,9 @@ pub struct GfxScene {
     pub scene_dobjs: Vec<GfxSceneDobj>,
     pub scene_dobj_flag30: Vec<GfxSceneDobj>,
     pub scene_brushes: Vec<GfxSceneBrush>,
-
     pub scene_model_index: Vec<u16>,
-
     pub scene_dobj_index: Vec<u16>,
-
     pub scene_ent_visible: Vec<u8>,
-
     pub scene_ent_walked: bool,
 }
 

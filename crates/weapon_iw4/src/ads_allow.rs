@@ -4,9 +4,7 @@ use playerstate_iw4::PlayerState;
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct AdsAllowWeaponFacts {
     pub aim_down_sight: bool,
-
     pub no_ads_when_mag_empty: bool,
-
     pub clip_index: i32,
 }
 

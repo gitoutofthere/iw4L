@@ -12,7 +12,6 @@ use weapon_iw4::WeaponCombatFacts;
 pub struct AnimScriptCommand {
     pub body_part: u8,
     pub anim_index: u16,
-
     pub duration_ms: i32,
 }
 

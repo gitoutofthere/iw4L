@@ -15,9 +15,7 @@ use crate::atr_compile::ComParser;
 pub struct ParsedAnimCommand {
     pub body_part: u8,
     pub anim_index: u16,
-
     pub duration_ms: Option<i32>,
-
     pub blend_ms: Option<i32>,
 }
 
@@ -32,9 +30,7 @@ pub struct ParsedAnimCondition {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ParsedAnimItem {
     pub skip: bool,
-
     pub conditions: Vec<ParsedAnimCondition>,
-
     pub raw: String,
     pub commands: Vec<ParsedAnimCommand>,
 }
@@ -42,7 +38,6 @@ pub struct ParsedAnimItem {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ParsedPlayerAnimScript {
     pub slots: Vec<(u8, u8, Vec<ParsedAnimItem>)>,
-
     pub events: Vec<(u8, Vec<ParsedAnimItem>)>,
     pub item_count: usize,
     pub skipped_items: usize,

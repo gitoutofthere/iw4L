@@ -34,9 +34,7 @@ pub fn light_grid_lookup_corner_wants_trace(
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct LightGridLookupWeights {
     pub matching_primary: f32,
-
     pub traced_influence: f32,
-
     pub total: f32,
 }
 
@@ -45,7 +43,6 @@ pub struct LightGridLookupCorner {
     pub colors_index: u16,
     pub primary_light: u8,
     pub weight: f32,
-
     pub trace_allows: bool,
 }
 

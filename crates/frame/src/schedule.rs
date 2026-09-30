@@ -3,40 +3,25 @@ use bevy::prelude::*;
 #[derive(SystemSet, Debug, Clone, PartialEq, Eq, Hash)]
 pub enum AuthoritySet {
     Advance,
-
     Ingress,
-
     Gather,
-
     Step,
-
     Snapshot,
-
     Fanout,
-
     Bookkeeping,
 }
 
 #[derive(SystemSet, Debug, Clone, PartialEq, Eq, Hash)]
 pub enum ClientSet {
     Load,
-
     Receive,
-
     Reconcile,
-
     Input,
-
     Predict,
-
     Send,
-
     Present,
-
     Ui,
-
     Effects,
-
     Diag,
 }
 
@@ -133,7 +118,6 @@ pub struct ModelLightingSeated;
 #[repr(u8)]
 pub enum WorkerCmdSet {
     CellDynBrush = 0,
-
     CellDynModel = 1,
     CellSceneEnt = 2,
     DpvsEnt = 3,
@@ -143,7 +127,6 @@ pub enum WorkerCmdSet {
     Glass = 7,
     FxRemaining = 8,
     CellStatic = 9,
-
     AddSceneEnt = 10,
     CellGlass = 11,
     GlassLight = 12,
@@ -154,7 +137,6 @@ pub enum WorkerCmdSet {
     SmodelCache = 17,
     SkinModel = 18,
     FxPhysics = 19,
-
     Physics = 20,
 }
 

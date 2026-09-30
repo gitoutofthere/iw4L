@@ -16,7 +16,7 @@ pub const XMODEL_PACKED_UNAVAILABLE: &str =
     "xmodel merge GfxPackedVertex missing or count-mismatched; decoded float is not packed VB";
 pub const XMODEL_PACKED_EMPTY_PLAN: &str = "xmodel plan has no vertices";
 
-fn install_retained_packed(
+pub fn install_retained_packed(
     packed_ok: bool,
     packed: Vec<[u8; asset_iw4::size::GFX_PACKED_VERTEX]>,
     decoded_count: usize,
@@ -681,7 +681,7 @@ fn f32x4(values: &VertexAttributeValues) -> Option<&[[f32; 4]]> {
     }
 }
 
-fn append_mesh(
+pub fn append_mesh(
     mesh: &Mesh,
     vertices: &mut Vec<SmodelVertex>,
     indices: &mut Vec<u32>,

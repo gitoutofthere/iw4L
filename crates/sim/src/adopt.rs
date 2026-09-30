@@ -1,7 +1,6 @@
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct AdoptGap {
     pub field: &'static str,
-
     pub reason: &'static str,
 }
 
@@ -83,13 +82,9 @@ pub const ADOPT_GAPS: &[AdoptGap] = &[
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct AdoptReport {
     pub players: usize,
-
     pub clients: usize,
-
     pub projectiles: usize,
-
     pub dropped: usize,
-
     pub content_mismatch: bool,
 }
 

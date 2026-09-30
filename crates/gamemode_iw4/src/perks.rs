@@ -23,9 +23,7 @@ pub const COPYCAT_DEATH_VAL: i32 = 4;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum CacDamageMeans {
     Primary,
-
     Explosive,
-
     Other,
 }
 

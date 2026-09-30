@@ -5,17 +5,11 @@ use crate::stance_speed_scale;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct CmdScaleWalkContext {
     pub player_back_speed_scale: f32,
-
     pub player_strafe_speed_scale: f32,
-
     pub player_sprint_speed_scale: f32,
-
     pub player_last_stand_crawl_speed_scale: f32,
-
     pub weapon_move_speed_scale: f32,
-
     pub weapon_ads_move_speed_scale: f32,
-
     pub shellshock_affects_movement: bool,
 }
 

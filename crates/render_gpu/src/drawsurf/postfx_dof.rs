@@ -197,9 +197,7 @@ pub struct GlowFrame {
     pub enable: bool,
     pub radius: f32,
     pub intensity: f32,
-
     pub r_glow: bool,
-
     pub r_fullbright: bool,
 }
 

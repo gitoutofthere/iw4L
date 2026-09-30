@@ -41,11 +41,8 @@ struct Row {
     buttons: Option<i64>,
     weaponstate: Option<i32>,
     ammo_clip: Option<i32>,
-
     legs_anim: Option<i32>,
-
     torso_anim: Option<i32>,
-
     walking: Option<i32>,
 }
 

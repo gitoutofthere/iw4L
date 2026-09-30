@@ -54,19 +54,13 @@ pub struct FxGlassSystemHost {
     pub is_in_use: Vec<u32>,
     pub half_thickness: Vec<f32>,
     pub link_org: Vec<[f32; 3]>,
-
     pub shatter_rand: u32,
-
     pub shatter_seed: u64,
-
     pub time: i32,
     pub prev_time: i32,
-
     pub moved: bool,
-
     pub motion_accum_msec: i32,
     pub motion_clock: Option<i32>,
-
     pub source_pane: Vec<u32>,
     pub generation: Vec<u32>,
     pub contact_mode: Vec<u8>,

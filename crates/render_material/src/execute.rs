@@ -71,9 +71,7 @@ pub struct ExecutablePassView<'a> {
     pub local_samplers: Option<&'a Arc<PackedLocalSamplers>>,
     pub code_constants: &'a [PackedCodeConstantLane],
     pub code_samplers: &'a [PackedCodeSamplerLane],
-
     pub code_constant_id: u64,
-
     pub code_sampler_id: u64,
 }
 

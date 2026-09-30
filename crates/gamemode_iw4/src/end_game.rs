@@ -30,7 +30,6 @@ pub const fn exit_wait_ms(only_round: bool, post_game_notifies: i32) -> i32 {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct EndGameTailConfig {
     pub only_round: bool,
-
     pub post_game_notifies: i32,
 }
 
@@ -46,7 +45,6 @@ impl EndGameTailConfig {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum EndGameTailOutput {
     SpawningIntermission,
-
     ExitLevel,
 }
 

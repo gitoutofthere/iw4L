@@ -12,7 +12,6 @@ use crate::{AddBModelArgs, AddBModelPose, AddDObjArgs, AddDObjPose, GfxScene, sc
 #[derive(Resource, Default)]
 pub struct HostGfxScene {
     pub scene: GfxScene,
-
     pub census_valid: bool,
 }
 
@@ -229,16 +228,13 @@ pub fn occupy_script_brushes(
 #[derive(Resource, Default)]
 pub struct SceneEntSkinInputs {
     pub by_ent: HashMap<u32, SceneEntSkinInput>,
-
     pub pending: HashMap<u32, SceneEntSkinPending>,
-
     pub frame_bytes_used: u32,
 }
 
 #[derive(Clone, Debug, Default)]
 pub struct SceneEntSkinInput {
     pub models: Vec<SceneEntSkinModel>,
-
     pub hide_part_bits: [u32; 6],
 }
 
@@ -246,7 +242,6 @@ pub struct SceneEntSkinInput {
 pub struct SceneEntSkinModel {
     pub lod: i8,
     pub bone_count: u8,
-
     pub surfaces: std::sync::Arc<[dpvs_iw4::PreSkinSurface]>,
 }
 

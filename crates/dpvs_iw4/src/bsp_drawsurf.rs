@@ -3,17 +3,11 @@ use crate::GfxDrawSurf;
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct GfxSurfaceDrawFields {
     pub first_vertex: u32,
-
     pub vertex_count: u16,
-
     pub tri_count: u16,
-
     pub base_index: u32,
-
     pub lightmap_index: u8,
-
     pub reflection_probe_index: u8,
-
     pub primary_light_index: u8,
 }
 
@@ -55,18 +49,14 @@ impl BspSurfaceDrawFields for GfxSurfaceDrawFields {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum BspDrawSurfKind {
     LitOpaque,
-
     LitTrans,
-
     Emissive,
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct BspDrawSurfRanges {
     pub lit_opaque: (u32, u32),
-
     pub lit_trans: (u32, u32),
-
     pub emissive: (u32, u32),
 }
 
@@ -75,9 +65,7 @@ pub struct BspDrawSurfRun<K = BspDrawSurfKind> {
     pub kind: K,
     pub first_surf: u16,
     pub surf_count: u16,
-
     pub draw_surf: GfxDrawSurf,
-
     pub setup_key_changed: bool,
 }
 
@@ -87,9 +75,7 @@ pub struct BspDrawSurfCensus {
     pub visible_n: u32,
     pub admitted_n: u32,
     pub run_n: u32,
-
     pub input_gap_n: u32,
-
     pub output_overflow_n: u32,
 }
 

@@ -20,7 +20,6 @@ pub struct Host<'a> {
     pub class_status: Option<&'a str>,
     pub initial_class_select: bool,
     pub maps: &'a [String],
-
     pub menus: Option<&'a MenuCatalog>,
     pub loc: Option<&'a LocalizeCatalog>,
     pub classes: Option<&'a ClassSetupScratch>,
@@ -1911,7 +1910,6 @@ pub(crate) fn class_slot_index_from_id(id: &str) -> Option<usize> {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub(crate) enum CacRevealGroup {
     Slot,
-
     Pick,
     Attachment,
 }
@@ -2268,9 +2266,7 @@ fn class_rename_modal(buffer: &str) -> Vec<Widget> {
 struct Popup {
     y: f32,
     rows: usize,
-
     crumbs: Vec<String>,
-
     preview_h: f32,
 }
 

@@ -102,7 +102,6 @@ pub struct AcceptanceSample {
     pub visibility_changes: u32,
     pub gpu_frame_ms: MetricValue,
     pub draw_calls: MetricValue,
-
     pub process_allocations: u64,
 }
 

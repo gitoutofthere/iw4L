@@ -14,7 +14,6 @@ pub struct ComPrimaryLightCull {
     pub origin: [f32; 3],
     pub direction: [f32; 3],
     pub radius: f32,
-
     pub cos_half_fov_expanded: f32,
 }
 

@@ -35,7 +35,6 @@ pub struct MapEmitter {
     pub knots: Arc<[[f32; 2]]>,
     pub base_gain: f32,
     pub pcm: Handle<PcmAudio>,
-
     pub live_pan: Option<crate::pcm::LivePan>,
 }
 

@@ -9,7 +9,6 @@ pub const ROUND_END_DELAY_MS: Millis = 4_000;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct RoundEndWaitConfig {
     pub delay_ms: Millis,
-
     pub match_bonus: bool,
 }
 
@@ -25,7 +24,6 @@ impl RoundEndWaitConfig {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum RoundEndWaitOutput {
     GiveMatchBonus,
-
     RoundEndFinished,
 }
 
@@ -34,7 +32,6 @@ pub type RoundEndWaitLog = Log<RoundEndWaitOutput, 2>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum Pc {
     FirstWait,
-
     SecondWait,
     Done,
 }

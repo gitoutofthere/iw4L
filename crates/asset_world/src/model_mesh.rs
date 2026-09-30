@@ -210,17 +210,11 @@ pub fn format_vertex_color_stats(stats: &VertexColorStats) -> String {
 #[derive(Clone, Debug)]
 pub struct ModelSurfaceDraw {
     pub mesh: Mesh,
-
     pub material: Option<usize>,
-
     pub packed_vertices: Vec<[u8; asset_iw4::size::GFX_PACKED_VERTEX]>,
-
     pub xsurface_plus_1: Option<u8>,
-
     pub xsurface_base_index: u16,
-
     pub xsurface_vert_offset: u16,
-
     pub collision: RetailXSurfaceCollisionPayload,
 }
 
@@ -268,13 +262,10 @@ fn lod0_only_surfaces(draws: Vec<ModelSurfaceDraw>) -> [Vec<ModelSurfaceDraw>; 4
 #[derive(Clone, Debug)]
 pub struct ModelMesh {
     pub name: String,
-
     pub lod_surfaces: [Vec<ModelSurfaceDraw>; 4],
     pub vertices: usize,
     pub triangles: usize,
-
     pub lod_smc: Option<[[u8; 4]; 4]>,
-
     pub lod: Option<asset_model::ModelLodSelector>,
 }
 
@@ -292,15 +283,11 @@ impl ModelMesh {
 pub struct StaticModelInstance {
     pub model_slot: Ptr,
     pub origin: [f32; 3],
-
     pub axis: [[f32; 3]; 3],
     pub scale: f32,
     pub cull_dist: u16,
-
     pub reflection_probe_index: u8,
-
     pub primary_light_index: u8,
-
     pub flags: u8,
 }
 
@@ -308,16 +295,12 @@ pub struct StaticModelInstance {
 pub struct StaticModelPlacement {
     pub mesh: usize,
     pub transform: Transform,
-
     pub origin: [f32; 3],
     pub axis: [[f32; 3]; 3],
     pub scale: f32,
     pub cull_dist: u16,
-
     pub reflection_probe_index: u8,
-
     pub primary_light_index: u8,
-
     pub flags: u8,
 }
 
@@ -333,9 +316,7 @@ impl Borrow<str> for MapXModelAssetKey {
 #[derive(Clone, Debug)]
 pub enum MapXModelSceneAsset {
     Iw4(Arc<ModelSkel>),
-
     T5(Arc<ModelSkel>),
-
     Iw5(Arc<ModelSkel>),
     Unavailable { reason: &'static str },
 }
@@ -343,18 +324,12 @@ pub enum MapXModelSceneAsset {
 #[derive(Clone, Debug, Default, Resource)]
 pub struct MapXModelSceneCatalog {
     assets: BTreeMap<MapXModelAssetKey, MapXModelSceneAsset>,
-
     order: Vec<MapXModelAssetKey>,
-
     zones: Vec<ZoneOwner>,
     capture_zone: ZoneOwner,
-
     phys_preset_slot_n: usize,
-
     phys_preset_name_hint_n: usize,
-
     dynent_phys_preset_n: usize,
-
     surface_materials: BTreeMap<MapXModelAssetKey, Vec<Option<crate::MaterialIndex>>>,
     resolved: bool,
 }
@@ -365,7 +340,6 @@ pub struct MapXModelMaterialCensus {
     pub surfaces: usize,
     pub bound: usize,
     pub unbound: usize,
-
     pub absent: usize,
 }
 
@@ -529,20 +503,14 @@ pub struct ScriptModelMetadata {
     pub targetname: String,
     pub script_noteworthy: String,
     pub destructible_type: String,
-
     pub destructible_def: String,
     pub t5_destructible: Option<std::sync::Arc<xmodel_runtime::T5DestructibleDef>>,
     pub target: String,
-
     pub script_exploder: String,
     pub brush_link: crate::ScriptBrushModelLink,
-
     pub script_accumulate: Option<i32>,
-
     pub script_threshold: Option<i32>,
-
     pub script_destructable_area: String,
-
     pub script_fxid: String,
 }
 
@@ -551,7 +519,6 @@ pub struct ScriptModelSceneInstance {
     pub id: crate::ScriptModelId,
     pub current_model: MapXModelAssetKey,
     pub transform: Transform,
-
     pub lighting_origin: [f32; 3],
     pub dobj_state: xmodel_runtime::DObjSemanticState,
     pub metadata: ScriptModelMetadata,
@@ -560,9 +527,7 @@ pub struct ScriptModelSceneInstance {
 #[derive(Default)]
 pub struct StaticModelDraw {
     pub meshes: Vec<ModelMesh>,
-
     pub placements: Vec<Option<StaticModelPlacement>>,
-
     pub gaps: usize,
 }
 
@@ -597,15 +562,10 @@ pub struct PreparedMapModels {
     pub static_error: Option<StaticModelDrawError>,
     pub scene_assets: MapXModelSceneCatalog,
     pub script_instances: Vec<ScriptModelSceneInstance>,
-
     pub script_brush_models: Vec<crate::ScriptBrushModelPlacement>,
-
     pub map_use_triggers: Vec<crate::MapUseTrigger>,
-
     pub flag_descriptors: Vec<crate::FlagDescriptor>,
-
     pub script_structs: Vec<crate::MapScriptStruct>,
-
     pub script_gaps: usize,
 }
 

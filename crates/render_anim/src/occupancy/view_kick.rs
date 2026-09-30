@@ -66,37 +66,21 @@ pub struct PendingViewHurt(pub u32);
 pub struct SessionViewKick {
     pub state: ViewKickState,
     pub sway: ViewSwayState,
-
     pub placement_move_origin: [f32; 3],
-
     pub placement_move_angles: [f32; 3],
-
     pub weap_idle_time: i32,
-
     pub last_idle_factor: f32,
-
     pub view_last_idle_factor: f32,
-
     pub land_change: f32,
-
     pub land_time: i32,
-
     pub land_view_dip: i32,
-
     pub viewweapon_land_z: f32,
-
     pub viewweapon_land_view: [f32; 3],
-
     pub refdef_view_angles: [f32; 3],
-
     pub refdef_vieworg: [f32; 3],
-
     pub horiz_fov_deg: f32,
-
     pub damage_time: i32,
-
     pub v_dmg_pitch: f32,
-
     pub v_dmg_roll: f32,
     last_weapon_id: u32,
     last_origin: [f32; 3],
@@ -105,11 +89,8 @@ pub struct SessionViewKick {
     have_land_prev: bool,
     last_damage_event: u32,
     have_damage_prev: bool,
-
     pub seeded_this_frame: u32,
-
     last_weapon_pos_frac: f32,
-
     pub b_position_to_ads: bool,
 }
 
@@ -527,9 +508,7 @@ fn stamp_damage_feedback(
 #[derive(Resource, Clone, Copy, Debug, Default)]
 pub struct CgGunOffset {
     pub x: f32,
-
     pub y: f32,
-
     pub z: f32,
 }
 

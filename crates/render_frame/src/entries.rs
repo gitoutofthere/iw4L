@@ -13,11 +13,8 @@ pub struct SmodelPretessRange {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct GfxSmodelRigidEntry {
     pub packed_key: u32,
-
     pub tri_count: u16,
-
     pub index_byte_offset: u32,
-
     pub lighting_handle: u16,
 }
 
@@ -33,15 +30,10 @@ pub const fn smodel_rigid_index_run_continues(
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct GfxXModelRigidEntry {
     pub packed_key: u32,
-
     pub index_byte_offset: u32,
-
     pub tri_count: u16,
-
     pub tess_info_byte_10: u8,
-
     _pad_0b: u8,
-
     pub lighting_handle: u32,
 }
 
@@ -75,13 +67,9 @@ pub const fn xmodel_rigid_index_run_continues(
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct GfxTrianglesListEntry {
     pub sort_key: u32,
-
     pub tri_count: u16,
-
     pub base_index: u32,
-
     pub first_vertex: u32,
-
     pub vertex_count: u32,
 }
 

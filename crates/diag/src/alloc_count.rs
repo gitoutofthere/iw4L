@@ -143,7 +143,6 @@ pub struct ProcessAllocationStats {
     pub process_allocation_bytes: u64,
     pub process_deallocations: u64,
     pub process_deallocation_bytes: u64,
-
     pub process_allocation_saturated: u64,
 }
 

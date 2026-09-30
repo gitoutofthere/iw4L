@@ -5,9 +5,7 @@ use crate::{CollisionBackend, MoveBounds, Pml, pm_accelerate, pm_friction, pm_st
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct AirMoveContext {
     pub player_spectate_speed_scale: f32,
-
     pub shellshock_gravity_scale: f32,
-
     pub shellshock_gravity_bias: f32,
 }
 

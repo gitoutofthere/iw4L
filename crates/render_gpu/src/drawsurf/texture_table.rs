@@ -70,7 +70,6 @@ pub(super) fn scene_table_index(after_scene_resolve: bool, srgb_write: bool) -> 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub(super) struct TableEpoch {
     pub generation: MaterialGenerationId,
-
     pub replaced_revision: u64,
 }
 
@@ -79,13 +78,11 @@ pub(super) struct ExactTextureTable {
     epoch: TableEpoch,
     views: [Vec<TextureView>; 3],
     view_index: HashMap<TextureViewId, u16>,
-
     sun_shadow_indices: Vec<u16>,
     samplers: Vec<Sampler>,
     sampler_index: HashMap<SamplerKey, u16>,
     placeholders: Option<Placeholders>,
     binds: Option<TextureTableBinds>,
-
     pub rebuild_n: u32,
 }
 

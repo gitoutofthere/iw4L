@@ -121,7 +121,6 @@ pub fn cg_overhead_anchor(head: OverheadHeadResult, centity_origin: [f32; 3]) ->
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct OverheadView {
     pub origin: [f32; 3],
-
     pub axis: [[f32; 3]; 3],
     pub tan_half_fov_x: f32,
     pub tan_half_fov_y: f32,

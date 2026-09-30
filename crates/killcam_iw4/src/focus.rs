@@ -6,42 +6,29 @@ pub const NO_KILLCAM_ENTITY: i32 = -1;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Entity {
     pub entity_number: i32,
-
     pub birthtime: Option<Millis>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Inflictor<'a> {
     pub entity: Entity,
-
     pub is_attacker: bool,
     pub classname: &'a str,
-
     pub script_gameobjectname: Option<&'a str>,
-
     pub kill_cam_ent: Option<Entity>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum FocusRule {
     NoInflictor,
-
     InflictorIsAttacker,
-
     Ac130,
-
     CobraMinigun,
-
     AirstrikeCamEnt,
-
     BombzoneCamEnt,
-
     ScriptEntityLooksBad,
-
     RemoteMissile,
-
     Ac130Duplicate,
-
     Inflictor,
 }
 
@@ -92,9 +79,7 @@ pub fn killcam_entity_index(focus: Option<Entity>) -> (i32, Millis) {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum FocusDelay {
     SetNow,
-
     WaitOneFrameThenRecheck,
-
     WaitSeconds(f32),
 }
 

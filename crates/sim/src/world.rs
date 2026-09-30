@@ -2,7 +2,6 @@ use anim_iw4::{PLAYER_ANIM_RAW_MASK, PlayerAnimValue};
 use bevy_ecs::prelude::Component;
 use playerstate_iw4::{AnimPair, PlayerState};
 
-use crate::anim_script_gap::PlayerAnimScriptGap;
 use crate::bullet_collision::{
     CollisionHistory, EntityCollisionCapabilities, EntityCollisionHistory,
     EntityCollisionTraceGeom, LinkedBrushCollisionBrush,
@@ -74,9 +73,7 @@ pub(crate) const CONTENTS_BODY: u32 = 0x0200_0000;
 pub struct SimBrush {
     pub planes: Vec<[f32; 4]>,
     pub contents: u32,
-
     pub plane_surface_flags: Vec<u32>,
-
     pub glass_encoded: u16,
 }
 
@@ -107,9 +104,7 @@ pub struct SimClipMesh {
     /// The immutable collision tables, shared with whoever else traces
     /// against this map rather than copied per owner.
     pub tables: std::sync::Arc<clipmap_iw4::ClipMeshTables>,
-
     pub static_models: Vec<SimStaticModel>,
-
     pub smodel_grid: crate::smodel_grid::SmodelGrid,
 }
 
@@ -161,66 +156,43 @@ impl PlayerKitCollision {
 pub struct HitvolDumpRow {
     pub client: Option<ClientId>,
     pub bone_count: u32,
-
     pub geom: &'static str,
     pub body_key: String,
     pub head_key: String,
-
     pub pose_kind: &'static str,
-
     pub anim: Option<AnimPair>,
-
     pub leaf: Option<i64>,
     pub clip: String,
-
     pub anim_time: Option<f32>,
     pub first_cx: Option<f32>,
     pub first_cy: Option<f32>,
     pub first_cz: Option<f32>,
-
     pub pelvis_hx: Option<f32>,
     pub pelvis_hy: Option<f32>,
     pub pelvis_hz: Option<f32>,
-
     pub pelvis_cz: Option<f32>,
-
     pub head_x: Option<f32>,
     pub head_y: Option<f32>,
     pub head_z: Option<f32>,
-
     pub controller: &'static str,
-
     pub pitch: Option<f32>,
-
     pub e_flags: Option<u32>,
-
     pub pm_flags: Option<u32>,
-
     pub movetype: Option<i64>,
-
     pub leanf: Option<f32>,
-
     pub ctl_tags: Option<i64>,
-
     pub tag_origin: Option<i64>,
     pub tag_ox: Option<f32>,
     pub tag_oy: Option<f32>,
     pub pen_table_loaded: bool,
     pub error: Option<String>,
-
     pub clock_owner: Option<&'static str>,
-
     pub tree_persist: Option<i64>,
-
     pub node_time: Option<f32>,
-
     pub time_unit: Option<&'static str>,
     pub goal_weight: Option<f32>,
-
     pub dobj_persist: Option<i64>,
-
     pub cycle_count: Option<i64>,
-
     pub dobj_models: Option<i64>,
 }
 
@@ -382,183 +354,106 @@ impl SimContentBuilder {
 pub struct SimState {
     content: Arc<SimContent>,
     clients: Vec<(ClientId, ClientMatchState)>,
-
     prediction_remote_bodies: Vec<PredictionRemoteBody>,
-
     area_entity_world: Option<clipmap_iw4::AreaEntityWorld>,
-
     entity_collision_capabilities: Vec<EntityCollisionCapabilities>,
-
     old_buttons: Vec<(ClientId, u32)>,
-
     old_cmd_angles: Vec<(ClientId, [i32; 3])>,
-
     player_anim_trees: HashMap<u32, PlayerAnimTreeSlot>,
-
     corpse_anim_trees: HashMap<i32, xmodel_runtime::XAnimTreeRuntime>,
-
     player_dobjs: HashMap<u32, PlayerDobjSlot>,
-
     player_body_materialize_error: Option<String>,
-
     damage_feedback_seq: u64,
     damage_feedback_cues: Vec<DamageFeedbackCue>,
-
     g_hudelems: Vec<crate::hudelem::GameHudElemSlot>,
-
     hud_elem_sound_ids: crate::hudelem::PulseFxSoundIds,
-
     dying_missiles: Vec<entity_iw4::EntityState>,
-
     bootstrap: MatchBootstrap,
-
     running: bool,
     phase: MatchPhase,
-
     match_elapsed_ms: u32,
-
     prematch: gamemode_iw4::PrematchStep,
-
     max_alive_seen: u32,
-
     pending_prematch_done: bool,
-
     pending_game_win: Option<Option<ClientId>>,
-
     pending_team_game_win: Option<Option<gamemode_iw4::Team>>,
-
     pending_round_win: Option<Option<gamemode_iw4::Team>>,
-
     pending_round_switch: Option<bool>,
-
     game_win_winner: Option<ClientId>,
-
     placement_cointoss_unwired: u32,
-
     pending_spawn_music: Vec<ClientId>,
-
     bc_speakers: Vec<crate::voice::BattlechatterSpeaker>,
-
     pending_battlechatter: Vec<crate::voice::DelayedBattlechatter>,
-
     pending_concussion: Vec<crate::damage::DelayedConcussion>,
-
     voice_rng: MatchRng,
-
     outcome_hud_latched: bool,
-
     root_seed: u64,
     spawn_rng: MatchRng,
     combat_rng: MatchRng,
     bot_rng: MatchRng,
-
     next_shot: ShotId,
     next_projectile: ProjectileId,
-
     collision_history: CollisionHistory,
-
     entity_collision_history: EntityCollisionHistory,
-
     lagcomp_sample: HashMap<ClientId, crate::bullet_collision::ShotSampleProvenance>,
     lagcomp_commands: HashMap<(ClientId, i32), crate::bullet_collision::ShotSampleProvenance>,
-
     content_digest: u64,
-
     content_components: crate::ContentComponents,
-
     journal: Vec<EventRecord>,
-
     shot_collision_verdicts: Vec<crate::combat::ShotCollisionVerdict>,
-
     projectile_impacts: Vec<ProjectileImpact>,
-
     projectile_impact_log: Vec<(Tick, ProjectileImpact)>,
     next_event: EventSequence,
     entity_events: Vec<EntityEventRecord>,
     next_entity_event: EventSequence,
-
     pellet_fx: Vec<crate::PelletFxRecord>,
-
-    anim_script_gap: PlayerAnimScriptGap,
-
     world_objects: WorldObjectState,
-
     script_gaps: ScriptGaps,
-
     pending_match_clock: Option<gamemode_iw4::ClockTickEmit>,
-
     sound_alias_cs: crate::SoundAliasCs,
-
     effect_name_cs: crate::EffectNameCs,
-
     hud_material_cs: crate::HudMaterialCs,
-
     pending_score_limit_soon: Option<gamemode_iw4::MatchSoundNotify>,
-
     num_kills: u32,
-
     pub(crate) recent_kills: Vec<(ClientId, i32, u32)>,
-
     pending_player_cards: Vec<PendingPlayerCardEvent>,
-
     pending_final_kill: Option<(ClientId, ClientId)>,
-
     last_pmove_walking: HashMap<ClientId, i32>,
-
     stuck_holdrand: u32,
-
     last_stuck_ejects: Vec<(ClientId, ClientId)>,
-
     last_anim_movetype: HashMap<ClientId, u8>,
-
     anim_event_seed: u32,
-
     corpses: crate::PlayerCorpsePool,
-
     entity_kernel: crate::gentity::EntityKernel,
-
     dobj_anim_mats: HashMap<(i32, i32), entity_iw4::DObjAnimMat>,
-
     kernel_phases: Vec<crate::gentity::KernelPhase>,
-
     last_think_order: Vec<crate::gentity::EntityRef>,
-
     last_think_dispatch: Vec<(i32, crate::gentity::EntityRunKind)>,
     last_use_presses: Vec<crate::gentity::UsePress>,
-
     pub map_doors: Option<crate::MapDoors>,
     pub radiation_diggers: Vec<crate::RadiationDigger>,
     pub radiation_moving_diggers: Vec<crate::RadiationMovingDigger>,
     pub radiation_conveyer: Option<crate::RadiationConveyer>,
     pub radiation_lights: Option<crate::RadiationLights>,
     pub objectives: crate::ObjectiveMatch,
-
     use_objects: Vec<crate::use_object::UseObject>,
     use_hold: Option<crate::use_object::UseHoldSession>,
     last_use_events: Vec<crate::use_object::UseObjectEvent>,
     next_use_object_id: u32,
     use_script_tick: crate::world::Tick,
-
     use_start_spawns: bool,
-
     dom_score_next_ms: Option<i32>,
     team_scores: gamemode_iw4::TeamScores,
     lead_swing: gamemode_iw4::LeadSwing,
-
     last_status_axis_ms: i32,
     last_status_allies_ms: i32,
-
     capture_pace: Vec<(crate::world::ClientId, gamemode_iw4::CapturePace)>,
-
     best_spawn_flag_axis: Option<u32>,
     best_spawn_flag_allies: Option<u32>,
-
     dom_spawn_graph: Vec<gamemode_iw4::DomFlagSpawnNode>,
     use_throwing_grenade: Vec<(crate::world::ClientId, bool)>,
     use_objective_scaler: Vec<(crate::world::ClientId, f32)>,
-
     item_pickups: Vec<crate::ItemPickupRecord>,
-
     publish_snapshot: bool,
 }
 
@@ -624,7 +519,6 @@ impl Default for SimState {
             entity_events: Vec::new(),
             next_entity_event: EventSequence(1),
             pellet_fx: Vec::new(),
-            anim_script_gap: PlayerAnimScriptGap::default(),
             world_objects: WorldObjectState::default(),
             script_gaps: ScriptGaps::default(),
             pending_match_clock: None,
@@ -3336,14 +3230,6 @@ impl SimState {
 
     pub(crate) fn push_pellet_fx(&mut self, record: crate::PelletFxRecord) {
         self.pellet_fx.push(record);
-    }
-
-    pub fn anim_script_gap(&self) -> PlayerAnimScriptGap {
-        self.anim_script_gap
-    }
-
-    pub(crate) fn count_fire_anim_gap(&mut self) {
-        self.anim_script_gap.fire_inputs += 1;
     }
 
     pub(crate) fn scales_for(&self, weapon: u32) -> (f32, f32, f32) {

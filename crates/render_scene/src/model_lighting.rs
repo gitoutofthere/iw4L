@@ -8,17 +8,13 @@ pub enum ModelLightingOwner {
     RemoteClient(u16),
     Corpse(Entity),
     ScriptModel(Entity),
-
     Missile(u32),
 
     PredictedMissile { owner: u32, weapon: u32 },
 
     Item(u32),
-
     FxModel(u16),
-
     Glass(u16),
-
     DynEnt(Entity),
 }
 

@@ -5,15 +5,10 @@ use crate::prematch;
 pub enum MatchPhaseKind {
     #[default]
     Playing = 0,
-
     Prematch = 1,
-
     RoundEnding = 2,
-
     SwitchingSides = 3,
-
     MatchEnding = 4,
-
     WaitingForPlayers = 5,
 }
 
@@ -36,13 +31,9 @@ impl MatchPhaseKind {
 pub enum RoundEndReason {
     #[default]
     None = 0,
-
     TargetDestroyed = 1,
-
     TimeLimit = 2,
-
     RoundLimit = 3,
-
     ScoreLimit = 4,
 }
 

@@ -17,15 +17,10 @@ pub const SCAVENGER_FADE_MS: i32 = 2_500;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum TypeHit {
     Standard,
-
     HitBodyArmor,
-
     HitEndGame,
-
     Stun,
-
     None,
-
     Scavenger,
 }
 
@@ -45,16 +40,12 @@ impl TypeHit {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct DamageFeedbackPulse {
     pub type_hit: TypeHit,
-
     pub shader: &'static str,
     pub width: i32,
     pub height: i32,
-
     pub x: i32,
-
     pub y: i32,
     pub fade_ms: i32,
-
     pub sound: Option<&'static str>,
 }
 

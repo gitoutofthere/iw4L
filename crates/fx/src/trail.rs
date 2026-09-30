@@ -24,13 +24,11 @@ pub const FX_TRAIL_HANDLE_NONE: u16 = 0xffff;
 #[derive(Clone, Debug)]
 pub struct FxTrailSlot {
     pub occupied: bool,
-
     pub next_trail_handle: u16,
     pub first_elem_handle: u16,
     pub last_elem_handle: u16,
     pub def_index: i8,
     pub sequence: i8,
-
     pub split_leftover: f32,
 }
 
@@ -54,7 +52,6 @@ pub struct FxTrailElemSlot {
     pub origin: [f32; 3],
     pub spawn_dist: f32,
     pub msec_begin: i32,
-
     pub next_trail_elem_handle: u16,
     pub base_vel_z: i16,
     pub basis: [i8; 6],

@@ -126,14 +126,10 @@ impl RetainedDrawKind {
 #[derive(Clone, Copy, Debug)]
 pub struct RetainedDrawItem {
     pub material_id: Option<render_material::MaterialAssetId>,
-
     pub key: u64,
-
     pub material_rank: u32,
     pub kind: RetainedDrawKind,
-
     pub surface_samplers: SurfaceSamplerInputs,
-
     pub camera_region: Option<u8>,
 }
 

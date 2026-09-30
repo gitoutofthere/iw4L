@@ -16,7 +16,6 @@ pub enum PreparedCapability {
     PreparedWorld,
     CollisionSpawns,
     WeaponCatalog,
-
     BodySkeleton,
     PlayableFfa,
 }

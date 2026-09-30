@@ -10,7 +10,6 @@ pub const ENTRY_WORK_FN: usize = 0x0c;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct GfxDrawSurfListKind {
     pub id: u8,
-
     pub cursor: u16,
 }
 
@@ -96,9 +95,7 @@ pub const DRAW_LIST_REGISTRATION_ORDER: [GfxDrawSurfListKind; 12] = [
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum DrawListRegistrationGuard {
     Always,
-
     EmittersOrMode2,
-
     Emitters,
 }
 
@@ -114,9 +111,7 @@ impl GfxDrawSurfListKind {
 
 pub struct GfxDrawListEntry<'a> {
     pub kind: GfxDrawSurfListKind,
-
     pub sort_key: u32,
-
     pub worker: &'a mut dyn DrawSurfListWorker,
 }
 
@@ -129,9 +124,7 @@ pub trait DrawSurfListWorker {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct GfxCmdBufContext {
     pub view_info: u32,
-
     pub arg1: u32,
-
     pub tech_type_src: u32,
 }
 
@@ -140,11 +133,8 @@ pub const LIST_ARGS_DWORDS: usize = (0x90 / 4) + 1;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct GfxDrawList {
     pub head_cur: u32,
-
     pub registered: u32,
-
     pub list_args: [u32; LIST_ARGS_DWORDS],
-
     pub registered_kinds: Vec<GfxDrawSurfListKind>,
 }
 
@@ -401,17 +391,11 @@ pub const GFX_DEPTH_RANGE_FULL: i32 = -1;
 #[derive(Clone, Debug, PartialEq)]
 pub struct GfxCmdBufDepthState {
     pub prim_draw: [u32; 3],
-
     pub invert_projection: u32,
-
     pub camera_view: u32,
-
     pub depth_range_type: i32,
-
     pub depth_min: f32,
-
     pub depth_max: f32,
-
     pub projection_scale: f32,
 }
 
@@ -432,7 +416,6 @@ impl Default for GfxCmdBufDepthState {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct GfxEndDrawList {
     pub restore_n: u32,
-
     pub depth_range_type: i32,
 }
 

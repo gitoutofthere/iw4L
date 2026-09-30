@@ -9,9 +9,7 @@ pub const FX_MODEL: &str = "fx";
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ExploderActivateAction {
     BrushShow,
-
     BrushThrow,
-
     BrushDelete,
 }
 

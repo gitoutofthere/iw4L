@@ -23,11 +23,9 @@ pub use d3d9_sm3::{SamplerTextureDimension, Semantic};
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct VertexAttribute {
     pub source: u8,
-
     pub dest: u8,
     pub semantic: Semantic,
     pub layout: vd::StreamSourceLayout,
-
     pub location: u32,
 }
 
@@ -43,7 +41,6 @@ pub struct VaryingBinding {
     pub semantic: Semantic,
     pub vertex_register: Sm3Register,
     pub pixel_register: Option<Sm3Register>,
-
     pub location: u32,
 }
 
@@ -71,9 +68,7 @@ pub enum SamplerSource {
     CodeTexture { index: u32 },
 
     SurfaceReflectionProbe,
-
     SurfacePrimaryLightmap,
-
     SurfaceSecondaryLightmap,
     SurfaceSecondaryBLightmap,
 }
@@ -89,11 +84,8 @@ pub struct SamplerBinding {
 pub struct PassProgramAbi {
     pub vertex_family: crate::VertexLayoutFamily,
     pub vertex_type: u8,
-
     pub attributes: Vec<VertexAttribute>,
-
     pub vertex_inputs: Vec<VertexInputBinding>,
-
     pub position: VaryingBinding,
     pub varyings: Vec<VaryingBinding>,
     pub vertex_constants: Vec<ConstantBinding>,
@@ -172,7 +164,6 @@ pub enum PassAbiRefusal {
     },
 
     MissingPositionOutput,
-
     DuplicatePositionOutput,
 
     VaryingUnbound {

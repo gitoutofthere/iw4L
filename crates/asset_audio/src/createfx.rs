@@ -5,18 +5,14 @@ use bevy::prelude::Resource;
 #[derive(Debug, Clone, PartialEq)]
 pub struct CreateFxLoopSound {
     pub soundalias: String,
-
     pub origin_inches: [f32; 3],
 }
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct CreateFxOneshot {
     pub fxid: String,
-
     pub origin_inches: [f32; 3],
-
     pub angles_deg: [f32; 3],
-
     pub delay: f32,
 }
 

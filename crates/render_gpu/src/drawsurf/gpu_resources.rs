@@ -29,7 +29,6 @@ pub const LENS_VIEW_SIGNATURE: (bevy::render::render_resource::TextureFormat, u3
 #[derive(Resource, Debug, Default, Clone, Copy)]
 pub struct ColourWorkingSet {
     pub hits: u32,
-
     pub pipeline_not_ready: u32,
 }
 
@@ -44,9 +43,7 @@ pub struct WorldPipelineWarmup {
 #[derive(Resource, Clone, Debug, Default)]
 pub struct GpuSubmitReady {
     pub world_generation: frame::WorldGeneration,
-
     pub warm_pipelines: bool,
-
     pub overlay_gpu_wait: bool,
     pub pipeline_world_materials: std::sync::Arc<std::collections::HashSet<u16>>,
     pub pipeline_smodel_materials: std::sync::Arc<std::collections::HashSet<u16>>,
@@ -136,22 +133,16 @@ pub struct RuntimeUploadedImageRegistry {
     slot_index: UploadedSlotIndex,
     pending: UploadedPending,
     pub generation_id: MaterialGenerationId,
-
     views_revision: u64,
-
     replaced_revision: u64,
     pub material_images: Vec<Option<Result<UploadedTextureView, UploadedViewRefusal>>>,
     pub reflection_probes: Vec<Option<Result<TextureView, UploadedViewRefusal>>>,
     pub lightmaps: Vec<Option<RuntimeUploadedLightmapViews>>,
     pub model_lighting: Option<Result<TextureView, UploadedViewRefusal>>,
-
     pub resolved_post_sun: Option<Result<TextureView, UploadedViewRefusal>>,
     pub float_z: Option<Result<TextureView, UploadedViewRefusal>>,
-
     pub sun_shadow: Option<Result<TextureView, UploadedViewRefusal>>,
-
     pub spot_shadow_rt10: Option<Result<TextureView, UploadedViewRefusal>>,
-
     pub spot_shadow_rt11: Option<Result<TextureView, UploadedViewRefusal>>,
 }
 
@@ -159,9 +150,7 @@ pub struct RuntimeUploadedImageRegistry {
 #[must_use]
 pub(crate) enum ViewChange {
     None,
-
     Published,
-
     Replaced,
 }
 
@@ -867,17 +856,11 @@ fn log_uploaded_probe_once(
 #[derive(Resource, Clone, Copy, Debug, PartialEq, Eq)]
 pub struct RetailSamplerRendererInputs {
     pub max_anisotropy: u32,
-
     pub min_anisotropy: u32,
-
     pub device_max_anisotropy: u32,
-
     pub supports_min_anisotropic: bool,
-
     pub supports_mag_anisotropic: bool,
-
     pub disable_filtering: bool,
-
     pub mip_mode: u8,
 }
 

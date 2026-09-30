@@ -74,7 +74,6 @@ pub struct RuntimeImageId(pub u32);
 pub struct RuntimeTextureBinding {
     pub image: RuntimeImageId,
     pub sampler_state: u8,
-
     pub semantic: u8,
 }
 
@@ -258,16 +257,12 @@ pub fn sort_pass_args_retail(pass: &mut RuntimePass) {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct RuntimePass {
     pub shader_pair: Option<RuntimeShaderPair>,
-
     pub custom_sampler_flags: u8,
-
     pub t5_custom_sampler_flags: u8,
-
     pub per_prim_arg_count: u8,
     pub per_obj_arg_count: u8,
     pub stable_arg_count: u8,
     pub arguments: Vec<RuntimeArgumentBinding>,
-
     pub color_space: crate::PassColorSpace,
 }
 
@@ -290,11 +285,8 @@ pub struct RuntimeTechnique {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct RuntimeTechniqueSet {
     slots: Vec<Option<RuntimeTechnique>>,
-
     pub world_vert_format: u8,
-
     pub namespace: AssetNamespace,
-
     pub name: String,
 }
 
@@ -338,38 +330,24 @@ impl RuntimeTechniqueSet {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct RuntimeMaterial {
     pub asset_id: MaterialAssetId,
-
     pub name: String,
-
     pub namespace: AssetNamespace,
-
     pub technique_set: String,
     pub baked_draw_surf: Option<u64>,
     pub local_technique_set: RuntimeTechniqueSetId,
     pub remap: RemapResolution,
     pub state_bits_entry: Option<[u8; TECHNIQUE_SLOT_COUNT]>,
     pub state_bits_table: Vec<[u32; 2]>,
-
     pub camera_region: u8,
-
     pub sort_key: u8,
-
     pub info_game_flags: u8,
-
     pub state_flags: u8,
-
     pub surface_type_bits: Option<u32>,
-
     pub unlit: bool,
-
     pub takes_model_lighting: bool,
-
     pub uses_model_lighting_const: bool,
-
     pub square_color_map: bool,
-
     pub shadow_only: bool,
-
     pub cull_mode: Option<u8>,
     pub uv_anim_bits: [u32; 4],
     pub falloff_parms_bits: [u32; 4],
@@ -470,73 +448,40 @@ impl Default for RuntimeSortedMaterialTable {
 pub struct RuntimeMaterialCatalog {
     pub generation_id: MaterialGenerationId,
     pub materials: Vec<RuntimeMaterial>,
-
     pub material_indices_by_name: Vec<(String, usize)>,
     pub technique_sets: Vec<RuntimeTechniqueSet>,
-
     pub shader_programs: Vec<Option<RuntimeShaderProgram>>,
-
     pub vertex_decls: Vec<(u32, RuntimeVertexDecl)>,
     pub sorted_materials: RuntimeSortedMaterialTable,
-
     pub iw5_remap: Option<String>,
-
     pub t5_remap: Option<String>,
-
     pub iw5_fallback_n: u32,
-
     pub t5_fallback_n: u32,
-
     pub sorted_first_skip: Option<String>,
-
     pub skip_tech: Option<String>,
-
     pub skip_cause: Option<String>,
-
     pub leftover_iw5_arg_n: u32,
-
     pub leftover_iw5_arg: Option<String>,
-
     pub leftover_iw5_arg2: Option<String>,
-
     pub leftover_t5_arg_n: u32,
-
     pub leftover_t5_arg: Option<String>,
-
     pub leftover_t5_arg2: Option<String>,
-
     pub leftover_t5_arg3: Option<String>,
-
     pub leftover_t5_arg4: Option<String>,
-
     pub leftover_t5_arg5: Option<String>,
-
     pub leftover_t5_dest6: Option<String>,
-
     pub leftover_t5_dest7: Option<String>,
-
     pub leftover_t5_dest17: Option<String>,
-
     pub leftover_t5_dest18: Option<String>,
-
     pub leftover_t5_dest19: Option<String>,
-
     pub leftover_t5_dest9: Option<String>,
-
     pub leftover_t5_dest10: Option<String>,
-
     pub leftover_t5_dest11: Option<String>,
-
     pub leftover_t5_dest20: Option<String>,
-
     pub leftover_t5_dest24: Option<String>,
-
     pub leftover_t5_dest25: Option<String>,
-
     pub leftover_t5_dest26: Option<String>,
-
     pub leftover_t5_dest27: Option<String>,
-
     pub leftover_unknown_n: u32,
 }
 

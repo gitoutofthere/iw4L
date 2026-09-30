@@ -11,7 +11,6 @@ pub const ALPHA_REF_SCALE: f32 = 255.0;
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct AlphaTest {
     pub func: CompareFunc,
-
     pub reference: u8,
 }
 

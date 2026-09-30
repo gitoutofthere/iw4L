@@ -38,64 +38,38 @@ pub struct FxResolvedBoltPose {
 #[repr(u8)]
 pub enum FxPackedLightingSrc {
     White = 0,
-
     AtPointRgb = 1,
-
     Missing = 2,
 }
 
 #[derive(Clone, Debug)]
 pub struct FxEffectSlot {
     pub def_name: String,
-
     pub catalog_index: u16,
-
     pub status: u32,
-
     pub first_elem_handle: [u16; 3],
-
     pub first_sorted_elem_handle: u16,
-
     pub first_trail_handle: u16,
-
     pub random_seed: u16,
-
     pub own_handle: u16,
-
     pub packed_lighting: [u8; 3],
-
     pub packed_lighting_src: FxPackedLightingSrc,
-
     pub bolt: u8,
-
     pub mark_entity: Option<u16>,
-
     pub bolt_packed: u32,
-
     pub bolt_centity_teleport: bool,
-
     pub bolt_parent_quat: [f32; 4],
-
     pub bolt_parent_origin: [f32; 3],
-
     pub bolt_bone_pose: Option<([f32; 3], [[f32; 3]; 3])>,
-
     pub frame_stamp: i32,
-
     pub msec_begin: i32,
-
     pub msec_last_update: i32,
-
     pub origin: [f32; 3],
-
     pub axis: [[f32; 3]; 3],
-
     pub origin_when_played: [f32; 3],
     pub axis_when_played: [[f32; 3]; 3],
-
     pub origin_last: [f32; 3],
     pub axis_last: [[f32; 3]; 3],
-
     pub distance: f32,
     pub ring_resident: bool,
 }
@@ -163,9 +137,7 @@ impl FxEffectSlot {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SpawnFail {
     RingFull,
-
     TooManySpotlights,
-
     EffectLimit,
 }
 
@@ -178,7 +150,6 @@ pub struct PendingRunnerSpawn {
     pub random_seed: u32,
     pub origin: [f32; 3],
     pub axis: [[f32; 3]; 3],
-
     pub rot_deg: Option<f32>,
 }
 
@@ -198,11 +169,8 @@ pub struct PendingDecalSpawn {
     pub msec_begin: i32,
     pub random_seed: u32,
     pub origin: [f32; 3],
-
     pub bolt: u8,
-
     pub mark_entity: Option<u16>,
-
     pub axis: [[f32; 3]; 3],
 }
 
@@ -220,199 +188,110 @@ pub struct FxSystemHost {
     pub spawn_mark_entity: Option<u16>,
     pub last_decal_mark_entity: Option<u16>,
     effects: Vec<FxEffectSlot>,
-
     pub(crate) elems: Vec<FxElemSlot>,
     pub(crate) sort_distances: Vec<(u32, f32)>,
     pub(crate) sort_epoch: u32,
-
     pub(crate) elem_first_free: Option<usize>,
-
     pub elem_live_count: u32,
-
     pub elem_alloc_failures: u32,
-
     pub(crate) trails: Vec<FxTrailSlot>,
-
     pub(crate) trail_first_free: Option<usize>,
-
     pub trail_live_count: u32,
-
     pub trail_alloc_failures: u32,
-
     pub(crate) trail_elems: Vec<FxTrailElemSlot>,
-
     pub(crate) trail_elem_first_free: Option<usize>,
-
     pub trail_elem_live_count: u32,
-
     pub trail_elem_alloc_failures: u32,
-
     pub(crate) spark_clouds: Vec<crate::spark::FxSparkCloudHistorySlot>,
-
     pub(crate) spark_first_free: Option<usize>,
     pub spark_live_count: u32,
-
     pub spark_alloc_failures: u32,
-
     pub(crate) spark_fountains: Vec<crate::spark_fountain::FxSparkFountainClusterSlot>,
-
     pub(crate) spark_fountain_first_free: Option<usize>,
-
     pub spark_fountain_live_count: u32,
     pub spark_fountain_alloc_failures: u32,
     pub(crate) spark_fountain_meshes: Vec<crate::spark_fountain::FxSparkFountainMeshSlot>,
     pub(crate) spark_fountain_mesh_first_free: Option<usize>,
-
     pub spark_fountain_holdrand: u32,
-
     pub vis_blocker_write: fx_iw4::FxVisBlockerBuf,
-
     pub vis_blocker_read: fx_iw4::FxVisBlockerBuf,
-
     pub gaps: FxGaps,
-
     pub glass: crate::glass::FxGlassSystemHost,
-
     handles: Vec<u16>,
     pub first_active_effect: i32,
     pub first_new_effect: i32,
     pub first_free_effect: i32,
     pub spotlight_count: i32,
-
     pub bolted_warn_count: i32,
-
     pub bolt_first_free: i32,
-
     bolt_next: Vec<i32>,
     pub msec_now: i32,
-
     pub frame_stamp: i32,
-
     pub iterator_count: i32,
-
     pub needs_garbage_collection: bool,
-
     pub last_runner_parent: Option<String>,
-
     pub last_runner_elem: Option<u8>,
-
     pub last_runner_child: Option<String>,
-
     pub last_runner_msec: Option<i32>,
-
     pub last_runner_rot_deg: Option<f32>,
-
     pub last_decal_parent: Option<String>,
-
     pub last_decal_elem: Option<u8>,
-
     pub last_decal_msec: Option<i32>,
-
     pub last_decal_vis: Option<u8>,
-
     pub last_decal_size0: Option<f32>,
-
     pub last_decal_rotation: Option<f32>,
-
     pub last_decal_mat0_edge: Option<String>,
     pub last_decal_mat1_edge: Option<String>,
-
     pub last_decal_mat0: Option<String>,
     pub last_decal_mat1: Option<String>,
-
     pub last_decal_origin: Option<[f32; 3]>,
-
     pub last_decal_axis: Option<[[f32; 3]; 3]>,
-
     pub last_decal_bolt: Option<u8>,
-
     pub last_decal_against_world: Option<bool>,
-
     pub last_decal_against_models: Option<bool>,
-
     pub mark_pool_live: Option<u32>,
-
     pub mark_first_free: Option<u16>,
-
     pub tri_first_free: Option<u32>,
-
     pub point_first_free: Option<u32>,
-
     pub mark_alloced: Option<u32>,
-
     pub mark_go_world_skip: Option<u32>,
-
     pub mark_go_world_fire: Option<u32>,
-
     pub mark_go_models_skip: Option<u32>,
-
     pub mark_go_models_fire: Option<u32>,
-
     pub last_models_smodel_n: Option<u32>,
-
     pub last_models_clip_kept: Option<u32>,
-
     pub last_models_no_instance: Option<u32>,
-
     pub last_models_no_cpu: Option<u32>,
-
     pub last_models_no_mesh: Option<u32>,
-
     pub last_models_surf_keep: Option<u32>,
-
     pub mark_box_surfaces_skip: Option<u32>,
-
     pub mark_box_surfaces_run: Option<u32>,
-
     pub gfx_mark_surf_n: Option<u32>,
-
     pub gfx_mark_vert_n: Option<u32>,
-
     pub gfx_mark_index_n: Option<u32>,
-
     pub gfx_mark_surf_warn: Option<u32>,
-
     pub gfx_mark_vert_warn: Option<u32>,
-
     pub gfx_mark_index_warn: Option<u32>,
-
     pub gfx_mark_mesh_xyz0: Option<[f32; 3]>,
-
     pub gfx_mark_packed_n: Option<u32>,
-
     pub gfx_mark_draw_n: Option<u32>,
     pub gfx_mark_draw_tri: Option<u32>,
     pub gfx_mark_draw_skip_why: Option<String>,
-
     pub last_mark_lmap: Option<u8>,
-
     pub last_mark_primary_light: Option<u8>,
-
     pub last_mark_probe: Option<u8>,
-
     pub last_mark_lmap_none_n: Option<u32>,
-
     pub last_mark_lmap_page_n: Option<u32>,
-
     pub last_mark_mesh: Option<crate::GfxMarkMeshCensus>,
-
     pub last_decal_color: Option<u32>,
-
     pub marks: crate::FxMarksSystemHost,
-
     pub pending_runners: Vec<PendingRunnerSpawn>,
-
     pub pending_sounds: Vec<PendingSoundSpawn>,
-
     pub pending_decals: Vec<PendingDecalSpawn>,
-
     pub pending_trail_impacts: Vec<PendingTrailImpact>,
-
     pub mark_receivers: crate::MarkReceiverEnable,
     mark_trace_seq: u32,
-
     pub mark_traces: Vec<crate::MarkTraceRecord>,
-
     pub last_mark_alloc_slot: Option<u16>,
 }
 

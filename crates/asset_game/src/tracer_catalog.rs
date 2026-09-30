@@ -11,7 +11,6 @@ pub type TracerMaterialReason = AssetEdgeReason;
 pub struct OwnedTracerDef {
     pub name: String,
     pub material: TracerMaterial,
-
     pub material_hint: Option<String>,
 
     /// Whether the zone named a material for this tracer, and whether it did so

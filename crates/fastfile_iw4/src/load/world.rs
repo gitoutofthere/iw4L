@@ -1,10 +1,13 @@
 use asset_iw4::size as sz;
 
-use super::{AssetLinkSink, asset_ptr_at, asset_ptr_at_linked, copy_linked_material, follow_name};
+use super::{
+    AssetLinkSink, asset_ptr_at, asset_ptr_at_linked, copy_linked_material, follow_name,
+    runtime_array,
+};
 use crate::asset_type::AssetType;
 use crate::zone::{
     ComWorldGeometry, FxWorldGeometry, GGlassDataGeometry, GfxLightDefGeometry, MapEntsGeometry,
-    Ptr, Result, XFILE_BLOCK_RUNTIME, XFILE_BLOCK_VIRTUAL, ZonePtr, ZoneStream,
+    Ptr, Result, XFILE_BLOCK_VIRTUAL, ZonePtr, ZoneStream,
 };
 
 pub(super) fn load_comworld(s: &mut ZoneStream<'_>) -> Result<()> {
@@ -441,20 +444,4 @@ pub(super) fn load_mapents(s: &mut ZoneStream<'_>) -> Result<()> {
     }
 
     s.pop()
-}
-
-fn runtime_array(
-    s: &mut ZoneStream<'_>,
-    p: Ptr,
-    field: usize,
-    align: usize,
-    elem: usize,
-    count: usize,
-) -> Result<()> {
-    if s.begin_body(p.at(field))? {
-        s.push(XFILE_BLOCK_RUNTIME)?;
-        s.alloc_load(align, elem * count)?;
-        s.pop()?;
-    }
-    Ok(())
 }

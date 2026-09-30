@@ -32,7 +32,6 @@ pub struct DynEntBrushCellBits {
 pub struct SceneEntCellBits {
     pub cell_count: usize,
     pub bits: Vec<u32>,
-
     pub ent_info: Vec<Option<Bounds>>,
 }
 

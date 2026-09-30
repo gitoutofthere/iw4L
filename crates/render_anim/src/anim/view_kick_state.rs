@@ -41,13 +41,9 @@ pub struct KickParams {
 #[derive(Clone, Debug, PartialEq)]
 pub struct ViewKickState {
     pub kick_avel: [f32; 3],
-
     pub kick_angles: [f32; 3],
-
     pub gun_speed: [f32; 2],
-
     pub gun_angles: [f32; 2],
-
     rng: u32,
 }
 

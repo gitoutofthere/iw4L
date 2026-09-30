@@ -59,13 +59,9 @@ pub const HOST_SHOCK_CONCUSSION_GRENADE_MP: i32 = 1;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct ShellshockLookParms {
     pub affect: bool,
-
     pub fade_ms: i32,
-
     pub mouse_sensitivity: f32,
-
     pub max_pitch_speed: f32,
-
     pub max_yaw_speed: f32,
 }
 
@@ -88,9 +84,7 @@ pub const CONCUSSION_LOOK_PARMS: ShellshockLookParms = ShellshockLookParms {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct ShellshockLookState {
     pub sensitivity: f32,
-
     pub max_pitch_speed: f32,
-
     pub max_yaw_speed: f32,
 }
 
@@ -103,11 +97,8 @@ const LOOK_ENDED: ShellshockLookState = ShellshockLookState {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct ShellshockSoundParms {
     pub affect: bool,
-
     pub loop_alias: &'static str,
-
     pub end_alias: &'static str,
-
     pub abort_alias: &'static str,
 }
 

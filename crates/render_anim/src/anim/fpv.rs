@@ -24,7 +24,6 @@ pub mod auth_ws {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum PresentFpvEvent {
     Fire,
-
     ReleaseAttack,
     RaiseFirst,
     Raise,
@@ -49,7 +48,6 @@ pub struct AuthorityFpvCues {
 #[derive(Clone, Debug, PartialEq)]
 pub struct FpvPoseSample {
     pub state: WeaponState,
-
     pub clip_name: Option<String>,
     pub clip_time: f32,
     pub fire_weight: f32,
@@ -161,19 +159,12 @@ pub struct FpvAuthoritySample {
     pub tick: u32,
     pub weaponstate: i32,
     pub cues: AuthorityFpvCues,
-
     pub sprinting: bool,
-
     pub ads_frac: f32,
-
     pub weap_anim: i32,
-
     pub weap_anim_secondary: i32,
-
     pub last_weapon_hand: i32,
-
     pub perks0: u32,
-
     pub clip_ammo: Option<i32>,
 }
 
@@ -182,7 +173,6 @@ pub struct LocalShotIdentity {
     pub life_sequence: u32,
     pub hand: u8,
     pub weapon_shot_count: i32,
-
     pub weap_anim_restart: bool,
 }
 
@@ -235,11 +225,8 @@ pub fn local_shot_identity(
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum WeapAnimEdge {
     Unchanged,
-
     Idle,
-
     EmptyIdle,
-
     Dispatch(usize),
 }
 
@@ -248,13 +235,9 @@ pub struct FpvPresentState {
     pub last_tick: Option<u32>,
     pub last_weaponstate: Option<i32>,
     pub last_sprinting: Option<bool>,
-
     pub last_ads_frac: Option<f32>,
-
     pub last_weap_anim: Option<i32>,
-
     pub last_weap_anim_secondary: Option<i32>,
-
     pub local_shot: LocalShotCursor,
 }
 
@@ -291,7 +274,6 @@ pub struct EquippedFpv {
     pub namespace: assets::AssetNamespace,
     pub hands: assets::FpvHands,
     pub controller: ViewmodelController,
-
     pub left: Option<ViewmodelController>,
 }
 

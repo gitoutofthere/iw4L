@@ -84,7 +84,6 @@ struct WeaponbarExprHost<'a> {
     menu: Option<&'a assets::MenuDef>,
     perk_slots: [u32; 8],
     weapon_script: String,
-
     lock: Option<hud_iw4::WeaponLockView>,
     frag_ammo: i32,
     smoke_ammo: i32,

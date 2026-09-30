@@ -6,9 +6,7 @@ pub const HITSCAN_KILL_CAM_ENTITY: i32 = ENTITYNUM_NONE;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct SeatFocus {
     pub kill_cam_entity: i32,
-
     pub kill_cam_look_at_entity: i32,
-
     pub kill_cam_client_num: i32,
 }
 

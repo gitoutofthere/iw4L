@@ -16,29 +16,19 @@ use crate::transport::wire::{WireError, WireReader, WireWriter};
 #[derive(Clone, Debug, PartialEq)]
 pub struct Frame {
     pub tick: Tick,
-
     pub state_hash: u32,
     pub cmds: Vec<(ClientId, UserCmd)>,
     pub actions: Vec<(ClientId, ClientAction)>,
-
     pub acks: Vec<(ClientId, CmdSeq)>,
     pub snapshot_delta: SnapshotDelta,
-
     pub snapshot_meta: SnapshotMeta,
-
     pub world_objects_wire: Vec<u8>,
-
     pub reliable: ReliablePayload,
-
     pub svc_sounds: Vec<crate::SvcSound>,
-
     pub svc_scores: Option<String>,
-
     pub svc_card_slots: Vec<crate::SvcCardSlot>,
-
     pub svc_open_menus: Vec<crate::SvcOpenMenu>,
     pub svc_hud_splashes: Vec<crate::SvcHudSplash>,
-
     pub svc_game_notifies: Vec<crate::SvcGameNotify>,
 }
 
@@ -198,9 +188,7 @@ pub trait Transport {
 #[derive(Debug)]
 pub enum TransportError {
     Ended,
-
     Wire(WireError),
-
     Io(std::io::Error),
 }
 

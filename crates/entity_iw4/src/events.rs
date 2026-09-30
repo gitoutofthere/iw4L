@@ -213,9 +213,7 @@ pub enum EntityEventAction {
     PlayFx,
     Obituary,
     MovementSound,
-
     ResetAds,
-
     MeleeBlood,
 }
 

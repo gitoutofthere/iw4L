@@ -42,11 +42,8 @@ pub enum EntityRunKind {
     Item,
     Missile,
     TempEvent,
-
     PrimaryLight,
-
     General,
-
     PlayerCorpse,
 }
 
@@ -85,7 +82,6 @@ pub enum EntityRefError {
     Free,
     StaleGeneration { current: u32 },
     RelationTargetInvalid,
-
     CyclicParent,
 }
 
@@ -94,11 +90,8 @@ pub struct EntityRelations {
     pub owner: Option<EntityRef>,
     pub parent: Option<EntityRef>,
     pub ground: Option<EntityRef>,
-
     pub parent_tag: i32,
-
     pub parent_link_axis: [[f32; 3]; 3],
-
     pub parent_link_origin: [f32; 3],
 }
 
@@ -260,7 +253,6 @@ struct OccupiedSlot {
     relations: EntityRelations,
     next_think_ms: Option<i32>,
     transient_event_time_ms: Option<i32>,
-
     think_serial: u32,
 }
 
@@ -620,13 +612,9 @@ pub fn init_script_mover_state(number: i32, origin: [f32; 3], angles: [f32; 3]) 
 pub struct ScriptMoverGentity {
     pub id: ScriptModelId,
     pub state: EntityState,
-
     pub box_mid: [f32; 3],
-
     pub box_half: [f32; 3],
-
     pub link_mid: [f32; 3],
-
     pub link_half: [f32; 3],
 }
 

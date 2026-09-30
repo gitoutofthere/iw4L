@@ -73,7 +73,6 @@ pub struct WorldGpuReady {
     pub waiting_n: u32,
     pub pipeline_n: u32,
     pub warmup: OverlayWarmup,
-
     pub working_hits: u32,
     pub working_not_ready: u32,
     pub image_ready_n: u32,
@@ -89,11 +88,8 @@ impl WorldGpuReady {
 #[derive(Resource, Clone, Debug, Default)]
 pub struct GpuSubmitDemand {
     pub world_generation: WorldGeneration,
-
     pub warm_pipelines: bool,
-
     pub overlay_gpu_wait: bool,
-
     pub wants_residency: bool,
     pub pipeline_world_materials: Arc<HashSet<u16>>,
     pub pipeline_smodel_materials: Arc<HashSet<u16>>,
@@ -134,12 +130,9 @@ pub struct GpuLoadProgress {
     pub waiting_n: u32,
     pub pipeline_n: u32,
     pub warmup: OverlayWarmup,
-
     pub working_hits: u32,
     pub working_not_ready: u32,
-
     pub pending_shaders: Vec<bevy::asset::AssetId<bevy::shader::Shader>>,
-
     pub residency: Option<GpuImageResidency>,
 }
 

@@ -2,9 +2,7 @@
 pub enum ZoneGame {
     #[default]
     Iw4,
-
     T5,
-
     Iw5,
 }
 

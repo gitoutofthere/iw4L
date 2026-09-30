@@ -337,11 +337,8 @@ pub fn content_digest_v2(
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct ContentComponents {
     pub map: u64,
-
     pub models: u64,
-
     pub weapons: u64,
-
     pub classes: u64,
 }
 

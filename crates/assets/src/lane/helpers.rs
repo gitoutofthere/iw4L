@@ -24,7 +24,6 @@ pub(crate) struct MapXModelCatalog {
     aliases: HashMap<Ptr, Ptr>,
     failed: usize,
     scene_assets: MapXModelSceneCatalog,
-
     t5_destructibles: HashMap<String, Result<T5DestructibleInitial, &'static str>>,
 }
 

@@ -3,20 +3,15 @@ use fastfile_iw4::ZoneStream;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct IntermissionView {
     pub origin: [f32; 3],
-
     pub angles: [f32; 3],
 }
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct SpawnPoint {
     pub classname: String,
-
     pub origin: [f32; 3],
-
     pub angles: [f32; 3],
-
     pub script_linkto: String,
-
     pub script_destructable_area: String,
 }
 
@@ -42,22 +37,15 @@ impl ScriptModelId {
 #[derive(Clone, Debug, PartialEq)]
 pub struct ScriptBrushModelPlacement {
     pub source_ordinal: u32,
-
     pub cmodel_handle: u32,
     pub origin: [f32; 3],
     pub angles: [f32; 3],
     pub targetname: String,
-
     pub gameobject: String,
-
     pub script_exploder: String,
-
     pub script_accumulate: Option<i32>,
-
     pub script_threshold: Option<i32>,
-
     pub script_destructable_area: String,
-
     pub script_fxid: String,
 }
 
@@ -78,34 +66,21 @@ impl Default for ScriptBrushModelLink {
 #[derive(Clone, Debug, PartialEq)]
 pub struct ScriptModelPlacement {
     pub id: ScriptModelId,
-
     pub model: String,
-
     pub origin: [f32; 3],
-
     pub angles: [f32; 3],
-
     pub lighting_origin: Option<[f32; 3]>,
-
     pub gameobject: String,
     pub targetname: String,
     pub script_noteworthy: String,
     pub destructible_type: String,
-
     pub destructible_def: String,
-
     pub script_exploder: String,
-
     pub target: String,
-
     pub brush_link: ScriptBrushModelLink,
-
     pub script_accumulate: Option<i32>,
-
     pub script_threshold: Option<i32>,
-
     pub script_destructable_area: String,
-
     pub script_fxid: String,
 }
 
@@ -149,9 +124,7 @@ pub struct MapUseTrigger {
     pub gameobject: String,
     pub radius: Option<f32>,
     pub height: Option<f32>,
-
     pub model: String,
-
     pub target_struct_angles: Option<[f32; 3]>,
 }
 
@@ -901,7 +874,6 @@ enum EntityKey {
     ScriptExploder,
     ScriptPrefabExploder,
     Target,
-
     NorthYaw,
     Radius,
     Height,

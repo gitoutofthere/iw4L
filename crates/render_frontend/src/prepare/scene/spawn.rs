@@ -79,13 +79,10 @@ pub enum WorldSpawnPhase {
     Unarmed,
     Yield,
     Programs,
-
     Admit,
     Images,
     Plan,
-
     WorldTess,
-
     Gpu,
     Done,
 }
@@ -113,17 +110,11 @@ impl WorldSpawnPhase {
 pub struct WorldSpawnJob {
     pub phase: WorldSpawnPhase,
     pub last_work_ms: f32,
-
     pub images: super::world_images::WorldImageUpload,
-
     compile: crate::assemble::drawsurf::MaterialProgramCompile,
-
     admit: crate::assemble::drawsurf::MaterialProgramAdmit,
-
     pub gpu_wait: super::world_gpu::WorldGpuWait,
-
     pub spawn: WorldGeneration,
-
     last_slice_at: Option<std::time::Instant>,
 }
 

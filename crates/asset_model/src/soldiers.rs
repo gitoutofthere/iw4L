@@ -2,7 +2,6 @@
 pub struct SoldierKit {
     pub body: String,
     pub head: Option<String>,
-
     pub arms: Option<String>,
 }
 

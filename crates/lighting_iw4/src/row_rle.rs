@@ -8,7 +8,6 @@ pub struct LightGridRowHeader {
     pub col_count: u16,
     pub row_start: u16,
     pub row_count: u16,
-
     pub entry_base: u32,
 }
 
@@ -42,13 +41,9 @@ pub const fn light_grid_row_contains_cell(header: &LightGridRowHeader, col: u32,
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct LightGridRleCursor {
     pub run_offset: usize,
-
     pub col_in_run: u32,
-
     pub entry_index: u32,
-
     pub run_length: u8,
-
     pub run_increment: u8,
 }
 
@@ -170,7 +165,6 @@ pub const fn light_grid_next_run_first_column_index(
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct LightGridEntryQuad {
     pub corners: [Option<u32>; 4],
-
     pub clear_needs_trace: bool,
 }
 

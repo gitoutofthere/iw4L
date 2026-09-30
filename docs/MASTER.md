@@ -23,7 +23,7 @@ binary, installs it with the certificates under `/usr/local/lib/iw4l/` and
 The client connects by address but checks the certificate against a **separate**
 name — `IW4L_MASTER_SERVER_NAME`, a fixed label — so nothing in the SAN depends on
 the host; with `IW4L_MASTER_CA_CERT` set it loads only that PEM into an empty
-`RootCertStore` (`net/src/transport/master.rs:3107`), bypassing the platform
+`RootCertStore` (`connect` in `net/src/transport/master/session.rs`), bypassing the platform
 verifier. `install` signs `San::Labels` alone: the certificate is minted **once
 per user, not per server**, and a new IP or VPS keeps it.
 

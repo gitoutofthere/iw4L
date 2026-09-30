@@ -13,7 +13,6 @@ pub const PROXY_DELAY_MS: i32 = 100;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ProxyMode {
     FixedDelay,
-
     MatchLatest,
 }
 

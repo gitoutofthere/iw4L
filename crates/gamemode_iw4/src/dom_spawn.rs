@@ -64,9 +64,7 @@ pub fn dom_spawn_pool(use_start_spawns: bool) -> DomSpawnPool {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum DomNearTeamFavored {
     BoundingAvoidEnemyBest,
-
     BoundaryOwned,
-
     FlagNearby,
 }
 

@@ -1,7 +1,6 @@
 use perfetto_sdk::track_event::{EventContext, TrackEventDebugArg};
 use perfetto_sdk::{track_event_begin, track_event_end};
 
-#[allow(unused_imports)]
 use crate::vocabulary::perfetto_te_ns;
 
 fn i64_arg(ctx: &mut EventContext, name: &'static str, value: i64) {

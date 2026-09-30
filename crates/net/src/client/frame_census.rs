@@ -9,7 +9,6 @@ use frame::{CLIENT_TOC, ClientEdge, client_set_name};
 #[derive(Resource, Debug, Clone, Default)]
 pub struct ClientPhaseCensus {
     pub n: [Option<u64>; CLIENT_TOC.len()],
-
     pub bytes: [Option<u64>; CLIENT_TOC.len()],
     seam_n: Option<u64>,
     seam_bytes: Option<u64>,
@@ -115,15 +114,10 @@ pub const HUD_STAGE_N: usize = 9;
 #[derive(Resource, Debug, Default, Clone)]
 pub struct UpdatePhaseCensus {
     pub present_started: Option<Instant>,
-
     pub hud_root_setup_ms: Option<f32>,
-
     pub present_apply_deferred_ms: Option<f32>,
-
     pub hud_visibility_ms: Option<f32>,
-
     pub hud_surfaces_ms: Option<f32>,
-
     pub hud_stage_ms: [Option<f32>; HUD_STAGE_N],
 
     /// Time spent inside the bodies of the HUD tess flush systems, summed over
@@ -136,7 +130,6 @@ pub struct UpdatePhaseCensus {
     /// wide says the schedule put something there, not that the HUD was slow.
     pub hud_tess_body_ms: Option<f32>,
     pub hud_tess_jobs: Option<u32>,
-
     pub publish_presented_ms: Option<f32>,
 }
 

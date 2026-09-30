@@ -21,19 +21,13 @@ pub struct FxDrawElemContext<'a> {
     pub norm_time: f32,
     pub age_msec: i32,
     pub life_msec: i32,
-
     pub elem_random_seed: u32,
-
     pub sequence: u8,
     pub base_vel: [f32; 3],
-
     pub flags: i32,
-
     pub at_rest_fraction: u8,
-
     pub packed_lighting: [u8; 3],
     pub packed_lighting_src: crate::FxPackedLightingSrc,
-
     pub elem_handle: u16,
 }
 
@@ -45,7 +39,6 @@ pub struct FxSparkDrawQuery<'a> {
     pub norm_time: f32,
     pub age_msec: i32,
     pub life_msec: i32,
-
     pub elem_random_seed: u32,
 }
 
@@ -68,7 +61,6 @@ pub struct FxDrawTrailSampleContext<'a> {
     pub norm_time: f32,
     pub age_msec: i32,
     pub life_msec: i32,
-
     pub elem_random_seed: u32,
 }
 
@@ -79,14 +71,10 @@ pub struct FxTrailDrawDef {
     pub life_base: i32,
     pub life_amp: i32,
     pub scroll_time_msec: i32,
-
     pub repeat_dist: i32,
     pub verts: Vec<FxTrailVertex>,
-
     pub inds: Vec<u16>,
-
     pub material_name: String,
-
     pub material_index: Option<usize>,
 }
 
@@ -100,28 +88,19 @@ pub struct FxTrailSampleVisual {
 #[derive(Clone, Debug)]
 pub struct FxSpriteInstance {
     pub origin: [f32; 3],
-
     pub size0: f32,
-
     pub size1: f32,
     pub color_rgba: [u8; 4],
     pub elem_type: u8,
     pub def_name: std::sync::Arc<str>,
     pub def_index: u8,
     pub material_name: std::sync::Arc<str>,
-
     pub material_index: Option<usize>,
-
     pub axis: [[f32; 3]; 3],
-
     pub rotation_rad: f32,
-
     pub vel_dir: [f32; 3],
-
     pub atlas: fx_iw4::FxSpriteAtlasUv,
-
     pub flags: i32,
-
     pub lighting_sample: [u8; 3],
     pub lighting_frac: u8,
     pub packed_lighting_src: crate::FxPackedLightingSrc,
@@ -132,10 +111,8 @@ pub struct FxTrailMeshInstance {
     pub def_name: String,
     pub def_index: u8,
     pub material_name: String,
-
     pub material_index: Option<usize>,
     pub verts: Vec<FxTrailEmittedVert>,
-
     pub index_pairs: Vec<[u16; 2]>,
 }
 
@@ -146,7 +123,6 @@ pub struct FxGenerateVertsOut {
     pub skipped_dormant: u32,
     pub skipped_no_visual: u32,
     pub skipped_null_handler: u32,
-
     pub skipped_unsupported_type: u32,
     pub skipped_cloud: u32,
     pub skipped_spark_cloud: u32,
@@ -154,27 +130,17 @@ pub struct FxGenerateVertsOut {
     pub skipped_model: u32,
     pub skipped_omni_light: u32,
     pub skipped_spot_light: u32,
-
     pub skipped_other_type: u32,
     pub skipped_no_lookup: u32,
     pub skipped_stopped: u32,
-
     pub skipped_no_trail_def: u32,
-
     pub spark_clouds: Vec<crate::spark::FxSparkCloudInstance>,
-
     pub clouds: Vec<FxCloudInstance>,
-
     pub fountains: Vec<FxFountainInstance>,
-
     pub omni_lights: Vec<FxElemLightInstance>,
-
     pub spot_lights: Vec<FxElemLightInstance>,
-
     pub models: Vec<FxModelInstance>,
-
     pub spark_cloud_history_empty: u32,
-
     pub spark_cloud_no_size1: u32,
 }
 
@@ -201,7 +167,6 @@ pub struct FxElemLightInstance {
     pub origin: [f32; 3],
     pub radius: f32,
     pub color_bgr: [f32; 3],
-
     pub axis: [[f32; 3]; 3],
 }
 
@@ -209,13 +174,11 @@ pub struct FxElemLightInstance {
 pub struct FxModelInstance {
     pub def_name: String,
     pub def_index: u8,
-
     pub model_index: usize,
     pub elem_handle: u16,
     pub origin: [f32; 3],
     pub axis: [[f32; 3]; 3],
     pub scale: f32,
-
     pub flags: i32,
 }
 

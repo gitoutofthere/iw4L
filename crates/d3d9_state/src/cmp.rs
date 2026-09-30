@@ -1,21 +1,13 @@
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum CompareFunc {
     Never,
-
     Less,
-
     Equal,
-
     LessEqual,
-
     Greater,
-
     NotEqual,
-
     GreaterEqual,
-
     Always,
-
     Unknown(u32),
 }
 

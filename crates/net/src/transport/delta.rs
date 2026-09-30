@@ -15,7 +15,6 @@ pub struct ProjectileEntityDelta {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct SnapshotDelta {
     pub tick: Tick,
-
     bytes: Vec<u8>,
 }
 

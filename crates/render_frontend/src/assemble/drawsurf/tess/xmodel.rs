@@ -4,6 +4,7 @@ use std::sync::Arc;
 use std::time::Instant;
 
 use bevy::prelude::*;
+use render_anim::{XMODEL_PACKED_EMPTY_PLAN, XMODEL_PACKED_UNAVAILABLE, install_retained_packed};
 
 use super::smodel::{RetailPackedVertexRefusal, SmodelPassMaterial, SmodelVertex};
 
@@ -31,53 +32,37 @@ pub use render_scene::{XModelColourRefusal, XModelSurfaceDraw};
 #[derive(Resource, Clone, Debug, Default)]
 pub struct XModelDrawPlan {
     pub vertices: Vec<SmodelVertex>,
-
     pub decoded_n: usize,
     pub indices: Vec<u32>,
     pub surface_ranges: Vec<(u32, u32)>,
     pub materials: Vec<SmodelPassMaterial>,
     pub draws: Vec<XModelSurfaceDraw>,
-
     pub fx_object_id_exhausted: u32,
     pub revision: u64,
-
     pub topology_revision: u64,
-
     pub packed_vertices: assets::RetailPackedVertexPayload,
-
     pub packed_share: Option<Arc<Vec<[u8; asset_iw4::size::GFX_PACKED_VERTEX]>>>,
-
     pub packed_segments: render_frame::PackedSegments,
-
     published_packed: Option<PackedContentKey>,
-
     pub index_share: Option<Arc<Vec<u32>>>,
     pub range_share: Option<Arc<Vec<(u32, u32)>>>,
     pub decoded_share: Option<Arc<Vec<SmodelVertex>>>,
     packed_banks: super::ShareBanks<[u8; asset_iw4::size::GFX_PACKED_VERTEX]>,
     index_banks: super::ShareBanks<u32>,
     range_banks: super::ShareBanks<(u32, u32)>,
-
     last_input: Option<XModelMergeStamp>,
     last_topology: Option<XModelTopologyKey>,
     concat_layout: bool,
     last_admitted: u8,
-
     packed_owner_vertices: [[u64; 8]; super::SHARE_BANKS],
 }
 
 #[derive(Clone, Copy, Debug, Default)]
 pub struct XModelMergeStamps {
     pub append_ms: f32,
-
     pub packed_ms: f32,
-
     pub concatenated: bool,
 }
-
-pub const XMODEL_PACKED_UNAVAILABLE: &str =
-    "xmodel merge GfxPackedVertex missing or count-mismatched; decoded float is not packed VB";
-pub const XMODEL_PACKED_EMPTY_PLAN: &str = "xmodel plan has no vertices";
 
 impl XModelDrawPlan {
     pub fn clear(&mut self) {
@@ -1204,26 +1189,6 @@ fn append_packed_source(
         _ => {
             *packed_ok = false;
             packed.clear();
-        }
-    }
-}
-
-fn install_retained_packed(
-    packed_ok: bool,
-    packed: Vec<[u8; asset_iw4::size::GFX_PACKED_VERTEX]>,
-    decoded_count: usize,
-    empty: &'static str,
-    missing: &'static str,
-) -> assets::RetailPackedVertexPayload {
-    if packed_ok && packed.len() == decoded_count && !packed.is_empty() {
-        assets::RetailPackedVertexPayload::Iw4(packed)
-    } else if decoded_count == 0 {
-        assets::RetailPackedVertexPayload::Unavailable {
-            source_layout: empty,
-        }
-    } else {
-        assets::RetailPackedVertexPayload::Unavailable {
-            source_layout: missing,
         }
     }
 }

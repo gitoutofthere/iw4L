@@ -10,32 +10,23 @@ pub struct FxElemSlot {
     pub occupied: bool,
     pub def_index: u8,
     pub elem_type: u8,
-
     pub flags: i32,
     pub visual_count: u8,
     pub sequence: u8,
     pub at_rest_fraction: u8,
-
     pub emit_residual: u8,
     pub next_elem_handle: u16,
     pub prev_elem_handle: u16,
     pub msec_begin: i32,
-
     pub life_span_msec: i32,
     pub base_vel: [f32; 3],
-
     pub origin: [f32; 3],
-
     pub spawn_origin: [[f32; 2]; 3],
     pub spawn_offset_radius: [f32; 2],
     pub spawn_offset_height: [f32; 2],
-
     pub owner_effect_slot: u16,
-
     pub class_index: u8,
-
     pub sort_order: u8,
-
     pub spark_cloud_handle: u16,
 }
 

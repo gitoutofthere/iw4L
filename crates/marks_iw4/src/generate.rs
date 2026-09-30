@@ -46,7 +46,6 @@ pub const fn fx_impact_mark_calls_box_surfaces() -> bool {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MarkWorldMesh {
     GfxSurface,
-
     ClipMapCollision,
 }
 
@@ -58,7 +57,6 @@ pub const fn fx_impact_mark_add_entity(fx_marks_ents: bool) -> bool {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MarkGoDispatch {
     WorldBrushesThenClip,
-
     Models,
 }
 

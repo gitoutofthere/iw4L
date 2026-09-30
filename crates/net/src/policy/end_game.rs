@@ -5,9 +5,7 @@ use sim::{EventRecord, SimEvent};
 #[derive(Resource, Debug, Default)]
 pub struct PendingEndGameTail {
     tail: Option<EndGameTail>,
-
     pub spawning_intermission: u32,
-
     pub exit_level_called: u32,
 }
 

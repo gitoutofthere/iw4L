@@ -37,7 +37,6 @@ fn assign_color_slot(color: &mut [f32; 4], slot: u32, value: f32) {
 pub(crate) enum ChromeGapKind {
     VisExp,
     FloatExp,
-
     FloatExpTarget,
     MaterialExp,
     OwnerDraw,
@@ -89,10 +88,7 @@ pub(crate) enum OwnerDrawPaint {
     Gap(ChromeGapKind),
 }
 
-#[allow(dead_code)]
 pub(crate) struct OwnerDrawArgs<'a> {
-    pub menu: &'a MenuDef,
-    pub index: usize,
     pub item: &'a MenuItem,
     pub rect: MenuRect,
     pub color: [f32; 4],
@@ -256,8 +252,6 @@ fn paint_item(
     let rect = style.rect;
     if item.owner_draw != 0 {
         let args = OwnerDrawArgs {
-            menu,
-            index,
             item,
             rect,
             color: style.fore_color,
@@ -636,7 +630,6 @@ pub(crate) struct EvaluatedItemStyle {
     pub fore_color: [f32; 4],
     pub glow_color: [f32; 4],
     pub back_color: [f32; 4],
-
     pub unsupported: Option<u32>,
 }
 

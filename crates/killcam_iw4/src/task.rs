@@ -8,9 +8,7 @@ pub struct TaskId(pub u16);
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Wake<K: Copy> {
     Notify(K),
-
     Deadline(Millis),
-
     Parked,
 }
 
@@ -92,7 +90,6 @@ impl<K: Copy + Eq> EndOn<K> {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Task<K: Copy + Eq> {
     pub id: TaskId,
-
     pub pc: u16,
     pub wake: Wake<K>,
     pub endon: EndOn<K>,
@@ -101,14 +98,12 @@ pub struct Task<K: Copy + Eq> {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SpawnError {
     Full,
-
     EndOnAlsoAwaited,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ResumeError {
     Gone,
-
     EndOnAlsoAwaited,
 }
 

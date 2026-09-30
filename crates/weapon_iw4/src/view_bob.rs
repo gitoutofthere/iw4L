@@ -92,22 +92,16 @@ const VERT_MIX_F64: u64 = 0x3FE8_0000_0000_0000;
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct ViewOrgBobInputs {
     pub bob_cycle: u8,
-
     pub xyspeed: f32,
-
     pub view_height_target: i32,
-
     pub pm_flags: u32,
-
     pub weapon_pos_frac: f32,
-
     pub perks0: u32,
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct ViewOrgBob {
     pub vertical: f32,
-
     pub horizontal: f32,
 }
 
@@ -312,49 +306,30 @@ pub fn bg_should_apply_view_org_bob(
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct ViewAngleBob {
     pub pitch: f32,
-
     pub yaw: f32,
-
     pub roll: f32,
-
     pub cam_idle_pitch: f32,
     pub cam_idle_yaw: f32,
-
     pub weap_idle_time: i32,
-
     pub view_last_idle_factor: f32,
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct ViewAngleBobInputs {
     pub org: ViewOrgBobInputs,
-
     pub e_flags: u32,
-
     pub overlay_reticle: i32,
-
     pub ads_bob_factor_at_0x330: f32,
-
     pub ads_view_bob_mult_at_0x334: f32,
-
     pub time: i32,
-
     pub damage_time: i32,
-
     pub v_dmg_pitch: f32,
-
     pub v_dmg_roll: f32,
-
     pub aim_down_sight: bool,
-
     pub idle: WeaponIdleInputs,
-
     pub frametime: f32,
-
     pub hold_breath_scale: f32,
-
     pub weap_idle_time: i32,
-
     pub view_last_idle_factor: f32,
 }
 

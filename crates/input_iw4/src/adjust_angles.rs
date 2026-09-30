@@ -9,21 +9,13 @@ pub const CL_ANGLESPEEDKEY_DEFAULT: f32 = 1.5;
 #[derive(Clone, Copy, Debug)]
 pub struct AdjustAnglesInput {
     pub dt: f32,
-
     pub now_msec: i32,
-
     pub frame_msec: u32,
-
     pub cl_yawspeed: f32,
-
     pub cl_pitchspeed: f32,
-
     pub cl_anglespeedkey: f32,
-
     pub cgame_max_yaw_speed: f32,
-
     pub cgame_max_pitch_speed: f32,
-
     pub frozen: bool,
 }
 

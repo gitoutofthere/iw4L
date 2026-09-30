@@ -1062,7 +1062,6 @@ pub struct SessionApply {
     pub changed: bool,
     pub enter_bootstrap: Option<u32>,
     pub closed: bool,
-
     pub transition: String,
 }
 

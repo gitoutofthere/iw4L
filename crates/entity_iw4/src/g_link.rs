@@ -1,7 +1,6 @@
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct SvLinkBounds {
     pub mid: [f32; 3],
-
     pub half: [f32; 3],
 }
 

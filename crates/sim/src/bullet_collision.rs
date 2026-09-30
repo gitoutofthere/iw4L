@@ -40,9 +40,7 @@ pub const LAGCOMP_MAX_REWIND_TICKS: u32 = 4;
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct ShotSampleProvenance {
     pub left: Tick,
-
     pub right: Tick,
-
     pub alpha: f32,
     pub quality: ShotSampleQuality,
 }
@@ -53,7 +51,6 @@ pub enum ShotSampleQuality {
     None,
     Exact,
     Interpolated,
-
     Held,
     Starved,
 }
@@ -173,20 +170,15 @@ pub struct AuthorityDObjState {
     pub model_revision: u32,
     pub pose_revision: u32,
     pub capability: Option<std::sync::Arc<xmodel_runtime::RetainedModelCapability>>,
-
     pub semantic_state: xmodel_runtime::DObjSemanticState,
     pub pose_request: xmodel_runtime::DObjPoseRequest,
     pub world_from_model: glam::Mat4,
     pub materialized_model_revision: Option<u32>,
     pub materialized_pose_revision: Option<u32>,
-
     pub current_collision: Option<AuthorityDObjCollision>,
     pub materialize_error: Option<xmodel_runtime::MaterializeError>,
-
     pub play_anim: Option<ScriptModelPlayAnim>,
-
     pub apos: Option<entity_iw4::Trajectory>,
-
     pub(crate) t5_destructible: Option<crate::t5_destructible::State>,
     pub(crate) pickup_glass: Option<[gamemode_iw4::VehicleBodyState; 6]>,
     /// Capabilities for the models this script model can swap to: husks and
@@ -658,9 +650,7 @@ pub struct EntityCollisionTraceGeom {
     pub owner: AuthorityModelOwner,
     pub epoch: EntityCollisionEpoch,
     pub collision: Option<AuthorityDObjCollision>,
-
     pub dobj_contents: Option<u32>,
-
     pub model_key: Option<String>,
     pub linked_brushes: Vec<LinkedBrushCollisionBrush>,
 }
@@ -761,22 +751,15 @@ pub struct BulletTraceSegment {
     /// Impact surface normal; exit effects carry the forward bullet direction.
     pub normal: [f32; 3],
     pub surf_type: u8,
-
     pub surface_flags: u32,
     pub penetrated: bool,
-
     pub thickness: f32,
-
     pub damage_mult: f32,
     pub path: BulletPath,
     pub collider: Option<ColliderId>,
-
     pub startsolid: bool,
-
     pub glass_encoded: u16,
-
     pub hit_type: i32,
-
     pub hit_id: u16,
 }
 
@@ -795,7 +778,6 @@ pub struct BulletTraceQuery {
     pub end: [f32; 3],
     pub mask: u32,
     pub ignore: Option<ClientId>,
-
     pub ignore_hit: Option<ClientId>,
 }
 
@@ -832,7 +814,6 @@ pub struct HistoryFrame {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum CurrentAuthorityReason {
     NoSampleClaim,
-
     SampleAtShot,
 
     HistoryUnavailable { requested: Tick },
@@ -846,9 +827,7 @@ pub enum HistoryClampReason {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum HistoryRefusalReason {
     MissingFrame,
-
     SampleAfterShot,
-
     SampleMalformed,
 }
 
@@ -1413,7 +1392,6 @@ struct TraceWorld<'a> {
     cmodels: &'a SimClipCmodels,
     players: &'a [PlayerCollisionPose],
     script_models: &'a [EntityCollisionTraceGeom],
-
     glass_is_solid: &'a dyn Fn(u16) -> bool,
     on_glass_hit: Option<&'a dyn Fn(u16, [f32; 3])>,
 }

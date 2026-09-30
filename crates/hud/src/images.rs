@@ -38,7 +38,6 @@ fn cache_key(name: &str) -> String {
 pub enum HudSampling {
     #[default]
     Color,
-
     Data,
 }
 
@@ -128,9 +127,7 @@ fn make_image(
 #[derive(Resource, Default)]
 pub struct HudImages {
     games_root: PathBuf,
-
     trees: NamespaceTrees,
-
     map_namespace: AssetNamespace,
     by_name: HashMap<IwdKey, Option<Handle<Image>>>,
     rgba_by_name: HashMap<(AssetNamespace, String), CachedRgba>,

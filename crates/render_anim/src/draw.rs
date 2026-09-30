@@ -8,7 +8,6 @@ pub use render_frame::SourceRevisions;
 pub struct FpvSurfaceDraw {
     pub surface: u32,
     pub material: u32,
-
     pub is_scope: bool,
 }
 
@@ -17,13 +16,9 @@ pub struct RemoteBodySurfaceDraw {
     pub surface: u32,
     pub material: u32,
     pub world_from_local: Mat4,
-
     pub lighting_handle: u32,
-
     pub scene_light_index: u8,
-
     pub reflection_probe_index: u8,
-
     pub scene_entnum: Option<u32>,
 }
 
@@ -44,21 +39,15 @@ pub const XMODEL_OBJECT_ID_DYNENT_BASE: u16 = 0x600;
 #[derive(Resource, Clone, Debug, Default)]
 pub struct RemoteBodyDrawPlan {
     pub(crate) vertices: Vec<SmodelVertex>,
-
     pub(crate) decoded_n: usize,
     pub(crate) indices: Vec<u32>,
     pub(crate) surface_ranges: Vec<(u32, u32)>,
     pub(crate) materials: Vec<SmodelPassMaterial>,
     pub(crate) draws: Vec<RemoteBodySurfaceDraw>,
-
     pub revision: u64,
-
     pub generation: u64,
-
     pub revisions: SourceRevisions,
-
     pub(crate) packed_vertices: assets::RetailPackedVertexPayload,
-
     pub last_packed_id: Option<u64>,
     pub last_draw_id: Option<u64>,
 }
@@ -94,7 +83,6 @@ impl RemoteBodyDrawPlan {
 pub struct ScriptModelAssetDraw {
     pub key: assets::MapXModelAssetKey,
     pub dobj_state: assets::dobj::DObjSemanticState,
-
     pub camera_lods: Vec<Option<u8>>,
     pub surfaces: Vec<(u32, u32)>,
 }
@@ -190,7 +178,6 @@ pub struct DynEntOwnerDraw {
 #[derive(Clone, Debug)]
 pub struct DynEntAssetDraw {
     pub key: assets::MapXModelAssetKey,
-
     pub camera_lod: Option<u8>,
     pub surfaces: Vec<(u32, u32)>,
 }
@@ -230,38 +217,23 @@ pub struct FpvDrawPlan {
     pub(crate) surface_ranges: Vec<(u32, u32)>,
     pub(crate) materials: Vec<SmodelPassMaterial>,
     pub(crate) draws: Vec<FpvSurfaceDraw>,
-
     pub world_from_local: Mat4,
     pub lighting_handle: u32,
     pub visible: bool,
-
     pub hands_plan_n: Option<u32>,
     pub gun_plan_n: Option<u32>,
-
     pub gun_colormap_skip_n: Option<u32>,
-
     pub gun_ordinal_skip_n: Option<u32>,
-
     pub gun_colormap_skip_names: Option<String>,
-
     pub scope_plan_n: Option<u32>,
-
     pub scope_house_plan_n: Option<u32>,
-
     pub scope_lens_plan_n: Option<u32>,
-
     pub plan_draw_n: Option<u32>,
-
     pub plan_mat_hints: Option<String>,
-
     pub plan_skip_n: Option<u32>,
-
     pub drawgun: Option<i32>,
-
     pub scene_light_index: u8,
-
     pub reflection_probe_index: u8,
-
     pub revision: u64,
     pub generation: u64,
     pub revisions: SourceRevisions,
@@ -277,7 +249,6 @@ pub struct FpvDrawPlan {
     /// Which prepared rig the rows below came from. The rig publishes them
     /// once; a frame that still answers this generation publishes vertices.
     pub rig_generation: u64,
-
     pub(crate) packed_vertices: assets::RetailPackedVertexPayload,
 }
 

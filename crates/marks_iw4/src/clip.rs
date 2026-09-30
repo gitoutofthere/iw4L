@@ -26,11 +26,8 @@ impl FxWorldMarkPoint {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct MarkWorldClipCensus {
     pub tri_seen: u32,
-
     pub tri_rejected: u32,
-
     pub clip_zero: u32,
-
     pub clip_kept: u32,
 }
 
@@ -38,7 +35,6 @@ pub struct MarkWorldClipCensus {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct FxMarkStagingTri {
     pub indices: [u16; 3],
-
     pub context: [u8; 7],
     pub _pad: u8,
 }
@@ -54,7 +50,6 @@ pub struct FxMarkStagingPoint {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum FxMarkEmitRefuse {
     Overflow,
-
     FragmentTooSmall,
 }
 

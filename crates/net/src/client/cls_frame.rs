@@ -3,11 +3,8 @@ use bevy::prelude::*;
 #[derive(Resource, Clone, Copy, Debug, Default, PartialEq)]
 pub struct ClsRealtime {
     realtime: i32,
-
     frametime: i32,
-
     started: bool,
-
     frac_ms: f32,
 }
 

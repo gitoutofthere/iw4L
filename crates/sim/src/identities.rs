@@ -72,9 +72,7 @@ impl ProjectileId {
 pub enum DamageSource {
     Shot(ShotId),
     Projectile(ProjectileId),
-
     Radius(ScriptModelId),
-
     Melee,
 }
 
@@ -83,7 +81,6 @@ pub enum MatchPhase {
     #[default]
     Warmup,
     Playing,
-
     Intermission,
     PostGame,
 }
@@ -110,7 +107,6 @@ fn mix_root_domain(root: u64, domain: RngDomain) -> u64 {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct MatchRng {
     seed: u64,
-
     draws: u64,
     state: u64,
 }

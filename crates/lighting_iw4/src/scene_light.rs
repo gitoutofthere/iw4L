@@ -53,9 +53,7 @@ pub struct GfxLightPack {
     pub cos_outer: f32,
     pub cos_inner: f32,
     pub exponent: u8,
-
     pub falloff_image_width: Option<u16>,
-
     pub lmap_lookup_start: i32,
 }
 

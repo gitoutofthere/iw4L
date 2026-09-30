@@ -72,7 +72,6 @@ pub struct GfxCmdDrawTextFx {
 pub struct GfxCmdDrawText2DArgs<'a> {
     pub text: &'a str,
     pub max_chars: i32,
-
     pub font: u32,
     pub x: f32,
     pub y: f32,
@@ -81,7 +80,6 @@ pub struct GfxCmdDrawText2DArgs<'a> {
     pub rotation: f32,
     pub color: [f32; 4],
     pub style: i32,
-
     pub fx: Option<GfxCmdDrawTextFx>,
 }
 
@@ -96,7 +94,6 @@ pub struct GfxCmdDrawText2D<'a> {
     pub color_bgra: [u8; 4],
     pub max_chars: i32,
     pub render_flags: u32,
-
     pub fx: Option<GfxCmdDrawTextFx>,
     pub text: &'a str,
 }

@@ -66,9 +66,7 @@ pub use d3d9_decl::{
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct StreamSourceLayout {
     pub stream: u8,
-
     pub offset: u8,
-
     pub decl_type: D3dDeclType,
 }
 

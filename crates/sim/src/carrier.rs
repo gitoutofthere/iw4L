@@ -285,9 +285,7 @@ impl SimWorld {
 pub enum StepReason {
     #[default]
     AuthorityFrame,
-
     PredictNew,
-
     Replay,
 }
 

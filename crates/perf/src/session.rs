@@ -24,7 +24,6 @@ const TRACE_BUFFER_KB: u32 = 256 * 1024;
 pub struct RunMetadata {
     pub zone: Option<String>,
     pub role: String,
-
     pub focus: Option<String>,
 }
 

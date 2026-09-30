@@ -180,15 +180,10 @@ pub struct GlassPaneBasis {
 #[repr(C)]
 pub struct GGlassPiece {
     pub damage: u16,
-
     pub collapse_time: u16,
-
     pub last_state_change_time: i32,
-
     pub impact_dir: u8,
-
     pub impact_pos: [u8; 2],
-
     _gap_0b: u8,
 }
 

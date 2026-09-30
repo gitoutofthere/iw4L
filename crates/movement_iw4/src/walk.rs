@@ -9,13 +9,9 @@ use crate::{
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct WalkMoveContext {
     pub cmd_scale: CmdScaleWalkContext,
-
     pub weapon_move_scale: f32,
-
     pub old_buttons: u32,
-
     pub jump: JumpLaunchContext,
-
     pub air: AirMoveContext,
 }
 

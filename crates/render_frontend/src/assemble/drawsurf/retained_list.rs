@@ -18,7 +18,6 @@ use super::tess::smodel::{
     LodRampArgs, SmodelGpuPlan, SmodelMeshSurfaces, SmodelPlacement, smodel_camera_lod,
 };
 use super::tess::xmodel::{XMODEL_OBJECT_ID_VIEWMODEL, XModelDrawPlan, merge_xmodel_draw_plan};
-use crate::assemble::pack::{PackDraw, PackKind};
 use crate::prepare::scene::cull::{DpvsFrameStats, smodel_cull_dist_skips_slot};
 use crate::prepare::scene::smodel_geom_cache::{
     LodRampDvar, PretessDvar, SmcEnableDvar, WorldStaticModelCache,
@@ -27,64 +26,6 @@ use crate::prepare::scene::smodel_lighting::WorldSmodelLighting;
 use crate::prepare::scene::view_parms::PreparedSceneView;
 use crate::prepare::scene::world::WorldScene;
 use frame::WorldGeneration;
-
-pub(crate) fn pack_draw(draw: &RetainedDrawItem) -> PackDraw {
-    let kind = match draw.kind {
-        RetainedDrawKind::World {
-            surf, run, run_off, ..
-        } => PackKind::World { surf, run, run_off },
-        RetainedDrawKind::Smodel {
-            surface,
-            lighting_handle,
-            stream: Some(lighting_iw4::SmodelSurfPath::Rigid),
-            ..
-        } => PackKind::SmodelRigid {
-            surface,
-            lighting_handle,
-        },
-        RetainedDrawKind::Smodel {
-            surface,
-            lighting_handle,
-            stream: Some(lighting_iw4::SmodelSurfPath::Skinned),
-            ..
-        } => PackKind::SmodelSkinned {
-            surface,
-            lighting_handle,
-        },
-        RetainedDrawKind::Smodel {
-            lighting_handle,
-            stream: Some(lighting_iw4::SmodelSurfPath::Pretess),
-            pretess: Some(dest),
-            ..
-        } => PackKind::SmodelPretess {
-            lighting_handle,
-            dest,
-        },
-        RetainedDrawKind::Smodel {
-            lighting_handle,
-            stream: Some(lighting_iw4::SmodelSurfPath::Cached),
-            pretess: Some(dest),
-            ..
-        } => PackKind::SmodelCached {
-            lighting_handle,
-            dest,
-        },
-        RetainedDrawKind::XModel {
-            surface,
-            lighting_handle,
-            ..
-        } => PackKind::XModel {
-            surface,
-            lighting_handle,
-        },
-        _ => PackKind::Skip,
-    };
-    PackDraw {
-        key: draw.key,
-        material_rank: draw.material_rank,
-        kind,
-    }
-}
 
 pub use render_frame::{BspCameraLane, RetainedDrawItem, RetainedDrawKind};
 
@@ -133,34 +74,22 @@ fn with_catalog(
 pub struct RetainedRebuildCensus {
     pub world_n: u32,
     pub smodel_n: u32,
-
     pub smodel_hidden_n: u32,
-
     pub smodel_query_n: u32,
-
     pub smodel_vis_n: u32,
-
     pub smodel_vis_ready: u8,
     pub sort_us: u32,
-
     pub smodel_probe59_n: u32,
-
     pub smodel_miss59_n: u32,
-
     pub rebuild_skip: u8,
-
     pub lod_hold: u8,
-
     pub world_run_n: u32,
-
     pub smodel_bucket_flush_n: u32,
     pub smodel_bucket_rigid_n: u32,
     pub smodel_bucket_skinned_n: u32,
     pub smodel_bucket_cached_n: u32,
     pub smodel_bucket_unread_n: u32,
-
     pub smodel_bucket_consume_n: u32,
-
     pub smodel_bucket_context_refused_n: u32,
 }
 
@@ -190,31 +119,20 @@ impl RetainedRebuildCensus {
 #[derive(Resource, Clone, Debug, Default)]
 pub struct StaticDrawLane {
     pub generation_id: super::MaterialGenerationId,
-
     pub world_generation: WorldGeneration,
     pub colour: Vec<RetainedDrawItem>,
     pub emissive: Vec<RetainedDrawItem>,
     pub distortion: Vec<RetainedDrawItem>,
     pub census: RetainedRebuildCensus,
-
     last_static: Option<(u64, u64, EyeLodReuseKey)>,
-
     static_items: Vec<RetainedDrawItem>,
-
     world_items: Vec<RetainedDrawItem>,
-
     smodel_items: Vec<RetainedDrawItem>,
-
     last_smodel_picks: Vec<SmodelLodPick>,
-
     pub world_run_surfs: Vec<u16>,
-
     pub membership_revision: u64,
-
     pub smodel_surf_lists: lighting_iw4::SmodelSurfBucketLists,
-
     pub smodel_pretess_indices: Arc<Vec<u16>>,
-
     pub smodel_index_layout_revision: u64,
 }
 
@@ -248,14 +166,11 @@ pub struct XModelDrawLane {
     pub colour: Vec<RetainedDrawItem>,
     pub emissive: Vec<RetainedDrawItem>,
     pub distortion: Vec<RetainedDrawItem>,
-
     colour_source: Vec<u32>,
     emissive_source: Vec<u32>,
     distortion_source: Vec<u32>,
-
     pub membership_revision: u64,
     membership_hash: u64,
-
     pub payload_revision: u64,
     pub merge_packed_n: Option<u32>,
     pub sorted: u32,
@@ -272,10 +187,8 @@ pub struct FxDrawLane {
     pub colour: Vec<RetainedDrawItem>,
     pub emissive: Vec<RetainedDrawItem>,
     pub distortion: Vec<RetainedDrawItem>,
-
     pub membership_revision: u64,
     membership_hash: u64,
-
     pub payload_revision: u64,
     pub code_sorted: u32,
     pub particle_cloud_sorted: u32,
@@ -2551,43 +2464,28 @@ pub(crate) fn rebuild_static_draw_lane(
 pub struct SunShadowCasterPlan {
     pub generation_id: super::MaterialGenerationId,
     pub items: Vec<RetainedDrawItem>,
-
     pub surface_vis_sun: [Vec<u8>; 2],
-
     pub smodel_vis_sun: [Vec<u8>; 2],
     pub world_eligible: u32,
     pub world_missing_key: u32,
     pub smodel_eligible: u32,
     pub smodel_excluded: u32,
     pub smodel_missing_key: u32,
-
     pub cutout_plus23: u32,
-
     pub cutout_missing_key: u32,
-
     pub cutout_empty_ib: u32,
-
     pub cutout_custom0: u32,
-
     pub bsp_ids: Vec<u16>,
     pub smodel_ids: Vec<u16>,
     pub bsp_ids_far: Vec<u16>,
     pub smodel_ids_far: Vec<u16>,
-
     pub xmodel_eligible: u32,
-
     pub xmodel_skipped_viewmodel: u32,
-
     pub xmodel_missing_key: u32,
-
     pub xmodel_no_technique: u32,
-
     pub smodel_no_custom: u32,
-
     pub lists: render_frame::SunShadowCasterLists,
-
     pub sun_near_n: usize,
-
     pub smodel_surf_lists: lighting_iw4::SmodelSurfBucketLists,
     pub smodel_bucket_flush_n: u32,
     pub smodel_bucket_rigid_n: u32,

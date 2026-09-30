@@ -70,11 +70,8 @@ pub struct ServerTick(pub Option<ServerTickData>);
 pub struct ServerTickData {
     pub input: sim::TickInput,
     pub snapshot: sim::Snapshot,
-
     pub respawn_delay_ticks: u32,
-
     pub weapon_script_names: Arc<[String]>,
-
     pub pending_final_kill: Option<(ClientId, ClientId)>,
 }
 
@@ -96,7 +93,6 @@ pub struct FixedUpdateCensus {
 #[derive(Resource, Debug, Clone, Default)]
 pub struct AuthorityPhaseCensus {
     pub n: [Option<u64>; frame::AUTHORITY_TOC.len()],
-
     pub bytes: [Option<u64>; frame::AUTHORITY_TOC.len()],
     accum_n: [Option<u64>; frame::AUTHORITY_TOC.len()],
     accum_bytes: [Option<u64>; frame::AUTHORITY_TOC.len()],
@@ -213,21 +209,13 @@ pub struct ListenFanoutCensus {
     pub world_other_flags: Option<i32>,
     pub sent_other_flags: Option<i32>,
     pub sent_delta_time: Option<i32>,
-
     pub seat_archivetime_ms: Option<i32>,
-
     pub seat_focus_client: Option<i32>,
-
     pub seat_lookup_tick: Option<i32>,
-
     pub seat_attained_ms: Option<i32>,
-
     pub seat_rebase_ms: Option<i32>,
-
     pub seat_focus_live_origin: Option<[f32; 3]>,
-
     pub seat_focus_lifecycle: Option<&'static str>,
-
     pub seat_world_archived: Option<i32>,
 }
 
@@ -244,11 +232,8 @@ pub struct DumpDeathRow {
     pub weapon: u32,
     pub suicide: i32,
     pub source: &'static str,
-
     pub life_sequence: u32,
-
     pub attacker_life: Option<u32>,
-
     pub killcam_entity_start_time: i32,
 }
 
@@ -305,9 +290,7 @@ impl DumpDeathLog {
 pub struct DumpGiveLog {
     pub request_id: Option<u32>,
     pub weapon: Option<u32>,
-
     pub accepted: Option<u8>,
-
     pub reject_reason: Option<&'static str>,
 }
 

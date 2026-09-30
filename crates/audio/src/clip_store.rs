@@ -280,7 +280,6 @@ pub struct ClipStore {
     common_profile_id: u64,
     reused_clips: usize,
     reused_bytes: u64,
-
     match_live: bool,
     late_prepares: u32,
 }

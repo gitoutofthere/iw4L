@@ -15,14 +15,11 @@ use std::collections::VecDeque;
 #[derive(Clone, Debug)]
 pub struct FxMarksSystemHost {
     first_free: u16,
-
     next: Vec<u16>,
     live: u32,
-
     alloced: u32,
     constructed: Vec<Option<FxMarkConstructed>>,
     allocation_order: VecDeque<u16>,
-
     material_names: Vec<Option<String>>,
     tri_first: u32,
     tri_next: Vec<u32>,
@@ -30,7 +27,6 @@ pub struct FxMarksSystemHost {
     point_first: u32,
     point_next: Vec<u32>,
     point_groups: Vec<FxPointGroup>,
-
     pub no_marks: bool,
 }
 
@@ -39,7 +35,6 @@ pub struct GfxMarkMeshSurf {
     pub index_start: u32,
     pub index_count: u32,
     pub mark_slot: u16,
-
     pub context: [u8; 7],
 }
 
@@ -65,13 +60,10 @@ pub struct MarkTraceRecord {
     pub msec: Option<i32>,
     pub origin: Option<[f32; 3]>,
     pub size0: Option<f32>,
-
     pub color: Option<u32>,
-
     pub color_kind: &'static str,
     pub mat0: Option<String>,
     pub mat1: Option<String>,
-
     pub bound: Option<String>,
     pub slot: Option<u16>,
     pub tri_n: Option<u8>,

@@ -3,11 +3,8 @@ use asset_material::MaterialCatalog;
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct MapCompassDeclaration {
     pub material: Option<String>,
-
     pub image: Option<String>,
-
     pub max_range: Option<f32>,
-
     pub script: Option<String>,
 }
 

@@ -16,13 +16,9 @@ fn stream_capacity(required: u64) -> u64 {
 #[derive(Default)]
 pub(super) struct GpuStream {
     buffer: Option<Buffer>,
-
     capacity: u64,
-
     len: usize,
-
     stride: usize,
-
     allocation: u64,
 }
 
@@ -121,9 +117,7 @@ pub(super) fn aligned_stream_span(
 pub(super) struct GpuMesh {
     pub(super) vertex: GpuStream,
     pub(super) index: GpuStream,
-
     pub(super) uploaded_vertices: u64,
-
     pub(super) uploaded_topology: u64,
 }
 

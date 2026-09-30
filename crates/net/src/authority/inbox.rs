@@ -87,22 +87,16 @@ impl AuthorityClock {
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct GatheredCommands {
     pub cmds: Vec<(ClientId, UserCmd)>,
-
     pub acks: Vec<(ClientId, CmdSeq)>,
-
     pub proxied: Vec<ClientId>,
-
     pub samples: Vec<(ClientId, i32, sim::ShotSampleProvenance)>,
-
     pub backlog_faults: Vec<(ClientId, InputBacklogFault)>,
 }
 
 #[derive(Resource, Debug, Default)]
 pub struct ClientCommandInbox {
     queued: HashMap<ClientId, VecDeque<(Option<CmdSeq>, UserCmd, sim::ShotSampleProvenance)>>,
-
     last_consumed: HashMap<ClientId, UserCmd>,
-
     last_acked_seq: HashMap<ClientId, u32>,
 }
 
@@ -339,7 +333,6 @@ impl core::fmt::Display for ActionEnqueueError {
 pub struct ClientActionInbox {
     pending: Vec<(ClientId, sim::ClientAction)>,
     started: HashMap<(ClientId, sim::ActionRequestId), std::time::Instant>,
-
     received: Vec<(ClientId, sim::ClientAction)>,
     overflowed: std::collections::HashSet<ClientId>,
 }

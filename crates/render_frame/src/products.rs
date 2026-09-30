@@ -6,13 +6,9 @@ use std::sync::Arc;
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash)]
 pub struct SourceRevisions {
     pub topology: u64,
-
     pub vertices: u64,
-
     pub materials: u64,
-
     pub draws: u64,
-
     pub admission: u64,
 }
 
@@ -76,16 +72,13 @@ pub const PACKED_SEGMENT_OWNERS: usize = 8;
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash)]
 pub struct PackedSegment {
     pub start: u32,
-
     pub rows: u32,
-
     pub revision: u64,
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash)]
 pub struct PackedSegments {
     pub layout: u64,
-
     pub live: bool,
     pub owners: [PackedSegment; PACKED_SEGMENT_OWNERS],
 }
@@ -142,11 +135,8 @@ impl FrameProductKind {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ProductTarget {
     Core3dViewColour,
-
     ResolvedPostSun,
-
     SunShadowFallbackAtlas,
-
     SpotShadowMaps,
 }
 
@@ -174,7 +164,6 @@ pub enum FrameProductStatus {
 #[derive(Clone, Debug)]
 pub struct SpotShadowFrameSlot {
     pub emitted: lighting_iw4::SpotShadowEmittedSlot,
-
     pub packed: Arc<PackedFrontendLists>,
 }
 
@@ -184,21 +173,13 @@ pub struct FrameProduct {
     pub generation_id: MaterialGenerationId,
     pub status: FrameProductStatus,
     pub ordered_draws: Vec<RetainedDrawItem>,
-
     pub sun_near_n: usize,
-
     pub sun_packed: Option<Arc<[PackedFrontendLists; 2]>>,
-
     pub spot_slots: Vec<SpotShadowFrameSlot>,
-
     pub list_digest: u64,
-
     pub world_pretess_id: u64,
-
     pub draw_tech: Vec<TechType>,
-
     pub code_sampler_mask: u64,
-
     pub has_codemesh: bool,
 }
 
@@ -258,9 +239,7 @@ pub struct FrameProductsSnapshot {
     pub frame_id: u64,
     pub focus: Option<RenderFocusFrame>,
     pub products: Vec<FrameProduct>,
-
     pub world_run_surfs: Vec<u16>,
-
     pub world_run_revision: u64,
 }
 

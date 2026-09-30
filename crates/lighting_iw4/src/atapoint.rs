@@ -69,11 +69,8 @@ pub fn light_grid_fixed_point_blend_weights(
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum LightGridAtPointPath {
     SetFromIndex,
-
     BlendAndSet,
-
     MissingUseIndex,
-
     SetDefault,
 }
 
@@ -94,11 +91,8 @@ pub const fn light_grid_atapoint_return_primary(
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct LightGridAtPointEmptyGate {
     pub prefer_default_when_missing: bool,
-
     pub fallback_colors_index: u32,
-
     pub show_missing_light_grid: bool,
-
     pub color_count: u32,
 }
 

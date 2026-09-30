@@ -32,18 +32,13 @@ pub struct FxParticleCloudPlan {
     pub draws: Vec<FxParticleCloudDraw>,
     pub revision: u64,
     pub miss_material: u32,
-
     pub spark_index_count: u32,
     template_vert_count: u32,
     template_index_count: u32,
     custom_live: u32,
-
     pub tmpl_first_xyz: [f32; 3],
-
     pub tmpl_first_r2: f32,
-
     pub tmpl_holdrand: u32,
-
     pub range_share: Option<Arc<Vec<(u32, u32)>>>,
 }
 

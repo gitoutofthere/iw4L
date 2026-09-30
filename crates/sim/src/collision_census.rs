@@ -3,12 +3,9 @@ use crate::bullet_collision::PlayerCollisionPose;
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct ModelCollisionCensus {
     pub key: String,
-
     pub present: bool,
-
     pub bones: u32,
     pub bone_boxes: u32,
-
     pub coll_lod: i16,
     pub coll_surfs: u32,
     pub coll_tris: u32,
@@ -75,20 +72,15 @@ pub struct PlayerClipCensus {
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct EntityClipCensus {
     pub rows: u32,
-
     pub colltris: u32,
     pub boxes_only: u32,
     pub brush_only: u32,
-
     pub not_bullet_solid: u32,
     pub no_collision_authored: u32,
-
     pub no_dobj: u32,
     pub no_capability: u32,
     pub materialize_failed: u32,
-
     pub linked_brushes: u32,
-
     pub no_clip_sample: Vec<String>,
 }
 

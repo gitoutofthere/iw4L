@@ -23,49 +23,32 @@ const ADS_CROSSHAIR_FADE_WEIGHT: f32 = 0.5;
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponReticleFacts {
     pub i_reticle_min_ofs: i32,
-
     pub hip_reticle_side_pos: f32,
-
     pub i_reticle_side_size: i32,
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponAdsCrosshairFacts {
     pub ads_aim_pitch: f32,
-
     pub ads_crosshair_in_frac: f32,
-
     pub ads_crosshair_out_frac: f32,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct CgHipCrosshairGate {
     pub rendering_third_person: bool,
-
     pub e_flags: u32,
-
     pub other_flags: u32,
-
     pub viewmodel_weapon_index: i32,
-
     pub flashbanged: bool,
-
     pub draw_hud: bool,
-
     pub dvars_allow: bool,
-
     pub f_weapon_pos_frac: f32,
-
     pub cg_draw_gun: bool,
-
     pub bob_gate: bool,
-
     pub weaponstate_primary: i32,
-
     pub weaponstate_secondary: i32,
-
     pub last_weapon_hand: i32,
-
     pub mantle_weapon_inactive: bool,
 }
 
@@ -93,7 +76,6 @@ impl Default for CgHipCrosshairGate {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct CgAdsTransition {
     pub trans_scale: f32,
-
     pub trans_shift: f32,
 }
 

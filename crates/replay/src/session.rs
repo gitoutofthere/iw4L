@@ -184,6 +184,5 @@ pub struct PlayedTick {
     pub cmds: Vec<(ClientId, UserCmd)>,
     pub actions: Vec<(ClientId, ClientAction)>,
     pub snapshot: Snapshot,
-
     pub frame: Frame,
 }

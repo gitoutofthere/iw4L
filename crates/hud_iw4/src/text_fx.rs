@@ -71,24 +71,17 @@ pub fn seh_print_strlen(text: &str) -> i32 {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct TextPulseFx {
     pub birth_time: i32,
-
     pub letter_time: i32,
-
     pub decay_start_time: i32,
-
     pub decay_duration: i32,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct PulseFxVars {
     pub draw_rand_char_at_end: bool,
-
     pub rand_seed: i32,
-
     pub max_length: i32,
-
     pub decaying: bool,
-
     pub decay_time_elapsed: i32,
 }
 
@@ -145,11 +138,8 @@ pub fn setup_pulse_fx_vars(
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct DecayingLetter {
     pub skip_drawing: bool,
-
     pub alpha: u8,
-
     pub letter: u32,
-
     pub draw_extra_fx_char: bool,
 }
 
@@ -243,7 +233,6 @@ pub const HUDELEM_SOUND_SLOTS: usize = 32;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum TextPulseSound {
     Type,
-
     Delete,
 }
 

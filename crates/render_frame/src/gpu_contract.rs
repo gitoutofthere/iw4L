@@ -101,7 +101,6 @@ pub struct WgpuBindLayoutEntry {
     pub binding: u16,
     pub visibility: WgpuShaderVisibility,
     pub kind: WgpuBindingKind,
-
     pub retail_register: Option<u16>,
 }
 

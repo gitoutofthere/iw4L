@@ -26,15 +26,10 @@ pub struct EquipmentRuntimeFacts {
     pub clip_size: i32,
     pub impact_damage: i32,
     pub fuse_time_ms: i32,
-
     pub hold_fire_time_ms: i32,
-
     pub cook_off_hold: bool,
-
     pub timed_detonation: bool,
-
     pub proj_impact_explode: bool,
-
     pub stick_to_players: bool,
     pub explosion_radius: i32,
     pub explosion_radius_min: i32,

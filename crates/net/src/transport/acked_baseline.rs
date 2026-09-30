@@ -4,7 +4,6 @@ use std::collections::BTreeMap;
 #[derive(Debug, Default)]
 pub struct AckedBaselineTable {
     sent: BTreeMap<u32, Snapshot>,
-
     highest_acked: Option<u32>,
     max_retained: usize,
 }

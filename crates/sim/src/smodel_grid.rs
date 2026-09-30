@@ -12,7 +12,6 @@ pub struct SmodelGrid {
     dims: [i32; 3],
     packed: Vec<u16>,
     offsets: Vec<u32>,
-
     spill: Vec<u16>,
     model_n: u32,
     occupied_n: u32,

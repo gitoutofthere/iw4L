@@ -16,43 +16,27 @@ pub const OFFHAND_INV_SLOTS: usize = 15;
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct OffhandInvRow {
     pub weapon: u32,
-
     pub offhand_class: i32,
-
     pub ammo: i32,
-
     pub hold_fire_time_ms: i32,
-
     pub fire_time_ms: i32,
-
     pub fire_delay_ms: i32,
-
     pub fuse_time_ms: i32,
-
     pub cook_off_hold: bool,
-
     pub offhand_hold_is_cancelable_at_0x681: Option<bool>,
-
     pub weap_type: i32,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct OffhandCmd {
     pub inventory: [OffhandInvRow; OFFHAND_INV_SLOTS],
-
     pub offhand_primary: i32,
-
     pub offhand_secondary: i32,
-
     pub cmd_off_hand_index: u16,
     pub cmd_off_hand_owned: bool,
-
     pub cursor_hint_ent: i32,
-
     pub held_quick_drop_time_ms: i32,
-
     pub off_hand_index: i32,
-
     pub grenade_time_left: i32,
 }
 

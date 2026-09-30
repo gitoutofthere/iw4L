@@ -3,7 +3,6 @@ use bevy::prelude::*;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MatchEndingReason {
     Time,
-
     Score,
 }
 
@@ -24,11 +23,8 @@ pub struct PrematchDone;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum GameWinner {
     Allies,
-
     Axis,
-
     Player(u32),
-
     Undefined,
 }
 
@@ -46,9 +42,7 @@ pub struct RoundWin {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum RoundSwitchKind {
     Halftime,
-
     Overtime,
-
     Other,
 }
 

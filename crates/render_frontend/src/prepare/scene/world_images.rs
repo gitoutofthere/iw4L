@@ -23,7 +23,6 @@ pub(crate) fn overlay_count_byte_capped(
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum ProbeDebug {
     Flat([u8; 4]),
-
     Faces,
 
     Mips { shift: usize },
@@ -221,11 +220,8 @@ pub struct WorldImageUpload {
     pub largest_step_bytes: u64,
     pub handoff_ns: u64,
     pub steps: u64,
-
     pub skipped: u32,
-
     pub pipeline_world_materials: Arc<std::collections::HashSet<u16>>,
-
     pub pipeline_smodel_materials: Arc<std::collections::HashSet<u16>>,
     exact_images: Vec<Option<Arc<Image>>>,
     exact_variants: Vec<Option<assets::ImageVariantId>>,

@@ -32,7 +32,6 @@ pub enum Draw2dOp {
 #[derive(Clone, Debug, PartialEq)]
 pub struct TextRunGlow {
     pub material: String,
-
     pub color: [f32; 4],
 }
 
@@ -66,11 +65,9 @@ pub struct Draw2dCmd {
     pub t1: f32,
     pub color: [f32; 4],
     pub material: String,
-
     pub material_namespace: assets::AssetNamespace,
     pub op: Draw2dOp,
     pub provenance: Draw2dProvenance,
-
     pub layer: u8,
 }
 
@@ -199,11 +196,9 @@ pub struct Draw2dQuad {
     pub st: [[f32; 2]; 4],
     pub color: [f32; 4],
     pub material: String,
-
     pub material_namespace: assets::AssetNamespace,
     pub provenance: Draw2dProvenance,
     pub layer: u8,
-
     pub clip: Option<[f32; 4]>,
 }
 
@@ -269,9 +264,7 @@ struct CmdHost {
     provenance: Draw2dProvenance,
     layer: u8,
     glyph_material: Option<String>,
-
     glow: Option<TextRunGlow>,
-
     scene_time: Option<i32>,
 }
 

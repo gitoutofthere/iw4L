@@ -18,16 +18,13 @@ const EV_RESET_ADS: i32 = 0x11;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct AdsIntentContext {
     pub ads_allowed: bool,
-
     pub weapon_def_scope: bool,
-
     pub sprint_hold_ads: bool,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct AdsIntentResult {
     pub ads_anim_enabled: bool,
-
     pub exit_ads_event: bool,
 }
 

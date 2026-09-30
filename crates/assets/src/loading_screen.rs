@@ -12,12 +12,9 @@ pub struct LoadingScreen {
     pub(crate) mode_label: String,
     pub(crate) complete: bool,
     failure: Option<String>,
-
     pub(crate) spawned_at: Instant,
-
     pub(crate) elapsed: Duration,
     pub(crate) complete_at: Option<Instant>,
-
     pub(crate) since_complete: Duration,
     pub(crate) preview_ready: bool,
 }
@@ -103,6 +100,5 @@ impl LoadingScreen {
 pub struct LoadingPreviewSource {
     pub path: PathBuf,
     pub map_name: String,
-
     pub request_id: u64,
 }

@@ -1,7 +1,6 @@
 #[derive(Debug, Default, Clone)]
 pub struct ConsoleEditor {
     pub line: String,
-
     pub caret: usize,
     pub selected: usize,
 }

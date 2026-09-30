@@ -13,7 +13,6 @@ pub struct ClassPreset {
     pub lethal: &'static str,
     pub tactical: &'static str,
     pub perks: &'static [PerkPreset],
-
     pub deathstreak: &'static str,
 }
 

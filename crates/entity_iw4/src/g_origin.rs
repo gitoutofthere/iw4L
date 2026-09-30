@@ -58,9 +58,7 @@ pub fn g_dobj_anim_mat_axis(quat: [f32; 4], trans_weight: f32) -> [[f32; 3]; 3] 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct DObjAnimMat {
     pub quat: [f32; 4],
-
     pub trans: [f32; 3],
-
     pub trans_weight: f32,
 }
 

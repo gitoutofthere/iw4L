@@ -8,7 +8,6 @@ pub const SND_ENT_LOCAL: u32 = 0;
 pub struct PlayAlias {
     pub namespace: AssetNamespace,
     pub alias: String,
-
     pub fallback: Option<String>,
     pub origin_inches: Option<[f32; 3]>,
     pub snd_ent: Option<u32>,

@@ -44,18 +44,14 @@ use std::sync::Arc;
 #[require(RemoteFxBolts)]
 pub struct RemotePlayer {
     pub ffa_team: Option<u8>,
-
     pub client_state_team: i32,
 }
 
 #[derive(Component, Default)]
 pub struct RemoteFxBolts {
     pub flash: Option<fx::FxBoltTarget>,
-
     pub brass: Option<fx::FxBoltTarget>,
-
     pub knife: Option<fx::FxBoltTarget>,
-
     pub laser: Option<fx::FxBoltTarget>,
 }
 
@@ -366,12 +362,10 @@ struct PendingBodySkin<'a> {
     body_lod: u8,
     head_lod: Option<u8>,
     gun_lod: Option<u8>,
-
     skin_entries: &'a [dpvs_iw4::SceneEntSkinEntry],
     head_model: Option<u16>,
     gun_model: Option<u16>,
     attachments: Vec<(PendingGunSkin<'a>, u16, Option<u8>)>,
-
     dest: CpuBodyGeom,
 }
 
@@ -399,7 +393,6 @@ struct RemotePoseFrame<'a> {
     scene: &'a render_scene::GfxScene,
     last_cache_hits: &'a HashSet<u32>,
     pending: Vec<PendingBodySkin<'a>>,
-
     world_gun_gap: Option<WorldGunGap>,
 }
 

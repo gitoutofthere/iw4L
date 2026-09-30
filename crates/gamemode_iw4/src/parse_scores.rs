@@ -7,17 +7,11 @@ pub const SCORE_TOKENS_PER_CLIENT: usize = 8;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct ParsedScores {
     pub num: usize,
-
     pub team_scores_axis: i32,
-
     pub team_scores_allies: i32,
-
     pub score_limit: i32,
-
     pub scores: [Score; PARSE_SCORES_CAP],
-
     pub gap_0x20: [i32; PARSE_SCORES_CAP],
-
     pub status_icon_index: [i32; PARSE_SCORES_CAP],
 }
 

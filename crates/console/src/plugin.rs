@@ -44,9 +44,7 @@ const COLOR_SUGGEST_BG: Color = Color::srgb(0.02, 0.03, 0.04);
 #[derive(Resource, Clone)]
 pub struct ConsoleSettings {
     pub log_capacity: usize,
-
     pub height: f32,
-
     pub width: f32,
 }
 
@@ -75,39 +73,26 @@ impl ConsoleCommandQueue {
 #[derive(Resource, Default)]
 pub struct ConsoleDispatch {
     pub paused: bool,
-
     pub wait_remaining: f32,
-
     pub wait_world: bool,
     pub wait_world_elapsed: f32,
-
     pub wait_spawn: bool,
     pub wait_spawn_elapsed: f32,
-
     pub wait_spawn_admit: bool,
-
     pub pending_spawn_class: Option<String>,
-
     pub wait_torn: bool,
     pub wait_torn_elapsed: f32,
-
     pub wait_ambient: bool,
     pub wait_ambient_elapsed: f32,
-
     pub wait_move: Option<WaitMovePose>,
     pub wait_move_elapsed: f32,
-
     pub wait_playing: bool,
     pub wait_playing_elapsed: f32,
-
     pub wait_tick: Option<u32>,
     pub wait_tick_elapsed: f32,
-
     pub wait_alive: Option<(sim::ClientId, sim::LifeSequence)>,
     pub wait_alive_elapsed: f32,
-
     pub quit_jumps: u64,
-
     pub fifo_jumps: u64,
 }
 
@@ -174,37 +159,22 @@ pub struct ConsoleState {
     pub open: bool,
     pub editor: ConsoleEditor,
     pub log: Vec<String>,
-
     pub history: Vec<String>,
-
     pub history_cursor: Option<usize>,
-
     pub history_draft: String,
-
     pub prompt_sel_n: usize,
-
     pub scroll_sel_n: usize,
-
     pub scroll_anchor: Option<usize>,
-
     pub scroll_focus: usize,
-
     pub scroll_gesture: bool,
-
     pub clipboard_write: Option<bool>,
-
     pub copy_source: Option<&'static str>,
-
     pub last_hit_x: Option<f32>,
     pub last_hit_y: Option<f32>,
     pub last_hit_char: Option<usize>,
-
     pub pending_feed: Option<String>,
-
     pub pending_os_paste: bool,
-
     pub feed_n: usize,
-
     pub clipboard_read: Option<&'static str>,
 }
 

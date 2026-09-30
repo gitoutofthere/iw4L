@@ -7,35 +7,20 @@ const FX_GAP_COUNT: usize = <FxGap as ledger::Gap>::ALL.len();
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum FxGap {
     TrailCompressBasis,
-
     TrailIntersampleCull,
-
     TrailDefLookup,
-
     TrailCodeMesh,
-
     ElemCollideMotion,
-
     ElemMotionLookup,
-
     ElemImpactSpawn,
-
     ElemDeathSpawn,
-
     ElemLightingFrac,
-
     ElemEmitSpawn,
-
     ElemEmitOrientQuat,
-
     ElemEmitRandVariance,
-
     ElemSoundSpawn,
-
     ElemDecalSpawn,
-
     MarkFragments,
-
     ElemRunnerSpawn,
 }
 
@@ -105,9 +90,7 @@ impl fmt::Display for ChildSpawn {
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum CodeMeshStep {
     Bind,
-
     VertReserve,
-
     IndexReserve,
 }
 

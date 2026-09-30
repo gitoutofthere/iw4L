@@ -23,9 +23,7 @@ pub const BODY_SPINE_BONES: &[&str] = &[
 #[derive(Clone, Debug)]
 pub struct BodyMeshEntry {
     pub skel: ModelSkel,
-
     pub material_names: Vec<Option<String>>,
-
     pub material_edges: Vec<AssetEdge<crate::MaterialSpace>>,
 }
 

@@ -49,10 +49,8 @@ impl Default for PlayerAngleDvars {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct PlayerAngleInput {
     pub base_yaw: f32,
-
     pub movement_yaw: f32,
     pub dvars: PlayerAngleDvars,
-
     pub frametime_ms: f32,
 }
 
@@ -60,9 +58,7 @@ pub struct PlayerAngleInput {
 pub struct PlayerAngleOutput {
     pub torso: SwingState,
     pub legs: SwingState,
-
     pub torso_dest: f32,
-
     pub legs_dest: f32,
 }
 

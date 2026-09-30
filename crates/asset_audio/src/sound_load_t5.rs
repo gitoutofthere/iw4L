@@ -445,12 +445,7 @@ fn capture_loaded_edge(
         Some(ZonePtr::Offset(_)) => match file_type {
             Some(2) | Some(3) => AssetEdge::Absent,
             Some(1) => {
-                if loaded_name.is_some_and(|n| {
-                    n.rsplit(['/', '\\'])
-                        .next()
-                        .unwrap_or(n)
-                        .eq_ignore_ascii_case("null.wav")
-                }) {
+                if crate::sound_catalog::is_null_sound_name(loaded_name) {
                     return AssetEdge::Absent;
                 }
                 match file_u {

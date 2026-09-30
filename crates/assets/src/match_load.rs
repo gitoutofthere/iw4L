@@ -24,7 +24,6 @@ pub struct MatchLoadAbort(pub u64);
 pub struct MatchLoadRequest {
     pub request_id: u64,
     pub load_key: frame::LocalLoadKey,
-
     pub zone: String,
     pub zone_ff: Result<PathBuf, String>,
     pub common_mp: Result<PathBuf, String>,

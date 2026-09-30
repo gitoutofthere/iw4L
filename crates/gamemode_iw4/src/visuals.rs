@@ -31,33 +31,24 @@ pub fn team_color_suffix(team: Team) -> &'static str {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum DomFlagVisualChannel {
     WorldModel,
-
     ScriptPlayFx,
-
     ObjectiveIcon,
-
     TeamColorDvar,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum BombExplodeVisualChannel {
     ScriptSpawnFx,
-
     WeaponDefExplosionEffect,
-
     ScriptPlayFx,
-
     EntityEventPlayFx,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum BombSiteDestroyChannel {
     WorldModel,
-
     UnlinkBrushSolid,
-
     ExplodeFx,
-
     RadiusDamage,
 }
 

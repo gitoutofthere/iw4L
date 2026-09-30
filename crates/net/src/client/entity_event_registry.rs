@@ -13,7 +13,6 @@ macro_rules! land_ev {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum EntityEventDispatch {
     Observer(EntityEventAction),
-
     Unsupported(&'static str),
 }
 

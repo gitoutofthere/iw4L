@@ -137,7 +137,6 @@ struct DiagnosticGeometry {
     xmodel_vertex_count: usize,
     xmodel_index_count: usize,
     xmodel_revision: u64,
-
     g0_world_surfs: Vec<u16>,
 }
 

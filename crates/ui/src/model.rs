@@ -26,7 +26,6 @@ impl From<MenuRect> for Rect640 {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-#[allow(dead_code)]
 pub enum Modality {
     Opaque,
     Overlay,
@@ -60,12 +59,9 @@ pub struct Style {
     pub text_align_mode: i32,
     pub text_align_x: f32,
     pub text_align_y: f32,
-
     pub image_contain: bool,
     pub text_wrap: bool,
-
     pub background: String,
-
     pub text_key: String,
     pub animation: WidgetAnimation,
 }
@@ -134,7 +130,6 @@ pub enum ScreenCmd {
     Back,
     CloseAll,
     PlaySound(String),
-
     Emit(UiIntent),
 }
 
@@ -158,7 +153,6 @@ pub enum SettingValue {
 }
 
 #[derive(Message, Clone, Debug, PartialEq)]
-#[allow(dead_code)]
 pub enum UiIntent {
     LoadMap(String),
     RefreshServers,
@@ -169,7 +163,6 @@ pub enum UiIntent {
         mode: String,
     },
     SelectGamePrivacy(bool),
-
     SelectGameMap(String),
     SelectGameMapPage(u32),
     SelectGameMode(String),
@@ -201,14 +194,10 @@ pub enum UiIntent {
     CancelPlayerNameEdit,
     Quit,
     Disconnect,
-
     CacSelectSlot(u32),
-
     CacEditRow(u8),
     CacPick(String),
-
     CacPickCategory(u8),
-
     CacResetClass,
     CacEditAttachments(u8),
     CacPickAttachment(Option<String>),
@@ -229,11 +218,8 @@ pub struct Widget {
     pub enabled: Enabled,
     pub on_focus: Vec<ScreenCmd>,
     pub on_activate: Vec<ScreenCmd>,
-
     pub icon: String,
-
     pub help: Option<String>,
-
     pub focus_order: Option<u32>,
 }
 

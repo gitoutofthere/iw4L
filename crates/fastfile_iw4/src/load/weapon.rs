@@ -554,19 +554,15 @@ struct WeapDefScalars {
     raise_time_ms: i32,
     drop_time_ms: i32,
     fire_delay_ms: i32,
-
     hold_fire_time_ms: i32,
     weap_type: i32,
     weap_class: i32,
-
     player_anim_type: i32,
     offhand_class: i32,
     shots_per_fire: i32,
     ammo_index: i32,
     clip_index: i32,
-
     ammo_counter_clip: i32,
-
     low_ammo_warning_threshold: f32,
     hip_spread_stand_min: f32,
     hip_spread_ducked_min: f32,
@@ -633,37 +629,27 @@ struct WeapDefScalars {
     rechamber_bolt_time_ms: i32,
     rechamber_bolt_delay_ms: i32,
     reload_time_ms: i32,
-
     reload_show_rocket_time_ms: i32,
     reload_empty_time_ms: i32,
     reload_add_time_ms: i32,
     reload_start_time_ms: i32,
     reload_start_add_time_ms: i32,
     reload_end_time_ms: i32,
-
     kill_icon_ratio: i32,
-
     flip_kill_icon: bool,
     reload_ammo_add: i32,
     reload_start_add: i32,
     no_partial_reload: bool,
-
     bolt_action: bool,
-
     segmented_reload: bool,
     sprint_raise_time_ms: i32,
     sprint_loop_time_ms: i32,
     sprint_drop_time_ms: i32,
     fuse_time_ms: i32,
-
     cook_off_hold: bool,
-
     clip_only: bool,
-
     timed_detonation: bool,
-
     proj_impact_explode: bool,
-
     stick_to_players: bool,
     explosion_radius: i32,
     explosion_radius_min: i32,

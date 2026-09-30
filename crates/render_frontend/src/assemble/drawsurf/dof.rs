@@ -59,9 +59,7 @@ pub struct GlowDvars {
     pub tweak_intensity: f32,
     pub tweak_cutoff: f32,
     pub tweak_desaturation: f32,
-
     pub allowed: bool,
-
     pub allowed_script_forced: bool,
 }
 impl Default for GlowDvars {

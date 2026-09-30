@@ -5,7 +5,6 @@ use crate::transport::wire::{WireError, WireReader, WireWriter};
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Replication {
     Replicated,
-
     Excluded(&'static str),
 }
 
@@ -21,12 +20,9 @@ pub enum Validation {
 #[derive(Clone, Copy, Debug)]
 pub struct PsNetField {
     pub retail_name: &'static str,
-
     pub rust_name: &'static str,
-
     pub offset: usize,
     pub replication: Replication,
-
     pub validation: Validation,
 }
 
@@ -407,9 +403,7 @@ pub fn ps_deviation(predicted: &PlayerState, authoritative: &PlayerState) -> Opt
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Deviation {
     pub field: &'static str,
-
     pub index: usize,
-
     pub distance: f32,
 }
 

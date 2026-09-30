@@ -14,9 +14,7 @@ use crate::{
 #[derive(Clone, Default)]
 pub struct MatchMaterials {
     pub population: std::sync::Arc<crate::MaterialDefinitions>,
-
     pub common_profile_id: u64,
-
     pub products_id: u64,
 
     /// map-zone-local material index -> row in `population`
@@ -33,25 +31,18 @@ pub struct PreparedGaps {
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct MapFacts {
     pub minimap_corners: Option<crate::MinimapCorners>,
-
     pub north_yaw: Option<f32>,
-
     pub compass: crate::MapCompassDeclaration,
-
     pub script_sound: crate::MapScriptSoundFacts,
-
     pub team_settings: crate::MapTeamSettings,
-
     pub t5_teamset: Option<String>,
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct PreparedMap {
     pub zone: String,
-
     pub namespace: Option<crate::AssetNamespace>,
     pub spawns: Vec<crate::SpawnPoint>,
-
     pub facts: MapFacts,
     pub gaps: PreparedGaps,
 }
@@ -77,9 +68,7 @@ pub struct PreparedProjectileMeshes(pub crate::ProjectileMeshCatalog);
 #[derive(Clone, Debug, Default, Resource)]
 pub struct PreparedXModelWalkCensus {
     pub walked_n: usize,
-
     pub unclassified_n: usize,
-
     pub projectile_names: Vec<String>,
 }
 
@@ -119,9 +108,7 @@ pub struct PreparedLocalizedStrings(pub crate::LocalizeCatalog);
 #[derive(Clone, Debug, Default, Resource)]
 pub struct SessionCompass {
     pub corners: Option<crate::MinimapCorners>,
-
     pub north_yaw: Option<f32>,
-
     pub declaration: crate::MapCompassDeclaration,
 }
 

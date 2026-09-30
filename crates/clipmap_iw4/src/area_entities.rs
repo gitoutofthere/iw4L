@@ -84,14 +84,10 @@ impl AreaBounds {
 pub struct AreaSector {
     pub contents_entities: u32,
     pub linkcontents_entities: u32,
-
     pub entities: u16,
-
     pub dist: f32,
     pub axis: u16,
-
     pub parent_or_next_free: u16,
-
     pub child: [u16; 2],
 }
 
@@ -99,9 +95,7 @@ pub struct AreaSector {
 pub struct AreaEntityLink {
     pub world_sector: u16,
     pub next_entity_in_world_sector: u16,
-
     pub linkcontents: u32,
-
     pub linkmin: [f32; 2],
     pub linkmax: [f32; 2],
 }

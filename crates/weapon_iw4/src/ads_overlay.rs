@@ -1,9 +1,7 @@
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct AdsOverlayScrub {
     pub ads_up_time_norm: f32,
-
     pub ads_down_time_norm: f32,
-
     pub ads_up_weight: f32,
 }
 

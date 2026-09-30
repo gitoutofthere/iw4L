@@ -43,9 +43,7 @@ pub struct WeaponAimSpreadDecayFacts {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SpreadOverrideState {
     None = 0,
-
     ForceMax = 1,
-
     ForceBoth = 2,
 }
 
@@ -81,7 +79,6 @@ pub struct AimSpreadMotion {
     pub rightmove: i8,
     pub velocity_xy: [f32; 2],
     pub speed: i32,
-
     pub move_speed_threshold: f32,
 }
 

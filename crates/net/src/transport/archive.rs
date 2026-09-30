@@ -54,7 +54,6 @@ fn archived_snapshot_bytes(snapshot: &Snapshot) -> usize {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct ArchiveLookup {
     pub attained_ms: i32,
-
     pub tick: Option<Tick>,
 }
 
@@ -67,13 +66,9 @@ impl ArchiveLookup {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct ArchiveMetrics {
     pub archived: u64,
-
     pub evicted: u64,
-
     pub peak_ticks: usize,
-
     pub peak_records: usize,
-
     pub peak_bytes: usize,
 }
 

@@ -28,7 +28,6 @@ pub const BLOCK_STACK_CAP: usize = 32;
 pub enum BlockType {
     Temp,
     Normal,
-
     Runtime,
 }
 
@@ -256,7 +255,6 @@ fn align_up(v: usize, align: usize) -> usize {
 
 pub struct ZoneStream<'a> {
     data: &'a [u8],
-
     format: Iw5WireFormat,
     cursor: usize,
     blocks: [&'a mut [u8]; MAX_XFILE_COUNT],
@@ -271,9 +269,7 @@ pub struct ZoneStream<'a> {
     first_unsettled: Option<(Ptr, usize, usize)>,
     header: ZoneHeader,
     xmodel: Option<XModelGeometry>,
-
     latest_xmodel_surfs: Option<Ptr>,
-
     last_insert_binding: Option<(Ptr, Ptr)>,
     gfx_world: Option<GfxWorldGeometry>,
     com_world: Option<ComWorldGeometry>,
@@ -284,7 +280,6 @@ pub struct ZoneStream<'a> {
     latest_image: Option<GfxImageGeometry>,
     latest_material: Option<MaterialGeometry>,
     latest_technique_set: Option<TechniqueSetGeometry>,
-
     technique_graph: TechniqueGraphGeometry,
     technique_graph_seen: bool,
     latest_shader: Option<ShaderGeometry>,
@@ -294,7 +289,6 @@ pub struct ZoneStream<'a> {
     attachment_names: [AttachmentNameRec; ATTACHMENT_NAME_CAP],
     attachment_name_n: usize,
     latest_attachment_name: Option<Ptr>,
-
     pub walk_stage: &'static str,
 }
 
@@ -336,86 +330,48 @@ pub struct AttachmentGeometry {
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct WeaponGeometry {
     pub name: Option<Ptr>,
-
     pub kill_icon_slot: Option<Ptr>,
-
     pub kill_icon: Option<Ptr>,
-
     pub display_name: Option<Ptr>,
-
     pub weap_def: Option<Ptr>,
-
     pub gun_xmodel_name: Option<Ptr>,
-
     pub hand_xmodel_name: Option<Ptr>,
-
     pub world_model_name: Option<Ptr>,
-
     pub hide_tags: Option<Ptr>,
-
     pub sz_xanims: Option<Ptr>,
-
     pub ads_view_kick_center_speed: f32,
     pub hip_view_kick_center_speed: f32,
-
     pub ads_zoom_fov: f32,
-
     pub ads_zoom_in_frac: f32,
-
     pub ads_zoom_out_frac: f32,
-
     pub ads_in_rate: f32,
-
     pub ads_out_rate: f32,
-
     pub ads_trans_in_time_ms: i32,
     pub ads_trans_out_time_ms: i32,
-
     pub penetrate_multiplier: f32,
-
     pub motion_tracker: bool,
-
     pub fire_time_ms: i32,
-
     pub clip_size: i32,
-
     pub impact_type: i32,
-
     pub weap_type: i32,
-
     pub weap_class: i32,
-
     pub fire_type: i32,
-
     pub move_speed_scale: f32,
-
     pub ads_move_speed_scale: f32,
-
     pub ads_overlay_width: f32,
     pub ads_overlay_height: f32,
     pub overlay_reticle: i32,
     pub overlay_interface: i32,
-
     pub attachments: [Option<Ptr>; crate::size::WEAPON_ATTACHMENT_SLOT_COUNT],
-
     pub anim_override_count: i32,
-
     pub anim_overrides: Option<Ptr>,
-
     pub sound_override_count: i32,
-
     pub sound_overrides: Option<Ptr>,
-
     pub fx_override_count: i32,
-
     pub fx_overrides: Option<Ptr>,
-
     pub reload_override_count: i32,
-
     pub reload_overrides: Option<Ptr>,
-
     pub note_track_override_count: i32,
-
     pub note_track_overrides: Option<Ptr>,
 }
 
@@ -425,33 +381,19 @@ pub struct XModelGeometry {
     pub material_handles: Option<Ptr>,
     pub surfaces: Option<Ptr>,
     pub surface_count: usize,
-
     pub num_bones: usize,
-
     pub num_root_bones: usize,
-
     pub scale: f32,
-
     pub no_scale_part_bits: [u32; 6],
-
     pub bone_names: Option<Ptr>,
-
     pub parent_list: Option<Ptr>,
-
     pub quats: Option<Ptr>,
-
     pub trans: Option<Ptr>,
-
     pub base_mat: Option<Ptr>,
-
     pub coll_surfs: Option<Ptr>,
-
     pub num_coll_surfs: i32,
-
     pub coll_lod: i16,
-
     pub contents: u32,
-
     pub radius: Option<f32>,
 }
 
@@ -494,7 +436,6 @@ pub const MAX_LIGHTMAP_PAGES: usize = 32;
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct GfxLightGridGeometry {
     pub has_light_regions: bool,
-
     pub sun_primary_light_index: u32,
     pub mins: [u16; 3],
     pub maxs: [u16; 3],
@@ -514,9 +455,7 @@ pub struct GfxLightGridGeometry {
 pub struct GfxWorldGeometry {
     pub vertices: Option<Ptr>,
     pub vertex_count: usize,
-
     pub vertex_layer: Option<Ptr>,
-
     pub vertex_layer_size: usize,
     pub indices: Option<Ptr>,
     pub index_count: usize,
@@ -527,22 +466,16 @@ pub struct GfxWorldGeometry {
     pub first_lightmap_primary: Option<GfxImageGeometry>,
     pub first_lightmap_secondary: Option<GfxImageGeometry>,
     pub first_sky_image: Option<Ptr>,
-
     pub skies: Option<Ptr>,
-
     pub sky_count: usize,
-
     pub outdoor_image: Option<Ptr>,
-
     pub outdoor_lookup: [u32; 16],
     pub reflection_probes: Option<Ptr>,
     pub reflection_probe_origins: Option<Ptr>,
     pub reflection_probe_count: usize,
     pub light_grid: GfxLightGridGeometry,
     pub sun_primary_light_count: usize,
-
     pub primary_light_count: usize,
-
     pub light_regions: Option<Ptr>,
     pub cell_count: usize,
     pub plane_count: usize,
@@ -557,15 +490,12 @@ pub struct GfxWorldGeometry {
     pub static_surface_count_no_decal: usize,
     pub lit_surfs_begin: u32,
     pub lit_surfs_end: u32,
-
     pub lit_trans_surfs_begin: u32,
     pub lit_trans_surfs_end: u32,
-
     pub emissive_surfs_begin: u32,
     pub emissive_surfs_end: u32,
     pub sorted_surf_index: Option<Ptr>,
     pub smodel_insts: Option<Ptr>,
-
     pub surfaces_bounds: Option<Ptr>,
     pub smodel_draw_insts: Option<Ptr>,
     pub dpvs_static: Option<Ptr>,
@@ -651,25 +581,15 @@ pub struct ClipMapGeometry {
     pub brushes: Option<Ptr>,
     pub brush_bounds: Option<Ptr>,
     pub brush_contents: Option<Ptr>,
-
     pub nodes: Option<Ptr>,
-
     pub leaves: Option<Ptr>,
-
     pub leafbrushes: Option<Ptr>,
-
     pub leafbrush_nodes: Option<Ptr>,
-
     pub verts: Option<Ptr>,
-
     pub tri_indices: Option<Ptr>,
-
     pub collision_partitions: Option<Ptr>,
-
     pub collision_aabb_trees: Option<Ptr>,
-
     pub cmodels: Option<Ptr>,
-
     pub static_models: Option<Ptr>,
 }
 
@@ -691,11 +611,8 @@ pub struct MaterialGeometry {
     pub name: Option<Ptr>,
     pub draw_surf: u64,
     pub sort_key: u8,
-
     pub state_bits: Option<Ptr>,
-
     pub state_bits_count: usize,
-
     pub state_bits_entry: Option<[u8; crate::size::TECHNIQUE_SLOT_COUNT]>,
     pub textures: Option<Ptr>,
     pub texture_count: usize,
@@ -725,7 +642,6 @@ impl Default for VertexDeclGeometry {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct ShaderGeometry {
     pub name: Option<Ptr>,
-
     pub program: Option<Ptr>,
     pub program_words: usize,
 }
@@ -826,21 +742,13 @@ impl TechniqueGraphGeometry {
 pub struct TechniqueSetGeometry {
     pub header: Option<Ptr>,
     pub name: Option<Ptr>,
-
     pub occupancy: u64,
-
     pub occupancy_scanned: u64,
-
     pub technique_body_by_slot: [Option<Ptr>; crate::size::TECHNIQUE_SLOT_COUNT],
-
     pub technique0_flags: u8,
-
     pub world_vert_format: u8,
-
     pub max_pass_count: u16,
-
     pub pass_count_by_slot: [u8; crate::size::TECHNIQUE_SLOT_COUNT],
-
     pub technique_flags_by_slot: [u16; crate::size::TECHNIQUE_SLOT_COUNT],
 }
 
@@ -876,13 +784,9 @@ pub struct FxEffectDefGeometry {
 pub struct GfxLightDefGeometry {
     pub name: Option<Ptr>,
     pub lmap_lookup_start: i32,
-
     pub attenuation_width: Option<u16>,
-
     pub attenuation_image: Option<Ptr>,
-
     pub attenuation_image_name: Option<Ptr>,
-
     pub attenuation_sampler: u8,
 }
 

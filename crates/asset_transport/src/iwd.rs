@@ -437,7 +437,6 @@ pub fn inflate_zlib(data: &[u8]) -> Result<Vec<u8>, String> {
 #[derive(Debug, Default, Clone)]
 pub struct IwdSoundIndex {
     dir: PathBuf,
-
     sounds: HashMap<String, (PathBuf, String)>,
 }
 

@@ -5,13 +5,9 @@ use crate::PMF_ADS_INTENT;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct AdsFracContext {
     pub aim_down_sight: bool,
-
     pub ads_in_rate: f32,
-
     pub ads_out_rate: f32,
-
     pub rechamber_while_ads: bool,
-
     pub ads_fire_only: bool,
 }
 

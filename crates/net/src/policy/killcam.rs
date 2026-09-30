@@ -24,27 +24,16 @@ pub struct ScriptKillcamEmitStats {
     pub seats_armed: u32,
     pub timelines_started: u32,
     pub timelines_finished_no_cam: u32,
-
     pub phase_a_cancelled: u32,
-
     pub phase_b_aborted: u32,
-
     pub final_killcam_started: u32,
-
     pub final_seats_armed: u32,
-
     pub round_end_wait_started: u32,
-
     pub round_end_finished: u32,
-
     pub spawned_player: u32,
-
     pub spawn_client: u32,
-
     pub seats_refused_already_alive: u32,
-
     pub final_seats_refused: u32,
-
     pub final_killcam_done: u32,
 }
 
@@ -71,9 +60,7 @@ impl ActiveKillcamSkips {
 pub struct PendingDeath {
     pub seq: DeathSequence,
     pub focus: ClientId,
-
     pub weapon: String,
-
     pub killcam_entity_start_time: i32,
 }
 
@@ -90,9 +77,7 @@ pub struct PendingDeathTimelines {
     by_victim: HashMap<ClientId, PendingDeath>,
     final_kc: Option<PendingFinal>,
     round_end: Option<RoundEndWaitSequence>,
-
     spawn_when_seat_ends: HashSet<ClientId>,
-
     spawn_after: HashSet<ClientId>,
 }
 

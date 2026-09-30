@@ -38,12 +38,10 @@ pub struct LodRampDvar {
     pub scale_mid: Option<f32>,
     pub bias_mid: Option<f32>,
     pub scale_last: Option<f32>,
-
     pub world_unit: Option<f32>,
     pub t5_scale: f32,
     pub t5_bias: f32,
     pub t5_fov_threshold: f32,
-
     pub t5: assets::t5_lod::LodParmsAxis,
 }
 
@@ -101,7 +99,6 @@ pub struct WorldStaticModelCache {
     leaf_word0: Vec<u32>,
     leaf_base: Vec<u32>,
     leaf_frame: Vec<i32>,
-
     leaf_verts: Vec<u32>,
     link_next: Vec<u16>,
     link_prev: Vec<u16>,
@@ -113,17 +110,12 @@ pub struct WorldStaticModelCache {
     frame: i32,
     patch_surfs: u32,
     patch_verts: u32,
-
     pub indices: Vec<u16>,
     pending_vb: Vec<(SmcPatchLock, Vec<u8>)>,
     pending_ib: Vec<(u32, Vec<u8>)>,
-
     index_baked: HashSet<u16>,
-
     pub draw_ranges: HashMap<(u32, u32), (u32, u32)>,
-
     pub index_runs: HashMap<(u32, u32), Vec<u16>>,
-
     pending_skin: HashMap<u16, PendingSmcSkin>,
 }
 

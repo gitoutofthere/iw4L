@@ -3,24 +3,17 @@ pub const COMPASS_MAX_RANGE_DEFAULT_MP: f32 = 2500.0;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct CompassMapBounds {
     pub upper_left: [f32; 2],
-
     pub world_size: [f32; 2],
-
     pub north: [f32; 2],
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct CompassMapUvWindow {
     pub center: [f32; 2],
-
     pub half_s: f32,
-
     pub half_t: f32,
-
     pub radius_st: f32,
-
     pub scale_final_s: f32,
-
     pub scale_final_t: f32,
 }
 

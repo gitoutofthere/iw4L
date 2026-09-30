@@ -7,13 +7,9 @@ pub const OBJECTIVE_SCALER_IDENTITY: f32 = 1.0;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct UseHoldLoopState {
     pub cur_progress: i32,
-
     pub use_rate: f32,
-
     pub wait_for_weapon: bool,
-
     pub timed_out_ms: i32,
-
     pub in_use: bool,
 }
 
@@ -32,19 +28,12 @@ impl UseHoldLoopState {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct UseHoldLoopInput {
     pub alive: bool,
-
     pub touching: bool,
-
     pub use_pressed: bool,
-
     pub throwing_grenade: bool,
-
     pub melee_pressed: bool,
-
     pub weapon_ready: bool,
-
     pub use_time: i32,
-
     pub objective_scaler: f32,
 }
 

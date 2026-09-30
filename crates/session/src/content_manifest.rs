@@ -42,7 +42,6 @@ pub struct SessionWeaponManifestRow {
     pub key: AssetKey,
     pub attachments: Vec<String>,
     pub authority: ManifestFact<AuthorityWeaponProfile>,
-
     pub presentation: ManifestFact<u64>,
 }
 

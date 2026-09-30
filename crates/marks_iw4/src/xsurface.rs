@@ -8,11 +8,8 @@ const QUANTIZED_AABB_LIMIT: f64 = 1_000_000.0;
 #[derive(Clone, Copy, Debug)]
 pub struct XSurfaceCollisionTree<'a> {
     pub trans: [f32; 3],
-
     pub scale: [f32; 3],
-
     pub nodes: &'a [XSurfaceCollisionNode],
-
     pub leafs: &'a [XSurfaceCollisionLeaf],
 }
 

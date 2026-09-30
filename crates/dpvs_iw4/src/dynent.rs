@@ -6,9 +6,7 @@ use crate::vis::msb_get;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum DynBrushVisWrite {
     AlreadyVisible,
-
     Admitted,
-
     Culled,
 }
 

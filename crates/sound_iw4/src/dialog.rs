@@ -15,9 +15,7 @@ const PC_WAIT: u16 = 0;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct DialogRequest {
     pub dialog: &'static str,
-
     pub group: Option<&'static str>,
-
     pub group_override: bool,
 }
 
@@ -56,17 +54,12 @@ pub mod group {
 #[derive(Clone, Copy, Debug)]
 pub struct LeaderDialogQueue<const Q: usize, const G: usize> {
     client: ClientId,
-
     active: Option<Alias>,
-
     group: Option<&'static str>,
-
     groups: [Option<(&'static str, &'static str)>; G],
-
     queue: [Option<&'static str>; Q],
     queue_len: usize,
     dropped: usize,
-
     chain_team: Option<Team>,
     sched: Scheduler<NotifyKind, 2>,
     task: Option<TaskId>,
@@ -308,7 +301,6 @@ fn ask<const N: usize>(
 #[derive(Clone, Copy, Debug)]
 pub struct Broadcast<'a> {
     pub dialog: &'static str,
-
     pub team: Option<Team>,
     pub group: Option<&'static str>,
     pub exclude: &'a [ClientId],

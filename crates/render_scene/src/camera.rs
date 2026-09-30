@@ -19,7 +19,6 @@ pub struct FlyCamera {
 #[derive(Resource, Clone, Copy, Debug, Default)]
 pub struct SimCamera {
     pub enabled: bool,
-
     pub freeze_fly: bool,
 }
 

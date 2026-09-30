@@ -9,61 +9,38 @@ const LOWER_CHROME_BOOST: f32 = 1.4;
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum HorizontalAlign {
     SubLeft = 0,
-
     Left = 1,
-
     Center = 2,
-
     Right = 3,
-
     Fullscreen = 4,
-
     NoScale = 5,
-
     To640 = 6,
-
     CenterSafeArea = 7,
-
     UserLeft = 8,
-
     UserCenter = 9,
-
     UserRight = 10,
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum VerticalAlign {
     SubTop = 0,
-
     Top = 1,
-
     Center = 2,
-
     Bottom = 3,
-
     Fullscreen = 4,
-
     NoScale = 5,
-
     To480 = 6,
-
     CenterSafeArea = 7,
-
     UserTop = 8,
-
     UserCenter = 9,
-
     UserBottom = 10,
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum ScaleClass {
     Chrome,
-
     LowerChrome,
-
     ProjectionBound,
-
     ViewportFill,
 }
 

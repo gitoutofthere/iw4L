@@ -27,7 +27,6 @@ pub struct ReplayPlayback {
     playback: Playback,
     acc_ms: f32,
     pub ended: bool,
-
     pub quit_on_end: bool,
     pub exit_queued: bool,
 }

@@ -5,7 +5,6 @@ use bevy::prelude::*;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum PosedPlayerHead {
     Exact(Vec3),
-
     NoDObjOrHead,
 }
 

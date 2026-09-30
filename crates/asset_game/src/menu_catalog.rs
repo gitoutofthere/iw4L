@@ -47,21 +47,16 @@ impl From<MenuRectCapture> for MenuRect {
 #[derive(Clone, Debug, Default)]
 pub struct MenuItem {
     pub name: String,
-
     pub text_key: String,
     pub item_type: i32,
-
     pub style: i32,
     pub owner_draw: i32,
-
     pub rect: MenuRect,
     pub fore_color: [f32; 4],
     pub back_color: [f32; 4],
     pub glow_color: [f32; 4],
     pub text_scale: f32,
-
     pub font_enum: i32,
-
     pub text_align_mode: i32,
     pub text_align_x: f32,
     pub text_align_y: f32,
@@ -79,7 +74,6 @@ pub struct MenuItem {
     pub text_exp: String,
     pub material_exp: String,
     pub disabled_exp: String,
-
     pub float_exp: Vec<(u32, String)>,
     pub sound_ptr: u8,
     pub mouse_enter_ptr: u8,
@@ -97,20 +91,14 @@ pub struct MenuDef {
     pub window_background: String,
     pub expr_dvars: String,
     pub fullscreen: i32,
-
     pub rect: MenuRect,
     pub items: Vec<MenuItem>,
     pub on_open: Vec<String>,
-
     pub on_close: Vec<String>,
-
     pub on_close_request: Vec<String>,
     pub on_esc: Vec<String>,
-
     pub vis_exp: String,
-
     pub float_exp: Vec<(u32, String)>,
-
     pub on_open_local_vars: Vec<MenuSetLocalVar>,
 }
 
@@ -131,7 +119,6 @@ impl MenuDef {
 pub struct MenuSetLocalVar {
     pub kind: i32,
     pub name: String,
-
     pub expr: String,
 }
 
@@ -183,7 +170,6 @@ pub struct ZoneUiImage {
     pub width: u32,
     pub height: u32,
     pub rgba: Arc<Vec<u8>>,
-
     pub source: &'static str,
 }
 
@@ -240,21 +226,14 @@ impl CapturedStringTable {
 pub struct MenuCatalog {
     pub menus: BTreeMap<String, MenuDef>,
     pub fonts: BTreeMap<String, FontDef>,
-
     pub string_tables: BTreeMap<String, CapturedStringTable>,
-
     pub rawfiles: BTreeMap<String, String>,
-
     pub zone_images: BTreeMap<String, ZoneUiImage>,
-
     pub material_state_bits: BTreeMap<String, asset_iw4::ColorPassAgreement<[u32; 2]>>,
-
     pub material_2d_plans: BTreeMap<String, HudMaterialPlan>,
-
     pub material_images: BTreeMap<String, String>,
     pub lists: Vec<(String, i32)>,
     pub walked: usize,
-
     pub font_headers: usize,
 }
 
@@ -528,11 +507,8 @@ struct MenuSink {
     script_set_stack: Vec<Ptr>,
     image_links: HashMap<Ptr, ImageLink>,
     images: Vec<CapturedZoneImage>,
-
     technique_links: HashMap<Ptr, TechniqueLink>,
-
     material_ts2d: HashMap<String, usize>,
-
     loading_asset: Option<(usize, AssetType, Ptr)>,
 }
 

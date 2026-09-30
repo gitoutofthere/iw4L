@@ -19,9 +19,7 @@ const LADDER_PUSHOFF_REFLECT: f32 = -2.0;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct JumpCheckContext {
     pub time_since_jump: i32,
-
     pub old_buttons: u32,
-
     pub stance_surface_type: u8,
 }
 
@@ -49,9 +47,7 @@ pub fn jump_get_step_height(ps: &PlayerState, origin: [f32; 3]) -> Option<f32> {
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum JumpCheckResult {
     NotEligible,
-
     HeldJumpCleared,
-
     Ready,
 
     Launched { animation: JumpAnimation },
@@ -60,11 +56,8 @@ pub enum JumpCheckResult {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct JumpLaunchContext {
     pub jump_height: f32,
-
     pub dive: bool,
-
     pub crouch_jump_scale: f32,
-
     pub jump_ladder_push_vel: f32,
 }
 
@@ -190,7 +183,6 @@ pub fn jump_check(
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum JumpAnimation {
     Forward,
-
     Backward,
 }
 

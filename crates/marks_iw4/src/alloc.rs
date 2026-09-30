@@ -40,7 +40,6 @@ pub const fn fx_mark_point_groups_for_count(point_count: u32) -> u32 {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum FxAllocMarkRefuse {
     CallbackNotInvoked,
-
     TriCountZero,
 }
 
@@ -71,7 +70,6 @@ pub struct FxAllocMarkRequest {
     pub native_color: u32,
     pub material: u32,
     pub frame_count: i32,
-
     pub first_tri_context: u32,
 }
 

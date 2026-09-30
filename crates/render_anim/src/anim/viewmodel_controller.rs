@@ -61,11 +61,8 @@ pub struct ViewmodelController {
     tree: ClipScheduler,
     state: WeaponState,
     action: Option<WeaponAnimSlot>,
-
     action_remaining: Option<f32>,
-
     last_ads_frac: f32,
-
     predicted_perks0: u32,
 }
 

@@ -120,7 +120,6 @@ pub const fn loc_key_from_label(label: i32) -> Option<&'static str> {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MatchStartKind {
     WaitingForTeams,
-
     MatchStartingIn,
 }
 
@@ -145,7 +144,6 @@ impl MatchStartKind {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct MatchStartDisplay {
     pub kind: MatchStartKind,
-
     pub count: i32,
 }
 

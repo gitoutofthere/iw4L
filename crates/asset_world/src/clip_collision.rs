@@ -8,9 +8,7 @@ use fastfile_iw4::{ClipMapGeometry, Ptr, ZonePtr, ZoneStream};
 pub struct ClipBrush {
     pub planes: Vec<[f32; 4]>,
     pub contents: u32,
-
     pub plane_surface_flags: Vec<u32>,
-
     pub glass_encoded: u16,
 }
 
@@ -35,7 +33,6 @@ pub struct ClipMapMaterial {
 #[derive(Clone, Debug, Default)]
 pub struct ClipCollision {
     pub brushes: Vec<ClipBrush>,
-
     pub nodes: Vec<ClipBspNode>,
     pub leaves: Vec<ClipBspLeaf>,
     pub leafbrushes: Vec<u16>,
@@ -43,13 +40,9 @@ pub struct ClipCollision {
     /// The mesh tables, shared with every other owner of this collision
     /// instead of copied into each of them.
     pub mesh: std::sync::Arc<clipmap_iw4::ClipMeshTables>,
-
     pub tri_material_index: Vec<u16>,
-
     pub materials: Vec<ClipMapMaterial>,
-
     pub cmodels: Vec<ClipCmodel>,
-
     pub static_models: Vec<ClipPlacedStaticModel>,
 }
 
@@ -223,7 +216,6 @@ pub struct ClipSweepHit {
     pub endpos: [f32; 3],
     pub startsolid: bool,
     pub allsolid: bool,
-
     pub surface_flags: u32,
 }
 
@@ -231,7 +223,6 @@ pub struct ClipSweepHit {
 pub enum ClipCollisionError {
     MissingTables,
     Truncated,
-
     LeafbrushIndexOverflow,
 }
 

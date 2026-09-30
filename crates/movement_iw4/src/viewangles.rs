@@ -8,9 +8,7 @@ pub const ANGLE2SHORT: f32 = 65536.0 / 360.0;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct ViewAngleClamp {
     pub pitch_up: f32,
-
     pub pitch_down: f32,
-
     pub unclamped_pitch_bit: bool,
 }
 

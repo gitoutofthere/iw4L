@@ -233,13 +233,9 @@ impl KbuttonSet {
 pub struct ClientInput {
     pub keys: [KeyState; KEY_COUNT],
     pub kb: KbuttonSet,
-
     pub using_ads: bool,
-
     pub stance_latch: i32,
-
     pub weapon_cycles: Vec<bool>,
-
     pub offhand_hold_cancel: bool,
 }
 

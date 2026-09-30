@@ -170,7 +170,6 @@ pub struct VisionSetVars {
     pub r_primary_light_use_tweaks: bool,
     pub r_primary_light_tweak_diffuse: f32,
     pub r_primary_light_tweak_specular: f32,
-
     pub blend: f32,
 }
 

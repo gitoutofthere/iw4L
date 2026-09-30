@@ -34,7 +34,6 @@ pub enum CEntityDobjHandle {
 #[derive(bevy::prelude::Component, Clone, Copy, Debug, Default, PartialEq)]
 pub struct CEntityRuntime {
     pub next_state: EntityState,
-
     pub presented_player: Option<(EntityState, i32)>,
     pub current: CurrentLerpState,
     pub current_valid: u8,
@@ -42,9 +41,7 @@ pub struct CEntityRuntime {
     pub pose_e_type: u8,
     pub origin: [f32; 3],
     pub angles: [f32; 3],
-
     pub pose_time_ms: i32,
-
     pub previous_pose: Option<(CurrentLerpState, i32)>,
     pub fx_handle: CEntityFxHandle,
     pub dobj_handle: CEntityDobjHandle,
@@ -288,14 +285,11 @@ pub fn player_state_to_entity_state(client: ClientId, ps: &PlayerState) -> Entit
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct RemotePoseSample {
     pub anim: AnimPair,
-
     pub rate_origin: [f32; 3],
     pub rate_time_ms: i32,
     pub weapon: u32,
     pub view_pitch_deg: f32,
-
     pub prone: bool,
-
     pub crouch: bool,
 }
 

@@ -48,7 +48,6 @@ pub fn host_clip_from_view(fov: f32, aspect: f32, near: f32) -> Mat4 {
 pub struct PreparedSceneView {
     pub ready: bool,
     pub eye: Vec3,
-
     pub forward: Vec3,
     pub view_from_world: Mat4,
     pub clip_from_view: Mat4,
@@ -61,11 +60,8 @@ pub struct PreparedSceneView {
     pub rt_w: i32,
     pub rt_h: i32,
     pub parms: [u32; hud_iw4::GFX_VIEWPARMS_DWORDS],
-
     pub portal_bevels: Option<dpvs_iw4::PortalBevels>,
-
     pub depth_hack_near: f32,
-
     pub scene_viewport: hud_iw4::GfxViewport,
 }
 
@@ -135,7 +131,6 @@ pub struct LockPvsView {
 #[derive(Resource, Clone, Debug, Default)]
 pub struct RLockPvs {
     pub enabled: bool,
-
     pub recapture: bool,
     pub frozen: Option<LockPvsView>,
 }

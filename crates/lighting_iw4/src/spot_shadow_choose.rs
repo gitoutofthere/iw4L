@@ -35,9 +35,7 @@ pub const SPOT_SHADOW_SCORE_LUMA: [f32; 3] = [0.2989, 0.587, 0.114];
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SpotShadowUsedForce {
     None,
-
     IncludeBelowSun,
-
     ExcludeBelowSun,
 }
 
@@ -48,13 +46,9 @@ pub enum SpotShadowCandidateSkip {
     SpotDisabled,
     CannotUseShadowMap,
     BelowMinScore,
-
     DistCullFar,
-
     DistCullCone,
-
     DistCullRegion,
-
     DistCullRegionUnread,
 }
 
@@ -65,9 +59,7 @@ pub struct SpotShadowableLight {
     pub dir: [f32; 3],
     pub origin: [f32; 3],
     pub radius: f32,
-
     pub light_type: u8,
-
     pub cos_half_fov_expanded: f32,
 }
 
@@ -114,7 +106,6 @@ pub struct SpotShadowChooseDvars {
     pub spot_project_frac: f32,
     pub quality_spot_shadow: bool,
     pub spot_dist_cull: bool,
-
     pub sun_sample_size_near: f32,
 }
 

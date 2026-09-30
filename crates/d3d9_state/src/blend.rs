@@ -1,27 +1,16 @@
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum BlendFactor {
     Zero,
-
     One,
-
     SrcColor,
-
     InvSrcColor,
-
     SrcAlpha,
-
     InvSrcAlpha,
-
     DestAlpha,
-
     InvDestAlpha,
-
     DestColor,
-
     InvDestColor,
-
     SrcAlphaSat,
-
     Unknown(u32),
 }
 

@@ -40,18 +40,13 @@ pub struct ShadowDrawListWork {
     pub smodel_cached_flushes: Vec<SmodelRigidFlush>,
     pub smodel_pretess_flushes: Vec<SmodelRigidFlush>,
     pub smodel_skinned_flushes: Vec<SmodelRigidFlush>,
-
     pub smodel_skinned_unconsumed: u32,
     pub world_work_calls: u32,
     pub xmodel_work_calls: u32,
     pub smodel_work_calls: u32,
-
     pub ended: bool,
-
     pub end_restore_n: u32,
-
     pub end_depth_range_type: i32,
-
     pub emit_order: Vec<PackedEmit>,
 }
 

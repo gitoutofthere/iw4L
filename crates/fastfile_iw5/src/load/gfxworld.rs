@@ -1,9 +1,9 @@
-use super::{AssetLinkSink, asset_ptr_at, follow_name};
+use super::{AssetLinkSink, asset_ptr_at, follow_name, runtime_array};
 use crate::asset_type::AssetType;
 use crate::size as sz;
 use crate::zone::{
     GfxLightGridGeometry, GfxLightmapPair, GfxWorldGeometry, MAX_LIGHTMAP_PAGES, Ptr, Result,
-    XFILE_BLOCK_RUNTIME, XFILE_BLOCK_VIRTUAL, ZonePtr, ZoneStream,
+    XFILE_BLOCK_VIRTUAL, ZonePtr, ZoneStream,
 };
 
 pub(super) fn load_gfxworld(s: &mut ZoneStream<'_>, links: &mut dyn AssetLinkSink) -> Result<()> {
@@ -557,22 +557,6 @@ fn load_gfx_dpvs_dynamic(s: &mut ZoneStream<'_>, p: Ptr, cell_count: usize) -> R
         (5, words1),
     ] {
         runtime_array(s, p, vis + index * width, 16, 1, 32 * words)?;
-    }
-    Ok(())
-}
-
-fn runtime_array(
-    s: &mut ZoneStream<'_>,
-    p: Ptr,
-    field: usize,
-    align: usize,
-    elem: usize,
-    count: usize,
-) -> Result<()> {
-    if s.begin_body(p.at(field))? {
-        s.push(XFILE_BLOCK_RUNTIME)?;
-        s.alloc_load(align, elem.saturating_mul(count))?;
-        s.pop()?;
     }
     Ok(())
 }

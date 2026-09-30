@@ -100,7 +100,6 @@ pub struct StartDecision {
     pub variant: Option<usize>,
     pub outcome: StartOutcome,
     pub secondary: Option<(String, StartOutcome)>,
-
     pub detail: Option<String>,
 }
 

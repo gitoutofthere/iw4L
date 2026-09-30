@@ -472,9 +472,7 @@ pub const SPOT_SHADOW_ENTNUM_MASK: u32 = 0xfff;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SpotShadowEntAdmit {
     SkipNoBounds,
-
     SkipCulled,
-
     Admit,
 }
 
@@ -499,9 +497,7 @@ pub enum SpotShadowAddCaster {
     SkipFlag,
     SkipLocalClient,
     SkipUnlit,
-
     EnqueueWorker5,
-
     MarkSmodel,
 }
 

@@ -43,17 +43,11 @@ pub const PERK_MARATHON: u32 = 0x0200_0000;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct SprintContext {
     pub weapon_max_sprint_time: i32,
-
     pub sprint_forever: bool,
-
     pub min_sprint_time_seconds: f32,
-
     pub sprint_delay_seconds: f32,
-
     pub sprint_forward_minimum: i32,
-
     pub stand_up_clear: bool,
-
     pub sprint_recharge_pause_seconds: f32,
 }
 
@@ -177,9 +171,7 @@ fn sprint_has_room(ps: &PlayerState, stand_up_clear: bool) -> bool {
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum SprintResult {
     Unchanged,
-
     Started,
-
     Ended,
 }
 

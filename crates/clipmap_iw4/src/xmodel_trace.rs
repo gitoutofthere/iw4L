@@ -22,7 +22,6 @@ pub struct XModelCollSurf {
 #[derive(Clone, Debug, PartialEq)]
 pub struct XModelColl {
     pub coll_lod: i16,
-
     pub contents: u32,
     pub surfs: Vec<XModelCollSurf>,
 }
@@ -45,9 +44,7 @@ pub struct StaticModelHit {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct StaticModelWalkStats {
     pub considered: u32,
-
     pub aabb_miss: u32,
-
     pub traced: u32,
 }
 

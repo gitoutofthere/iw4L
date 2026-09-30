@@ -1,17 +1,11 @@
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum DeclType {
     Float2,
-
     Float3,
-
     Float4,
-
     D3dColor,
-
     UByte4,
-
     UByte4N,
-
     Unknown(u8),
 }
 

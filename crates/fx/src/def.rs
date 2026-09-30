@@ -1,7 +1,6 @@
 #[derive(Clone, Copy, Debug)]
 pub struct FxElemDefInfo {
     pub elem_type: u8,
-
     pub spawn_a: i32,
     pub spawn_b: i32,
     pub delay_base: i32,
@@ -11,22 +10,17 @@ pub struct FxElemDefInfo {
     pub flags: i32,
     pub visual_count: u8,
     pub vis_state_interval_count: u8,
-
     pub spawn_range_base: f32,
     pub spawn_range_amp: f32,
-
     pub spawn_origin: [[f32; 2]; 3],
     pub spawn_offset_radius_base: f32,
     pub spawn_offset_radius_amp: f32,
     pub spawn_offset_height_base: f32,
     pub spawn_offset_height_amp: f32,
-
     pub has_effect_on_impact: bool,
     pub has_effect_on_death: bool,
     pub has_effect_emitted: bool,
-
     pub sort_order: u8,
-
     pub spark_count: i32,
     pub spark_vel_min: f32,
     pub spark_vel_max: f32,
@@ -36,25 +30,18 @@ pub struct FxElemDefInfo {
     pub spark_loop_time: f32,
     pub spark_boost_time: f32,
     pub spark_boost_factor: f32,
-
     pub spark_bounce_frac: f32,
     pub spark_bounce_rand: f32,
-
     pub inv_split_dist: f32,
     pub inv_split_arc_dist: f32,
     pub inv_split_time: f32,
-
     pub gravity_base: f32,
     pub gravity_amp: f32,
-
     pub reflection_base: f32,
     pub reflection_amp: f32,
-
     pub coll_mins: [f32; 3],
     pub coll_maxs: [f32; 3],
-
     pub use_item_clip: u8,
-
     pub spawn_angles: [[f32; 2]; 3],
     pub angular_velocity: [[f32; 2]; 3],
 }

@@ -31,13 +31,9 @@ pub fn game_text_font(font: &Handle<Font>, size_px: f32) -> TextFont {
 #[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum UiLayer {
     Hud,
-
     Debug,
-
     Shell,
-
     Loading,
-
     Overlay,
 }
 

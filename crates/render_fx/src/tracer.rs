@@ -19,7 +19,6 @@ pub struct PreparedTracers(pub TracerDefinitions);
 #[derive(Resource, Default)]
 pub struct TracerDrawGate {
     counts: HashMap<u32, u8>,
-
     shots: HashMap<(u32, u32, u16), ()>,
 }
 

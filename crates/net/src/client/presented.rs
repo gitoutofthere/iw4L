@@ -49,11 +49,9 @@ pub struct PresentedSnapshot {
     inner: Option<Arc<Snapshot>>,
     previous_inner: Option<Arc<Snapshot>>,
     frame_interpolation: f32,
-
     pose: HashMap<ClientId, PlayerState>,
     view_offset: [f32; 3],
     remote_provenance: HashMap<ClientId, PresentationSampleProvenance>,
-
     presented_projectiles: Vec<PresentedProjectile>,
 }
 
@@ -357,7 +355,6 @@ pub struct CgViewweaponAim {
     pub gun_yaw: f32,
     pub xhair_x: f32,
     pub xhair_y: f32,
-
     pub from_composed_axis: bool,
 }
 

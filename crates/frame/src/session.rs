@@ -5,11 +5,8 @@ use bevy::prelude::*;
 #[derive(Resource, Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum RuntimeRole {
     Listen,
-
     Dedicated,
-
     Client,
-
     Replay,
 }
 
@@ -28,7 +25,6 @@ pub enum AppScreen {
     #[default]
     MainMenu,
     Loading,
-
     ClassSelect,
     InGame,
 }
@@ -55,10 +51,8 @@ pub struct LaunchReport {
     pub zone: String,
     pub common_mp: Result<PathBuf, String>,
     pub zone_ff: Result<PathBuf, String>,
-
     pub zone_alias: Option<String>,
     pub sim_gap: &'static str,
-
     pub prediction_metrics: Option<String>,
     pub world_report: Vec<String>,
 }
@@ -84,7 +78,6 @@ pub struct HasWorld(pub bool);
 pub struct CacWeaponOffer {
     pub key: String,
     pub item_group: Option<String>,
-
     pub attachments: Vec<String>,
 }
 
@@ -201,29 +194,22 @@ pub struct AdmissionKey {
 #[derive(Message, Clone, Debug, PartialEq, Eq)]
 pub struct MatchInstalled {
     pub request_id: u64,
-
     pub load_key: LocalLoadKey,
-
     pub zone: String,
-
     pub spawn_count: usize,
 }
 
 #[derive(Message, Clone, Copy, Debug, PartialEq, Eq)]
 pub struct MatchTornDown {
     pub reason: TeardownReason,
-
     pub world_generation: WorldGeneration,
-
     pub match_key: MatchKey,
-
     pub match_epoch: u32,
 }
 
 #[derive(Message, Clone, Copy, Debug, PartialEq, Eq)]
 pub struct ReturnedToMenu {
     pub swap_id: u64,
-
     pub had_world: bool,
 }
 
@@ -245,9 +231,7 @@ pub struct MapLoadFailed {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum TeardownReason {
     Disconnect,
-
     Replaced,
-
     MatchEnded,
 }
 
@@ -287,9 +271,7 @@ pub struct LifeEnded {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum LifeEndCause {
     LeftAlive,
-
     Replaced,
-
     Dropped,
 }
 
@@ -327,7 +309,6 @@ pub struct HostClassSlot {
     pub lethal: String,
     pub tactical: String,
     pub perks: [String; 3],
-
     pub deathstreak: String,
 }
 

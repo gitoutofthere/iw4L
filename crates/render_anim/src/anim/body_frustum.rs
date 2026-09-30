@@ -2,7 +2,6 @@
 pub struct AdmittedCellVis<'a> {
     pub words: &'a [u32],
     pub cell_count: usize,
-
     pub vis_all: bool,
 }
 

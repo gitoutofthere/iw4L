@@ -3,7 +3,6 @@ use crate::output::{Alias, Team, VOICE_INFIX};
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum DialogSet {
     Always,
-
     IfUndefined,
 }
 

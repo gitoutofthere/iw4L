@@ -13,26 +13,20 @@ pub const G_CLONE_PLAYER_MAX_VELOCITY: f32 = 80.0;
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct PlayerCorpseSlot {
     pub occupied: bool,
-
     pub entnum: i32,
     pub victim: ClientId,
     pub origin: [f32; 3],
     pub viewangles: [f32; 3],
-
     pub anim: AnimPair,
     pub view_height_current: f32,
     pub weapon: u32,
     pub e_flags: u32,
-
     pub tr_type: i32,
-
     pub tr_time: i32,
     pub tr_duration: i32,
     pub tr_delta: [f32; 3],
     pub tr_base: [f32; 3],
-
     pub falling: bool,
-
     pub ground_entity_num: i32,
 }
 
@@ -74,7 +68,6 @@ impl PlayerCorpseSlot {
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct PlayerCorpsePool {
     pub slots: [PlayerCorpseSlot; MAX_CLIENT_CORPSES as usize],
-
     pub spawn_ring: u8,
 }
 

@@ -1,13 +1,9 @@
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum TextureFilter {
     None,
-
     Point,
-
     Linear,
-
     Anisotropic,
-
     Unknown(u32),
 }
 
