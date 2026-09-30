@@ -752,10 +752,14 @@ pub(crate) fn sync_players(world: &mut World) {
             .collect()
     };
     for (client, joined) in clients {
-        let slot = world.resource::<Runtime>().players.get(&client).cloned();
+        let slot = world
+            .resource::<Runtime>()
+            .players
+            .get(&client)
+            .map(|slot| (slot.begun, slot.object));
         match slot {
-            Some(slot) if !slot.begun && joined => {
-                raise(world, Value::Object(slot.object), "begin", Vec::new());
+            Some((false, object)) if joined => {
+                raise(world, Value::Object(object), "begin", Vec::new());
                 if let Some(slot) = world.resource_mut::<Runtime>().players.get_mut(&client) {
                     slot.begun = true;
                 }
