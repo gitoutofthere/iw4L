@@ -25,7 +25,7 @@ pub(crate) struct Runtime {
     pub(crate) dynamic_symbols: BTreeMap<Arc<str>, u32>,
     pub(crate) buckets: BTreeMap<i64, VecDeque<u64>>,
     pub(crate) spawned: Vec<u64>,
-    pub(crate) waiters: Vec<crate::script::Waiter>,
+    pub(crate) waiters: super::waiters::Waiters,
     pub(crate) dvars: BTreeMap<String, String>,
     pub(crate) loading: bool,
     pub(crate) precached: BTreeMap<(&'static str, String), i32>,
