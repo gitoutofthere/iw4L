@@ -1,4 +1,5 @@
-use std::collections::HashMap;
+use std::collections::btree_map::Entry;
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 use std::hash::Hash;
 
 use playerstate_iw4::AnimPair;
@@ -234,14 +235,20 @@ fn decode_destructible_loop_sounds(
 }
 
 fn apply_pair_delta<K: Copy + Ord, V: Copy>(table: &mut Vec<(K, V)>, delta: &PairDelta<K, V>) {
-    for id in &delta.removed {
-        table.retain(|(key, _)| key != id);
+    let removed: BTreeSet<K> = delta.removed.iter().copied().collect();
+    table.retain(|(key, _)| !removed.contains(key));
+    // A full sync may repeat a key; a change lands on its first row.
+    let mut first: BTreeMap<K, usize> = BTreeMap::new();
+    for (index, (key, _)) in table.iter().enumerate() {
+        first.entry(*key).or_insert(index);
     }
-    for (id, value) in &delta.changed {
-        if let Some(row) = table.iter_mut().find(|(key, _)| key == id) {
-            row.1 = *value;
-        } else {
-            table.push((*id, *value));
+    for &(id, value) in &delta.changed {
+        match first.entry(id) {
+            Entry::Occupied(row) => table[*row.get()].1 = value,
+            Entry::Vacant(slot) => {
+                slot.insert(table.len());
+                table.push((id, value));
+            }
         }
     }
     table.sort_by_key(|(id, _)| *id);
