@@ -1377,6 +1377,8 @@ pub struct RouteSearch {
     graph_key: (u64, u64, u32, u32),
     goals: Vec<u16>,
     is_goal: Vec<bool>,
+    /// NaN until first asked.
+    h: Vec<f32>,
     g: Vec<f32>,
     parent: Vec<Option<(u16, TraversalKind)>>,
     closed: Vec<bool>,
@@ -1396,6 +1398,7 @@ impl RouteSearch {
             graph_key: graph_key(graph),
             goals: goals.to_vec(),
             is_goal: vec![false; n],
+            h: vec![f32::NAN; n],
             g: vec![f32::INFINITY; n],
             parent: vec![None; n],
             closed: vec![false; n],
@@ -1408,20 +1411,24 @@ impl RouteSearch {
         }
         for &(id, cost) in starts {
             search.g[id as usize] = cost;
-            search.open.push(Reverse((
-                OrdF(cost + HEURISTIC_WEIGHT * search.heuristic(graph, id)),
-                id,
-                0,
-            )));
+            let f = cost + HEURISTIC_WEIGHT * search.heuristic(graph, id);
+            search.open.push(Reverse((OrdF(f), id, 0)));
         }
         search
     }
 
-    fn heuristic(&self, graph: &NavGraph, id: u16) -> f32 {
-        self.goals
+    fn heuristic(&mut self, graph: &NavGraph, id: u16) -> f32 {
+        let known = self.h[id as usize];
+        if !known.is_nan() {
+            return known;
+        }
+        let h = self
+            .goals
             .iter()
             .map(|&g| distance(graph.nodes[id as usize], graph.nodes[g as usize]))
-            .fold(f32::INFINITY, f32::min)
+            .fold(f32::INFINITY, f32::min);
+        self.h[id as usize] = h;
+        h
     }
 
     pub fn advance(
