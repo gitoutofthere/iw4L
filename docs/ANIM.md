@@ -35,7 +35,7 @@ gap, not "ordinary blending".
 
 ## Who picks the clip
 
-* `sim` — `player_anim_script.rs`, `mantle_xanim.rs`, `anim_script_gap.rs`:
+* `sim` — `player_anim_script.rs`, `mantle_xanim.rs`:
   what animation the player is in, and it travels into the snapshot as
   semantics, not as a tree;
 * `assets` — `XAnimParts` → owning clips;

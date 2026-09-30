@@ -27,11 +27,6 @@ impl UiStack {
         }
     }
 
-    #[allow(dead_code)]
-    pub fn ids(&self) -> Vec<String> {
-        self.surfaces.iter().map(|s| s.id.clone()).collect()
-    }
-
     pub fn top_capture_index(&self) -> Option<usize> {
         self.surfaces
             .iter()

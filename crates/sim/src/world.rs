@@ -2,7 +2,6 @@ use anim_iw4::{PLAYER_ANIM_RAW_MASK, PlayerAnimValue};
 use bevy_ecs::prelude::Component;
 use playerstate_iw4::{AnimPair, PlayerState};
 
-use crate::anim_script_gap::PlayerAnimScriptGap;
 use crate::bullet_collision::{
     CollisionHistory, EntityCollisionCapabilities, EntityCollisionHistory,
     EntityCollisionTraceGeom, LinkedBrushCollisionBrush,
@@ -479,8 +478,6 @@ pub struct SimState {
 
     pellet_fx: Vec<crate::PelletFxRecord>,
 
-    anim_script_gap: PlayerAnimScriptGap,
-
     world_objects: WorldObjectState,
 
     script_gaps: ScriptGaps,
@@ -624,7 +621,6 @@ impl Default for SimState {
             entity_events: Vec::new(),
             next_entity_event: EventSequence(1),
             pellet_fx: Vec::new(),
-            anim_script_gap: PlayerAnimScriptGap::default(),
             world_objects: WorldObjectState::default(),
             script_gaps: ScriptGaps::default(),
             pending_match_clock: None,
@@ -3336,14 +3332,6 @@ impl SimState {
 
     pub(crate) fn push_pellet_fx(&mut self, record: crate::PelletFxRecord) {
         self.pellet_fx.push(record);
-    }
-
-    pub fn anim_script_gap(&self) -> PlayerAnimScriptGap {
-        self.anim_script_gap
-    }
-
-    pub(crate) fn count_fire_anim_gap(&mut self) {
-        self.anim_script_gap.fire_inputs += 1;
     }
 
     pub(crate) fn scales_for(&self, weapon: u32) -> (f32, f32, f32) {

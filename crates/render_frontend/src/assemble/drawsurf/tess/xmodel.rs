@@ -4,6 +4,7 @@ use std::sync::Arc;
 use std::time::Instant;
 
 use bevy::prelude::*;
+use render_anim::{XMODEL_PACKED_EMPTY_PLAN, XMODEL_PACKED_UNAVAILABLE, install_retained_packed};
 
 use super::smodel::{RetailPackedVertexRefusal, SmodelPassMaterial, SmodelVertex};
 
@@ -74,10 +75,6 @@ pub struct XModelMergeStamps {
 
     pub concatenated: bool,
 }
-
-pub const XMODEL_PACKED_UNAVAILABLE: &str =
-    "xmodel merge GfxPackedVertex missing or count-mismatched; decoded float is not packed VB";
-pub const XMODEL_PACKED_EMPTY_PLAN: &str = "xmodel plan has no vertices";
 
 impl XModelDrawPlan {
     pub fn clear(&mut self) {
@@ -1204,26 +1201,6 @@ fn append_packed_source(
         _ => {
             *packed_ok = false;
             packed.clear();
-        }
-    }
-}
-
-fn install_retained_packed(
-    packed_ok: bool,
-    packed: Vec<[u8; asset_iw4::size::GFX_PACKED_VERTEX]>,
-    decoded_count: usize,
-    empty: &'static str,
-    missing: &'static str,
-) -> assets::RetailPackedVertexPayload {
-    if packed_ok && packed.len() == decoded_count && !packed.is_empty() {
-        assets::RetailPackedVertexPayload::Iw4(packed)
-    } else if decoded_count == 0 {
-        assets::RetailPackedVertexPayload::Unavailable {
-            source_layout: empty,
-        }
-    } else {
-        assets::RetailPackedVertexPayload::Unavailable {
-            source_layout: missing,
         }
     }
 }

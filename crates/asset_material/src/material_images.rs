@@ -1746,9 +1746,7 @@ fn mip_level_count(width: u32, height: u32) -> u32 {
 
 fn compressed_mip_bytes(width: u32, height: u32, format: PixelFormat) -> usize {
     match format {
-        PixelFormat::Rgba8 | PixelFormat::Bgra8 | PixelFormat::Bgrx8 => {
-            width as usize * height as usize * 4
-        }
+        PixelFormat::Bgra8 | PixelFormat::Bgrx8 => width as usize * height as usize * 4,
         PixelFormat::Rgb8 => width as usize * height as usize * 3,
         PixelFormat::La8 => width as usize * height as usize * 2,
         PixelFormat::L8 | PixelFormat::A8 => width as usize * height as usize,
@@ -1785,8 +1783,6 @@ fn decode_gfx_image(
 
 #[derive(Clone, Copy)]
 enum PixelFormat {
-    #[allow(dead_code)]
-    Rgba8,
     Rgb8,
     Bgra8,
     Bgrx8,
@@ -1808,7 +1804,6 @@ fn decode_pixels(
         return Err("zero-sized image".into());
     }
     let pixels = match format {
-        PixelFormat::Rgba8 => take_rgba(data, width, height, false, false)?,
         PixelFormat::Bgra8 => take_rgba(data, width, height, true, false)?,
         PixelFormat::Bgrx8 => take_rgba(data, width, height, true, true)?,
         PixelFormat::Rgb8 => {
@@ -1970,9 +1965,7 @@ fn decode_iwi_cubemap(bytes: &[u8]) -> Result<(u32, CubemapFaces), String> {
         ));
     }
     let face_bytes = match header.format {
-        PixelFormat::Rgba8 | PixelFormat::Bgra8 | PixelFormat::Bgrx8 => {
-            (header.width * header.height * 4) as usize
-        }
+        PixelFormat::Bgra8 | PixelFormat::Bgrx8 => (header.width * header.height * 4) as usize,
         PixelFormat::Rgb8 => (header.width * header.height * 3) as usize,
         PixelFormat::Bc1 => (header.width.div_ceil(4) * header.height.div_ceil(4) * 8) as usize,
         PixelFormat::Bc2 | PixelFormat::Bc3 => {

@@ -1,9 +1,8 @@
-use super::{AssetLinkSink, asset_ptr_at, follow_name};
+use super::{AssetLinkSink, asset_ptr_at, follow_name, runtime_array};
 use crate::asset_type::AssetType;
 use crate::size as sz;
 use crate::zone::{
-    ComWorldGeometry, GfxLightDefGeometry, Ptr, Result, XFILE_BLOCK_RUNTIME, XFILE_BLOCK_VIRTUAL,
-    ZonePtr, ZoneStream,
+    ComWorldGeometry, GfxLightDefGeometry, Result, XFILE_BLOCK_VIRTUAL, ZonePtr, ZoneStream,
 };
 
 pub(super) fn load_light_def(s: &mut ZoneStream<'_>, links: &mut dyn AssetLinkSink) -> Result<()> {
@@ -176,20 +175,4 @@ pub(super) fn load_glass_world(s: &mut ZoneStream<'_>) -> Result<()> {
     }
 
     s.pop()
-}
-
-fn runtime_array(
-    s: &mut ZoneStream<'_>,
-    p: Ptr,
-    field: usize,
-    align: usize,
-    elem: usize,
-    count: usize,
-) -> Result<()> {
-    if s.begin_body(p.at(field))? {
-        s.push(XFILE_BLOCK_RUNTIME)?;
-        s.alloc_load(align, elem.saturating_mul(count))?;
-        s.pop()?;
-    }
-    Ok(())
 }

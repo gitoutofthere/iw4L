@@ -1,9 +1,10 @@
 use crate::{
     GfxSmodelRigidEntry, GfxTrianglesListEntry, GfxXModelRigidEntry, LIST_TOKEN,
-    PackedFrontendLists, SMODEL_RIGID_ENTRY_STRIDE, SRC_SMODEL_CACHED_BYTES, SRC_SMODEL_CACHED_PTR,
-    SRC_SMODEL_PRETESS_BYTES, SRC_SMODEL_PRETESS_PTR, SRC_SMODEL_RIGID_COUNT, SRC_SMODEL_RIGID_PTR,
-    SRC_SMODEL_SKINNED_BYTES, SRC_SMODEL_SKINNED_PTR, SRC_WORLD_COUNT, SRC_WORLD_PTR,
-    SRC_XMODEL_RIGID_COUNT, SRC_XMODEL_RIGID_PTR, SmodelPretessRange,
+    PackedFrontendLists, RetainedDrawItem, RetainedDrawKind, SMODEL_RIGID_ENTRY_STRIDE,
+    SRC_SMODEL_CACHED_BYTES, SRC_SMODEL_CACHED_PTR, SRC_SMODEL_PRETESS_BYTES,
+    SRC_SMODEL_PRETESS_PTR, SRC_SMODEL_RIGID_COUNT, SRC_SMODEL_RIGID_PTR, SRC_SMODEL_SKINNED_BYTES,
+    SRC_SMODEL_SKINNED_PTR, SRC_WORLD_COUNT, SRC_WORLD_PTR, SRC_XMODEL_RIGID_COUNT,
+    SRC_XMODEL_RIGID_PTR, SmodelPretessRange,
 };
 use dpvs_iw4::GfxDrawSurf;
 
@@ -45,6 +46,66 @@ pub struct PackDraw {
 
     pub material_rank: u32,
     pub kind: PackKind,
+}
+
+impl PackDraw {
+    pub fn from_retained(draw: &RetainedDrawItem) -> Self {
+        let kind = match draw.kind {
+            RetainedDrawKind::World {
+                surf, run, run_off, ..
+            } => PackKind::World { surf, run, run_off },
+            RetainedDrawKind::Smodel {
+                surface,
+                lighting_handle,
+                stream: Some(lighting_iw4::SmodelSurfPath::Rigid),
+                ..
+            } => PackKind::SmodelRigid {
+                surface,
+                lighting_handle,
+            },
+            RetainedDrawKind::Smodel {
+                surface,
+                lighting_handle,
+                stream: Some(lighting_iw4::SmodelSurfPath::Skinned),
+                ..
+            } => PackKind::SmodelSkinned {
+                surface,
+                lighting_handle,
+            },
+            RetainedDrawKind::Smodel {
+                lighting_handle,
+                stream: Some(lighting_iw4::SmodelSurfPath::Pretess),
+                pretess: Some(dest),
+                ..
+            } => PackKind::SmodelPretess {
+                lighting_handle,
+                dest,
+            },
+            RetainedDrawKind::Smodel {
+                lighting_handle,
+                stream: Some(lighting_iw4::SmodelSurfPath::Cached),
+                pretess: Some(dest),
+                ..
+            } => PackKind::SmodelCached {
+                lighting_handle,
+                dest,
+            },
+            RetainedDrawKind::XModel {
+                surface,
+                lighting_handle,
+                ..
+            } => PackKind::XModel {
+                surface,
+                lighting_handle,
+            },
+            _ => PackKind::Skip,
+        };
+        Self {
+            key: draw.key,
+            material_rank: draw.material_rank,
+            kind,
+        }
+    }
 }
 
 pub fn pack_sun_shadow_frontend(

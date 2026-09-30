@@ -3,7 +3,8 @@ use asset_iw4::size as sz;
 use crate::asset_type::AssetType;
 use crate::zone::{
     FxEffectDefGeometry, FxImpactTableGeometry, PhysPresetGeometry, Ptr, Result,
-    XAnimPartsGeometry, XFILE_BLOCK_TEMP, XFILE_BLOCK_VIRTUAL, ZoneError, ZonePtr, ZoneStream,
+    XAnimPartsGeometry, XFILE_BLOCK_RUNTIME, XFILE_BLOCK_TEMP, XFILE_BLOCK_VIRTUAL, ZoneError,
+    ZonePtr, ZoneStream,
 };
 
 mod clipmap;
@@ -495,6 +496,22 @@ pub(crate) fn asset_ptr_at_linked(
     slot: Ptr,
 ) -> Result<bool> {
     load_asset_at_observed(s, ty, slot, links)
+}
+
+pub(super) fn runtime_array(
+    s: &mut ZoneStream<'_>,
+    p: Ptr,
+    field: usize,
+    align: usize,
+    elem: usize,
+    count: usize,
+) -> Result<()> {
+    if s.begin_body(p.at(field))? {
+        s.push(XFILE_BLOCK_RUNTIME)?;
+        s.alloc_load(align, elem * count)?;
+        s.pop()?;
+    }
+    Ok(())
 }
 
 pub(crate) fn follow_name(s: &mut ZoneStream<'_>, p: Ptr, field: usize) -> Result<()> {

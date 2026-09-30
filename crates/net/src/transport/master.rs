@@ -480,7 +480,6 @@ enum MasterBridgeCommand {
         map: u64,
         weapons: u64,
         classes: u64,
-        #[allow(dead_code)]
         load_key: frame::LocalLoadKey,
     },
     MatchEnded {

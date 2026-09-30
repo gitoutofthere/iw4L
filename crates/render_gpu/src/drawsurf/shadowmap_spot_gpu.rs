@@ -44,7 +44,6 @@ impl ShadowmapSpotGpu {
         }
     }
 
-    #[allow(dead_code)]
     pub(super) fn depth_view(&self, render_target_id: u8) -> Option<&TextureView> {
         match render_target_id {
             GFX_SPOT_SHADOW_RT_LARGE => self.rt10.as_ref().map(|t| &t.depth_view),

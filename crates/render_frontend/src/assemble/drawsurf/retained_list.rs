@@ -18,7 +18,6 @@ use super::tess::smodel::{
     LodRampArgs, SmodelGpuPlan, SmodelMeshSurfaces, SmodelPlacement, smodel_camera_lod,
 };
 use super::tess::xmodel::{XMODEL_OBJECT_ID_VIEWMODEL, XModelDrawPlan, merge_xmodel_draw_plan};
-use crate::assemble::pack::{PackDraw, PackKind};
 use crate::prepare::scene::cull::{DpvsFrameStats, smodel_cull_dist_skips_slot};
 use crate::prepare::scene::smodel_geom_cache::{
     LodRampDvar, PretessDvar, SmcEnableDvar, WorldStaticModelCache,
@@ -27,64 +26,6 @@ use crate::prepare::scene::smodel_lighting::WorldSmodelLighting;
 use crate::prepare::scene::view_parms::PreparedSceneView;
 use crate::prepare::scene::world::WorldScene;
 use frame::WorldGeneration;
-
-pub(crate) fn pack_draw(draw: &RetainedDrawItem) -> PackDraw {
-    let kind = match draw.kind {
-        RetainedDrawKind::World {
-            surf, run, run_off, ..
-        } => PackKind::World { surf, run, run_off },
-        RetainedDrawKind::Smodel {
-            surface,
-            lighting_handle,
-            stream: Some(lighting_iw4::SmodelSurfPath::Rigid),
-            ..
-        } => PackKind::SmodelRigid {
-            surface,
-            lighting_handle,
-        },
-        RetainedDrawKind::Smodel {
-            surface,
-            lighting_handle,
-            stream: Some(lighting_iw4::SmodelSurfPath::Skinned),
-            ..
-        } => PackKind::SmodelSkinned {
-            surface,
-            lighting_handle,
-        },
-        RetainedDrawKind::Smodel {
-            lighting_handle,
-            stream: Some(lighting_iw4::SmodelSurfPath::Pretess),
-            pretess: Some(dest),
-            ..
-        } => PackKind::SmodelPretess {
-            lighting_handle,
-            dest,
-        },
-        RetainedDrawKind::Smodel {
-            lighting_handle,
-            stream: Some(lighting_iw4::SmodelSurfPath::Cached),
-            pretess: Some(dest),
-            ..
-        } => PackKind::SmodelCached {
-            lighting_handle,
-            dest,
-        },
-        RetainedDrawKind::XModel {
-            surface,
-            lighting_handle,
-            ..
-        } => PackKind::XModel {
-            surface,
-            lighting_handle,
-        },
-        _ => PackKind::Skip,
-    };
-    PackDraw {
-        key: draw.key,
-        material_rank: draw.material_rank,
-        kind,
-    }
-}
 
 pub use render_frame::{BspCameraLane, RetainedDrawItem, RetainedDrawKind};
 

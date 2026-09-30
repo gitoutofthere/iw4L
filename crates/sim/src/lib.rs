@@ -1,5 +1,4 @@
 pub mod adopt;
-pub mod anim_script_gap;
 pub mod barrel_policy;
 pub mod bullet;
 pub mod bullet_collision;
@@ -37,7 +36,6 @@ mod world;
 pub mod world_objects;
 
 pub use adopt::{ADOPT_GAP_COUNT, ADOPT_GAPS, AdoptGap, AdoptReport};
-pub use anim_script_gap::PlayerAnimScriptGap;
 pub use barrel_policy::{
     EXPLODABLE_BARREL_BURN_DRAIN, EXPLODABLE_BARREL_BURN_DRAIN_INTERVAL_MS,
     EXPLODABLE_BARREL_BURN_LOOP_FX, EXPLODABLE_BARREL_BURN_LOOP_INTERVAL_MS,

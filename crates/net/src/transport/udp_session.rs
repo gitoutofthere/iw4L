@@ -169,12 +169,6 @@ enum PeerAdmission {
         bootstrap_id: u32,
         snapshot_seq: u32,
         epoch: u32,
-
-        #[allow(dead_code)]
-        tick_b: u32,
-
-        #[allow(dead_code)]
-        offer_bytes: Vec<u8>,
     },
     Committed {
         bootstrap_id: u32,
@@ -903,8 +897,6 @@ impl UdpAuthorityHub {
                             bootstrap_id,
                             snapshot_seq,
                             epoch,
-                            tick_b,
-                            offer_bytes: txn.offer_bytes.clone(),
                         };
                         diag::info!(
                             Net,

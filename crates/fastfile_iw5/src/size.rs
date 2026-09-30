@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 pub const RAW_FILE: usize = 16;
 
 pub const FONT: usize = 24;

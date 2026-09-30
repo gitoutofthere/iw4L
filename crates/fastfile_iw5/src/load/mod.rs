@@ -1,6 +1,8 @@
 use crate::asset_type::AssetType;
 use crate::wire::Iw5WireFormat;
-use crate::zone::{Ptr, Result, XFILE_BLOCK_TEMP, ZoneError, ZonePtr, ZoneStream};
+use crate::zone::{
+    Ptr, Result, XFILE_BLOCK_RUNTIME, XFILE_BLOCK_TEMP, ZoneError, ZonePtr, ZoneStream,
+};
 
 mod attachment;
 mod clipmap;
@@ -290,15 +292,18 @@ pub(crate) fn always_array(
     Ok(Some(body))
 }
 
-#[allow(dead_code)]
-pub(crate) fn runtime_array(
+pub(super) fn runtime_array(
     s: &mut ZoneStream<'_>,
-    slot: Ptr,
+    p: Ptr,
+    field: usize,
     align: usize,
-    bytes: usize,
-) -> Result<Option<Ptr>> {
-    s.push(crate::zone::XFILE_BLOCK_RUNTIME)?;
-    let body = always_array(s, slot, align, bytes)?;
-    s.pop()?;
-    Ok(body)
+    elem: usize,
+    count: usize,
+) -> Result<()> {
+    if s.begin_body(p.at(field))? {
+        s.push(XFILE_BLOCK_RUNTIME)?;
+        s.alloc_load(align, elem.saturating_mul(count))?;
+        s.pop()?;
+    }
+    Ok(())
 }

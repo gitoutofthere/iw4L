@@ -1,9 +1,8 @@
-use super::{AssetLinkSink, asset_ptr_at, follow_name};
+use super::{AssetLinkSink, asset_ptr_at, follow_name, runtime_array};
 use crate::asset_type::AssetType;
 use crate::size as sz;
 use crate::zone::{
-    ClipMapGeometry, Ptr, Result, XFILE_BLOCK_RUNTIME, XFILE_BLOCK_TEMP, XFILE_BLOCK_VIRTUAL,
-    ZonePtr, ZoneStream,
+    ClipMapGeometry, Ptr, Result, XFILE_BLOCK_TEMP, XFILE_BLOCK_VIRTUAL, ZonePtr, ZoneStream,
 };
 
 pub(super) fn load_clipmap(s: &mut ZoneStream<'_>, links: &mut dyn AssetLinkSink) -> Result<()> {
@@ -311,22 +310,6 @@ fn load_dyn_entity_defs(
         asset_ptr_at(s, links, AssetType::Fx, def.at(s.layout(0x28, 48)))?;
         asset_ptr_at(s, links, AssetType::PhysPreset, def.at(s.layout(0x2c, 56)))?;
         s.plain_array(def, s.layout(0x34, 72), 4, sz::DYN_ENTITY_HINGE, 1)?;
-    }
-    Ok(())
-}
-
-fn runtime_array(
-    s: &mut ZoneStream<'_>,
-    p: Ptr,
-    field: usize,
-    align: usize,
-    elem: usize,
-    count: usize,
-) -> Result<()> {
-    if s.begin_body(p.at(field))? {
-        s.push(XFILE_BLOCK_RUNTIME)?;
-        s.alloc_load(align, elem.saturating_mul(count))?;
-        s.pop()?;
     }
     Ok(())
 }

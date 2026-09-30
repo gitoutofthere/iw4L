@@ -26,7 +26,6 @@ impl From<MenuRect> for Rect640 {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-#[allow(dead_code)]
 pub enum Modality {
     Opaque,
     Overlay,
@@ -158,7 +157,6 @@ pub enum SettingValue {
 }
 
 #[derive(Message, Clone, Debug, PartialEq)]
-#[allow(dead_code)]
 pub enum UiIntent {
     LoadMap(String),
     RefreshServers,

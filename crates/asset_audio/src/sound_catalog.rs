@@ -236,7 +236,7 @@ impl CapturedAlias {
     }
 }
 
-fn is_null_sound_name(name: Option<&str>) -> bool {
+pub(crate) fn is_null_sound_name(name: Option<&str>) -> bool {
     let Some(name) = name else {
         return false;
     };

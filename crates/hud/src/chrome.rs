@@ -89,10 +89,7 @@ pub(crate) enum OwnerDrawPaint {
     Gap(ChromeGapKind),
 }
 
-#[allow(dead_code)]
 pub(crate) struct OwnerDrawArgs<'a> {
-    pub menu: &'a MenuDef,
-    pub index: usize,
     pub item: &'a MenuItem,
     pub rect: MenuRect,
     pub color: [f32; 4],
@@ -256,8 +253,6 @@ fn paint_item(
     let rect = style.rect;
     if item.owner_draw != 0 {
         let args = OwnerDrawArgs {
-            menu,
-            index,
             item,
             rect,
             color: style.fore_color,

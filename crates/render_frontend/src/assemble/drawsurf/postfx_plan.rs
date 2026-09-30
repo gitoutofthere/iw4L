@@ -365,11 +365,10 @@ fn admit_unlit_2d(
             actual: actual_state,
         });
     }
-    let host_state = super::state::GfxPassState::from_bits(pass.state);
-    if host_state.srgb_write_enable() {
+    if assets::srgb_write_enable_from_state_bits(actual_state) {
         return Err(PostFxAdmissionRefusal::SrgbWriteEnabled);
     }
-    if host_state.authored_alpha_test().is_some() {
+    if assets::material_alpha_test(pass.state.namespace, actual_state).is_some() {
         return Err(PostFxAdmissionRefusal::AlphaTestEnabled);
     }
     let Some(port) = programs.get(pass.port).cloned() else {
