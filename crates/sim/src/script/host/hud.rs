@@ -7,8 +7,8 @@ use hud_iw4::{
     HE_TYPE_CLOCK_DOWN, HE_TYPE_CLOCK_UP, HE_TYPE_MATERIAL, HE_TYPE_PLAYERNAME,
     HE_TYPE_TENTHS_TIMER_DOWN, HE_TYPE_TENTHS_TIMER_STATIC, HE_TYPE_TENTHS_TIMER_UP, HE_TYPE_TEXT,
     HE_TYPE_TIMER_DOWN, HE_TYPE_TIMER_STATIC, HE_TYPE_TIMER_UP, HE_TYPE_VALUE, HE_TYPE_WAYPOINT,
-    HudElem, align_org, align_screen, color_rgba, flags, hud_elem_lerp_font_scale, hud_elem_movement_frac,
-    hud_elem_scale_frac, lerp_hud_colors, unpack_rgba,
+    HudElem, align_org, align_screen, color_rgba, flags, hud_elem_lerp_font_scale,
+    hud_elem_movement_frac, hud_elem_scale_frac, lerp_hud_colors, unpack_rgba,
 };
 use playerstate_iw4::ENTITYNUM_NONE;
 

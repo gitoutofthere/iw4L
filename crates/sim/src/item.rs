@@ -29,7 +29,6 @@ pub const ITEM_MAXS: [f32; 3] = [1.0, 1.0, 1.0];
 
 pub const PLAYER_DROP_Z: f32 = (PLAYER_MAXS[2] - PLAYER_MINS[2]) * 0.5;
 
-
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct DroppedItem {
     pub state: entity_iw4::EntityState,
