@@ -602,6 +602,25 @@ const SEAT_FIELDS: [&str; 6] = [
 
 const RADAR_FIELDS: [&str; 3] = ["hasradar", "radarmode", "isradarblocked"];
 
+const STATE_FIELDS: [&str; 10] = [
+    "sessionstate",
+    "origin",
+    "angles",
+    "health",
+    "maxhealth",
+    "name",
+    "score",
+    "kills",
+    "deaths",
+    "sessionteam",
+];
+
+/// `load_field` and `store_field` answer these names and nothing else; the
+/// runtime skips both for any other field.
+pub(crate) fn is_engine_field(name: &str) -> bool {
+    STATE_FIELDS.contains(&name) || SEAT_FIELDS.contains(&name) || RADAR_FIELDS.contains(&name)
+}
+
 pub(crate) fn publish_radar(world: &mut World) {
     let rows: Vec<(u32, bool, crate::RadarMode, bool)> = world
         .resource::<Runtime>()
@@ -808,6 +827,9 @@ fn client_name(name: &[u8]) -> String {
 }
 
 pub(crate) fn load_field(world: &mut World, client: u32, name: &str) -> Option<Value> {
+    if !is_engine_field(name) {
+        return None;
+    }
     let id = ClientId(client);
     if name == "sessionstate" {
         let runtime = world.resource::<Runtime>();
@@ -890,6 +912,9 @@ pub(crate) fn store_field(
     name: &str,
     value: &Value,
 ) -> Result<bool, String> {
+    if !is_engine_field(name) {
+        return Ok(false);
+    }
     let id = ClientId(client);
     let int = |value: &Value| match value {
         Value::Int(n) => Ok(*n),

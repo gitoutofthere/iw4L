@@ -928,7 +928,8 @@ fn instruction(
                     type_name(&receiver)
                 ));
             };
-            if let Some(client) = world.resource::<Runtime>().player_client(id)
+            if engine_player_field(world, field)
+                && let Some(client) = world.resource::<Runtime>().player_client(id)
                 && let Some(value) = super::host::players::load_field(
                     world,
                     client,
@@ -953,7 +954,8 @@ fn instruction(
             let Value::Object(id) = receiver else {
                 return Err("native entity fields are not bound".into());
             };
-            if let Some(client) = world.resource::<Runtime>().player_client(id)
+            if engine_player_field(world, field)
+                && let Some(client) = world.resource::<Runtime>().player_client(id)
                 && super::host::players::store_field(
                     world,
                     client,
@@ -1047,6 +1049,15 @@ fn instruction(
         }
     }
     Ok(())
+}
+
+fn engine_player_field(world: &World, field: u32) -> bool {
+    world
+        .resource::<Runtime>()
+        .engine_player_fields
+        .get(field as usize)
+        .copied()
+        .unwrap_or(true)
 }
 
 fn event_name(value: Value) -> Result<Arc<str>, String> {
