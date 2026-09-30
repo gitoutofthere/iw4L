@@ -51,9 +51,9 @@ pub(super) fn return_from(world: &mut World, function: &str, now: i64) -> usize 
         })
         .collect();
     for &(entity, depth) in &inside {
-        let mut thread = world.entity_mut(entity).take::<Thread>().unwrap();
+        let mut thread = take_thread(world, entity);
         unwind(world, &mut thread, depth, now, false);
-        world.entity_mut(entity).insert(thread);
+        put_thread(world, entity, thread);
     }
     inside.len()
 }
@@ -1108,6 +1108,23 @@ fn find_thread(world: &mut World, serial: u64) -> Option<Entity> {
         .map(|(e, _)| e)
 }
 
+fn take_thread(world: &mut World, entity: Entity) -> Thread {
+    // The stand-in keeps the entity in its table while the thread runs. No
+    // thread is ever given serial u64::MAX and the stand-in has no frames, so
+    // lookups by serial and walks over frames pass it by.
+    let stand_in = Thread {
+        serial: u64::MAX,
+        frames: Vec::new(),
+        stack: Vec::new(),
+        state: ThreadState::Complete,
+    };
+    std::mem::replace(&mut *world.get_mut::<Thread>(entity).unwrap(), stand_in)
+}
+
+fn put_thread(world: &mut World, entity: Entity, thread: Thread) {
+    *world.get_mut::<Thread>(entity).unwrap() = thread;
+}
+
 fn with_thread<R>(
     world: &mut World,
     current: &mut Thread,
@@ -1118,7 +1135,7 @@ fn with_thread<R>(
         return Some(f(world, current, true));
     }
     let entity = find_thread(world, serial)?;
-    let mut thread = world.entity_mut(entity).take::<Thread>().unwrap();
+    let mut thread = take_thread(world, entity);
     let result = f(world, &mut thread, false);
     if thread.state == ThreadState::Complete {
         world.despawn(entity);
@@ -1127,7 +1144,7 @@ fn with_thread<R>(
             .thread_entities
             .remove(&serial);
     } else {
-        world.entity_mut(entity).insert(thread);
+        put_thread(world, entity, thread);
     }
     Some(result)
 }
@@ -1366,14 +1383,14 @@ fn run_ready(world: &mut World, program: &Program, now: i64) {
             kill(world, entity, serial);
             continue;
         }
-        let mut thread = world.entity_mut(entity).take::<Thread>().unwrap();
+        let mut thread = take_thread(world, entity);
         thread.state = ThreadState::Runnable;
         world.resource_mut::<Runtime>().budget = INSTRUCTION_BUDGET;
         execute(world, program, &mut thread, now);
         if thread.state == ThreadState::Complete {
             kill(world, entity, serial);
         } else {
-            world.entity_mut(entity).insert(thread);
+            put_thread(world, entity, thread);
         }
         if world.resource::<Runtime>().fault.is_some() {
             break;
