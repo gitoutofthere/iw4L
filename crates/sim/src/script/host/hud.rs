@@ -4,20 +4,13 @@ use crate::frame::FrameWorld;
 use crate::script::{Namespace, NativeRegistry, Runtime, Value};
 use bevy_ecs::prelude::World;
 use hud_iw4::{
-    HE_TYPE_MATERIAL, HE_TYPE_PLAYERNAME, HE_TYPE_TEXT, HE_TYPE_VALUE, HE_TYPE_WAYPOINT, HudElem,
-    align_org, align_screen, color_rgba, flags, hud_elem_lerp_font_scale, hud_elem_movement_frac,
+    HE_TYPE_CLOCK_DOWN, HE_TYPE_CLOCK_UP, HE_TYPE_MATERIAL, HE_TYPE_PLAYERNAME,
+    HE_TYPE_TENTHS_TIMER_DOWN, HE_TYPE_TENTHS_TIMER_STATIC, HE_TYPE_TENTHS_TIMER_UP, HE_TYPE_TEXT,
+    HE_TYPE_TIMER_DOWN, HE_TYPE_TIMER_STATIC, HE_TYPE_TIMER_UP, HE_TYPE_VALUE, HE_TYPE_WAYPOINT,
+    HudElem, align_org, align_screen, color_rgba, flags, hud_elem_lerp_font_scale, hud_elem_movement_frac,
     hud_elem_scale_frac, lerp_hud_colors, unpack_rgba,
 };
 use playerstate_iw4::ENTITYNUM_NONE;
-
-const HE_TYPE_TIMER_DOWN: i32 = 5;
-const HE_TYPE_TIMER_UP: i32 = 6;
-const HE_TYPE_TIMER_STATIC: i32 = 7;
-const HE_TYPE_TENTHS_TIMER_DOWN: i32 = 8;
-const HE_TYPE_TENTHS_TIMER_UP: i32 = 9;
-const HE_TYPE_TENTHS_TIMER_STATIC: i32 = 10;
-const HE_TYPE_CLOCK_DOWN: i32 = 11;
-const HE_TYPE_CLOCK_UP: i32 = 12;
 
 const FONTS: &[&str] = &[
     "default",
