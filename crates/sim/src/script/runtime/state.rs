@@ -74,6 +74,23 @@ pub(crate) struct Runtime {
     pub(crate) finished: bool,
     pub(crate) pending_restart: Option<bool>,
     pub(crate) restored_pers: BTreeMap<u32, host::restart::Detached>,
+    pub(crate) census: VmCensus,
+}
+
+/// What the scheduler walked since the last report: counts only, so it
+/// never makes two runs of the same inputs differ.
+#[derive(Clone, Debug, Default)]
+pub(crate) struct VmCensus {
+    pub(crate) ticks: u32,
+    pub(crate) instructions: u64,
+    pub(crate) resumes: u64,
+    pub(crate) notifies: u64,
+    pub(crate) returns: u64,
+    pub(crate) waiter_visits: u64,
+    pub(crate) thread_visits: u64,
+    pub(crate) peak_threads: usize,
+    pub(crate) peak_waiters: usize,
+    pub(crate) peak_heap: usize,
 }
 
 impl Runtime {
