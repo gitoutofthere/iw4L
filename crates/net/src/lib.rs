@@ -27,7 +27,7 @@ pub use authority::runtime::{
     AuthorityInputGate, AuthorityLoadHold, AuthorityPhaseCensus, AuthorityPhaseTrace,
     AuthorityWorld, ClientShotSamples, DumpConfigurationChangeLog, DumpDeathLog, DumpGiveLog,
     FixedUpdateCensus, ListenFanoutCensus, NetDiagnostics, PendingAcks, PendingAuthorityInput,
-    PendingStepResult, ScriptNotifyEmitStats, ServerTick, ServerTickData, authority_bookkeeping,
+    PendingStepResult, ServerTick, ServerTickData, authority_bookkeeping,
     authority_should_tick,
 };
 pub use client::frame_census::{ClientPhaseCensus, HUD_STAGE_N, UpdatePhaseCensus};
