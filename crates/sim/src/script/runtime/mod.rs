@@ -535,6 +535,10 @@ fn object_key(runtime: &mut Runtime, key: ArrayKey) -> Result<u32, String> {
     }
 }
 
+fn spawns(op: &Op) -> bool {
+    matches!(op, Op::Spawn(..) | Op::Indirect(_, _, true))
+}
+
 fn instruction(
     world: &mut World,
     program: &Program,
@@ -542,7 +546,7 @@ fn instruction(
     op: &Op,
     now: i64,
 ) -> Result<(), String> {
-    let spawn = matches!(op, Op::Spawn(..) | Op::Indirect(_, _, true));
+    let spawn = spawns(op);
     let method = matches!(
         op,
         Op::Call(_, _, true) | Op::Spawn(_, _, true) | Op::Indirect(_, true, _)
@@ -1419,7 +1423,7 @@ pub(super) fn execute(world: &mut World, program: &Program, thread: &mut Thread,
         } else {
             budget -= 1;
             thread.frames.last_mut().unwrap().pc += 1;
-            if matches!(op, Op::Spawn(..) | Op::Indirect(_, _, true)) {
+            if spawns(op) {
                 world.resource_mut::<Runtime>().budget = budget;
                 let result = instruction(world, program, thread, op, now);
                 budget = world.resource::<Runtime>().budget;
