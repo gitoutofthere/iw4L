@@ -43,16 +43,22 @@ fn near_angles(a: [f32; 3], b: [f32; 3]) -> bool {
         .all(|(a, b)| math_iw4::angle_subtract(*a, b).abs() < 0.01)
 }
 
-fn vector(runtime: &mut Runtime, id: u64, name: &str) -> [f32; 3] {
-    match runtime.object_field(id, name) {
-        Value::Vector(v) => v,
+fn field(runtime: &Runtime, id: u64, symbol: u32) -> Option<&Value> {
+    runtime.objects.get(&id).and_then(|fields| fields.get(&symbol))
+}
+
+fn vector(runtime: &Runtime, id: u64, symbol: u32) -> [f32; 3] {
+    match field(runtime, id, symbol) {
+        Some(Value::Vector(v)) => *v,
         _ => [0.0; 3],
     }
 }
 
-fn model_field(runtime: &mut Runtime, id: u64) -> Option<Arc<str>> {
-    match runtime.object_field(id, "model") {
-        Value::String(model) if !model.is_empty() && !model.starts_with('*') => Some(model),
+fn model_field(runtime: &Runtime, id: u64, symbol: u32) -> Option<Arc<str>> {
+    match field(runtime, id, symbol) {
+        Some(Value::String(model)) if !model.is_empty() && !model.starts_with('*') => {
+            Some(model.clone())
+        }
         _ => None,
     }
 }
@@ -94,11 +100,17 @@ pub(crate) fn settle_collision(world: &mut World) {
         .iter()
         .filter_map(|(id, e)| Some((*id, e.presence?, e.hidden, e.solid)))
         .collect();
+    // `symbol` interns an unknown name: ask only when a field will be read,
+    // origin before angles, as the reads go.
+    if placed.is_empty() {
+        return;
+    }
+    let (origin_symbol, angles_symbol) = (runtime.symbol("origin"), runtime.symbol("angles"));
     let wanted: BTreeMap<ScriptModelId, ([f32; 3], [f32; 3], bool, bool)> = placed
         .into_iter()
         .map(|(object, presence, hidden, solid)| {
-            let origin = vector(&mut runtime, object, "origin");
-            let angles = vector(&mut runtime, object, "angles");
+            let origin = vector(&runtime, object, origin_symbol);
+            let angles = vector(&runtime, object, angles_symbol);
             (presence, (origin, angles, hidden, solid))
         })
         .collect();
@@ -328,15 +340,24 @@ fn collect_wanted(world: &mut World) -> Vec<Wanted> {
         .filter_map(|(id, e)| e.presence.map(|p| (*id, p, e.hidden, e.shown_to, e.solid)))
         .collect();
     let mut wanted = Vec::with_capacity(ids.len());
+    if ids.is_empty() {
+        return wanted;
+    }
+    let symbols = [
+        runtime.symbol("origin"),
+        runtime.symbol("angles"),
+        runtime.symbol("model"),
+    ];
+    let runtime: &mut Runtime = &mut runtime;
     for (object, presence, hidden, shown_to, solid) in ids {
-        let origin = vector(&mut runtime, object, "origin");
-        let angles = vector(&mut runtime, object, "angles");
-        let model = model_field(&mut runtime, object);
+        let origin = vector(runtime, object, symbols[0]);
+        let angles = vector(runtime, object, symbols[1]);
+        let model = model_field(runtime, object, symbols[2]);
         let entity = runtime.entities.get_mut(&object).unwrap();
         let part_ops = std::mem::take(&mut entity.part_ops);
         let anim_op = entity.anim_op.take();
-        let attachments = entity.attachments.clone();
         let collision_only = matches!(entity.kind, EntityKind::Missile(_));
+        let attachments = &entity.attachments;
         let unchanged = part_ops.is_empty()
             && anim_op.is_none()
             && runtime.shown.get(&object).is_some_and(|shown| {
@@ -345,7 +366,7 @@ fn collect_wanted(world: &mut World) -> Vec<Wanted> {
                     && shown.shown_to == shown_to
                     && shown.solid == solid
                     && shown.model == model
-                    && shown.attachments == attachments
+                    && shown.attachments == *attachments
                     && near(shown.origin, origin)
                     && near_angles(shown.angles, angles)
             });
@@ -359,7 +380,7 @@ fn collect_wanted(world: &mut World) -> Vec<Wanted> {
             origin,
             angles,
             model,
-            attachments,
+            attachments: attachments.clone(),
             hidden,
             shown_to,
             solid,
@@ -440,7 +461,8 @@ fn publish_loop_sounds(world: &mut World) {
             let owner = presence.unwrap_or_else(|| {
                 ScriptModelId::from_wire(UNPRESENTED_LOOP_OWNER | (object as u32 & 0x0fff_ffff))
             });
-            (owner, alias, vector(&mut runtime, object, "origin"))
+            let origin = runtime.symbol("origin");
+            (owner, alias, vector(&runtime, object, origin))
         })
         .collect();
     let mut frame = FrameWorld::from_world(world);
