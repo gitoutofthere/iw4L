@@ -1,5 +1,6 @@
 mod lifecycle;
 mod state;
+mod waiters;
 
 use super::{
     ArrayKey, Binary, Callee, Fault, Frame, Global, Location, Op, Program, Thread, ThreadState,
@@ -24,11 +25,12 @@ pub(crate) fn take_signals(world: &mut World) -> Vec<Arc<str>> {
 }
 
 pub(super) fn level_endon_armed(world: &World, name: &str) -> bool {
-    world.resource::<Runtime>().waiters.iter().any(|w| {
-        w.receiver == Value::level()
-            && &*w.name == name
-            && matches!(w.kind, WaiterKind::Endon { .. })
-    })
+    world
+        .resource::<Runtime>()
+        .waiters
+        .any_on(&Value::level(), name, |w| {
+            matches!(w.kind, WaiterKind::Endon { .. })
+        })
 }
 
 pub(super) fn return_from(world: &mut World, function: &str, now: i64) -> usize {
@@ -1025,10 +1027,12 @@ fn instruction(
             // Endons of the frames above were dropped when those returned or
             // unwound; only one registered by this frame can name `depth`.
             if thread.frames[depth].endons > 0 {
-                world.resource_mut::<Runtime>().waiters.retain(|w| {
-                    w.thread != serial
-                        || !matches!(w.kind, WaiterKind::Endon { frame } if frame >= depth)
-                });
+                world
+                    .resource_mut::<Runtime>()
+                    .waiters
+                    .retain_thread(serial, |w| {
+                        !matches!(w.kind, WaiterKind::Endon { frame } if frame >= depth)
+                    });
             }
             let frame = thread
                 .frames
@@ -1121,7 +1125,7 @@ fn with_thread<R>(
 
 fn retire(runtime: &mut Runtime, serial: u64) {
     runtime.thread_entities.remove(&serial);
-    runtime.waiters.retain(|w| w.thread != serial);
+    runtime.waiters.retain_thread(serial, |_| false);
     dequeue(runtime, serial);
 }
 
@@ -1145,8 +1149,8 @@ fn resume_now(world: &mut World, thread: &mut Thread, now: i64) {
 fn unwind(world: &mut World, thread: &mut Thread, depth: usize, now: i64, running: bool) {
     let serial = thread.serial;
     let mut runtime = world.resource_mut::<Runtime>();
-    runtime.waiters.retain(|w| {
-        w.thread != serial || matches!(w.kind, WaiterKind::Endon { frame } if frame < depth)
+    runtime.waiters.retain_thread(serial, |w| {
+        matches!(w.kind, WaiterKind::Endon { frame } if frame < depth)
     });
     if !running {
         dequeue(&mut runtime, serial);
@@ -1186,26 +1190,23 @@ fn notify(
         world.resource_mut::<Runtime>().signals.push(name.clone());
     }
     loop {
-        let runtime = world.resource::<Runtime>();
-        let Some(index) = runtime.waiters.iter().position(|w| {
-            &w.receiver == receiver
-                && &w.name == name
-                && match &w.kind {
-                    WaiterKind::Match { values } => payload_matches(values, arguments),
-                    _ => true,
-                }
-        }) else {
+        let taken = world
+            .resource_mut::<Runtime>()
+            .waiters
+            .take_first(receiver, name, |w| match &w.kind {
+                WaiterKind::Match { values } => payload_matches(values, arguments),
+                _ => true,
+            });
+        let Some(waiter) = taken else {
             return Ok(());
         };
-        let waiter = world.resource_mut::<Runtime>().waiters.remove(index);
         let result = match waiter.kind {
             WaiterKind::Endon { frame } => {
                 let mut runtime = world.resource_mut::<Runtime>();
                 if runtime.suspended.contains(&waiter.thread) {
                     runtime.pending_unwinds.push((waiter.thread, frame));
-                    runtime.waiters.retain(|w| {
-                        w.thread != waiter.thread
-                            || matches!(w.kind, WaiterKind::Endon { frame: f } if f < frame)
+                    runtime.waiters.retain_thread(waiter.thread, |w| {
+                        matches!(w.kind, WaiterKind::Endon { frame: f } if f < frame)
                     });
                     continue;
                 }
@@ -1429,7 +1430,7 @@ pub(super) fn execute(world: &mut World, program: &Program, thread: &mut Thread,
             world
                 .resource_mut::<Runtime>()
                 .waiters
-                .retain(|w| w.thread != serial);
+                .retain_thread(serial, |_| false);
             thread.frames.clear();
             thread.stack.clear();
             thread.state = ThreadState::Complete;
@@ -1612,12 +1613,9 @@ fn threads_waiting_on_deleted(world: &World) -> std::collections::BTreeSet<u64> 
     let runtime = world.resource::<Runtime>();
     runtime
         .waiters
-        .iter()
-        .filter(|w| {
-            matches!(w.receiver, Value::Object(id)
-                if runtime.dead.contains(&id) || !runtime.objects.contains_key(&id))
-        })
-        .map(|w| w.thread)
+        .receivers()
+        .filter(|id| runtime.dead.contains(id) || !runtime.objects.contains_key(id))
+        .flat_map(|id| runtime.waiters.threads_on(id))
         .collect()
 }
 
@@ -1626,8 +1624,7 @@ fn entity_receivers(world: &World, thread: &Thread) -> Vec<Value> {
     world
         .resource::<Runtime>()
         .waiters
-        .iter()
-        .filter(|w| w.thread == thread.serial)
+        .of_thread(thread.serial)
         .map(|w| &w.receiver)
         .filter(|value| matches!(value, Value::Object(_)))
         .cloned()
@@ -1697,7 +1694,7 @@ fn collect_heap(world: &mut World) {
     let mut arrays = std::collections::BTreeSet::new();
     let mut runtime = world.resource_mut::<Runtime>();
     runtime.native_roots(&mut pending);
-    for waiter in &runtime.waiters {
+    for waiter in runtime.waiters.iter() {
         pending.push(waiter.receiver.clone());
         if let WaiterKind::Match { values } = &waiter.kind {
             pending.extend(values.iter().cloned());
