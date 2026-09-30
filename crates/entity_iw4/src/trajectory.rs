@@ -23,6 +23,11 @@ pub struct Trajectory {
     pub tr_base: [f32; 3],
 }
 
+/// The types both evaluators below accept; they panic on any other.
+pub fn trajectory_type_supported(tr_type: i32) -> bool {
+    matches!(tr_type, 0 | 1 | 2 | 3 | 5 | 6 | 10 | 0xb | 0xc)
+}
+
 pub fn evaluate_trajectory(tr: &Trajectory, at_time: i32) -> [f32; 3] {
     match tr.tr_type {
         0 | 1 | 9 | 0xc => tr.tr_base,

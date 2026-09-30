@@ -308,7 +308,7 @@ pub fn cycle_weapon_select(
     let facts = |weapon| {
         world
             .weapon_combat_row(weapon)
-            .expect("owned weapon must have a captured catalog row")
+            .unwrap_or_else(weapon_iw4::WeaponCombatFacts::none)
     };
     let Some(target) = cycle_weapon(
         &ps.weapons,

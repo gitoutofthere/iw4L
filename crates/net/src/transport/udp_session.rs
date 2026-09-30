@@ -1238,6 +1238,9 @@ impl UdpClientLink {
                     .decode(&frame.snapshot_delta)
                     .map_err(|e| e.to_string())?;
                 snapshot.meta = frame.snapshot_meta.clone();
+                if let Some(fault) = sim::snapshot_fault(&snapshot) {
+                    return Err(format!("snapshot {snapshot_seq} rejected: {fault}"));
+                }
                 self.note_applied_snapshot(snapshot_seq);
                 self.baselines.insert(snapshot_seq, snapshot.clone());
                 self.required_baseline_seq = self.required_baseline_seq.max(baseline_seq);
