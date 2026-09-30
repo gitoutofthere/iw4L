@@ -61,7 +61,7 @@ pub fn sprint_start_interfering_buttons(
     forward_minimum: i32,
 ) -> bool {
     let flags = ps.pm_flags;
-    if (flags & 8) != 0
+    if (flags & pm_flags::LADDER) != 0
         || sprint_forward_below_minimum(forwardmove, forward_minimum)
         || (buttons & 0xcc35) != 0
     {
@@ -94,7 +94,7 @@ pub fn sprint_ending_buttons(
 }
 
 fn weapon_state_admits_sprint(ps: &PlayerState, flags: u32, ending: bool) -> bool {
-    if !ending && (flags & 0x2000) != 0 && ps.pm_time == 0 {
+    if !ending && (flags & pm_flags::JUMPING) != 0 && ps.pm_time == 0 {
         return true;
     }
     let state = ps.weaponstate_primary;
