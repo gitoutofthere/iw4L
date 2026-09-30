@@ -1,0 +1,49 @@
+name: check
+on:
+  push:
+    branches: ['ci/**']
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - name: Free disk
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h /
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: System packages (docs/BUILD.md)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++ pkg-config libx11-dev libasound2-dev libudev-dev libwayland-dev libxkbcommon-dev
+      - name: Toolchain
+        run: |
+          rustup show
+          rustc --version
+      - name: cargo check
+        run: cargo check --workspace --all-targets --message-format short 2>&1 | tee check.log; test ${PIPESTATUS[0]} -eq 0
+      - name: warnings in workspace crates
+        if: always()
+        run: grep -c '^crates/.*warning' check.log || true
+      - name: cargo clippy
+        if: always()
+        run: |
+          cargo clippy --workspace --all-targets --message-format short 2>&1 | tee clippy.log || true
+          echo "clippy warnings: $(grep -cE '^(crates|xtask)/.*warning' clippy.log)"
+      - name: rustfmt on files changed from master
+        if: always()
+        run: |
+          files=$(git diff --name-only origin/master -- '*.rs' | grep -v '^\.github' || true)
+          if [ -n "$files" ]; then rustfmt --edition 2024 --check $files; fi
+      - name: publish-check
+        if: always()
+        run: cargo run -q -p xtask -- publish-check
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: logs
+          path: |
+            check.log
+            clippy.log
