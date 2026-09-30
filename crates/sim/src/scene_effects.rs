@@ -145,7 +145,7 @@ impl ScriptEarthquake {
         let amplitude = self.scale.min(1.0) * spatial * temporal;
         let phase = (self.id % 1024) as f32 * 2.3999631;
         [17.0, 23.0, 11.0].map(|frequency| {
-            (elapsed * 0.001 * frequency * std::f32::consts::TAU + phase).sin() * amplitude
+            libm::sinf(elapsed * 0.001 * frequency * std::f32::consts::TAU + phase) * amplitude
         })
     }
 }
