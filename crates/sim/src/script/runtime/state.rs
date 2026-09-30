@@ -21,7 +21,8 @@ pub(crate) struct Runtime {
     pub(crate) started: bool,
     pub(crate) objects: BTreeMap<u64, BTreeMap<u32, Value>>,
     pub(crate) next_object: u64,
-    pub(crate) arrays: BTreeMap<u64, BTreeMap<ArrayKey, Value>>,
+    /// Shared between copies: write through `Arc::make_mut` only.
+    pub(crate) arrays: BTreeMap<u64, Arc<BTreeMap<ArrayKey, Value>>>,
     pub(crate) dynamic_symbols: BTreeMap<Arc<str>, u32>,
     pub(crate) buckets: BTreeMap<i64, VecDeque<u64>>,
     pub(crate) spawned: Vec<u64>,

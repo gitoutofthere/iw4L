@@ -22,11 +22,13 @@ pub(crate) fn new_array(world: &mut World, values: Vec<Value>) -> Result<Value, 
     runtime.next_object = id.checked_add(1).ok_or("object identifier exhausted")?;
     runtime.arrays.insert(
         id,
-        values
-            .into_iter()
-            .enumerate()
-            .map(|(i, v)| (ArrayKey::Integer(i as i32), v))
-            .collect(),
+        std::sync::Arc::new(
+            values
+                .into_iter()
+                .enumerate()
+                .map(|(i, v)| (ArrayKey::Integer(i as i32), v))
+                .collect(),
+        ),
     );
     Ok(Value::Array(id))
 }
