@@ -1,0 +1,40 @@
+name: bench
+on:
+  push:
+    branches: ['bench/**']
+jobs:
+  bench:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - name: Free disk
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+      - uses: actions/checkout@v4
+      - name: System packages (docs/BUILD.md)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++ pkg-config libx11-dev libasound2-dev libudev-dev libwayland-dev libxkbcommon-dev linux-tools-common linux-tools-$(uname -r) || sudo apt-get install -y linux-tools-generic
+      - name: Build the bench (play profile, symbols kept)
+        env:
+          CARGO_PROFILE_PLAY_DEBUG: line-tables-only
+          CARGO_PROFILE_PLAY_STRIP: none
+          RUSTFLAGS: -C force-frame-pointers=yes
+        run: cargo build --profile play -p sim --example gsc_vm_bench
+      - name: Profile
+        run: |
+          sudo sysctl -w kernel.perf_event_paranoid=-1 kernel.kptr_restrict=0
+          b=./target/play/examples/gsc_vm_bench
+          for args in "32 80 8 6 4000 600 5" "16 40 4 4 2000 1200 0"; do
+            echo "### args=$args"
+            $b $args
+            perf record -F 1999 -g -o perf.data -- $b $args > /dev/null 2>&1
+            echo "--- self time"
+            perf report -i perf.data --stdio --no-children --sort symbol --percent-limit 0.7 2>/dev/null | grep -v '^$' | grep -E '^ +[0-9]' | head -45
+            echo "--- inclusive"
+            perf report -i perf.data --stdio --children --sort symbol --percent-limit 3 -g none 2>/dev/null | grep -E '^ +[0-9]' | head -45
+          done 2>&1 | tee bench.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bench
+          path: bench.txt
