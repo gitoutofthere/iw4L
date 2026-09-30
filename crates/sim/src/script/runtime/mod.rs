@@ -17,6 +17,8 @@ pub(crate) use state::Runtime;
 /// Level startup runs in one frame and needs over a million on the larger maps.
 pub(super) const INSTRUCTION_BUDGET: usize = 16 * 1_000_000;
 
+const COLLECT_MIN_ALLOCATIONS: u64 = 4096;
+
 pub(crate) fn take_signals(world: &mut World) -> Vec<Arc<str>> {
     std::mem::take(&mut world.resource_mut::<Runtime>().signals)
 }
@@ -1326,7 +1328,12 @@ pub(crate) fn advance_scheduler(world: &mut World) {
         runtime.buckets.remove(&now);
     }
     runtime.loading = false;
-    collect_heap(world);
+    // Ids are never reused and `dead` answers `isdefined` at once, so no
+    // script can tell when a collection ran.
+    let allocated = runtime.next_object.saturating_sub(runtime.collected_at);
+    if allocated >= COLLECT_MIN_ALLOCATIONS.max(runtime.live_after_collect as u64 / 2) {
+        collect_heap(world);
+    }
 }
 
 fn run_ready(world: &mut World, program: &Program, now: i64) {
@@ -1714,4 +1721,6 @@ fn collect_heap(world: &mut World) {
     runtime.objects.retain(|id, _| objects.contains(id));
     runtime.dead.retain(|id| objects.contains(id));
     runtime.arrays.retain(|id, _| arrays.contains(id));
+    runtime.collected_at = runtime.next_object;
+    runtime.live_after_collect = runtime.objects.len() + runtime.arrays.len();
 }
