@@ -1332,26 +1332,34 @@ fn run_ready(world: &mut World, program: &Program, now: i64) {
 }
 
 pub(super) fn execute(world: &mut World, program: &Program, thread: &mut Thread, now: i64) {
+    // The budget is shared with threads spawned inline; it lives in the
+    // runtime only across the calls that can run one, and here otherwise.
+    let mut budget = world.resource::<Runtime>().budget;
     while thread.state == ThreadState::Runnable {
         let frame = thread.frames.last().unwrap();
         let function = &program.functions[frame.function];
-        let Some((location, op)) = function.code.get(frame.pc).cloned() else {
+        let Some((location, op)) = function.code.get(frame.pc) else {
             world.resource_mut::<Runtime>().fault = Some(Fault::at(
                 &function.location,
                 "invalid IR: instruction position out of range",
             ));
             break;
         };
-        let exhausted = world.resource::<Runtime>().budget == 0;
-        let (pops, pushes) = stack_effect(&op);
-        let iterates = matches!(op, Op::ArrayKeys);
+        let exhausted = budget == 0;
         let before = thread.stack.len();
         let result = if exhausted {
             Err("potential infinite loop in script - killing thread".into())
         } else {
-            world.resource_mut::<Runtime>().budget -= 1;
+            budget -= 1;
             thread.frames.last_mut().unwrap().pc += 1;
-            instruction(world, program, thread, op, now)
+            if matches!(op, Op::Call(..) | Op::Spawn(..) | Op::Indirect(..)) {
+                world.resource_mut::<Runtime>().budget = budget;
+                let result = instruction(world, program, thread, op.clone(), now);
+                budget = world.resource::<Runtime>().budget;
+                result
+            } else {
+                instruction(world, program, thread, op.clone(), now)
+            }
         };
         let Err(message) = result else {
             continue;
@@ -1359,7 +1367,7 @@ pub(super) fn execute(world: &mut World, program: &Program, thread: &mut Thread,
         if world.resource::<Runtime>().fault.is_some() {
             break;
         }
-        let mut fault = Fault::at(&location, message);
+        let mut fault = Fault::at(location, message);
         fault.callers = thread
             .frames
             .iter()
@@ -1379,9 +1387,11 @@ pub(super) fn execute(world: &mut World, program: &Program, thread: &mut Thread,
         report(world, &fault);
         if exhausted {
             let serial = thread.serial;
-            let mut runtime = world.resource_mut::<Runtime>();
-            runtime.budget = INSTRUCTION_BUDGET;
-            runtime.waiters.retain(|w| w.thread != serial);
+            budget = INSTRUCTION_BUDGET;
+            world
+                .resource_mut::<Runtime>()
+                .waiters
+                .retain(|w| w.thread != serial);
             thread.frames.clear();
             thread.stack.clear();
             thread.state = ThreadState::Complete;
@@ -1389,26 +1399,28 @@ pub(super) fn execute(world: &mut World, program: &Program, thread: &mut Thread,
         }
         // The failed operation leaves undefined in place of
         // its results and the thread carries on.
+        let (pops, pushes) = stack_effect(op);
         let base = thread.frames.last().map_or(0, |f| f.stack_base);
         let Some(kept) = before.checked_sub(pops).filter(|kept| *kept >= base) else {
             world.resource_mut::<Runtime>().fault =
-                Some(Fault::at(&location, "invalid IR: stack underflow"));
+                Some(Fault::at(location, "invalid IR: stack underflow"));
             break;
         };
         thread.stack.truncate(kept);
         thread.stack.resize(kept + pushes, Value::Undefined);
         // foreach walks keys from its operand and skips the body
         // when that is not an array; an undefined key list would never end.
-        if iterates {
+        if matches!(op, Op::ArrayKeys) {
             match allocate_array(world) {
                 Ok(empty) => *thread.stack.last_mut().unwrap() = empty,
                 Err(message) => {
-                    world.resource_mut::<Runtime>().fault = Some(Fault::at(&location, message));
+                    world.resource_mut::<Runtime>().fault = Some(Fault::at(location, message));
                     break;
                 }
             }
         }
     }
+    world.resource_mut::<Runtime>().budget = budget;
 }
 
 fn stack_effect(op: &Op) -> (usize, usize) {
