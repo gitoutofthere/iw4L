@@ -1,6 +1,5 @@
 use playerstate_iw4::{PlayerState, pm_flags};
 
-
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct AdsFracContext {
     pub aim_down_sight: bool,

@@ -2,8 +2,8 @@ use crate::frame::FrameWorld;
 use crate::world::ClientId;
 use entity_iw4::{TR_GRAVITY, TR_INTERPOLATE, Trajectory, evaluate_trajectory};
 use playerstate_iw4::{
-    AnimPair, ENTITYNUM_NONE, LINK_FLAGS_FORCE_THIRD_PERSON, MAX_CLIENT_CORPSES, PLAYER_CORPSE_ENTITY_BASE,
-    PlayerState,
+    AnimPair, ENTITYNUM_NONE, LINK_FLAGS_FORCE_THIRD_PERSON, MAX_CLIENT_CORPSES,
+    PLAYER_CORPSE_ENTITY_BASE, PlayerState,
 };
 
 use crate::bullet_collision::{MASK_PLAYER_SOLID, PLAYER_MAXS, PLAYER_MINS};

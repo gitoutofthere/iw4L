@@ -87,10 +87,10 @@ pub use penetration::{
 pub use placement::{
     DUAL_WIELD_VIEW_MODEL_OFFSET_LEFT_SCALE, GUN_DAMAGE_ADS_HALF, GUN_DAMAGE_DEFLECT_MS,
     GUN_DAMAGE_OVERLAY_MIX, GUN_DAMAGE_RETURN_MS, PLACEMENT_ASSEMBLE_STEP_COUNT,
-    StanceTransitionFadeGlobals, VIEWHEIGHT_TARGET_CROUCH,
-    VIEWHEIGHT_TARGET_PRONE, WEAPON_BOB_AMP_DUCKED, WEAPON_BOB_AMP_PRONE, WEAPON_BOB_AMP_SPRINTING,
-    WEAPON_BOB_AMP_STANDING, WEAPON_BOB_AMPLITUDE_BASE, WEAPON_BOB_AMPLITUDE_ROLL, WEAPON_BOB_LAG,
-    WEAPON_BOB_MAX, WEAPON_BOB_UP_PHASE, WEAPON_IDLE_AMOUNT_DEFAULT, WEAPON_IDLE_FACTOR_LERP,
+    StanceTransitionFadeGlobals, VIEWHEIGHT_TARGET_CROUCH, VIEWHEIGHT_TARGET_PRONE,
+    WEAPON_BOB_AMP_DUCKED, WEAPON_BOB_AMP_PRONE, WEAPON_BOB_AMP_SPRINTING, WEAPON_BOB_AMP_STANDING,
+    WEAPON_BOB_AMPLITUDE_BASE, WEAPON_BOB_AMPLITUDE_ROLL, WEAPON_BOB_LAG, WEAPON_BOB_MAX,
+    WEAPON_BOB_UP_PHASE, WEAPON_IDLE_AMOUNT_DEFAULT, WEAPON_IDLE_FACTOR_LERP,
     WEAPON_IDLE_PITCH_FREQ, WEAPON_IDLE_ROLL_FREQ, WEAPON_IDLE_SIN_SCALE,
     WEAPON_IDLE_TIME_MS_SCALE, WEAPON_IDLE_YAW_FREQ, WeaponBobInputs, WeaponBobState,
     WeaponBobWaveformInputs, WeaponIdleInputs, WeaponMovementKinematics, WeaponMovementOfsInputs,
@@ -161,9 +161,8 @@ pub use weap_anim_rate::{
     slot_for_weap_anim_event, slot_uses_native_rate, weap_anim_extra,
 };
 pub use weapon_change::{
-    PMF_CHANGE_BLOCK, begin_weapon_change,
-    check_for_change_admits, finish_putaway_to_cmd, finish_putaway_while_holstered,
-    traversal_forces_holster, weapon_check_for_change,
+    PMF_CHANGE_BLOCK, begin_weapon_change, check_for_change_admits, finish_putaway_to_cmd,
+    finish_putaway_while_holstered, traversal_forces_holster, weapon_check_for_change,
 };
 pub use weaponcomplete::WeaponCompleteDef;
 pub use weapondef::WeaponDef;

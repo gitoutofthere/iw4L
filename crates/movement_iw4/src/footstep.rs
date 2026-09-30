@@ -2,7 +2,8 @@ use playerstate_iw4::{ENTITYNUM_NONE, PlayerState, pm_flags};
 
 use crate::{
     ANIM_MT_FLINCH_FORWARD, CmdScaleWalkContext, LADDER_JUMP_BLOCK_MS,
-    PLAYER_DMGTIMER_FLINCH_TIME_MS, PLAYER_DMGTIMER_STUMBLE_TIME_MS, add_predictable_event, damage_window_open, stance_speed_scale,
+    PLAYER_DMGTIMER_FLINCH_TIME_MS, PLAYER_DMGTIMER_STUMBLE_TIME_MS, add_predictable_event,
+    damage_window_open, stance_speed_scale,
 };
 
 pub const SURFACE_TYPE_NAMES: [&str; 31] = [

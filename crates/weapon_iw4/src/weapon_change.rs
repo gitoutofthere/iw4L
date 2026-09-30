@@ -91,10 +91,7 @@ pub fn weapon_check_for_change(
         if cmd_w == 0 || cmd.cmd_weapon_owned {
             let quick = cmd.mantle_quick_raise || cmd.cmd_weapon_pistol_quick;
             let event = begin_weapon_change(hand, facts, cmd_w, quick, cmd.pm_flags);
-            if cmd.alternate_switch
-                && event.is_some()
-                && cmd.pm_flags & pm_flags::SPRINTING == 0
-            {
+            if cmd.alternate_switch && event.is_some() && cmd.pm_flags & pm_flags::SPRINTING == 0 {
                 hand.weaponstate = WeaponState::DroppingAltswitch as i32;
                 hand.weapon_time = facts.alternate_drop_time_ms;
                 crate::weap_anim::start_weapon_anim(&mut hand.weap_anim, 0x11);

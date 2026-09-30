@@ -70,12 +70,14 @@ pub fn check_ladder_move(
         ps.pm_flags &= !pm_flags::LADDER_FALL;
     }
 
-    let early_ok = ps.pm_time == 0 || (ps.pm_flags & pm_flags::LADDER) != 0 || (ps.pm_flags & 0x180) == 0;
+    let early_ok =
+        ps.pm_time == 0 || (ps.pm_flags & pm_flags::LADDER) != 0 || (ps.pm_flags & 0x180) == 0;
     if !early_ok {
         return;
     }
 
-    let fell_off_in_air = (ps.pm_flags & pm_flags::LADDER) != 0 && ps.ground_entity_num == ENTITYNUM_NONE;
+    let fell_off_in_air =
+        (ps.pm_flags & pm_flags::LADDER) != 0 && ps.ground_entity_num == ENTITYNUM_NONE;
 
     let (check_dir, tracedist) = if fell_off_in_air {
         (

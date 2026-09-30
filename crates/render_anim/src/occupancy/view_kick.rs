@@ -7,10 +7,10 @@ use hud_iw4::{
     horizontal_to_vertical_fov_deg, zoom_sensitivity,
 };
 use math_iw4::{add_lean_to_position, angle_vectors};
-use playerstate_iw4::ENTITYNUM_NONE;
 use net::{
     AppliedEntityEventWalk, ClientActionInput, FrameClock, LocalPresentClient, PresentedSnapshot,
 };
+use playerstate_iw4::ENTITYNUM_NONE;
 use weapon_iw4::{
     VIEW_DAMAGE_UNDIRECTED, VIEW_ORG_BOB_Z_MIN_OFS, ViewAngleBobInputs, ViewOrgBobInputs,
     crash_land_fall_height, crash_land_view_dip, damage_feedback_kick, get_viewmodel_weapon_index,

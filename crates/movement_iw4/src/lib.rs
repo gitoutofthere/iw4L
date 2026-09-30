@@ -34,9 +34,7 @@ mod walk;
 
 pub use accelerate::accelerate;
 pub use ads_frac::{AdsFracContext, update_ads_frac};
-pub use ads_intent::{
-    AdsIntentContext, AdsIntentResult, BUTTON_ADS, update_ads_intent,
-};
+pub use ads_intent::{AdsIntentContext, AdsIntentResult, BUTTON_ADS, update_ads_intent};
 pub use air::{AirMoveContext, air_move};
 pub use check_prone::{PRONE_CHECK_HEIGHT, PRONE_FEET_DIST, check_prone, player_prone_allowed};
 pub use cmdscale::{CmdScaleWalkContext, cmd_scale_walk};
@@ -63,8 +61,8 @@ pub use is_in_air::is_in_air;
 pub use jump::{JumpAnimation, JumpCheckContext, JumpCheckResult, JumpLaunchContext};
 pub use ladder::{
     CheckLadderContext, LADDER_ATTRACT_SPEED, LADDER_JUMP_BLOCK_MS, LADDER_TRACE_DIST_AIR,
-    LADDER_TRACE_DIST_WALK, LadderAttachBackend, LadderMoveContext, LadderTraceHit, SURF_LADDER, check_ladder_move, clear_ladder_flag, ladder_attract_velocity,
-    ladder_move, set_ladder_flag,
+    LADDER_TRACE_DIST_WALK, LadderAttachBackend, LadderMoveContext, LadderTraceHit, SURF_LADDER,
+    check_ladder_move, clear_ladder_flag, ladder_attract_velocity, ladder_move, set_ladder_flag,
 };
 pub use mantle::{
     CONTENTS_MANTLE, CreateAnimsMantleRootDelta, FlatMantleAnimLength, MANTLE_CHECK_RADIUS_DEFAULT,
@@ -94,9 +92,9 @@ pub use sprint::{
     sprint_start_interfering_buttons, sprint_time_remaining, update_sprint,
 };
 pub use stance::{
-    CROUCH_MAXS_Z, PRONE_MAXS_Z, STAND_MAXS_Z, StanceChange, StanceSurface,
-    stance_speed_scale, stance_surface_type, sync_stance_tail, update_stance_flags,
-    update_stance_target, update_view_height, view_height, view_height_lerp_duration,
+    CROUCH_MAXS_Z, PRONE_MAXS_Z, STAND_MAXS_Z, StanceChange, StanceSurface, stance_speed_scale,
+    stance_surface_type, sync_stance_tail, update_stance_flags, update_stance_target,
+    update_view_height, view_height, view_height_lerp_duration,
 };
 pub use viewangles::{ANGLE2SHORT, SHORT2ANGLE, ViewAngleClamp, update_view_angles};
 pub use walk::{WalkMoveContext, walk_move};

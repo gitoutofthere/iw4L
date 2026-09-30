@@ -55,7 +55,9 @@ pub fn update_ads_intent(
     }
 
     if (cmd.buttons & BUTTON_ADS) != 0 && ads_allowed {
-        if (ps.pm_flags & pm_flags::PRONE) != 0 && !scoped_weapon_raised(ps, context.weapon_def_scope) {
+        if (ps.pm_flags & pm_flags::PRONE) != 0
+            && !scoped_weapon_raised(ps, context.weapon_def_scope)
+        {
             let moving = cmd.forwardmove != 0 || cmd.rightmove != 0;
             if (old_buttons & BUTTON_ADS) != 0 && moving && !prone_stance_settled(ps) {
             } else {
