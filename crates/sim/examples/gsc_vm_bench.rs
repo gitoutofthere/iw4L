@@ -8,7 +8,7 @@
 //! through the public `sim` API, so it measures what `try_step` measures.
 //!
 //! ```text
-//! cargo run -p sim --example gsc_vm_bench --profile play -- [players] [listeners] [tickers] [depth] [structs] [ticks]
+//! cargo run -p sim --example gsc_vm_bench --profile play -- [players] [listeners] [tickers] [depth] [structs] [ticks] [deaths_every]
 //! ```
 //!
 //! Defaults: 16 players, 40 listeners and 4 tickers each, depth 4, 2000 structs,
@@ -24,8 +24,11 @@ use sim::{MatchBootstrap, SimWorld, StepReason, Tick, TickInput};
 const MODULE: &str = "bench/mp";
 
 const SOURCE: &str = r#"
-main( players, listeners, tickers, depth, structs )
+main( players, listeners, tickers, depth, structs, deaths )
 {
+    level.deaths = deaths;
+    level.listeners = listeners;
+    level.depth = depth;
     level.structs = [];
     for ( i = 0; i < structs; i++ )
     {
@@ -45,6 +48,7 @@ main( players, listeners, tickers, depth, structs )
             player thread listen( "event" + ( j % 8 ) );
         for ( j = 0; j < tickers; j++ )
             player thread tick( depth );
+        player thread lives();
     }
     level thread drive();
 }
@@ -80,13 +84,43 @@ nest( depth )
     return nest( depth - 1 ) + 1;
 }
 
+lives()
+{
+    if ( level.deaths <= 0 )
+        return;
+    for ( j = 0; j < 8; j++ )
+        self thread life();
+}
+
+life()
+{
+    self endon( "death" );
+    for ( ;; )
+    {
+        wait 0.05;
+        self.counter = self.counter + nest( level.depth );
+    }
+}
+
 drive()
 {
+    frame = 0;
+    victim = 0;
     for ( ;; )
     {
         wait 0.05;
         foreach ( player in level.players )
             player notify( "event" + randomint( 8 ), 1 );
+        frame = frame + 1;
+        if ( level.deaths > 0 && frame % level.deaths == 0 )
+        {
+            player = level.players[ victim % level.players.size ];
+            victim = victim + 1;
+            player notify( "death" );
+            for ( j = 0; j < level.listeners; j++ )
+                player thread listen( "event" + ( j % 8 ) );
+            player thread lives();
+        }
     }
 }
 "#;
@@ -97,13 +131,14 @@ fn main() {
         .map(|arg| arg.parse().expect("arguments are integers"))
         .collect();
     let arg = |index: usize, default: i32| args.get(index).copied().unwrap_or(default);
-    let (players, listeners, tickers, depth, structs, ticks) = (
+    let (players, listeners, tickers, depth, structs, ticks, deaths) = (
         arg(0, 16),
         arg(1, 40),
         arg(2, 4),
         arg(3, 4),
         arg(4, 2000),
         arg(5, 1200),
+        arg(6, 0),
     );
 
     let sources = BTreeMap::from([(MODULE.to_owned(), SOURCE.to_owned())]);
@@ -126,6 +161,7 @@ fn main() {
                 Value::Int(tickers),
                 Value::Int(depth),
                 Value::Int(structs),
+                Value::Int(deaths),
             ],
         )
         .unwrap_or_else(|fault| panic!("start: {fault}"));
@@ -151,7 +187,7 @@ fn main() {
     let mean = steady.iter().sum::<f64>() / steady.len() as f64;
     let at = |p: f64| steady[((steady.len() - 1) as f64 * p) as usize];
     println!(
-        "players={players} listeners={listeners} tickers={tickers} depth={depth} structs={structs} ticks={}",
+        "players={players} listeners={listeners} tickers={tickers} depth={depth} structs={structs} deaths_every={deaths} ticks={}",
         samples.len()
     );
     println!(

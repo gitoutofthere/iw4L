@@ -1144,6 +1144,9 @@ fn retire(runtime: &mut Runtime, serial: u64) {
 }
 
 fn dequeue(runtime: &mut Runtime, serial: u64) {
+    let queued: usize = runtime.buckets.values().map(VecDeque::len).sum();
+    runtime.census.dequeues += 1;
+    runtime.census.bucket_visits += queued as u64;
     for bucket in runtime.buckets.values_mut() {
         bucket.retain(|s| *s != serial);
     }
@@ -1348,7 +1351,13 @@ pub(crate) fn advance_scheduler(world: &mut World) {
     // script can tell when a collection ran.
     let allocated = runtime.next_object.saturating_sub(runtime.collected_at);
     if allocated >= COLLECT_MIN_ALLOCATIONS.max(runtime.live_after_collect as u64 / 2) {
+        let started = std::time::Instant::now();
         collect_heap(world);
+        let micros = started.elapsed().as_micros() as u64;
+        let census = &mut world.resource_mut::<Runtime>().census;
+        census.collections += 1;
+        census.collect_micros += micros;
+        census.collect_max_micros = census.collect_max_micros.max(micros);
     }
     census_tick(world);
 }
@@ -1358,7 +1367,9 @@ fn census_tick(world: &mut World) {
     let mut runtime = world.resource_mut::<Runtime>();
     let waiters = runtime.waiters.len();
     let heap = runtime.objects.len() + runtime.arrays.len();
+    let queued: usize = runtime.buckets.values().map(VecDeque::len).sum();
     let census = &mut runtime.census;
+    census.peak_queued = census.peak_queued.max(queued);
     census.ticks += 1;
     census.peak_threads = census.peak_threads.max(threads);
     census.peak_waiters = census.peak_waiters.max(waiters);
@@ -1370,7 +1381,7 @@ fn census_tick(world: &mut World) {
     let waiter_visits = std::mem::take(&mut runtime.waiters.visits);
     diag::info!(
         Sim,
-        "gsc census: ticks={} instructions={} resumes={} notifies={} returns={} waiter_visits={} thread_visits={} peak_threads={} peak_waiters={} peak_heap={}",
+        "gsc census: ticks={} instructions={} resumes={} notifies={} returns={} waiter_visits={} thread_visits={} peak_threads={} peak_waiters={} peak_heap={} dequeues={} bucket_visits={} peak_queued={} collections={} collect_us={} collect_max_us={}",
         c.ticks,
         c.instructions,
         c.resumes,
@@ -1380,7 +1391,13 @@ fn census_tick(world: &mut World) {
         c.thread_visits,
         c.peak_threads,
         c.peak_waiters,
-        c.peak_heap
+        c.peak_heap,
+        c.dequeues,
+        c.bucket_visits,
+        c.peak_queued,
+        c.collections,
+        c.collect_micros,
+        c.collect_max_micros
     );
 }
 

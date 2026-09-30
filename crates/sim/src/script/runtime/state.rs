@@ -95,6 +95,12 @@ pub(crate) struct VmCensus {
     pub(crate) peak_threads: usize,
     pub(crate) peak_waiters: usize,
     pub(crate) peak_heap: usize,
+    pub(crate) dequeues: u64,
+    pub(crate) bucket_visits: u64,
+    pub(crate) peak_queued: usize,
+    pub(crate) collections: u64,
+    pub(crate) collect_micros: u64,
+    pub(crate) collect_max_micros: u64,
 }
 
 impl Runtime {
