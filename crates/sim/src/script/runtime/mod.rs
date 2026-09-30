@@ -78,12 +78,7 @@ fn deliver_pending(world: &mut World, thread: &mut Thread, now: i64) -> Result<(
 }
 
 fn deliver_external(world: &mut World, now: i64) {
-    let mut carrier = Thread {
-        serial: u64::MAX,
-        frames: Vec::new(),
-        stack: Vec::new(),
-        state: ThreadState::Complete,
-    };
+    let mut carrier = detached_thread();
     let pending = std::mem::take(&mut world.resource_mut::<Runtime>().pending_notifies);
     let program = world.resource::<Runtime>().program.clone().unwrap();
     for (receiver, name, args) in pending {
@@ -1108,17 +1103,22 @@ fn find_thread(world: &mut World, serial: u64) -> Option<Entity> {
         .map(|(e, _)| e)
 }
 
-fn take_thread(world: &mut World, entity: Entity) -> Thread {
-    // The stand-in keeps the entity in its table while the thread runs. No
-    // thread is ever given serial u64::MAX and the stand-in has no frames, so
+fn detached_thread() -> Thread {
+    // No thread is ever given serial u64::MAX and this one has no frames, so
     // lookups by serial and walks over frames pass it by.
-    let stand_in = Thread {
+    Thread {
         serial: u64::MAX,
         frames: Vec::new(),
         stack: Vec::new(),
         state: ThreadState::Complete,
-    };
-    std::mem::replace(&mut *world.get_mut::<Thread>(entity).unwrap(), stand_in)
+    }
+}
+
+fn take_thread(world: &mut World, entity: Entity) -> Thread {
+    std::mem::replace(
+        &mut *world.get_mut::<Thread>(entity).unwrap(),
+        detached_thread(),
+    )
 }
 
 fn put_thread(world: &mut World, entity: Entity, thread: Thread) {
@@ -1419,10 +1419,7 @@ pub(super) fn execute(world: &mut World, program: &Program, thread: &mut Thread,
         } else {
             budget -= 1;
             thread.frames.last_mut().unwrap().pc += 1;
-            if matches!(
-                op,
-                Op::Call(Callee::Native(_), ..) | Op::Spawn(..) | Op::Indirect(..)
-            ) {
+            if matches!(op, Op::Spawn(..) | Op::Indirect(_, _, true)) {
                 world.resource_mut::<Runtime>().budget = budget;
                 let result = instruction(world, program, thread, op, now);
                 budget = world.resource::<Runtime>().budget;
@@ -1661,9 +1658,10 @@ fn threads_waiting_on_deleted(world: &World) -> std::collections::BTreeSet<u64> 
 /// Deleting a waited-on object ends the thread; a thread whose self is deleted keeps running.
 fn waits_on_deleted(world: &World, serial: u64) -> bool {
     let runtime = world.resource::<Runtime>();
-    runtime.waiters.of_thread(serial).any(|w| {
-        matches!(w.receiver, Value::Object(id) if runtime.dead.contains(&id) || !runtime.objects.contains_key(&id))
-    })
+    runtime
+        .waiters
+        .of_thread(serial)
+        .any(|w| matches!(w.receiver, Value::Object(id) if !runtime.live(&id)))
 }
 
 impl Runtime {
