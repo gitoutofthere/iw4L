@@ -269,7 +269,6 @@ pub fn drive_client_admission_facts(
     mut torn: bevy::prelude::MessageReader<MatchTornDown>,
     link: Option<bevy::prelude::Res<UdpClientLink>>,
     bridge: Option<bevy::prelude::Res<MasterBridge>>,
-    adopted: bevy::prelude::Res<crate::LastAdoptedSnapshot>,
 ) {
     for fact in torn.read() {
         admission.core.apply_teardown(*fact);
@@ -277,14 +276,6 @@ pub fn drive_client_admission_facts(
     for fact in installed.read() {
         admission.core.apply_start(fact.load_key.match_key);
         admission.core.apply_install(fact.load_key);
-    }
-    if link
-        .as_ref()
-        .is_some_and(|link| link.has_applied_direct_snapshot())
-        && adopted.next().is_some()
-        && let Some(load) = admission.core.installed()
-    {
-        admission.core.apply_direct_adopted(load);
     }
     let key = live_match_key(bridge.as_deref());
     if !key.is_none() {

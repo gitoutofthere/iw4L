@@ -162,7 +162,7 @@ pub use transport::reliable::{
     ReliableRow, decode_reliable_payload, encode_reliable_payload,
 };
 pub use transport::udp_session::{CommittedAdmission, UdpAuthorityHub, UdpClientLink};
-pub use transport::udp_socket::{DEFAULT_RECV_BUDGET_PER_TICK, UdpDatagramSocket, UdpSendError};
+pub use transport::udp_socket::UdpSendError;
 pub use transport::wire::{WireError, WireReader, WireWriter};
 
 pub const PROTOCOL_VERSION: u32 = 83;

@@ -423,13 +423,8 @@ pub fn advance_cg_frame_clock(
 
 #[derive(Default)]
 pub struct JoinLinkWatch {
-    first_offer: Option<std::time::Instant>,
-    last_line: Option<std::time::Instant>,
-    offers: u32,
     connected: bool,
 }
-
-const JOIN_WAIT_LINE_SECS: f32 = 2.0;
 
 pub fn receive_ticks(
     mut link: Option<ResMut<crate::transport::udp_session::UdpClientLink>>,
@@ -438,22 +433,11 @@ pub fn receive_ticks(
     mut local: ResMut<LocalPresentClient>,
     mut prediction: ResMut<ClientPredictionState>,
     trace: Option<ResMut<ClientPhaseTrace>>,
-    descriptor: Option<Res<crate::MatchDescriptor>>,
     mut watch: Local<JoinLinkWatch>,
     mut reliable: ReliableInbound,
 ) {
     push_phase(trace, "Receive");
     if let Some(link) = link.as_mut() {
-        if descriptor.is_some() {
-            if let Err(e) = link.ensure_connected() {
-                diag::warn!(Net, "udp connect: {e}");
-            } else if link.should_offer_connect() {
-                watch.offers += 1;
-                watch
-                    .first_offer
-                    .get_or_insert_with(std::time::Instant::now);
-            }
-        }
         match link.recv_ticks() {
             Ok(ticks) => {
                 for tick in ticks {
@@ -493,60 +477,15 @@ pub fn receive_ticks(
     }
 }
 
-fn connect_wait_line_applies(should_offer: bool, rejected: bool, has_connection: bool) -> bool {
-    should_offer && !rejected && !has_connection
-}
-
 fn note_join_link(watch: &mut JoinLinkWatch, link: &crate::transport::udp_session::UdpClientLink) {
-    let waited = |watch: &JoinLinkWatch| {
-        watch
-            .first_offer
-            .map(|start| start.elapsed().as_secs_f32())
-            .unwrap_or(0.0)
-    };
-    if link.connection.is_some() {
-        if !watch.connected {
-            watch.connected = true;
-            diag::info!(
-                Net,
-                "udp client accepted by {} as client {} after {:.1}s and {} Connect offer(s)",
-                link.server,
-                link.assigned_client.map(|c| c.0).unwrap_or(0),
-                waited(watch),
-                watch.offers
-            );
-        }
-        return;
+    if link.connection.is_some() && !watch.connected {
+        watch.connected = true;
+        diag::info!(
+            Net,
+            "udp client accepted as client {}",
+            link.assigned_client.map(|c| c.0).unwrap_or(0)
+        );
     }
-    if !connect_wait_line_applies(
-        link.should_offer_connect(),
-        link.handshake_reject().is_some(),
-        false,
-    ) {
-        return;
-    }
-    let now = std::time::Instant::now();
-    if watch
-        .last_line
-        .is_some_and(|last| last.elapsed().as_secs_f32() < JOIN_WAIT_LINE_SECS)
-    {
-        return;
-    }
-    watch.last_line = Some(now);
-
-    let ours = link.hello.content;
-    diag::warn!(
-        Net,
-        "udp client waiting on {}: {} Connect offer(s) over {:.1}s, no Accept and no Reject — \
-         protocol={} offering map={:016x} weapons={:016x} classes={:016x}",
-        link.server,
-        watch.offers,
-        waited(watch),
-        link.hello.protocol_version,
-        ours.map,
-        ours.weapons,
-        ours.classes
-    );
 }
 
 #[derive(Resource, Default)]
