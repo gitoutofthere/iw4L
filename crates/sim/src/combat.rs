@@ -1144,9 +1144,9 @@ pub(crate) fn phase_trace(
                     ) => owner
                         .script_model()
                         .and_then(|id| world.gentity_number(id))
-                        .unwrap_or(i32::from(trace_iw4::ENTITYNUM_NONE)),
+                        .unwrap_or(ENTITYNUM_NONE),
                     Some(ColliderId::Player { client, .. }) => client.0 as i32,
-                    _ => i32::from(trace_iw4::ENTITYNUM_NONE),
+                    _ => ENTITYNUM_NONE,
                 },
                 event_parm: i32::from(flesh_flags),
                 weapon: em.weapon,

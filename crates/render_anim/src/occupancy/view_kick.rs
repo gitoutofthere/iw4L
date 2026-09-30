@@ -7,6 +7,7 @@ use hud_iw4::{
     horizontal_to_vertical_fov_deg, zoom_sensitivity,
 };
 use math_iw4::{add_lean_to_position, angle_vectors};
+use playerstate_iw4::ENTITYNUM_NONE;
 use net::{
     AppliedEntityEventWalk, ClientActionInput, FrameClock, LocalPresentClient, PresentedSnapshot,
 };
@@ -505,8 +506,6 @@ fn apply_fpv_lens_fov(
     }
     Some(horiz)
 }
-
-const ENTITYNUM_NONE: i32 = 0x7FF;
 
 fn stamp_and_land_origin_z(
     kick: &mut SessionViewKick,

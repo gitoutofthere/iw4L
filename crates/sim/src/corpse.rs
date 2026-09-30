@@ -2,7 +2,7 @@ use crate::frame::FrameWorld;
 use crate::world::ClientId;
 use entity_iw4::{TR_GRAVITY, TR_INTERPOLATE, Trajectory, evaluate_trajectory};
 use playerstate_iw4::{
-    AnimPair, LINK_FLAGS_FORCE_THIRD_PERSON, MAX_CLIENT_CORPSES, PLAYER_CORPSE_ENTITY_BASE,
+    AnimPair, ENTITYNUM_NONE, LINK_FLAGS_FORCE_THIRD_PERSON, MAX_CLIENT_CORPSES, PLAYER_CORPSE_ENTITY_BASE,
     PlayerState,
 };
 
@@ -54,7 +54,7 @@ impl Default for PlayerCorpseSlot {
             tr_delta: [0.0; 3],
             tr_base: [0.0; 3],
             falling: false,
-            ground_entity_num: i32::from(trace_iw4::ENTITYNUM_NONE),
+            ground_entity_num: ENTITYNUM_NONE,
         }
     }
 }
