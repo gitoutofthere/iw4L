@@ -1,8 +1,7 @@
 use crate::melee::weapon_settle_ready;
 use crate::tick::{WeaponCmd, WeaponCombatFacts, WeaponHandState, WeaponTickEvent};
 use crate::weaponstate::WeaponState;
-
-pub const PMF_LADDER: u32 = 0x8;
+use playerstate_iw4::pm_flags;
 
 pub const PMF_CHANGE_BLOCK: u32 = 0xc00;
 
@@ -46,7 +45,7 @@ pub fn check_for_change_admits(weaponstate: i32, weapon_time: i32, weapon_delay:
 
 #[inline]
 pub fn traversal_forces_holster(cmd: &WeaponCmd) -> bool {
-    cmd.mantle_weapon_inactive || (cmd.pm_flags & PMF_LADDER) != 0
+    cmd.mantle_weapon_inactive || (cmd.pm_flags & pm_flags::LADDER) != 0
 }
 
 fn is_dropping(ws: i32) -> bool {
@@ -94,7 +93,7 @@ pub fn weapon_check_for_change(
             let event = begin_weapon_change(hand, facts, cmd_w, quick, cmd.pm_flags);
             if cmd.alternate_switch
                 && event.is_some()
-                && cmd.pm_flags & crate::sprint::PMF_SPRINTING == 0
+                && cmd.pm_flags & pm_flags::SPRINTING == 0
             {
                 hand.weaponstate = WeaponState::DroppingAltswitch as i32;
                 hand.weapon_time = facts.alternate_drop_time_ms;
@@ -147,7 +146,7 @@ pub fn begin_weapon_change(
         facts.drop_time_ms.max(1)
     };
 
-    if pm_flags & crate::sprint::PMF_SPRINTING == 0 {
+    if pm_flags & pm_flags::SPRINTING == 0 {
         crate::weap_anim::start_weapon_anim(
             &mut hand.weap_anim,
             if quick {

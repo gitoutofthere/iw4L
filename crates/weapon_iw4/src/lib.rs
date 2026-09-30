@@ -87,7 +87,7 @@ pub use penetration::{
 pub use placement::{
     DUAL_WIELD_VIEW_MODEL_OFFSET_LEFT_SCALE, GUN_DAMAGE_ADS_HALF, GUN_DAMAGE_DEFLECT_MS,
     GUN_DAMAGE_OVERLAY_MIX, GUN_DAMAGE_RETURN_MS, PLACEMENT_ASSEMBLE_STEP_COUNT,
-    PMF_LADDER as PMF_LADDER_PLACEMENT, StanceTransitionFadeGlobals, VIEWHEIGHT_TARGET_CROUCH,
+    StanceTransitionFadeGlobals, VIEWHEIGHT_TARGET_CROUCH,
     VIEWHEIGHT_TARGET_PRONE, WEAPON_BOB_AMP_DUCKED, WEAPON_BOB_AMP_PRONE, WEAPON_BOB_AMP_SPRINTING,
     WEAPON_BOB_AMP_STANDING, WEAPON_BOB_AMPLITUDE_BASE, WEAPON_BOB_AMPLITUDE_ROLL, WEAPON_BOB_LAG,
     WEAPON_BOB_MAX, WEAPON_BOB_UP_PHASE, WEAPON_IDLE_AMOUNT_DEFAULT, WEAPON_IDLE_FACTOR_LERP,
@@ -120,7 +120,7 @@ pub use spread::{
     add_aim_spread_fire, adjust_aim_spread_scale, fire_weapon_spread_degrees,
     get_spread_for_weapon, perk_weap_spread_multiplier,
 };
-pub use sprint::{PMF_SPRINTING, weapon_advance_sprint, weapon_check_for_sprint};
+pub use sprint::{weapon_advance_sprint, weapon_check_for_sprint};
 pub use sway::{
     SWAY_FRAME_HZ, SWAY_SHELLSHOCK_SMOOTH_PEAK, SwayContribution, SwaySpringState, TRACK_SNAP_EPS,
     WeaponSwayParams, angle_delta, angle_normalize_180, calculate_weapon_movement_sway, clamp_abs,
@@ -161,7 +161,7 @@ pub use weap_anim_rate::{
     slot_for_weap_anim_event, slot_uses_native_rate, weap_anim_extra,
 };
 pub use weapon_change::{
-    PMF_CHANGE_BLOCK, PMF_LADDER as PMF_LADDER_WEAPON, begin_weapon_change,
+    PMF_CHANGE_BLOCK, begin_weapon_change,
     check_for_change_admits, finish_putaway_to_cmd, finish_putaway_while_holstered,
     traversal_forces_holster, weapon_check_for_change,
 };

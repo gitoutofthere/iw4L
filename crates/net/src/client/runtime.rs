@@ -1129,15 +1129,13 @@ pub fn sample_client_input(
 const AIM_AUTOMELEE_RANGE: f32 = 128.0;
 const MELEE_REGION_TAN_X: f32 = 0.849 * 0.5;
 const MELEE_REGION_TAN_Y: f32 = 0.478 * 0.5;
-const PMF_PRONE: u32 = 0x1;
-
 fn melee_charge_target(
     ps: &playerstate_iw4::PlayerState,
     local: sim::ClientId,
     snapshot: &Snapshot,
     world: &sim::SimWorld,
 ) -> Option<(f32, u8)> {
-    if ps.pm_flags & PMF_PRONE != 0 {
+    if ps.pm_flags & playerstate_iw4::pm_flags::PRONE != 0 {
         return None;
     }
     let local_team = snapshot.meta.for_client(local)?.client_state_team;

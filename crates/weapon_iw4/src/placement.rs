@@ -1,17 +1,14 @@
 use core::f32::consts::{FRAC_PI_2, PI, TAU};
 
 use math_iw4::{angle_vectors, get_lean_fraction};
-use playerstate_iw4::eflags;
+use playerstate_iw4::{eflags, pm_flags};
 
 use crate::kick::{
     GunKickSpring, GunRecoilPlacementState, calculate_weapon_position_gun_recoil,
     gun_recoil_angle_contribution,
 };
-use crate::sprint::PMF_SPRINTING;
 use crate::sway::{SwaySpringState, sway_contribution};
 use crate::weaponstate::WeaponState;
-
-pub const PMF_LADDER: u32 = 0x8;
 
 pub const VIEWHEIGHT_TARGET_PRONE: i32 = 0x0b;
 
@@ -357,7 +354,7 @@ fn weapon_bob_helper_amplitude(
         WEAPON_BOB_AMP_PRONE[idx]
     } else if view_height_target == VIEWHEIGHT_TARGET_CROUCH {
         ads_inner * WEAPON_BOB_AMP_DUCKED[idx]
-    } else if (pm_flags & PMF_SPRINTING) == 0 {
+    } else if (pm_flags & pm_flags::SPRINTING) == 0 {
         ads_inner * WEAPON_BOB_AMP_STANDING[idx]
     } else {
         WEAPON_BOB_AMP_SPRINTING[idx]
@@ -698,7 +695,7 @@ pub fn base_stance_movement_angles(
         || kinematics.weaponstate_secondary == WeaponState::Reloading as i32;
     let night_vision = kinematics.weaponstate == WeaponState::NightVisionWear as i32
         || kinematics.weaponstate == WeaponState::NightVisionRemove as i32;
-    let ladder = (kinematics.pm_flags & PMF_LADDER) != 0;
+    let ladder = (kinematics.pm_flags & pm_flags::LADDER) != 0;
 
     let mut origin_target = [0.0_f32; 3];
     let mut angles_target = [0.0_f32; 3];

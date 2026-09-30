@@ -1,5 +1,5 @@
 use math_iw4::{angle_normalize_360, angle_subtract, yaw_vectors_2d};
-use playerstate_iw4::{ENTITYNUM_NONE, PlayerState};
+use playerstate_iw4::{ENTITYNUM_NONE, PlayerState, pm_flags};
 use trace_iw4::Trace;
 
 use crate::{CollisionBackend, GroundTraceInput, StanceSurface, stance_surface_type};
@@ -51,7 +51,7 @@ pub fn player_prone_allowed<C: CollisionBackend>(
     if weapon_blocks_prone {
         return false;
     }
-    if (ps.pm_flags & crate::PMF_PRONE) != 0 {
+    if (ps.pm_flags & pm_flags::PRONE) != 0 {
         return true;
     }
     if ps.ground_entity_num == ENTITYNUM_NONE && !prone_special_air_ok(ps) {

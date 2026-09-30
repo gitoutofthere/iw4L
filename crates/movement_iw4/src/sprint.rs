@@ -1,6 +1,4 @@
-use playerstate_iw4::{PlayerState, UserCmd};
-
-pub const PMF_SPRINTING: u32 = 0x4000;
+use playerstate_iw4::{PlayerState, UserCmd, pm_flags};
 
 #[must_use]
 pub fn get_max_sprint_time(sprint_duration_scale: f32, player_sprint_time_seconds: f32) -> i32 {
@@ -33,8 +31,6 @@ fn ftol_round(x: f32) -> i32 {
 pub fn sprint_forward_below_minimum(forwardmove: i8, forward_minimum: i32) -> bool {
     !((forwardmove as i32) > forward_minimum)
 }
-
-const PMF_SPRINT_BLOCKED: u32 = 0x0002_0000;
 
 const BUTTON_SPRINT: u32 = 0x2;
 
@@ -115,12 +111,12 @@ fn weapon_state_admits_sprint(ps: &PlayerState, flags: u32, ending: bool) -> boo
 }
 
 pub fn end_sprint(ps: &mut PlayerState, cmd: &UserCmd) {
-    if (ps.pm_flags & PMF_SPRINTING) == 0 {
+    if (ps.pm_flags & pm_flags::SPRINTING) == 0 {
         return;
     }
     ps.sprint_delay = 0;
     ps.last_sprint_end = cmd.server_time;
-    ps.pm_flags &= !PMF_SPRINTING;
+    ps.pm_flags &= !pm_flags::SPRINTING;
     if (cmd.buttons & BUTTON_SPRINT) != 0 {
         ps.sprint_button_up_required = 1;
     }
@@ -201,7 +197,7 @@ pub fn update_sprint(
         return end_for_dead_movement_type(ps, cmd);
     }
 
-    if (ps.pm_flags & PMF_SPRINTING) != 0 {
+    if (ps.pm_flags & pm_flags::SPRINTING) != 0 {
         let unlimited = (ps.perks[0] & PERK_MARATHON) != 0 || context.sprint_forever;
         if !unlimited
             && ps.sprint_start_max_length <= cmd.server_time.wrapping_sub(ps.last_sprint_start)
@@ -235,7 +231,7 @@ pub fn update_sprint(
         }
     }
     if (cmd.buttons & BUTTON_SPRINT) == 0
-        || (ps.pm_flags & PMF_SPRINT_BLOCKED) != 0
+        || (ps.pm_flags & pm_flags::SPRINT_BLOCKED) != 0
         || ps.sprint_button_up_required != 0
         || sprint_start_interfering_buttons(
             ps,
@@ -255,17 +251,17 @@ pub fn update_sprint(
 
     ps.sprint_start_max_length = budget;
     ps.last_sprint_start = cmd.server_time;
-    ps.pm_flags |= PMF_SPRINTING;
+    ps.pm_flags |= pm_flags::SPRINTING;
     SprintResult::Started
 }
 
 fn end_for_dead_movement_type(ps: &mut PlayerState, cmd: &UserCmd) -> SprintResult {
-    if (ps.pm_flags & PMF_SPRINTING) == 0 {
+    if (ps.pm_flags & pm_flags::SPRINTING) == 0 {
         return SprintResult::Unchanged;
     }
     ps.sprint_delay = 0;
     ps.last_sprint_end = cmd.server_time;
-    ps.pm_flags &= !PMF_SPRINTING;
+    ps.pm_flags &= !pm_flags::SPRINTING;
     if (cmd.buttons & BUTTON_SPRINT) != 0 {
         ps.sprint_button_up_required = 1;
     }

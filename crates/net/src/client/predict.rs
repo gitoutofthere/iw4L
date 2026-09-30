@@ -1,6 +1,5 @@
 use entity_iw4::adjust_position_for_mover;
-use movement_iw4::PMF_SPRINTING;
-use playerstate_iw4::{PlayerState, UserCmd, buttons, eflags, other_flags};
+use playerstate_iw4::{PlayerState, UserCmd, buttons, eflags, other_flags, pm_flags};
 use sim::{AdoptReport, ClientId, SimWorld, Snapshot, Tick, TickInput};
 use std::collections::VecDeque;
 
@@ -591,7 +590,7 @@ impl ClientPrediction {
                 if self
                     .world
                     .player(self.local)
-                    .is_some_and(|ps| (ps.pm_flags & PMF_SPRINTING) != 0)
+                    .is_some_and(|ps| (ps.pm_flags & pm_flags::SPRINTING) != 0)
                 {
                     seeded |= buttons::SPRINT;
                 }

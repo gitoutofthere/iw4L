@@ -410,7 +410,7 @@ pub fn weapon_check_for_offhand(
     if (cmd.e_flags & 0x100000) != 0 {
         return None;
     }
-    if (cmd.pm_flags & pm_flags::BLOCK_OFFHAND_OTS) != 0 {
+    if (cmd.pm_flags & pm_flags::SPRINTING) != 0 {
         return None;
     }
     if !admits_check_for_offhand(hand.weaponstate) {

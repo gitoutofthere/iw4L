@@ -836,7 +836,7 @@ fn register_body(registry: &mut NativeRegistry) {
         Ok(Value::Int(
             frame
                 .player(id)
-                .is_some_and(|ps| ps.pm_flags & movement_iw4::PMF_LADDER != 0)
+                .is_some_and(|ps| ps.pm_flags & playerstate_iw4::pm_flags::LADDER != 0)
                 .into(),
         ))
     });

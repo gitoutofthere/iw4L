@@ -1,7 +1,6 @@
 use crate::tick::{WeaponCombatFacts, WeaponHandState};
 use crate::weaponstate::WeaponState;
-
-pub const PMF_SPRINTING: u32 = 0x4000;
+use playerstate_iw4::pm_flags;
 
 pub fn weapon_check_for_sprint(
     hand: &mut WeaponHandState,
@@ -17,7 +16,7 @@ pub fn weapon_check_for_sprint(
     if !check_for_sprint_allowed(ws) {
         return;
     }
-    let sprinting = pm_flags & PMF_SPRINTING != 0;
+    let sprinting = pm_flags & pm_flags::SPRINTING != 0;
     if sprinting && !ws.is_sprint() {
         begin_sprint(hand, facts);
     } else if !sprinting && matches!(ws, WeaponState::SprintIn | WeaponState::SprintLoop) {
