@@ -1,0 +1,74 @@
+name: bench-ab
+on:
+  push:
+    branches: ['bench/**']
+jobs:
+  bench:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    env:
+      BASE: 5221023eb54c8a9ff4176f5b54d6723b94e82ecb
+      EXAMPLE: gsc_vm_bench
+      PKG: sim
+      REPS: '5'
+    steps:
+      - name: Free disk
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: System packages (docs/BUILD.md)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++ pkg-config libx11-dev libasound2-dev libudev-dev libwayland-dev libxkbcommon-dev linux-tools-common linux-tools-$(uname -r) || sudo apt-get install -y linux-tools-generic
+      - name: Build head and base (play profile, symbols kept)
+        env:
+          CARGO_PROFILE_PLAY_DEBUG: line-tables-only
+          CARGO_PROFILE_PLAY_STRIP: none
+          RUSTFLAGS: -C force-frame-pointers=yes
+        run: |
+          mkdir -p /tmp/ab
+          cp bench-args.txt /tmp/ab/args.txt
+          cp crates/$PKG/examples/$EXAMPLE.rs /tmp/ab/example.rs
+          cargo build --profile play -p $PKG --example $EXAMPLE
+          cp target/play/examples/$EXAMPLE /tmp/ab/head
+          git rev-parse HEAD > /tmp/ab/head.sha
+          git checkout -q --detach $BASE
+          mkdir -p crates/$PKG/examples && cp /tmp/ab/example.rs crates/$PKG/examples/$EXAMPLE.rs
+          cargo build --profile play -p $PKG --example $EXAMPLE
+          cp target/play/examples/$EXAMPLE /tmp/ab/base
+      - name: Interleaved runs
+        run: |
+          cd /tmp/ab
+          while IFS= read -r args; do
+            [ -z "$args" ] && continue
+            for rep in $(seq 1 $REPS); do
+              if [ $((rep % 2)) = 1 ]; then order="base head"; else order="head base"; fi
+              for v in $order; do
+                echo "@@ $v rep=$rep args=$args"
+                taskset -c 1 ./$v $args
+              done
+            done
+          done < args.txt 2>&1 | tee runs.txt
+      - name: Profile
+        run: |
+          cd /tmp/ab
+          sudo sysctl -w kernel.perf_event_paranoid=-1 kernel.kptr_restrict=0
+          args=$(head -1 args.txt)
+          for v in base head; do
+            echo "### $v args=$args"
+            perf record -F 1999 -g -o $v.data -- taskset -c 1 ./$v $args > /dev/null 2>&1
+            echo "--- self time"
+            perf report -i $v.data --stdio --no-children --sort symbol --percent-limit 0.5 2>/dev/null | grep -E '^ +[0-9]' | head -60
+            echo "--- callers of Runtime lookups and Op::clone"
+            perf report -i $v.data --stdio --no-children --sort symbol --symbol-filter=Runtime -g caller,0.5,callee,function,percent 2>/dev/null | grep -v '^#' | grep -v '^$' | head -120
+            perf report -i $v.data --stdio --no-children --sort symbol --symbol-filter=clone -g caller,0.5,callee,function,percent 2>/dev/null | grep -v '^#' | grep -v '^$' | head -60
+          done 2>&1 | tee profile.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bench
+          path: |
+            /tmp/ab/runs.txt
+            /tmp/ab/profile.txt
+            /tmp/ab/head.sha
