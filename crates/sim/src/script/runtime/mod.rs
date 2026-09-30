@@ -606,7 +606,7 @@ fn instruction(
                 unreachable!()
             };
             let mut runtime = world.resource_mut::<Runtime>();
-            let array = runtime.arrays.get_mut(&id).unwrap();
+            let array = Arc::make_mut(runtime.arrays.get_mut(&id).unwrap());
             for (i, key) in keys.into_iter().enumerate() {
                 array.insert(ArrayKey::Integer(i as i32), key);
             }
@@ -680,10 +680,7 @@ fn instruction(
                     let mut runtime = world.resource_mut::<Runtime>();
                     match receiver {
                         Value::Array(id) => {
-                            runtime
-                                .arrays
-                                .get_mut(&id)
-                                .unwrap()
+                            Arc::make_mut(runtime.arrays.get_mut(&id).unwrap())
                                 .insert(key, value.clone());
                         }
                         Value::Object(id) => {
@@ -751,10 +748,12 @@ fn instruction(
             let mut runtime = world.resource_mut::<Runtime>();
             match receiver {
                 Value::Array(id) => {
-                    let values = runtime
-                        .arrays
-                        .get_mut(&id)
-                        .ok_or("invalid array reference")?;
+                    let values = Arc::make_mut(
+                        runtime
+                            .arrays
+                            .get_mut(&id)
+                            .ok_or("invalid array reference")?,
+                    );
                     if value == Value::Undefined {
                         values.remove(&key);
                     } else {
@@ -1574,7 +1573,7 @@ fn allocate_array(world: &mut World) -> Result<Value, String> {
     let mut runtime = world.resource_mut::<Runtime>();
     let id = runtime.next_object;
     runtime.next_object = id.checked_add(1).ok_or("object identifier exhausted")?;
-    runtime.arrays.insert(id, BTreeMap::new());
+    runtime.arrays.insert(id, Arc::default());
     Ok(Value::Array(id))
 }
 
@@ -1606,15 +1605,17 @@ fn copy_value(world: &mut World, value: Value) -> Result<Value, String> {
         let Value::Array(new_id) = result else {
             unreachable!()
         };
-        for (key, value) in entries {
-            let value = copy(world, value, depth + 1, remaining)?;
-            world
-                .resource_mut::<Runtime>()
-                .arrays
-                .get_mut(&new_id)
-                .unwrap()
-                .insert(key, value);
-        }
+        // Nested arrays are copied in key order: id allocation order is part of determinism.
+        let rows = if entries.values().any(|value| matches!(value, Value::Array(_))) {
+            let mut rows = BTreeMap::new();
+            for (key, value) in entries.iter() {
+                rows.insert(key.clone(), copy(world, value.clone(), depth + 1, remaining)?);
+            }
+            Arc::new(rows)
+        } else {
+            entries
+        };
+        world.resource_mut::<Runtime>().arrays.insert(new_id, rows);
         Ok(result)
     }
     copy(world, value, 0, &mut 100_000)
