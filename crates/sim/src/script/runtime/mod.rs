@@ -20,6 +20,8 @@ pub(super) const INSTRUCTION_BUDGET: usize = 16 * 1_000_000;
 
 const COLLECT_MIN_ALLOCATIONS: u64 = 4096;
 
+const CENSUS_PERIOD_TICKS: u32 = 200;
+
 pub(crate) fn take_signals(world: &mut World) -> Vec<Arc<str>> {
     std::mem::take(&mut world.resource_mut::<Runtime>().signals)
 }
@@ -1022,6 +1024,7 @@ fn instruction(
             let value = pop(thread)?;
             let depth = thread.frames.len() - 1;
             let serial = thread.serial;
+            world.resource_mut::<Runtime>().census.returns += 1;
             // Endons of the frames above were dropped when those returned or
             // unwound; only one registered by this frame can name `depth`.
             if thread.frames[depth].endons > 0 {
@@ -1099,11 +1102,15 @@ fn find_thread(world: &mut World, serial: u64) -> Option<Entity> {
     {
         return Some(entity);
     }
-    world
+    let mut visited = 0u64;
+    let found = world
         .query::<(Entity, &Thread)>()
         .iter(world)
+        .inspect(|_| visited += 1)
         .find(|(_, t)| t.serial == serial)
-        .map(|(e, _)| e)
+        .map(|(e, _)| e);
+    world.resource_mut::<Runtime>().census.thread_visits += visited;
+    found
 }
 
 fn with_thread<R>(
@@ -1196,6 +1203,7 @@ fn notify(
     if *receiver == Value::Object(0) {
         world.resource_mut::<Runtime>().signals.push(name.clone());
     }
+    world.resource_mut::<Runtime>().census.notifies += 1;
     loop {
         let taken = world
             .resource_mut::<Runtime>()
@@ -1342,6 +1350,38 @@ pub(crate) fn advance_scheduler(world: &mut World) {
     if allocated >= COLLECT_MIN_ALLOCATIONS.max(runtime.live_after_collect as u64 / 2) {
         collect_heap(world);
     }
+    census_tick(world);
+}
+
+fn census_tick(world: &mut World) {
+    let threads = world.query::<&Thread>().iter(world).count();
+    let mut runtime = world.resource_mut::<Runtime>();
+    let waiters = runtime.waiters.len();
+    let heap = runtime.objects.len() + runtime.arrays.len();
+    let census = &mut runtime.census;
+    census.ticks += 1;
+    census.peak_threads = census.peak_threads.max(threads);
+    census.peak_waiters = census.peak_waiters.max(waiters);
+    census.peak_heap = census.peak_heap.max(heap);
+    if census.ticks < CENSUS_PERIOD_TICKS {
+        return;
+    }
+    let c = std::mem::take(census);
+    let waiter_visits = std::mem::take(&mut runtime.waiters.visits);
+    diag::info!(
+        Sim,
+        "gsc census: ticks={} instructions={} resumes={} notifies={} returns={} waiter_visits={} thread_visits={} peak_threads={} peak_waiters={} peak_heap={}",
+        c.ticks,
+        c.instructions,
+        c.resumes,
+        c.notifies,
+        c.returns,
+        waiter_visits,
+        c.thread_visits,
+        c.peak_threads,
+        c.peak_waiters,
+        c.peak_heap
+    );
 }
 
 fn run_ready(world: &mut World, program: &Program, now: i64) {
@@ -1366,6 +1406,12 @@ fn run_ready(world: &mut World, program: &Program, now: i64) {
         thread.state = ThreadState::Runnable;
         world.resource_mut::<Runtime>().budget = INSTRUCTION_BUDGET;
         execute(world, program, &mut thread, now);
+        {
+            let mut runtime = world.resource_mut::<Runtime>();
+            let ran = INSTRUCTION_BUDGET.saturating_sub(runtime.budget) as u64;
+            runtime.census.resumes += 1;
+            runtime.census.instructions += ran;
+        }
         if thread.state == ThreadState::Complete {
             kill(world, entity, serial);
         } else {

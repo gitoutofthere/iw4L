@@ -10,6 +10,7 @@ pub(crate) struct Waiters {
     rows: BTreeMap<u64, Waiter>,
     by_event: BTreeMap<(u64, Arc<str>), BTreeSet<u64>>,
     by_thread: BTreeMap<u64, BTreeSet<u64>>,
+    pub(crate) visits: u64,
 }
 
 fn object_id(receiver: &Value) -> Option<u64> {
@@ -20,6 +21,10 @@ fn object_id(receiver: &Value) -> Option<u64> {
 }
 
 impl Waiters {
+    pub(crate) fn len(&self) -> usize {
+        self.rows.len()
+    }
+
     pub(crate) fn iter(&self) -> impl Iterator<Item = &Waiter> {
         self.rows.values()
     }
@@ -64,13 +69,16 @@ impl Waiters {
         accepts: impl Fn(&Waiter) -> bool,
     ) -> Option<Waiter> {
         let id = object_id(receiver)?;
+        let mut visited = 0;
         let seq = self
             .by_event
             .get(&(id, name.clone()))?
             .iter()
             .copied()
-            .find(|seq| accepts(&self.rows[seq]))?;
-        self.remove(seq)
+            .inspect(|_| visited += 1)
+            .find(|seq| accepts(&self.rows[seq]));
+        self.visits += visited;
+        self.remove(seq?)
     }
 
     pub(crate) fn any_on(
@@ -99,6 +107,7 @@ impl Waiters {
         let Some(seqs) = self.by_thread.get(&serial) else {
             return;
         };
+        self.visits += seqs.len() as u64;
         let dropped: Vec<u64> = seqs
             .iter()
             .copied()

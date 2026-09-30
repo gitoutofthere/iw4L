@@ -81,6 +81,20 @@ pub(crate) struct Runtime {
     pub(crate) live_after_collect: usize,
     /// Empty until a program is installed: then every field asks the engine.
     pub(crate) engine_player_fields: Vec<bool>,
+    pub(crate) census: VmCensus,
+}
+
+#[derive(Clone, Debug, Default)]
+pub(crate) struct VmCensus {
+    pub(crate) ticks: u32,
+    pub(crate) instructions: u64,
+    pub(crate) resumes: u64,
+    pub(crate) notifies: u64,
+    pub(crate) returns: u64,
+    pub(crate) thread_visits: u64,
+    pub(crate) peak_threads: usize,
+    pub(crate) peak_waiters: usize,
+    pub(crate) peak_heap: usize,
 }
 
 impl Runtime {
