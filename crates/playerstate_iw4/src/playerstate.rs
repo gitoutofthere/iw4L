@@ -306,6 +306,8 @@ pub const PERK_PISTOLDEATH: u32 = 1 << 7;
 
 pub const PERK_QUIETER: u32 = 1 << 8;
 
+pub const PERK_SCAVENGER: u32 = 1 << 22;
+
 pub const PERK_COLDBLOODED: u32 = 1 << 27;
 
 pub const PERK_HEARTBREAKER: u32 = 1 << 28;

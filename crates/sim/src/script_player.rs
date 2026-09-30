@@ -663,7 +663,7 @@ fn perk_bits(name: &str) -> (u32, u32) {
         "specialty_fastreload" => weapon_iw4::PERK_FASTRELOAD,
         "specialty_coldblooded" => playerstate_iw4::PERK_COLDBLOODED,
         "specialty_lightweight" => weapon_iw4::PERK_LIGHTWEIGHT_VIEW_BOB_BIT,
-        "specialty_scavenger" => crate::item::PERK_SCAVENGER,
+        "specialty_scavenger" => playerstate_iw4::PERK_SCAVENGER,
         "specialty_quieter" => playerstate_iw4::PERK_QUIETER,
         "specialty_heartbreaker" => playerstate_iw4::PERK_HEARTBREAKER,
         "specialty_marathon" => movement_iw4::PERK_MARATHON,

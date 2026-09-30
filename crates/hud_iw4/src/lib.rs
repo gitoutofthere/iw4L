@@ -126,15 +126,18 @@ pub use gamemsg::{
 };
 pub use hudelem::{
     ALIGN_SCREEN_HORZ_SHIFT, GAME_HUDELEM_ARCHIVED, GAME_HUDELEM_CAPACITY, GAME_HUDELEM_STRIDE,
-    GameHudElem, HE_TYPE_FREE, HE_TYPE_MATERIAL, HE_TYPE_PLAYERNAME, HE_TYPE_TEXT, HE_TYPE_VALUE,
-    HE_TYPE_WAYPOINT, HORZ_ALIGN_CENTER, HUDELEM_ARCHIVAL_REMAPPED_TIMES, HUDELEM_BANK_CAPACITY,
-    HUDELEM_STRIDE, HUDELEM_TYPE_NAMES, HudElem, HudElemPlacement, ORG_LEADING, ORG_MIDDLE,
-    ORG_TRAILING, PLAYERSTATE_HUD_ARCHIVAL, PLAYERSTATE_HUD_BANKS_END, PLAYERSTATE_HUD_CURRENT,
-    VERT_ALIGN_MIDDLE, WAYPOINT_CONSTANT_SIZE, WAYPOINT_HIDE_OFFSCREEN, WAYPOINT_PULSE_OFFSCREEN,
-    align_org, align_screen, color_rgba, copy_in_use_prefix, flags, hud_elem_glow_color,
-    hud_elem_lerp_font_scale, hud_elem_material_size, hud_elem_movement_frac, hud_elem_origin,
-    hud_elem_placement, hud_elem_position, hud_elem_scale_frac, hud_elem_screen_align,
-    lerp_hud_colors, rebase_archival_times, unpack_rgba,
+    GameHudElem, HE_TYPE_CLOCK_DOWN, HE_TYPE_CLOCK_UP, HE_TYPE_FREE, HE_TYPE_MATERIAL,
+    HE_TYPE_PLAYERNAME, HE_TYPE_TENTHS_TIMER_DOWN, HE_TYPE_TENTHS_TIMER_STATIC,
+    HE_TYPE_TENTHS_TIMER_UP, HE_TYPE_TEXT, HE_TYPE_TIMER_DOWN, HE_TYPE_TIMER_STATIC,
+    HE_TYPE_TIMER_UP, HE_TYPE_VALUE, HE_TYPE_WAYPOINT, HORZ_ALIGN_CENTER,
+    HUDELEM_ARCHIVAL_REMAPPED_TIMES, HUDELEM_BANK_CAPACITY, HUDELEM_STRIDE, HUDELEM_TYPE_NAMES,
+    HudElem, HudElemPlacement, ORG_LEADING, ORG_MIDDLE, ORG_TRAILING, PLAYERSTATE_HUD_ARCHIVAL,
+    PLAYERSTATE_HUD_BANKS_END, PLAYERSTATE_HUD_CURRENT, VERT_ALIGN_MIDDLE, WAYPOINT_CONSTANT_SIZE,
+    WAYPOINT_HIDE_OFFSCREEN, WAYPOINT_PULSE_OFFSCREEN, align_org, align_screen, color_rgba,
+    copy_in_use_prefix, flags, hud_elem_glow_color, hud_elem_lerp_font_scale,
+    hud_elem_material_size, hud_elem_movement_frac, hud_elem_origin, hud_elem_placement,
+    hud_elem_position, hud_elem_scale_frac, hud_elem_screen_align, lerp_hud_colors,
+    rebase_archival_times, unpack_rgba,
 };
 pub use iris::{
     ADS_IRIS_ZOOM_ACTIVE_MIN, ADS_OVERLAY_FOUR_QUAD_LETTERBOX_SCALE, ADS_OVERLAY_ONE_QUAD_HALF,
