@@ -583,8 +583,7 @@ fn instruction(
                 .len()
                 .checked_sub(2)
                 .ok_or("invalid IR: stack underflow")?;
-            let pair = thread.stack[base..].to_vec();
-            thread.stack.extend(pair);
+            thread.stack.extend_from_within(base..);
         }
         Op::ArrayKeys => {
             let Value::Array(id) = pop(thread)? else {
@@ -808,12 +807,10 @@ fn instruction(
                 .len()
                 .checked_sub(argc)
                 .ok_or("invalid IR: argument underflow")?;
-            let args = thread
-                .stack
-                .split_off(base)
-                .into_iter()
-                .map(|value| copy_value(world, value))
-                .collect::<Result<Vec<_>, _>>()?;
+            let mut args = thread.stack.split_off(base);
+            for arg in &mut args {
+                *arg = copy_value(world, std::mem::replace(arg, Value::Undefined))?;
+            }
             let callee = match op {
                 Op::Call(callee, _, _) | Op::Spawn(callee, _, _) => callee,
                 Op::Indirect(..) => match pop(thread)? {
