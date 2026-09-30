@@ -76,6 +76,8 @@ pub(crate) struct Runtime {
     pub(crate) restored_pers: BTreeMap<u32, host::restart::Detached>,
     /// A hint: the entity may hold another serial by now, so a lookup checks it.
     pub(crate) thread_entities: BTreeMap<u64, bevy_ecs::entity::Entity>,
+    pub(crate) collected_at: u64,
+    pub(crate) live_after_collect: usize,
 }
 
 impl Runtime {
