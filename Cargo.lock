@@ -3941,7 +3941,6 @@ dependencies = [
  "rustls-pemfile",
  "rustls-platform-verifier",
  "sim",
- "socket2",
  "tokio",
  "tokio-util",
  "weapon_iw4",
