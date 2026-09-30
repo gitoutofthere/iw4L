@@ -606,6 +606,25 @@ const SEAT_FIELDS: [&str; 6] = [
 
 const RADAR_FIELDS: [&str; 3] = ["hasradar", "radarmode", "isradarblocked"];
 
+const STATE_FIELDS: [&str; 10] = [
+    "sessionstate",
+    "origin",
+    "angles",
+    "health",
+    "maxhealth",
+    "name",
+    "score",
+    "kills",
+    "deaths",
+    "sessionteam",
+];
+
+/// `load_field` and `store_field` answer these names and nothing else; the
+/// runtime skips both for any other field.
+pub(crate) fn is_engine_field(name: &str) -> bool {
+    STATE_FIELDS.contains(&name) || SEAT_FIELDS.contains(&name) || RADAR_FIELDS.contains(&name)
+}
+
 pub(crate) fn publish_radar(world: &mut World) {
     let rows: Vec<(u32, bool, crate::RadarMode, bool)> = world
         .resource::<Runtime>()
@@ -737,10 +756,14 @@ pub(crate) fn sync_players(world: &mut World) {
             .collect()
     };
     for (client, joined) in clients {
-        let slot = world.resource::<Runtime>().players.get(&client).cloned();
+        let slot = world
+            .resource::<Runtime>()
+            .players
+            .get(&client)
+            .map(|slot| (slot.begun, slot.object));
         match slot {
-            Some(slot) if !slot.begun && joined => {
-                raise(world, Value::Object(slot.object), "begin", Vec::new());
+            Some((false, object)) if joined => {
+                raise(world, Value::Object(object), "begin", Vec::new());
                 if let Some(slot) = world.resource_mut::<Runtime>().players.get_mut(&client) {
                     slot.begun = true;
                 }
@@ -812,6 +835,9 @@ fn client_name(name: &[u8]) -> String {
 }
 
 pub(crate) fn load_field(world: &mut World, client: u32, name: &str) -> Option<Value> {
+    if !is_engine_field(name) {
+        return None;
+    }
     let id = ClientId(client);
     if name == "sessionstate" {
         let runtime = world.resource::<Runtime>();
@@ -894,6 +920,9 @@ pub(crate) fn store_field(
     name: &str,
     value: &Value,
 ) -> Result<bool, String> {
+    if !is_engine_field(name) {
+        return Ok(false);
+    }
     let id = ClientId(client);
     let int = |value: &Value| match value {
         Value::Int(n) => Ok(*n),
