@@ -8,10 +8,8 @@ use crate::script::runtime::raise;
 use crate::script::{Arc, NativeRegistry, Runtime, Value};
 use crate::world::ClientId;
 use bevy_ecs::prelude::World;
-use weapon_iw4::WeaponState;
-
-const WEAPTYPE_GRENADE: i32 = 1;
-pub(crate) const WEAPTYPE_PROJECTILE: i32 = 2;
+use weapon_iw4::{WEAPTYPE_GRENADE, WeaponState};
+pub(crate) use weapon_iw4::WEAPTYPE_PROJECTILE;
 
 const GRENADE_LINGER_MS: i64 = 30_000; // threads on the grenade keep running after it explodes
 
