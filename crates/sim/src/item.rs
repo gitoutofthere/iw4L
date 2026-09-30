@@ -2,7 +2,7 @@ use crate::frame::FrameWorld;
 use anim_iw4::random;
 use entity_iw4::{TR_GRAVITY, TR_STATIONARY, Trajectory, evaluate_trajectory};
 use math_iw4::angle_vectors;
-use playerstate_iw4::{ENTITYNUM_NONE, PM_TYPE_DEAD, PlayerState};
+use playerstate_iw4::{ENTITYNUM_NONE, PERK_SCAVENGER, PM_TYPE_DEAD, PlayerState};
 use weapon_iw4::{
     ammo_table_key, clip_table_key, get_ammo_not_in_clip, get_clip_for_hand,
     player_weapons_find_slot, set_ammo_not_in_clip, set_clip_for_hand,
@@ -28,8 +28,6 @@ pub const ITEM_MINS: [f32; 3] = [0.0, 0.0, 0.0];
 pub const ITEM_MAXS: [f32; 3] = [1.0, 1.0, 1.0];
 
 pub const PLAYER_DROP_Z: f32 = (PLAYER_MAXS[2] - PLAYER_MINS[2]) * 0.5;
-
-pub const PERK_SCAVENGER: u32 = 1 << 22;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct DroppedItem {

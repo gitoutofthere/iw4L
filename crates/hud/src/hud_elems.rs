@@ -5,10 +5,12 @@ use assets::PreparedLocalizedStrings;
 use bevy::prelude::*;
 use frame::UiPlaySound;
 use hud_iw4::{
-    HE_TYPE_MATERIAL, HE_TYPE_PLAYERNAME, HE_TYPE_TEXT, HE_TYPE_VALUE, HE_TYPE_WAYPOINT, HudElem,
-    KEY_UNBOUND, WAYPOINT_CONSTANT_SIZE, WAYPOINT_HIDE_OFFSCREEN, copy_in_use_prefix,
-    hud_elem_glow_color, hud_elem_placement, hud_elem_screen_align, hudelem_font_ui_enum,
-    hudelem_text_scale, lerp_hud_colors, replace_directive, ui_get_font_handle, unbound_directive,
+    HE_TYPE_MATERIAL, HE_TYPE_PLAYERNAME, HE_TYPE_TENTHS_TIMER_DOWN, HE_TYPE_TENTHS_TIMER_STATIC,
+    HE_TYPE_TENTHS_TIMER_UP, HE_TYPE_TEXT, HE_TYPE_TIMER_DOWN, HE_TYPE_TIMER_STATIC,
+    HE_TYPE_TIMER_UP, HE_TYPE_VALUE, HE_TYPE_WAYPOINT, HudElem, KEY_UNBOUND,
+    WAYPOINT_CONSTANT_SIZE, WAYPOINT_HIDE_OFFSCREEN, copy_in_use_prefix, hud_elem_glow_color,
+    hud_elem_placement, hud_elem_screen_align, hudelem_font_ui_enum, hudelem_text_scale,
+    lerp_hud_colors, replace_directive, ui_get_font_handle, unbound_directive,
 };
 use net::{CEntity, CEntityRuntime, FrameClock, LocalPresentClient, PresentedSnapshot};
 use sim::{ClientLifecycle, SnapshotMeta};
@@ -20,13 +22,6 @@ use crate::gaps::{GapCause, HudPresentationGaps};
 use crate::gpu_list::{HudTessPass, TessJob};
 use crate::hudelem::resolve_hud_text;
 use crate::images::HudImages;
-
-const HE_TYPE_TIMER_DOWN: i32 = 5;
-const HE_TYPE_TIMER_UP: i32 = 6;
-const HE_TYPE_TIMER_STATIC: i32 = 7;
-const HE_TYPE_TENTHS_TIMER_DOWN: i32 = 8;
-const HE_TYPE_TENTHS_TIMER_UP: i32 = 9;
-const HE_TYPE_TENTHS_TIMER_STATIC: i32 = 10;
 
 const WAYPOINT_ICON_SIZE: f32 = 24.0;
 const WAYPOINT_OFFSCREEN_PAD: f32 = 24.0;

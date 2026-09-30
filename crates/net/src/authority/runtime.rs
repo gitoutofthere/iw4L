@@ -12,7 +12,7 @@ use crate::policy::seat::ActiveKillcams;
 use crate::schedule::{AuthoritySet, ClientSet};
 use crate::transport::archive::FrameArchive;
 use crate::transport::loopback_live::ListenLoopback;
-use frame::{ExitLevelCalled, GameEnded, MatchTornDown, RuntimeRole, register_script_notify};
+use frame::{ExitLevelCalled, MatchTornDown, RuntimeRole, register_script_notify};
 use sim::{ClientId, ClientLifecycle, DamageSource, SimEvent};
 
 #[derive(Resource)]
@@ -1085,33 +1085,16 @@ fn fanout_loopback(
     queues.pending_gamenotify.clear_after_fanout();
 }
 
-#[derive(Resource, Debug, Default, Clone)]
-pub struct ScriptNotifyEmitStats {
-    pub game_ended: u32,
-}
-
 pub fn authority_bookkeeping(
     server_tick: Res<ServerTick>,
     mut archive: ResMut<FrameArchive>,
     seats: Res<ActiveKillcams>,
-    mut ended: MessageWriter<GameEnded>,
-    mut stats: ResMut<ScriptNotifyEmitStats>,
     trace: Option<ResMut<AuthorityPhaseTrace>>,
 ) {
     push_phase(trace, "Bookkeeping");
 
     if let Some(tick) = server_tick.0.as_ref() {
         archive.push_snapshot(&tick.snapshot, &seats.viewers());
-        if tick
-            .snapshot
-            .meta
-            .journal
-            .iter()
-            .any(|r| matches!(r.event, SimEvent::MatchEnded { .. }))
-        {
-            ended.write(GameEnded);
-            stats.game_ended = stats.game_ended.saturating_add(1);
-        }
     }
 }
 pub fn register_listen_runtime(app: &mut App) {
@@ -1130,7 +1113,6 @@ pub fn register_listen_runtime(app: &mut App) {
         .init_resource::<ActiveKillcams>()
         .init_resource::<NetDiagnostics>()
         .init_resource::<ClientShotSamples>()
-        .init_resource::<ScriptNotifyEmitStats>()
         .init_resource::<NetIdentityGaps>()
         .init_resource::<crate::PendingSvcSounds>()
         .init_resource::<crate::PendingPlayerCard>()

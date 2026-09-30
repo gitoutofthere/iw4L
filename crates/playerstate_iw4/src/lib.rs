@@ -15,8 +15,8 @@ pub use chrome::{
 };
 pub use playerstate::{
     AnimPair, ENTITYNUM_NONE, PERK_COLDBLOODED, PERK_HEARTBREAKER, PERK_PISTOLDEATH, PERK_QUIETER,
-    PlayerState, eflags, get_viewmodel_weapon_index, mantle_flags, other_flags, pm_flags,
-    weap_flags,
+    PERK_SCAVENGER, PlayerState, eflags, get_viewmodel_weapon_index, mantle_flags, other_flags,
+    pm_flags, weap_flags,
 };
 pub use seat::{
     HITSCAN_KILL_CAM_ENTITY, SeatFocus, apply_killcam_seat, rebase_archived_timers,

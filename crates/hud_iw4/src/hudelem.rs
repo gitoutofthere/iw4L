@@ -126,6 +126,22 @@ pub const HE_TYPE_PLAYERNAME: i32 = 3;
 
 pub const HE_TYPE_MATERIAL: i32 = 4;
 
+pub const HE_TYPE_TIMER_DOWN: i32 = 5;
+
+pub const HE_TYPE_TIMER_UP: i32 = 6;
+
+pub const HE_TYPE_TIMER_STATIC: i32 = 7;
+
+pub const HE_TYPE_TENTHS_TIMER_DOWN: i32 = 8;
+
+pub const HE_TYPE_TENTHS_TIMER_UP: i32 = 9;
+
+pub const HE_TYPE_TENTHS_TIMER_STATIC: i32 = 10;
+
+pub const HE_TYPE_CLOCK_DOWN: i32 = 11;
+
+pub const HE_TYPE_CLOCK_UP: i32 = 12;
+
 pub const HE_TYPE_WAYPOINT: i32 = 13;
 
 pub const WAYPOINT_CONSTANT_SIZE: i32 = 0x1;

@@ -9,6 +9,7 @@ use crate::{
 };
 use anim_iw4::DOBJ_RADIUS_PARENT_ROOT;
 use entity_iw4::{ET_ITEM, Trajectory, evaluate_trajectory};
+use playerstate_iw4::PERK_SCAVENGER;
 use render_scene::{
     HostGfxScene, ModelLightingOwner, ModelLightingRequest, ModelLightingRequests,
     SmodelPassMaterial, TessMaterials, WorldModelLightingAtlas, WorldPresentFacts,
@@ -219,8 +220,6 @@ fn item_world_from_local(origin: [f32; 3], angles: [f32; 3]) -> Mat4 {
     }
     .to_matrix()
 }
-
-const PERK_SCAVENGER: u32 = 1 << 22;
 
 fn item_is_scavenger(snapshot: &sim::Snapshot, entnum: i32) -> bool {
     snapshot
