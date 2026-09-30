@@ -44,7 +44,10 @@ fn near_angles(a: [f32; 3], b: [f32; 3]) -> bool {
 }
 
 fn field(runtime: &Runtime, id: u64, symbol: u32) -> Option<&Value> {
-    runtime.objects.get(&id).and_then(|fields| fields.get(&symbol))
+    runtime
+        .objects
+        .get(&id)
+        .and_then(|fields| fields.get(&symbol))
 }
 
 fn vector(runtime: &Runtime, id: u64, symbol: u32) -> [f32; 3] {

@@ -1025,12 +1025,10 @@ fn instruction(
             // Endons of the frames above were dropped when those returned or
             // unwound; only one registered by this frame can name `depth`.
             if thread.frames[depth].endons > 0 {
-                world
-                    .resource_mut::<Runtime>()
-                    .waiters
-                    .retain_thread(serial, |w| {
-                        !matches!(w.kind, WaiterKind::Endon { frame } if frame >= depth)
-                    });
+                world.resource_mut::<Runtime>().waiters.retain_thread(
+                    serial,
+                    |w| !matches!(w.kind, WaiterKind::Endon { frame } if frame >= depth),
+                );
             }
             let frame = thread
                 .frames
@@ -1095,7 +1093,9 @@ fn find_thread(world: &mut World, serial: u64) -> Option<Entity> {
         .get(&serial)
         .copied();
     if let Some(entity) = remembered
-        && world.get::<Thread>(entity).is_some_and(|t| t.serial == serial)
+        && world
+            .get::<Thread>(entity)
+            .is_some_and(|t| t.serial == serial)
     {
         return Some(entity);
     }
@@ -1156,9 +1156,10 @@ fn resume_now(world: &mut World, thread: &mut Thread, now: i64) {
 fn unwind(world: &mut World, thread: &mut Thread, depth: usize, now: i64, running: bool) {
     let serial = thread.serial;
     let mut runtime = world.resource_mut::<Runtime>();
-    runtime.waiters.retain_thread(serial, |w| {
-        matches!(w.kind, WaiterKind::Endon { frame } if frame < depth)
-    });
+    runtime.waiters.retain_thread(
+        serial,
+        |w| matches!(w.kind, WaiterKind::Endon { frame } if frame < depth),
+    );
     if !running {
         dequeue(&mut runtime, serial);
     }
@@ -1197,13 +1198,14 @@ fn notify(
         world.resource_mut::<Runtime>().signals.push(name.clone());
     }
     loop {
-        let taken = world
-            .resource_mut::<Runtime>()
-            .waiters
-            .take_first(receiver, name, |w| match &w.kind {
-                WaiterKind::Match { values } => payload_matches(values, arguments),
-                _ => true,
-            });
+        let taken =
+            world
+                .resource_mut::<Runtime>()
+                .waiters
+                .take_first(receiver, name, |w| match &w.kind {
+                    WaiterKind::Match { values } => payload_matches(values, arguments),
+                    _ => true,
+                });
         let Some(waiter) = taken else {
             return Ok(());
         };
@@ -1212,9 +1214,10 @@ fn notify(
                 let mut runtime = world.resource_mut::<Runtime>();
                 if runtime.suspended.contains(&waiter.thread) {
                     runtime.pending_unwinds.push((waiter.thread, frame));
-                    runtime.waiters.retain_thread(waiter.thread, |w| {
-                        matches!(w.kind, WaiterKind::Endon { frame: f } if f < frame)
-                    });
+                    runtime.waiters.retain_thread(
+                        waiter.thread,
+                        |w| matches!(w.kind, WaiterKind::Endon { frame: f } if f < frame),
+                    );
                     continue;
                 }
                 with_thread(world, current, waiter.thread, |world, thread, running| {
@@ -1603,10 +1606,16 @@ fn copy_value(world: &mut World, value: Value) -> Result<Value, String> {
             unreachable!()
         };
         // Nested arrays are copied in key order: id allocation order is part of determinism.
-        let rows = if entries.values().any(|value| matches!(value, Value::Array(_))) {
+        let rows = if entries
+            .values()
+            .any(|value| matches!(value, Value::Array(_)))
+        {
             let mut rows = BTreeMap::new();
             for (key, value) in entries.iter() {
-                rows.insert(key.clone(), copy(world, value.clone(), depth + 1, remaining)?);
+                rows.insert(
+                    key.clone(),
+                    copy(world, value.clone(), depth + 1, remaining)?,
+                );
             }
             Arc::new(rows)
         } else {
