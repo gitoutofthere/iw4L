@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use frame::{GameEnded, MatchTornDown, RuntimeRole};
+use frame::{MatchTornDown, RuntimeRole};
 
 use crate::plugin::NetPlugin;
 use crate::schedule::{
@@ -68,7 +68,6 @@ fn probe_app() -> App {
     let mut app = App::new();
     app.add_plugins(bevy::time::TimePlugin);
     app.add_message::<MatchTornDown>();
-    app.add_message::<GameEnded>();
     app
 }
 
