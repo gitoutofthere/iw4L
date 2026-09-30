@@ -122,6 +122,7 @@ fn frame(
         stack_base,
         receiver,
         locals,
+        endons: 0,
     }
 }
 
@@ -186,7 +187,7 @@ pub(super) fn run_now(
     if thread.state == ThreadState::Complete {
         retire(&mut world.resource_mut::<Runtime>(), thread.serial);
     } else {
-        world.spawn(thread);
+        park(world, thread);
     }
     match world.resource::<Runtime>().fault.clone() {
         Some(fault) => Err(fault),
@@ -204,8 +205,17 @@ fn spawn_thread(
     let thread = new_thread(world, program, function, receiver, args)?;
     let serial = thread.serial;
     world.resource_mut::<Runtime>().spawned.push(serial);
-    world.spawn(thread);
+    park(world, thread);
     Ok(serial)
+}
+
+fn park(world: &mut World, thread: Thread) {
+    let serial = thread.serial;
+    let entity = world.spawn(thread).id();
+    world
+        .resource_mut::<Runtime>()
+        .thread_entities
+        .insert(serial, entity);
 }
 
 pub(super) fn new_thread(
@@ -258,7 +268,7 @@ fn run_inline(
     if child.state == ThreadState::Complete {
         retire(&mut runtime, child.serial);
     } else {
-        world.spawn(child);
+        park(world, child);
     }
     parent.stack.push(Value::Undefined);
     let mut runtime = world.resource_mut::<Runtime>();
@@ -998,6 +1008,7 @@ fn instruction(
             let name = event_name(pop(thread)?)?;
             let receiver = event_receiver(pop(thread)?)?;
             let frame = thread.frames.len() - 1;
+            thread.frames[frame].endons += 1;
             world.resource_mut::<Runtime>().waiters.push(Waiter {
                 receiver,
                 name,
@@ -1009,10 +1020,14 @@ fn instruction(
             let value = pop(thread)?;
             let depth = thread.frames.len() - 1;
             let serial = thread.serial;
-            world.resource_mut::<Runtime>().waiters.retain(|w| {
-                w.thread != serial
-                    || !matches!(w.kind, WaiterKind::Endon { frame } if frame >= depth)
-            });
+            // Endons of the frames above were dropped when those returned or
+            // unwound; only one registered by this frame can name `depth`.
+            if thread.frames[depth].endons > 0 {
+                world.resource_mut::<Runtime>().waiters.retain(|w| {
+                    w.thread != serial
+                        || !matches!(w.kind, WaiterKind::Endon { frame } if frame >= depth)
+                });
+            }
             let frame = thread
                 .frames
                 .pop()
@@ -1061,6 +1076,16 @@ fn register(
 }
 
 fn find_thread(world: &mut World, serial: u64) -> Option<Entity> {
+    let remembered = world
+        .resource::<Runtime>()
+        .thread_entities
+        .get(&serial)
+        .copied();
+    if let Some(entity) = remembered
+        && world.get::<Thread>(entity).is_some_and(|t| t.serial == serial)
+    {
+        return Some(entity);
+    }
     world
         .query::<(Entity, &Thread)>()
         .iter(world)
@@ -1082,6 +1107,10 @@ fn with_thread<R>(
     let result = f(world, &mut thread, false);
     if thread.state == ThreadState::Complete {
         world.despawn(entity);
+        world
+            .resource_mut::<Runtime>()
+            .thread_entities
+            .remove(&serial);
     } else {
         world.entity_mut(entity).insert(thread);
     }
@@ -1089,6 +1118,7 @@ fn with_thread<R>(
 }
 
 fn retire(runtime: &mut Runtime, serial: u64) {
+    runtime.thread_entities.remove(&serial);
     runtime.waiters.retain(|w| w.thread != serial);
     dequeue(runtime, serial);
 }
@@ -1255,16 +1285,17 @@ pub(crate) fn advance_scheduler(world: &mut World) {
     super::host::mechanics::deliver_finished(world);
     deliver_timers(world, now);
     deliver_external(world, now);
-    let threads: Vec<_> = world
-        .query::<(Entity, &Thread)>()
-        .iter(world)
-        .map(|(entity, thread)| (entity, thread.serial, entity_receivers(world, thread)))
-        .collect();
-    let dead: Vec<_> = threads
-        .into_iter()
-        .filter(|(_, _, receivers)| any_deleted(world, receivers))
-        .map(|(entity, serial, _)| (entity, serial))
-        .collect();
+    let doomed = threads_waiting_on_deleted(world);
+    let dead: Vec<_> = if doomed.is_empty() {
+        Vec::new()
+    } else {
+        world
+            .query::<(Entity, &Thread)>()
+            .iter(world)
+            .filter(|(_, thread)| doomed.contains(&thread.serial))
+            .map(|(entity, thread)| (entity, thread.serial))
+            .collect()
+    };
     for (entity, serial) in dead {
         kill(world, entity, serial);
     }
@@ -1568,6 +1599,19 @@ fn copy_value(world: &mut World, value: Value) -> Result<Value, String> {
         Ok(result)
     }
     copy(world, value, 0, &mut 100_000)
+}
+
+fn threads_waiting_on_deleted(world: &World) -> std::collections::BTreeSet<u64> {
+    let runtime = world.resource::<Runtime>();
+    runtime
+        .waiters
+        .iter()
+        .filter(|w| {
+            matches!(w.receiver, Value::Object(id)
+                if runtime.dead.contains(&id) || !runtime.objects.contains_key(&id))
+        })
+        .map(|w| w.thread)
+        .collect()
 }
 
 /// Deleting a waited-on object ends the thread; a thread whose self is deleted keeps running.
