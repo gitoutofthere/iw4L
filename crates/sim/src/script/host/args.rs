@@ -2,8 +2,13 @@ use crate::script::Value;
 use crate::script::runtime::to_text;
 
 pub(crate) fn arg(args: &[Value], index: usize) -> Result<&Value, String> {
-    args.get(index)
-        .ok_or_else(|| format!("parameter {} does not exist", index + 1))
+    let value = args
+        .get(index)
+        .ok_or_else(|| format!("parameter {} does not exist", index + 1))?;
+    value
+        .ensure_finite()
+        .map_err(|m| format!("parameter {}: {m}", index + 1))?;
+    Ok(value)
 }
 
 pub(crate) fn float(args: &[Value], index: usize) -> Result<f32, String> {

@@ -127,7 +127,7 @@ pub use step::phase_materialize_entity_dobjs;
 pub use world::{
     ClientId, HitvolDumpRow, PendingLocalSound, PendingPlayerCardEvent, PendingPlayerCardKind,
     PendingPrint, PlayerKitCollision, SimBrush, SimClipBsp, SimClipCmodels, SimClipMesh,
-    SimStaticModel, SimTriggerHull, Tick, WeaponScriptSounds, blank_player_state,
+    SimStaticModel, SimTriggerHull, Tick, WeaponScriptSounds, blank_player_state, snapshot_fault,
 };
 pub use world_objects::{
     DestructibleLoopSound, GLASS_BLAST_DAMAGE_SCALE, GLASS_BLAST_RADIUS_CAP,

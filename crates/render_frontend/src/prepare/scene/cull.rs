@@ -95,10 +95,13 @@ pub struct DpvsFrameStats {
 const DRAW_DECALS: bool = true;
 
 fn single_cell_from_env() -> bool {
-    matches!(
-        std::env::var("IW4L_SINGLE_CELL").as_deref(),
-        Ok("1") | Ok("true") | Ok("yes")
-    )
+    static ON: std::sync::OnceLock<bool> = std::sync::OnceLock::new();
+    *ON.get_or_init(|| {
+        matches!(
+            std::env::var("IW4L_SINGLE_CELL").as_deref(),
+            Ok("1") | Ok("true") | Ok("yes")
+        )
+    })
 }
 
 #[derive(Component)]

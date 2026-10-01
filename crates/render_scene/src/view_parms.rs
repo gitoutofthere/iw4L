@@ -308,16 +308,22 @@ pub fn prepare_scene_view(
     }
 }
 
-fn no_frustum_env() -> bool {
-    matches!(
-        std::env::var("IW4L_NO_FRUSTUM").as_deref(),
-        Ok("1") | Ok("true") | Ok("yes")
-    )
+pub fn no_frustum_env() -> bool {
+    static ON: std::sync::OnceLock<bool> = std::sync::OnceLock::new();
+    *ON.get_or_init(|| {
+        matches!(
+            std::env::var("IW4L_NO_FRUSTUM").as_deref(),
+            Ok("1") | Ok("true") | Ok("yes")
+        )
+    })
 }
 
-fn frustum_nearfar_env() -> bool {
-    matches!(
-        std::env::var("IW4L_FRUSTUM_NEARFAR").as_deref(),
-        Ok("1") | Ok("true") | Ok("yes")
-    )
+pub fn frustum_nearfar_env() -> bool {
+    static ON: std::sync::OnceLock<bool> = std::sync::OnceLock::new();
+    *ON.get_or_init(|| {
+        matches!(
+            std::env::var("IW4L_FRUSTUM_NEARFAR").as_deref(),
+            Ok("1") | Ok("true") | Ok("yes")
+        )
+    })
 }

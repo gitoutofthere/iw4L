@@ -886,7 +886,13 @@ fn register_script(registry: &mut NativeRegistry) {
 
 fn key_number(args: &[Value], index: usize) -> Result<f32, String> {
     match args.get(index) {
-        Some(Value::String(text)) => Ok(atof(text) as f32),
+        Some(Value::String(text)) => {
+            let number = atof(text) as f32;
+            Value::Float(number)
+                .ensure_finite()
+                .map_err(|m| format!("parameter {}: {m}", index + 1))?;
+            Ok(number)
+        }
         _ => float(args, index),
     }
 }
