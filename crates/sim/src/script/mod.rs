@@ -50,3 +50,5 @@ pub use source::{FileSources, SourceResolver, decode_source, normalize_module};
 pub(crate) use value::ArrayKey;
 pub use value::Value;
 pub(crate) use vm::state::{Frame, Thread, ThreadState, Waiter, WaiterKind};
+
+pub use runtime::__iw4l_notify_probe_raise;

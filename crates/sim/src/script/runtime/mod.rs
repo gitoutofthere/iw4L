@@ -1685,3 +1685,8 @@ fn collect_heap(world: &mut World) {
     runtime.dead.retain(|id| objects.contains(id));
     runtime.arrays.retain(|id, _| arrays.contains(id));
 }
+
+// Disposable benchmark-only bridge to the production pending-notify queue.
+pub fn __iw4l_notify_probe_raise(world: &mut World, name: &str) {
+    raise(world, Value::level(), name, Vec::new());
+}
