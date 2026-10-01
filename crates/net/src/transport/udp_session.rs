@@ -1242,7 +1242,8 @@ impl UdpClientLink {
                     .map_err(|e| e.to_string())?;
                 snapshot.meta = frame.snapshot_meta.clone();
                 if let Some(fault) = sim::snapshot_fault(&snapshot, weapon_count) {
-                    return Err(format!("snapshot {snapshot_seq} rejected: {fault}"));
+                    diag::warn!(Net, "snapshot {snapshot_seq} rejected: {fault}");
+                    return Ok(false);
                 }
                 self.note_applied_snapshot(snapshot_seq);
                 self.baselines.insert(snapshot_seq, snapshot.clone());
