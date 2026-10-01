@@ -533,13 +533,14 @@ pub(super) fn binary(op: Binary, a: Value, b: Value) -> Result<Value, String> {
     }
 }
 
-fn finite_value(value: Value) -> Result<Value, String> {
-    match &value {
+#[inline]
+fn finite_value(value: &Value) -> Result<(), String> {
+    match value {
         Value::Float(n) if !n.is_finite() => Err("non-finite script value".into()),
         Value::Vector(v) if !v.iter().all(|n| n.is_finite()) => {
             Err("non-finite script value".into())
         }
-        _ => Ok(value),
+        _ => Ok(()),
     }
 }
 
@@ -567,7 +568,10 @@ fn instruction(
         Op::Call(_, _, true) | Op::Spawn(_, _, true) | Op::Indirect(_, true, _)
     );
     match *op {
-        Op::Constant(ref value) => thread.stack.push(finite_value(value.clone())?),
+        Op::Constant(ref value) => {
+            finite_value(value)?;
+            thread.stack.push(value.clone());
+        }
         Op::FunctionRef(_) => return Err("invalid IR: unlinked function reference".into()),
         Op::Global(global) => thread.stack.push(match global {
             Global::SelfRef => thread.frames.last().unwrap().receiver.clone(),
@@ -577,7 +581,8 @@ fn instruction(
         }),
         Op::Load(slot) => {
             let value = thread.frames.last().unwrap().locals[slot as usize].clone();
-            thread.stack.push(finite_value(value)?);
+            finite_value(&value)?;
+            thread.stack.push(value);
         }
         Op::Store(slot) => {
             let value = copy_value(world, pop(thread)?)?;
@@ -752,7 +757,8 @@ fn instruction(
                 }
                 _ => return Err("value cannot be indexed".into()),
             };
-            thread.stack.push(finite_value(value)?);
+            finite_value(&value)?;
+            thread.stack.push(value);
         }
         Op::StoreIndex => {
             let value = copy_value(world, pop(thread)?)?;
@@ -871,7 +877,10 @@ fn instruction(
                         native(world, &receiver, &args)
                     }))
                     .unwrap_or_else(|_| Err("builtin panicked".into()))
-                    .and_then(finite_value)
+                    .and_then(|value| {
+                        finite_value(&value)?;
+                        Ok(value)
+                    })
                     .map_err(|m| format!("{name}: {m}"))?;
                     thread.stack.push(value);
                     deliver_pending(world, thread, now)?;
@@ -947,7 +956,8 @@ fn instruction(
                     &program.symbols[field as usize],
                 )
             {
-                thread.stack.push(finite_value(value)?);
+                finite_value(&value)?;
+                thread.stack.push(value);
                 return Ok(());
             }
             let runtime = world.resource::<Runtime>();
@@ -955,11 +965,9 @@ fn instruction(
                 .objects
                 .get(&id)
                 .ok_or("invalid script object reference")?;
-            thread
-                .stack
-                .push(finite_value(
-                    fields.get(&field).cloned().unwrap_or(Value::Undefined),
-                )?);
+            let value = fields.get(&field).cloned().unwrap_or(Value::Undefined);
+            finite_value(&value)?;
+            thread.stack.push(value);
         }
         Op::StoreField(field) => {
             let value = copy_value(world, pop(thread)?)?;
