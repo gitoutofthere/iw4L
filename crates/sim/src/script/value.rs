@@ -17,6 +17,16 @@ pub enum Value {
 }
 
 impl Value {
+    pub(crate) fn ensure_finite(&self) -> Result<(), String> {
+        match self {
+            Self::Float(n) if !n.is_finite() => Err("non-finite numeric value".into()),
+            Self::Vector(v) if !v.iter().all(|n| n.is_finite()) => {
+                Err("non-finite numeric value".into())
+            }
+            _ => Ok(()),
+        }
+    }
+
     pub fn string(text: &str) -> Self {
         Self::String(text.into())
     }
