@@ -178,10 +178,7 @@ pub fn sphere_behind_frustum(origin: [f32; 3], radius: f32, planes: &[[f32; 4]])
 pub fn fpv_frustum_planes(
     cameras: &Query<(&GlobalTransform, &Projection, &Camera), With<FpvLens>>,
 ) -> Vec<[f32; 4]> {
-    if matches!(
-        std::env::var("IW4L_NO_FRUSTUM").as_deref(),
-        Ok("1") | Ok("true") | Ok("yes")
-    ) {
+    if render_scene::view_parms::no_frustum_env() {
         return Vec::new();
     }
     let Ok((cam_xf, projection, camera)) = cameras.single() else {
@@ -212,10 +209,7 @@ pub fn fpv_frustum_planes(
         far,
     })
     .to_vec();
-    if matches!(
-        std::env::var("IW4L_FRUSTUM_NEARFAR").as_deref(),
-        Ok("1") | Ok("true") | Ok("yes")
-    ) {
+    if render_scene::view_parms::frustum_nearfar_env() {
         planes.truncate(2);
     }
     planes
