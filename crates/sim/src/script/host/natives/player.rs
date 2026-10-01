@@ -636,6 +636,7 @@ pub(crate) fn link_to(
     receiver: &Value,
     args: &[Value],
     view: LinkView,
+    offset: Option<([f32; 3], [f32; 3])>,
 ) -> Result<Value, String> {
     let client = player(world, receiver)?;
     let parent = super::engine::entity_id(world, arg(args, 0)?)?;
@@ -657,11 +658,23 @@ pub(crate) fn link_to(
         .then(|| -> Result<[f32; 4], String> { Ok([-arc(5)?, arc(6)?, -arc(3)?, arc(4)?]) })
         .transpose()?;
     let (base, axis) = super::super::players::link_parent_pose(world, parent, tag.as_deref());
-    let origin = FrameWorld::from_world(world)
-        .player(ClientId(client))
-        .map_or(base, |ps| ps.origin);
-    let delta: [f32; 3] = std::array::from_fn(|i| origin[i] - base[i]);
-    let local = std::array::from_fn(|i| (0..3).map(|j| delta[j] * axis[i][j]).sum());
+    let (local, angles) = match offset {
+        Some(offset) => offset,
+        None => {
+            let origin = FrameWorld::from_world(world)
+                .player(ClientId(client))
+                .map_or(base, |ps| ps.origin);
+            let delta: [f32; 3] = std::array::from_fn(|i| origin[i] - base[i]);
+            (
+                std::array::from_fn(|i| (0..3).map(|j| delta[j] * axis[i][j]).sum()),
+                [0.0; 3],
+            )
+        }
+    };
+    let parent_angles = math_iw4::axis_to_angles(axis);
+    Value::Vector(local).ensure_finite()?;
+    Value::Vector(angles).ensure_finite()?;
+    Value::Vector(parent_angles).ensure_finite()?;
     super::super::players::link_player(
         world,
         client,
@@ -669,10 +682,10 @@ pub(crate) fn link_to(
             parent,
             tag,
             origin: local,
-            angles: [0.0; 3],
+            angles,
             view,
             clamp,
-            parent_angles: math_iw4::axis_to_angles(axis),
+            parent_angles,
         },
     );
     Ok(Value::Undefined)
@@ -888,18 +901,18 @@ fn register_body(registry: &mut NativeRegistry) {
         Ok(Value::Int((held & mask != 0).into()))
     });
     registry.register(Method, "playerlinkto", |world, receiver, args| {
-        link_to(world, receiver, args, LinkView::Free)
+        link_to(world, receiver, args, LinkView::Free, None)
     });
     registry.register(Method, "playerlinktodelta", |world, receiver, args| {
-        link_to(world, receiver, args, LinkView::Delta)
+        link_to(world, receiver, args, LinkView::Delta, None)
     });
     registry.register(
         Method,
         "playerlinkweaponviewtodelta",
-        |world, receiver, args| link_to(world, receiver, args, LinkView::Delta),
+        |world, receiver, args| link_to(world, receiver, args, LinkView::Delta, None),
     );
     registry.register(Method, "playerlinktoabsolute", |world, receiver, args| {
-        link_to(world, receiver, args, LinkView::Absolute)
+        link_to(world, receiver, args, LinkView::Absolute, None)
     });
     for name in ["playerlinkedoffsetenable", "playerlinkedoffsetdisable"] {
         registry.register(Method, name, |world, receiver, _| {
@@ -945,13 +958,15 @@ fn register_body(registry: &mut NativeRegistry) {
             .shock(&name)
             .cloned()
             .ok_or_else(|| format!("no shock file for shellshock '{name}'"))?;
+        let duration = seconds * 1000.0;
+        Value::Float(duration).ensure_finite()?;
         let now = crate::level_time_ms(frame.ecs().resource::<crate::step::StepRequest>().tick);
         let Some(ps) = frame.player_mut(id) else {
             return Ok(Value::Undefined);
         };
         ps.shellshock_index = index;
         ps.shellshock_time = now;
-        ps.shellshock_duration = (seconds * 1000.0) as i32;
+        ps.shellshock_duration = duration as i32;
         ps.pm_flags |= playerstate_iw4::pm_flags::SHELLSHOCKED;
         frame.client_meta_mut(id).shellshock = Some(shock);
         Ok(Value::Undefined)

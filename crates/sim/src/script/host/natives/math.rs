@@ -183,6 +183,7 @@ pub(crate) fn register(registry: &mut NativeRegistry) {
         let points = array_values(world, arg(args, 0)?)?;
         let mut sum = [0.0; 3];
         for point in &points {
+            point.ensure_finite()?;
             let Value::Vector(v) = point else {
                 return Err("averagepoint expects an array of vectors".into());
             };
@@ -198,6 +199,7 @@ pub(crate) fn register(registry: &mut NativeRegistry) {
         let normals = array_values(world, arg(args, 0)?)?;
         let mut sum = [0.0; 3];
         for normal in &normals {
+            normal.ensure_finite()?;
             let Value::Vector(v) = normal else {
                 return Err("averagenormal expects an array of vectors".into());
             };

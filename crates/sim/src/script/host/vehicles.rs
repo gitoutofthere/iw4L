@@ -247,6 +247,7 @@ pub(crate) fn register(registry: &mut NativeRegistry) {
         let speed = float(args, 0)?.max(0.0) * MPH;
         let accel = optional(args, 1, float)?.unwrap_or(speed / MPH).max(1.0) * MPH;
         let decel = optional(args, 2, float)?.map_or(accel, |d| d.max(1.0) * MPH);
+        Value::Vector([speed, accel, decel]).ensure_finite()?;
         let heli = heli(world, receiver)?;
         heli.max_speed = speed;
         heli.accel = accel;
@@ -258,6 +259,7 @@ pub(crate) fn register(registry: &mut NativeRegistry) {
         "vehicle_setspeedimmediate",
         |world, receiver, args| {
             let speed = float(args, 0)?.max(0.0) * MPH;
+            Value::Float(speed).ensure_finite()?;
             let heli = heli(world, receiver)?;
             heli.max_speed = speed;
             heli.speed = speed;
