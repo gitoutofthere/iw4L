@@ -156,17 +156,22 @@ impl SnapshotDecoder {
             decode_player(&mut input, &mut state)?;
             players.push((client, state));
         }
-        let projectile_delta = decode_projectile_delta(&mut input, &mut self.projectile_baseline)?;
-        self.last_projectile_delta = projectile_delta.clone();
-        let mut projectiles: Vec<_> = self.projectile_baseline.values().copied().collect();
-        projectiles.sort_by_key(|p| p.id.0);
-
+        let projectile_delta = decode_projectile_delta(&mut input)?;
         if !input.is_empty() {
             return Err(WireError::Malformed(
                 "trailing bytes after the projectile entity delta",
             ));
         }
 
+        for projectile in &projectile_delta.changed {
+            self.projectile_baseline.insert(projectile.id, *projectile);
+        }
+        for id in &projectile_delta.removed {
+            self.projectile_baseline.remove(id);
+        }
+        let mut projectiles: Vec<_> = self.projectile_baseline.values().copied().collect();
+        projectiles.sort_by_key(|p| p.id.0);
+        self.last_projectile_delta = projectile_delta;
         self.baseline = players.clone();
         Ok(Snapshot {
             tick: delta.tick,
@@ -184,14 +189,18 @@ impl SnapshotDecoder {
     }
 
     pub fn adopt_baseline(&mut self, snapshot: &Snapshot) {
+        self.adopt_entity_baseline(snapshot);
+        self.world_objects
+            .adopt_baseline(snapshot.meta.world_objects.clone());
+    }
+
+    pub(super) fn adopt_entity_baseline(&mut self, snapshot: &Snapshot) {
         self.baseline = snapshot.players.clone();
         self.projectile_baseline = snapshot
             .projectiles
             .iter()
             .map(|projectile| (projectile.id, *projectile))
             .collect();
-        self.world_objects
-            .adopt_baseline(snapshot.meta.world_objects.clone());
     }
 }
 fn encode_player(out: &mut WireWriter, baseline: &PlayerState, current: &PlayerState) {
@@ -378,22 +387,17 @@ fn encode_projectile_delta(
     ProjectileEntityDelta { changed, removed }
 }
 
-fn decode_projectile_delta(
-    input: &mut WireReader<'_>,
-    baseline: &mut HashMap<ProjectileId, ProjectileState>,
-) -> Result<ProjectileEntityDelta, WireError> {
+fn decode_projectile_delta(input: &mut WireReader<'_>) -> Result<ProjectileEntityDelta, WireError> {
     let changed_count = input.get_u16()? as usize;
     let mut changed = Vec::with_capacity(changed_count.min(256));
     for _ in 0..changed_count {
         let projectile = decode_projectile(input)?;
-        baseline.insert(projectile.id, projectile);
         changed.push(projectile);
     }
     let removed_count = input.get_u16()? as usize;
     let mut removed = Vec::with_capacity(removed_count.min(256));
     for _ in 0..removed_count {
         let id = ProjectileId(input.get_u32()?);
-        baseline.remove(&id);
         removed.push(id);
     }
     Ok(ProjectileEntityDelta { changed, removed })

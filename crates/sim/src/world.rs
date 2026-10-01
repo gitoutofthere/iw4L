@@ -3247,71 +3247,92 @@ impl SimState {
 }
 
 fn assert_entity_runtime_snapshot(snapshot: &Snapshot) {
-    snapshot
-        .meta
-        .entity_kernel
-        .validate()
-        .expect("authoritative snapshot carried an invalid EntityKernel state");
-
-    let mut typed_numbers = std::collections::HashSet::new();
-    for mover in &snapshot.meta.script_movers {
-        assert!(
-            typed_numbers.insert(mover.state.number),
-            "authoritative snapshot duplicated a typed dynamic entity number"
-        );
-        assert_eq!(
-            snapshot
-                .meta
-                .entity_kernel
-                .occupied_kind(mover.state.number),
-            Some(crate::EntityRunKind::ScriptMover),
-            "script mover does not occupy a ScriptMover kernel slot"
-        );
-        assert!(
-            snapshot.meta.entities.contains(&mover.state),
-            "typed script mover is absent from entityState presentation rows"
-        );
+    if let Some(fault) = entity_link_fault(snapshot) {
+        panic!("authoritative snapshot: {fault}");
     }
-    for state in snapshot
-        .meta
+}
+
+pub fn snapshot_fault(snapshot: &Snapshot, weapon_count: usize) -> Option<&'static str> {
+    let meta = &snapshot.meta;
+    if snapshot
+        .players
+        .iter()
+        .any(|(id, _)| meta.for_client(*id).is_none())
+    {
+        return Some("player row without client meta");
+    }
+    if snapshot.players.iter().any(|(_, ps)| {
+        ps.weapons
+            .iter()
+            .any(|&weapon| weapon > 0 && weapon as usize >= weapon_count)
+            || [ps.weapon, ps.weapon_primary, ps.off_hand_index.max(0) as u32]
+                .iter()
+                .any(|&weapon| weapon != 0 && weapon as usize >= weapon_count)
+    }) {
+        return Some("weapon index outside local catalog");
+    }
+    let supported = |tr: i32| entity_iw4::trajectory_type_supported(tr);
+    if meta
+        .entities
+        .iter()
+        .any(|state| !supported(state.tr_type) || !supported(state.apos_tr_type))
+        || snapshot
+            .projectiles
+            .iter()
+            .any(|p| !supported(p.pos.tr_type) || !supported(p.apos.tr_type))
+    {
+        return Some("unsupported trajectory type");
+    }
+    entity_link_fault(snapshot)
+}
+
+fn entity_link_fault(snapshot: &Snapshot) -> Option<&'static str> {
+    let meta = &snapshot.meta;
+    if meta.entity_kernel.validate().is_err() {
+        return Some("invalid EntityKernel state");
+    }
+    let mut typed_numbers = std::collections::HashSet::new();
+    for mover in &meta.script_movers {
+        if !typed_numbers.insert(mover.state.number) {
+            return Some("duplicated a typed dynamic entity number");
+        }
+        if meta.entity_kernel.occupied_kind(mover.state.number)
+            != Some(crate::EntityRunKind::ScriptMover)
+        {
+            return Some("script mover does not occupy a ScriptMover kernel slot");
+        }
+        if !meta.entities.contains(&mover.state) {
+            return Some("typed script mover is absent from entityState presentation rows");
+        }
+    }
+    for state in meta
         .entities
         .iter()
         .filter(|state| state.e_type == entity_iw4::ET_ITEM)
     {
-        assert!(
-            typed_numbers.insert(state.number),
-            "authoritative snapshot duplicated a typed dynamic entity number"
-        );
-        assert_eq!(
-            snapshot.meta.entity_kernel.occupied_kind(state.number),
-            Some(crate::EntityRunKind::Item),
-            "ET_ITEM does not occupy an Item kernel slot"
-        );
-        assert!(
-            snapshot
-                .meta
-                .item_ammo
-                .iter()
-                .any(|ammo| ammo.entnum == state.number),
-            "ET_ITEM omitted ItemWeaponSetAmmo state"
-        );
+        if !typed_numbers.insert(state.number) {
+            return Some("duplicated a typed dynamic entity number");
+        }
+        if meta.entity_kernel.occupied_kind(state.number) != Some(crate::EntityRunKind::Item) {
+            return Some("ET_ITEM does not occupy an Item kernel slot");
+        }
+        if !meta.item_ammo.iter().any(|ammo| ammo.entnum == state.number) {
+            return Some("ET_ITEM omitted ItemWeaponSetAmmo state");
+        }
     }
-    for state in snapshot
-        .meta
+    for state in meta
         .entities
         .iter()
         .filter(|state| state.e_type == entity_iw4::ET_MISSILE)
     {
-        assert!(
-            typed_numbers.insert(state.number),
-            "authoritative snapshot duplicated a typed dynamic entity number"
-        );
-        assert_eq!(
-            snapshot.meta.entity_kernel.occupied_kind(state.number),
-            Some(crate::EntityRunKind::Missile),
-            "ET_MISSILE does not occupy a Missile kernel slot"
-        );
+        if !typed_numbers.insert(state.number) {
+            return Some("duplicated a typed dynamic entity number");
+        }
+        if meta.entity_kernel.occupied_kind(state.number) != Some(crate::EntityRunKind::Missile) {
+            return Some("ET_MISSILE does not occupy a Missile kernel slot");
+        }
     }
+    None
 }
 
 struct HitvolControllerCensus {
