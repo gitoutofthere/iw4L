@@ -250,22 +250,11 @@ fn apply_pair_delta<K: Copy + Ord, V: Copy>(table: &mut Vec<(K, V)>, delta: &Pai
     for id in &delta.removed {
         table.retain(|(key, _)| key != id);
     }
-    table.sort_by_key(|(id, _)| *id);
-    // A full sync may repeat a key; a change lands on its first row.
-    let existing = table.len();
-    let mut added: BTreeMap<K, usize> = BTreeMap::new();
-    for &(id, value) in &delta.changed {
-        let index = table[..existing].partition_point(|(key, _)| *key < id);
-        if index < existing && table[index].0 == id {
-            table[index].1 = value;
-            continue;
-        }
-        match added.entry(id) {
-            Entry::Occupied(row) => table[*row.get()].1 = value,
-            Entry::Vacant(slot) => {
-                slot.insert(table.len());
-                table.push((id, value));
-            }
+    for (id, value) in &delta.changed {
+        if let Some(row) = table.iter_mut().find(|(key, _)| key == id) {
+            row.1 = *value;
+        } else {
+            table.push((*id, *value));
         }
     }
     table.sort_by_key(|(id, _)| *id);
