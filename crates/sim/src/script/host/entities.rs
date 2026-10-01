@@ -498,9 +498,9 @@ impl Runtime {
                         Some(KeyType::String) | None => Value::string(value),
                     },
                 };
-                value.ensure_finite().map_err(|m| {
-                    format!("map entity {ordinal} ({classname}) field {key}: {m}")
-                })?;
+                value
+                    .ensure_finite()
+                    .map_err(|m| format!("map entity {ordinal} ({classname}) field {key}: {m}"))?;
                 self.set_object_field(id, &key, value);
             }
             if let Some(entity) = self.entities.get_mut(&id) {

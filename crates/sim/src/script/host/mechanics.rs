@@ -54,7 +54,9 @@ impl Mechanics {
         self.motions
             .get(&object)
             .and_then(|motions| motions.iter().find(|m| m.field == "origin"))
-            .map_or(Ok([0.0; 3]), |m| m.sample(now).map(|(_, velocity)| velocity))
+            .map_or(Ok([0.0; 3]), |m| {
+                m.sample(now).map(|(_, velocity)| velocity)
+            })
     }
 }
 
