@@ -285,13 +285,17 @@ fn decode_destructible_loop_sounds(
 fn apply_pair_delta<K: Copy + Ord, V: Copy>(table: &mut Vec<(K, V)>, delta: &PairDelta<K, V>) {
     let removed: BTreeSet<K> = delta.removed.iter().copied().collect();
     table.retain(|(key, _)| !removed.contains(key));
+    table.sort_by_key(|(id, _)| *id);
     // A full sync may repeat a key; a change lands on its first row.
-    let mut first: BTreeMap<K, usize> = BTreeMap::new();
-    for (index, (key, _)) in table.iter().enumerate() {
-        first.entry(*key).or_insert(index);
-    }
+    let existing = table.len();
+    let mut added: BTreeMap<K, usize> = BTreeMap::new();
     for &(id, value) in &delta.changed {
-        match first.entry(id) {
+        let index = table[..existing].partition_point(|(key, _)| *key < id);
+        if index < existing && table[index].0 == id {
+            table[index].1 = value;
+            continue;
+        }
+        match added.entry(id) {
             Entry::Occupied(row) => table[*row.get()].1 = value,
             Entry::Vacant(slot) => {
                 slot.insert(table.len());
