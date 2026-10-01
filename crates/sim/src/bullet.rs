@@ -26,9 +26,9 @@ pub fn bullet_damage_at_distance(facts: &WeaponCombatFacts, dist: f32) -> i32 {
 pub fn angles_to_forward(angles: [f32; 3]) -> [f32; 3] {
     let yaw = angles[1].to_radians();
     let pitch = angles[0].to_radians();
-    let cy = yaw.cos();
-    let sy = yaw.sin();
-    let sp = pitch.sin();
-    let cp = pitch.cos();
+    let cy = libm::cosf(yaw);
+    let sy = libm::sinf(yaw);
+    let sp = libm::sinf(pitch);
+    let cp = libm::cosf(pitch);
     [cp * cy, cp * sy, -sp]
 }

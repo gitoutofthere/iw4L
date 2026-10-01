@@ -165,9 +165,9 @@ fn forward(angles: [f32; 3]) -> [f32; 3] {
     let pitch = angles[0].to_radians();
     let yaw = angles[1].to_radians();
     [
-        pitch.cos() * yaw.cos(),
-        pitch.cos() * yaw.sin(),
-        -pitch.sin(),
+        libm::cosf(pitch) * libm::cosf(yaw),
+        libm::cosf(pitch) * libm::sinf(yaw),
+        -libm::sinf(pitch),
     ]
 }
 
@@ -1280,7 +1280,7 @@ pub(crate) fn think_projectile(world: &mut FrameWorld, tick: Tick, entnum: i32) 
             cone: (facts.damage_cone_angle > 0.0 && facts.damage_cone_angle < 180.0).then(|| {
                 (
                     forward(info.projectile.apos.tr_base),
-                    facts.damage_cone_angle.to_radians().cos(),
+                    libm::cosf(facts.damage_cone_angle.to_radians()),
                 )
             }),
             origin: info.origin,
@@ -1397,7 +1397,7 @@ fn settle_equipment(
         let (_, right, up) = math_iw4::angle_vectors(angles);
         let side: f32 = (0..3).map(|i| normal[i] * right[i]).sum();
         let vertical: f32 = (0..3).map(|i| normal[i] * up[i]).sum();
-        angles[2] = side.atan2(vertical).to_degrees();
+        angles[2] = libm::atan2f(side, vertical).to_degrees();
         projectile.apos.tr_base = angles;
     }
     if !facts.timed_detonation {
@@ -1477,10 +1477,10 @@ fn knife_impact(
         let (_, right, up) = math_iw4::angle_vectors(angles);
         let side: f32 = (0..3).map(|i| normal[i] * right[i]).sum();
         let vertical: f32 = (0..3).map(|i| normal[i] * up[i]).sum();
-        angles[2] = side.atan2(vertical).to_degrees() + 90.0;
+        angles[2] = libm::atan2f(side, vertical).to_degrees() + 90.0;
         origin[2] -= 1.0;
     } else {
-        angles[0] = normal[2].atan2(normal[0].hypot(normal[1])).to_degrees()
+        angles[0] = libm::atan2f(normal[2], libm::hypotf(normal[0], normal[1])).to_degrees()
             + host_flrand(world.combat_rng_mut(), -15.0, 15.0);
         let forward = forward(angles);
         origin = core::array::from_fn(|i| origin[i] - normal[i] * 1.5 - forward[i] * 4.5);

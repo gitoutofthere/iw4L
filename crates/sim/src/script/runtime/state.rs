@@ -21,11 +21,12 @@ pub(crate) struct Runtime {
     pub(crate) started: bool,
     pub(crate) objects: BTreeMap<u64, BTreeMap<u32, Value>>,
     pub(crate) next_object: u64,
-    pub(crate) arrays: BTreeMap<u64, BTreeMap<ArrayKey, Value>>,
+    /// Shared between copies: write through `Arc::make_mut` only.
+    pub(crate) arrays: BTreeMap<u64, Arc<BTreeMap<ArrayKey, Value>>>,
     pub(crate) dynamic_symbols: BTreeMap<Arc<str>, u32>,
     pub(crate) buckets: BTreeMap<i64, VecDeque<u64>>,
     pub(crate) spawned: Vec<u64>,
-    pub(crate) waiters: Vec<crate::script::Waiter>,
+    pub(crate) waiters: super::waiters::Waiters,
     pub(crate) dvars: BTreeMap<String, String>,
     pub(crate) loading: bool,
     pub(crate) precached: BTreeMap<(&'static str, String), i32>,
@@ -74,6 +75,12 @@ pub(crate) struct Runtime {
     pub(crate) finished: bool,
     pub(crate) pending_restart: Option<bool>,
     pub(crate) restored_pers: BTreeMap<u32, host::restart::Detached>,
+    /// A hint: the entity may hold another serial by now, so a lookup checks it.
+    pub(crate) thread_entities: BTreeMap<u64, bevy_ecs::entity::Entity>,
+    pub(crate) collected_at: u64,
+    pub(crate) live_after_collect: usize,
+    /// Empty until a program is installed: then every field asks the engine.
+    pub(crate) engine_player_fields: Vec<bool>,
 }
 
 impl Runtime {
