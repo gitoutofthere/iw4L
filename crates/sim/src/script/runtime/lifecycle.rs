@@ -8,25 +8,23 @@ use crate::script::{
     Fault, LevelData, Location, NativeRegistry, Program, Runtime, Thread, ThreadState, Value,
 };
 
-use super::{INSTRUCTION_BUDGET, execute, new_thread};
+use super::{INSTRUCTION_BUDGET, execute, new_thread, park};
 
 /// Runs during install, before the map's `script_struct` blocks are appended to `level.struct`.
 pub const STRUCT_INIT: &str = "codescripts/struct::initstructs";
 
 pub(crate) fn copy_state(source: &World, target: &mut World) {
-    target.insert_resource(source.resource::<Runtime>().clone());
+    let source_runtime = source.resource::<Runtime>();
+    let mut runtime = source_runtime.clone();
+    runtime.thread_entities.clear();
+    runtime.thread_order.clear();
+    target.insert_resource(runtime);
     target.insert_resource(source.resource::<host::mechanics::Mechanics>().clone());
     target.insert_resource(source.resource::<NativeRegistry>().clone());
-    target.resource_mut::<Runtime>().thread_entities.clear();
-    for entity in source.iter_entities() {
-        if let Some(thread) = entity.get::<Thread>() {
-            let serial = thread.serial;
-            let copy = target.spawn(thread.clone()).id();
-            target
-                .resource_mut::<Runtime>()
-                .thread_entities
-                .insert(serial, copy);
-        }
+    for serial in &source_runtime.thread_order {
+        let entity = source_runtime.thread_entities[serial].entity;
+        let thread = source.get::<Thread>(entity).unwrap();
+        park(target, thread.clone());
     }
 }
 

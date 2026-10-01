@@ -5,6 +5,12 @@ use std::sync::Arc;
 use crate::script::host;
 use crate::script::{ArrayKey, Fault, Native, Program, StringTable, Value};
 
+#[derive(Clone, Copy, Debug)]
+pub(crate) struct ThreadSlot {
+    pub(super) entity: bevy_ecs::entity::Entity,
+    pub(super) row: Option<usize>,
+}
+
 #[derive(Resource, Clone, Debug, Default)]
 pub(crate) struct Runtime {
     pub(crate) program: Option<Arc<Program>>,
@@ -76,7 +82,10 @@ pub(crate) struct Runtime {
     pub(crate) pending_restart: Option<bool>,
     pub(crate) restored_pers: BTreeMap<u32, host::restart::Detached>,
     /// A hint: the entity may hold another serial by now, so a lookup checks it.
-    pub(crate) thread_entities: BTreeMap<u64, bevy_ecs::entity::Entity>,
+    pub(crate) thread_entities: BTreeMap<u64, ThreadSlot>,
+    // Wake order depends on removing a running row before callbacks and
+    // appending it after a yield.
+    pub(crate) thread_order: Vec<u64>,
     pub(crate) collected_at: u64,
     pub(crate) live_after_collect: usize,
     /// Empty until a program is installed: then every field asks the engine.
@@ -84,6 +93,38 @@ pub(crate) struct Runtime {
 }
 
 impl Runtime {
+    pub(super) fn park_thread(&mut self, serial: u64, entity: bevy_ecs::entity::Entity) {
+        let row = self.thread_order.len();
+        self.thread_order.push(serial);
+        self.thread_entities.insert(
+            serial,
+            ThreadSlot {
+                entity,
+                row: Some(row),
+            },
+        );
+    }
+
+    pub(super) fn detach_thread(&mut self, serial: u64) {
+        let Some(row) = self
+            .thread_entities
+            .get_mut(&serial)
+            .and_then(|slot| slot.row.take())
+        else {
+            return;
+        };
+        self.thread_order.swap_remove(row);
+        if let Some(&swapped) = self.thread_order.get(row) {
+            self.thread_entities.get_mut(&swapped).unwrap().row = Some(row);
+        }
+    }
+
+    pub(super) fn restore_thread(&mut self, serial: u64) {
+        let row = self.thread_order.len();
+        self.thread_entities.get_mut(&serial).unwrap().row = Some(row);
+        self.thread_order.push(serial);
+    }
+
     pub(crate) fn program_fingerprint(&self) -> Option<[u8; 32]> {
         self.program.as_ref().map(|program| program.fingerprint())
     }
