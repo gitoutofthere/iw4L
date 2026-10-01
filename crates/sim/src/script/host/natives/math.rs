@@ -1,6 +1,6 @@
 use super::super::args::{arg, float, int, kind, optional, string, vector};
 use super::super::arrays::{array_values, new_array};
-use super::super::tables::{table, table_lookup, table_search};
+use super::super::tables::{table, table_lookup, table_lookup_by_row, table_search};
 use super::iw4::atoi;
 use crate::script::{ArrayKey, Namespace, NativeRegistry, Runtime, Value};
 use bevy_ecs::prelude::World;
@@ -285,14 +285,10 @@ pub(crate) fn register(registry: &mut NativeRegistry) {
         Ok(Value::LocalizedString(table_lookup(world, args)?.into()))
     });
     registry.register(Function, "tablelookupbyrow", |world, _, args| {
-        let tables = world.resource::<Runtime>().tables.clone();
-        let name = string(args, 0)?;
-        let (row, column) = (int(args, 1)?, int(args, 2)?);
-        let value = table(&tables, &name)
-            .filter(|_| row >= 0 && column >= 0)
-            .and_then(|t| t.cell(row as usize, column as usize))
-            .unwrap_or("");
-        Ok(Value::string(value))
+        Ok(Value::String(table_lookup_by_row(world, args)?))
+    });
+    registry.register(Function, "tablelookupistringbyrow", |world, _, args| {
+        Ok(Value::LocalizedString(table_lookup_by_row(world, args)?))
     });
     registry.register(Function, "tablelookuprownum", |world, _, args| {
         let tables = world.resource::<Runtime>().tables.clone();
