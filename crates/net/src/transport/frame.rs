@@ -4,8 +4,8 @@ use sim::{ClientAction, ClientId, Snapshot, SnapshotMeta, Tick, TickInput};
 use crate::client::predict::CmdSeq;
 use crate::transport::delta::{SnapshotDelta, decode_usercmd, encode_usercmd};
 use crate::transport::meta_wire::{
-    SnapshotMetaSectionBytes, WorldObjectSyncDecoder, decode_actions, decode_snapshot_meta,
-    encode_actions, encode_snapshot_meta_sections,
+    SnapshotMetaSectionBytes, WorldObjectSyncDecoder, decode_actions, encode_actions,
+    encode_snapshot_meta_sections, read_snapshot_meta,
 };
 use crate::transport::netfields::compute_state_hash;
 use crate::transport::reliable::{
@@ -141,7 +141,7 @@ impl Frame {
             acks.push((client, CmdSeq(input.get_u32()?)));
         }
         let snapshot_delta = SnapshotDelta::decode(input)?;
-        let (snapshot_meta, world_objects_wire) = decode_snapshot_meta(input, world_decoder)?;
+        let (mut snapshot_meta, world_objects_wire, world_update) = read_snapshot_meta(input)?;
         let reliable = decode_reliable_payload(input)?;
         let svc_sounds = crate::svc_sound::decode_svc_sounds(input)?;
         let svc_scores = crate::svc_scores::decode_svc_scores(input)?;
@@ -149,6 +149,7 @@ impl Frame {
         let svc_open_menus = crate::svc_playercard::decode_svc_open_menus(input)?;
         let svc_hud_splashes = crate::svc_playercard::decode_svc_hud_splashes(input)?;
         let svc_game_notifies = crate::svc_gamenotify::decode_svc_game_notifies(input)?;
+        snapshot_meta.world_objects = world_decoder.apply_update(world_update);
         Ok(Self {
             tick,
             state_hash,

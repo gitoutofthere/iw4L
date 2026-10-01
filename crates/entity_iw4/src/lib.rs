@@ -74,5 +74,5 @@ pub use script_mover::{
 };
 pub use trajectory::{
     TR_GRAVITY, TR_INTERPOLATE, TR_LINEAR, TR_LINEAR_STOP, TR_STATIONARY, Trajectory,
-    evaluate_trajectory, evaluate_trajectory_delta, truncated_tr_delta,
+    evaluate_trajectory, evaluate_trajectory_delta, trajectory_type_supported, truncated_tr_delta,
 };
