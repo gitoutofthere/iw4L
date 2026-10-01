@@ -138,7 +138,10 @@ fn advance_bodies(world: &mut World) {
                 .into_iter()
                 .any(|v| Value::Vector(v).ensure_finite().is_err())
             {
-                diag::warn!(Sim, "gsc: body on object {object} cancelled: non-finite body sample");
+                diag::warn!(
+                    Sim,
+                    "gsc: body on object {object} cancelled: non-finite body sample"
+                );
                 return false;
             }
             let trace = crate::frame::FrameWorld::from_world(world).trace_static_world(
@@ -155,7 +158,10 @@ fn advance_bodies(world: &mut World) {
             };
             let at: [f32; 3] = std::array::from_fn(|i| origin[i] + (end[i] - origin[i]) * fraction);
             if Value::Vector(at).ensure_finite().is_err() {
-                diag::warn!(Sim, "gsc: body on object {object} cancelled: non-finite body sample");
+                diag::warn!(
+                    Sim,
+                    "gsc: body on object {object} cancelled: non-finite body sample"
+                );
                 return false;
             }
             body.ticks += 1;
