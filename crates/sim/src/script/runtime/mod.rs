@@ -1,5 +1,6 @@
 mod lifecycle;
 mod state;
+mod waiters;
 
 use super::{
     ArrayKey, Binary, Callee, Fault, Frame, Global, Location, Op, Program, Thread, ThreadState,
@@ -17,16 +18,19 @@ pub(crate) use state::Runtime;
 /// Level startup runs in one frame and needs over a million on the larger maps.
 pub(super) const INSTRUCTION_BUDGET: usize = 16 * 1_000_000;
 
+const COLLECT_MIN_ALLOCATIONS: u64 = 4096;
+
 pub(crate) fn take_signals(world: &mut World) -> Vec<Arc<str>> {
     std::mem::take(&mut world.resource_mut::<Runtime>().signals)
 }
 
 pub(super) fn level_endon_armed(world: &World, name: &str) -> bool {
-    world.resource::<Runtime>().waiters.iter().any(|w| {
-        w.receiver == Value::level()
-            && &*w.name == name
-            && matches!(w.kind, WaiterKind::Endon { .. })
-    })
+    world
+        .resource::<Runtime>()
+        .waiters
+        .any_on(&Value::level(), name, |w| {
+            matches!(w.kind, WaiterKind::Endon { .. })
+        })
 }
 
 pub(super) fn return_from(world: &mut World, function: &str, now: i64) -> usize {
@@ -122,6 +126,7 @@ fn frame(
         stack_base,
         receiver,
         locals,
+        endons: 0,
     }
 }
 
@@ -186,7 +191,7 @@ pub(super) fn run_now(
     if thread.state == ThreadState::Complete {
         retire(&mut world.resource_mut::<Runtime>(), thread.serial);
     } else {
-        world.spawn(thread);
+        park(world, thread);
     }
     match world.resource::<Runtime>().fault.clone() {
         Some(fault) => Err(fault),
@@ -204,8 +209,17 @@ fn spawn_thread(
     let thread = new_thread(world, program, function, receiver, args)?;
     let serial = thread.serial;
     world.resource_mut::<Runtime>().spawned.push(serial);
-    world.spawn(thread);
+    park(world, thread);
     Ok(serial)
+}
+
+fn park(world: &mut World, thread: Thread) {
+    let serial = thread.serial;
+    let entity = world.spawn(thread).id();
+    world
+        .resource_mut::<Runtime>()
+        .thread_entities
+        .insert(serial, entity);
 }
 
 pub(super) fn new_thread(
@@ -258,7 +272,7 @@ fn run_inline(
     if child.state == ThreadState::Complete {
         retire(&mut runtime, child.serial);
     } else {
-        world.spawn(child);
+        park(world, child);
     }
     parent.stack.push(Value::Undefined);
     let mut runtime = world.resource_mut::<Runtime>();
@@ -526,20 +540,24 @@ fn object_key(runtime: &mut Runtime, key: ArrayKey) -> Result<u32, String> {
     }
 }
 
+fn spawns(op: &Op) -> bool {
+    matches!(op, Op::Spawn(..) | Op::Indirect(_, _, true))
+}
+
 fn instruction(
     world: &mut World,
     program: &Program,
     thread: &mut Thread,
-    op: Op,
+    op: &Op,
     now: i64,
 ) -> Result<(), String> {
-    let spawn = matches!(op, Op::Spawn(..) | Op::Indirect(_, _, true));
+    let spawn = spawns(op);
     let method = matches!(
         op,
         Op::Call(_, _, true) | Op::Spawn(_, _, true) | Op::Indirect(_, true, _)
     );
-    match op {
-        Op::Constant(value) => thread.stack.push(value),
+    match *op {
+        Op::Constant(ref value) => thread.stack.push(value.clone()),
         Op::FunctionRef(_) => return Err("invalid IR: unlinked function reference".into()),
         Op::Global(global) => thread.stack.push(match global {
             Global::SelfRef => thread.frames.last().unwrap().receiver.clone(),
@@ -569,8 +587,7 @@ fn instruction(
                 .len()
                 .checked_sub(2)
                 .ok_or("invalid IR: stack underflow")?;
-            let pair = thread.stack[base..].to_vec();
-            thread.stack.extend(pair);
+            thread.stack.extend_from_within(base..);
         }
         Op::ArrayKeys => {
             let Value::Array(id) = pop(thread)? else {
@@ -592,7 +609,7 @@ fn instruction(
                 unreachable!()
             };
             let mut runtime = world.resource_mut::<Runtime>();
-            let array = runtime.arrays.get_mut(&id).unwrap();
+            let array = Arc::make_mut(runtime.arrays.get_mut(&id).unwrap());
             for (i, key) in keys.into_iter().enumerate() {
                 array.insert(ArrayKey::Integer(i as i32), key);
             }
@@ -666,10 +683,7 @@ fn instruction(
                     let mut runtime = world.resource_mut::<Runtime>();
                     match receiver {
                         Value::Array(id) => {
-                            runtime
-                                .arrays
-                                .get_mut(&id)
-                                .unwrap()
+                            Arc::make_mut(runtime.arrays.get_mut(&id).unwrap())
                                 .insert(key, value.clone());
                         }
                         Value::Object(id) => {
@@ -737,10 +751,12 @@ fn instruction(
             let mut runtime = world.resource_mut::<Runtime>();
             match receiver {
                 Value::Array(id) => {
-                    let values = runtime
-                        .arrays
-                        .get_mut(&id)
-                        .ok_or("invalid array reference")?;
+                    let values = Arc::make_mut(
+                        runtime
+                            .arrays
+                            .get_mut(&id)
+                            .ok_or("invalid array reference")?,
+                    );
                     if value == Value::Undefined {
                         values.remove(&key);
                     } else {
@@ -795,13 +811,11 @@ fn instruction(
                 .len()
                 .checked_sub(argc)
                 .ok_or("invalid IR: argument underflow")?;
-            let args = thread
-                .stack
-                .split_off(base)
-                .into_iter()
-                .map(|value| copy_value(world, value))
-                .collect::<Result<Vec<_>, _>>()?;
-            let callee = match op {
+            let mut args = thread.stack.split_off(base);
+            for arg in &mut args {
+                *arg = copy_value(world, std::mem::replace(arg, Value::Undefined))?;
+            }
+            let callee = match *op {
                 Op::Call(callee, _, _) | Op::Spawn(callee, _, _) => callee,
                 Op::Indirect(..) => match pop(thread)? {
                     Value::Function(id) => Callee::Script(id),
@@ -914,7 +928,8 @@ fn instruction(
                     type_name(&receiver)
                 ));
             };
-            if let Some(client) = world.resource::<Runtime>().player_client(id)
+            if engine_player_field(world, field)
+                && let Some(client) = world.resource::<Runtime>().player_client(id)
                 && let Some(value) = super::host::players::load_field(
                     world,
                     client,
@@ -939,7 +954,8 @@ fn instruction(
             let Value::Object(id) = receiver else {
                 return Err("native entity fields are not bound".into());
             };
-            if let Some(client) = world.resource::<Runtime>().player_client(id)
+            if engine_player_field(world, field)
+                && let Some(client) = world.resource::<Runtime>().player_client(id)
                 && super::host::players::store_field(
                     world,
                     client,
@@ -972,7 +988,7 @@ fn instruction(
             let receiver = event_receiver(pop(thread)?)?;
             notify(world, thread, &receiver, &name, &arguments, now)?;
         }
-        Op::Await(outputs) => {
+        Op::Await(ref outputs) => {
             let name = event_name(pop(thread)?)?;
             let receiver = event_receiver(pop(thread)?)?;
             register(
@@ -980,7 +996,9 @@ fn instruction(
                 thread,
                 receiver,
                 name,
-                WaiterKind::Waittill { outputs },
+                WaiterKind::Waittill {
+                    outputs: outputs.clone(),
+                },
             );
         }
         Op::AwaitMatch(argc) => {
@@ -998,6 +1016,7 @@ fn instruction(
             let name = event_name(pop(thread)?)?;
             let receiver = event_receiver(pop(thread)?)?;
             let frame = thread.frames.len() - 1;
+            thread.frames[frame].endons += 1;
             world.resource_mut::<Runtime>().waiters.push(Waiter {
                 receiver,
                 name,
@@ -1009,10 +1028,14 @@ fn instruction(
             let value = pop(thread)?;
             let depth = thread.frames.len() - 1;
             let serial = thread.serial;
-            world.resource_mut::<Runtime>().waiters.retain(|w| {
-                w.thread != serial
-                    || !matches!(w.kind, WaiterKind::Endon { frame } if frame >= depth)
-            });
+            // Endons of the frames above were dropped when those returned or
+            // unwound; only one registered by this frame can name `depth`.
+            if thread.frames[depth].endons > 0 {
+                world.resource_mut::<Runtime>().waiters.retain_thread(
+                    serial,
+                    |w| !matches!(w.kind, WaiterKind::Endon { frame } if frame >= depth),
+                );
+            }
             let frame = thread
                 .frames
                 .pop()
@@ -1026,6 +1049,15 @@ fn instruction(
         }
     }
     Ok(())
+}
+
+fn engine_player_field(world: &World, field: u32) -> bool {
+    world
+        .resource::<Runtime>()
+        .engine_player_fields
+        .get(field as usize)
+        .copied()
+        .unwrap_or(true)
 }
 
 fn event_name(value: Value) -> Result<Arc<str>, String> {
@@ -1061,6 +1093,18 @@ fn register(
 }
 
 fn find_thread(world: &mut World, serial: u64) -> Option<Entity> {
+    let remembered = world
+        .resource::<Runtime>()
+        .thread_entities
+        .get(&serial)
+        .copied();
+    if let Some(entity) = remembered
+        && world
+            .get::<Thread>(entity)
+            .is_some_and(|t| t.serial == serial)
+    {
+        return Some(entity);
+    }
     world
         .query::<(Entity, &Thread)>()
         .iter(world)
@@ -1082,6 +1126,10 @@ fn with_thread<R>(
     let result = f(world, &mut thread, false);
     if thread.state == ThreadState::Complete {
         world.despawn(entity);
+        world
+            .resource_mut::<Runtime>()
+            .thread_entities
+            .remove(&serial);
     } else {
         world.entity_mut(entity).insert(thread);
     }
@@ -1089,7 +1137,8 @@ fn with_thread<R>(
 }
 
 fn retire(runtime: &mut Runtime, serial: u64) {
-    runtime.waiters.retain(|w| w.thread != serial);
+    runtime.thread_entities.remove(&serial);
+    runtime.waiters.retain_thread(serial, |_| false);
     dequeue(runtime, serial);
 }
 
@@ -1113,9 +1162,10 @@ fn resume_now(world: &mut World, thread: &mut Thread, now: i64) {
 fn unwind(world: &mut World, thread: &mut Thread, depth: usize, now: i64, running: bool) {
     let serial = thread.serial;
     let mut runtime = world.resource_mut::<Runtime>();
-    runtime.waiters.retain(|w| {
-        w.thread != serial || matches!(w.kind, WaiterKind::Endon { frame } if frame < depth)
-    });
+    runtime.waiters.retain_thread(
+        serial,
+        |w| matches!(w.kind, WaiterKind::Endon { frame } if frame < depth),
+    );
     if !running {
         dequeue(&mut runtime, serial);
     }
@@ -1154,27 +1204,26 @@ fn notify(
         world.resource_mut::<Runtime>().signals.push(name.clone());
     }
     loop {
-        let runtime = world.resource::<Runtime>();
-        let Some(index) = runtime.waiters.iter().position(|w| {
-            &w.receiver == receiver
-                && &w.name == name
-                && match &w.kind {
+        let taken =
+            world
+                .resource_mut::<Runtime>()
+                .waiters
+                .take_first(receiver, name, |w| match &w.kind {
                     WaiterKind::Match { values } => payload_matches(values, arguments),
                     _ => true,
-                }
-        }) else {
+                });
+        let Some(waiter) = taken else {
             return Ok(());
         };
-        let waiter = world.resource_mut::<Runtime>().waiters.remove(index);
         let result = match waiter.kind {
             WaiterKind::Endon { frame } => {
                 let mut runtime = world.resource_mut::<Runtime>();
                 if runtime.suspended.contains(&waiter.thread) {
                     runtime.pending_unwinds.push((waiter.thread, frame));
-                    runtime.waiters.retain(|w| {
-                        w.thread != waiter.thread
-                            || matches!(w.kind, WaiterKind::Endon { frame: f } if f < frame)
-                    });
+                    runtime.waiters.retain_thread(
+                        waiter.thread,
+                        |w| matches!(w.kind, WaiterKind::Endon { frame: f } if f < frame),
+                    );
                     continue;
                 }
                 with_thread(world, current, waiter.thread, |world, thread, running| {
@@ -1255,16 +1304,17 @@ pub(crate) fn advance_scheduler(world: &mut World) {
     super::host::mechanics::deliver_finished(world);
     deliver_timers(world, now);
     deliver_external(world, now);
-    let threads: Vec<_> = world
-        .query::<(Entity, &Thread)>()
-        .iter(world)
-        .map(|(entity, thread)| (entity, thread.serial, entity_receivers(world, thread)))
-        .collect();
-    let dead: Vec<_> = threads
-        .into_iter()
-        .filter(|(_, _, receivers)| any_deleted(world, receivers))
-        .map(|(entity, serial, _)| (entity, serial))
-        .collect();
+    let doomed = threads_waiting_on_deleted(world);
+    let dead: Vec<_> = if doomed.is_empty() {
+        Vec::new()
+    } else {
+        world
+            .query::<(Entity, &Thread)>()
+            .iter(world)
+            .filter(|(_, thread)| doomed.contains(&thread.serial))
+            .map(|(entity, thread)| (entity, thread.serial))
+            .collect()
+    };
     for (entity, serial) in dead {
         kill(world, entity, serial);
     }
@@ -1295,7 +1345,12 @@ pub(crate) fn advance_scheduler(world: &mut World) {
         runtime.buckets.remove(&now);
     }
     runtime.loading = false;
-    collect_heap(world);
+    // Ids are never reused and `dead` answers `isdefined` at once, so no
+    // script can tell when a collection ran.
+    let allocated = runtime.next_object.saturating_sub(runtime.collected_at);
+    if allocated >= COLLECT_MIN_ALLOCATIONS.max(runtime.live_after_collect as u64 / 2) {
+        collect_heap(world);
+    }
 }
 
 fn run_ready(world: &mut World, program: &Program, now: i64) {
@@ -1311,8 +1366,7 @@ fn run_ready(world: &mut World, program: &Program, now: i64) {
         let Some(entity) = find_thread(world, serial) else {
             continue;
         };
-        let receivers = entity_receivers(world, world.get::<Thread>(entity).unwrap());
-        if any_deleted(world, &receivers) {
+        if waits_on_deleted(world, serial) {
             kill(world, entity, serial);
             continue;
         }
@@ -1332,26 +1386,34 @@ fn run_ready(world: &mut World, program: &Program, now: i64) {
 }
 
 pub(super) fn execute(world: &mut World, program: &Program, thread: &mut Thread, now: i64) {
+    // The budget is shared with threads spawned inline; it lives in the
+    // runtime only across the calls that can run one, and here otherwise.
+    let mut budget = world.resource::<Runtime>().budget;
     while thread.state == ThreadState::Runnable {
         let frame = thread.frames.last().unwrap();
         let function = &program.functions[frame.function];
-        let Some((location, op)) = function.code.get(frame.pc).cloned() else {
+        let Some((location, op)) = function.code.get(frame.pc) else {
             world.resource_mut::<Runtime>().fault = Some(Fault::at(
                 &function.location,
                 "invalid IR: instruction position out of range",
             ));
             break;
         };
-        let exhausted = world.resource::<Runtime>().budget == 0;
-        let (pops, pushes) = stack_effect(&op);
-        let iterates = matches!(op, Op::ArrayKeys);
+        let exhausted = budget == 0;
         let before = thread.stack.len();
         let result = if exhausted {
             Err("potential infinite loop in script - killing thread".into())
         } else {
-            world.resource_mut::<Runtime>().budget -= 1;
+            budget -= 1;
             thread.frames.last_mut().unwrap().pc += 1;
-            instruction(world, program, thread, op, now)
+            if spawns(op) {
+                world.resource_mut::<Runtime>().budget = budget;
+                let result = instruction(world, program, thread, op, now);
+                budget = world.resource::<Runtime>().budget;
+                result
+            } else {
+                instruction(world, program, thread, op, now)
+            }
         };
         let Err(message) = result else {
             continue;
@@ -1359,7 +1421,7 @@ pub(super) fn execute(world: &mut World, program: &Program, thread: &mut Thread,
         if world.resource::<Runtime>().fault.is_some() {
             break;
         }
-        let mut fault = Fault::at(&location, message);
+        let mut fault = Fault::at(location, message);
         fault.callers = thread
             .frames
             .iter()
@@ -1379,9 +1441,11 @@ pub(super) fn execute(world: &mut World, program: &Program, thread: &mut Thread,
         report(world, &fault);
         if exhausted {
             let serial = thread.serial;
-            let mut runtime = world.resource_mut::<Runtime>();
-            runtime.budget = INSTRUCTION_BUDGET;
-            runtime.waiters.retain(|w| w.thread != serial);
+            budget = INSTRUCTION_BUDGET;
+            world
+                .resource_mut::<Runtime>()
+                .waiters
+                .retain_thread(serial, |_| false);
             thread.frames.clear();
             thread.stack.clear();
             thread.state = ThreadState::Complete;
@@ -1389,26 +1453,28 @@ pub(super) fn execute(world: &mut World, program: &Program, thread: &mut Thread,
         }
         // The failed operation leaves undefined in place of
         // its results and the thread carries on.
+        let (pops, pushes) = stack_effect(op);
         let base = thread.frames.last().map_or(0, |f| f.stack_base);
         let Some(kept) = before.checked_sub(pops).filter(|kept| *kept >= base) else {
             world.resource_mut::<Runtime>().fault =
-                Some(Fault::at(&location, "invalid IR: stack underflow"));
+                Some(Fault::at(location, "invalid IR: stack underflow"));
             break;
         };
         thread.stack.truncate(kept);
         thread.stack.resize(kept + pushes, Value::Undefined);
         // foreach walks keys from its operand and skips the body
         // when that is not an array; an undefined key list would never end.
-        if iterates {
+        if matches!(op, Op::ArrayKeys) {
             match allocate_array(world) {
                 Ok(empty) => *thread.stack.last_mut().unwrap() = empty,
                 Err(message) => {
-                    world.resource_mut::<Runtime>().fault = Some(Fault::at(&location, message));
+                    world.resource_mut::<Runtime>().fault = Some(Fault::at(location, message));
                     break;
                 }
             }
         }
     }
+    world.resource_mut::<Runtime>().budget = budget;
 }
 
 fn stack_effect(op: &Op) -> (usize, usize) {
@@ -1512,7 +1578,7 @@ fn allocate_array(world: &mut World) -> Result<Value, String> {
     let mut runtime = world.resource_mut::<Runtime>();
     let id = runtime.next_object;
     runtime.next_object = id.checked_add(1).ok_or("object identifier exhausted")?;
-    runtime.arrays.insert(id, BTreeMap::new());
+    runtime.arrays.insert(id, Arc::default());
     Ok(Value::Array(id))
 }
 
@@ -1544,38 +1610,45 @@ fn copy_value(world: &mut World, value: Value) -> Result<Value, String> {
         let Value::Array(new_id) = result else {
             unreachable!()
         };
-        for (key, value) in entries {
-            let value = copy(world, value, depth + 1, remaining)?;
-            world
-                .resource_mut::<Runtime>()
-                .arrays
-                .get_mut(&new_id)
-                .unwrap()
-                .insert(key, value);
-        }
+        // Nested arrays are copied in key order: id allocation order is part of determinism.
+        let rows = if entries
+            .values()
+            .any(|value| matches!(value, Value::Array(_)))
+        {
+            let mut rows = BTreeMap::new();
+            for (key, value) in entries.iter() {
+                rows.insert(
+                    key.clone(),
+                    copy(world, value.clone(), depth + 1, remaining)?,
+                );
+            }
+            Arc::new(rows)
+        } else {
+            entries
+        };
+        world.resource_mut::<Runtime>().arrays.insert(new_id, rows);
         Ok(result)
     }
     copy(world, value, 0, &mut 100_000)
 }
 
-/// Deleting a waited-on object ends the thread; a thread whose self is deleted keeps running.
-fn entity_receivers(world: &World, thread: &Thread) -> Vec<Value> {
-    world
-        .resource::<Runtime>()
+fn threads_waiting_on_deleted(world: &World) -> std::collections::BTreeSet<u64> {
+    let runtime = world.resource::<Runtime>();
+    runtime
         .waiters
-        .iter()
-        .filter(|w| w.thread == thread.serial)
-        .map(|w| &w.receiver)
-        .filter(|value| matches!(value, Value::Object(_)))
-        .cloned()
+        .receivers()
+        .filter(|id| runtime.dead.contains(id) || !runtime.objects.contains_key(id))
+        .flat_map(|id| runtime.waiters.threads_on(id))
         .collect()
 }
 
-fn any_deleted(world: &World, receivers: &[Value]) -> bool {
+/// Deleting a waited-on object ends the thread; a thread whose self is deleted keeps running.
+fn waits_on_deleted(world: &World, serial: u64) -> bool {
     let runtime = world.resource::<Runtime>();
-    receivers.iter().any(|value| {
-        matches!(value, Value::Object(id) if runtime.dead.contains(id) || !runtime.objects.contains_key(id))
-    })
+    runtime
+        .waiters
+        .of_thread(serial)
+        .any(|w| matches!(w.receiver, Value::Object(id) if !runtime.live(&id)))
 }
 
 impl Runtime {
@@ -1634,7 +1707,7 @@ fn collect_heap(world: &mut World) {
     let mut arrays = std::collections::BTreeSet::new();
     let mut runtime = world.resource_mut::<Runtime>();
     runtime.native_roots(&mut pending);
-    for waiter in &runtime.waiters {
+    for waiter in runtime.waiters.iter() {
         pending.push(waiter.receiver.clone());
         if let WaiterKind::Match { values } = &waiter.kind {
             pending.extend(values.iter().cloned());
@@ -1658,4 +1731,6 @@ fn collect_heap(world: &mut World) {
     runtime.objects.retain(|id, _| objects.contains(id));
     runtime.dead.retain(|id| objects.contains(id));
     runtime.arrays.retain(|id, _| arrays.contains(id));
+    runtime.collected_at = runtime.next_object;
+    runtime.live_after_collect = runtime.objects.len() + runtime.arrays.len();
 }
