@@ -444,7 +444,9 @@ impl Runtime {
                     continue;
                 };
                 let id = self.new_object()?;
-                let values = self.arrays.get_mut(&array).ok_or("level.struct is gone")?;
+                let values = std::sync::Arc::make_mut(
+                    self.arrays.get_mut(&array).ok_or("level.struct is gone")?,
+                );
                 let index = values.len() as i32;
                 values.insert(ArrayKey::Integer(index), Value::Object(id));
                 id

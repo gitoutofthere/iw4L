@@ -94,10 +94,12 @@ pub(crate) fn keyed_array(world: &mut World, pairs: Vec<(&str, Value)>) -> Resul
     runtime.next_object = id.checked_add(1).ok_or("object identifier exhausted")?;
     runtime.arrays.insert(
         id,
-        pairs
-            .into_iter()
-            .map(|(k, v)| (ArrayKey::String(k.into()), v))
-            .collect(),
+        std::sync::Arc::new(
+            pairs
+                .into_iter()
+                .map(|(k, v)| (ArrayKey::String(k.into()), v))
+                .collect(),
+        ),
     );
     Ok(Value::Array(id))
 }

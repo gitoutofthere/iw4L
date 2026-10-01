@@ -61,7 +61,7 @@ pub(crate) fn attach(runtime: &mut Runtime, value: Detached) -> Result<Value, St
             }
             let id = runtime.next_object;
             runtime.next_object = id.checked_add(1).ok_or("object identifier exhausted")?;
-            runtime.arrays.insert(id, array);
+            runtime.arrays.insert(id, Arc::new(array));
             Ok(Value::Array(id))
         }
     }
