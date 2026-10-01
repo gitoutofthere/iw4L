@@ -17,9 +17,15 @@ pub(crate) fn copy_state(source: &World, target: &mut World) {
     target.insert_resource(source.resource::<Runtime>().clone());
     target.insert_resource(source.resource::<host::mechanics::Mechanics>().clone());
     target.insert_resource(source.resource::<NativeRegistry>().clone());
+    target.resource_mut::<Runtime>().thread_entities.clear();
     for entity in source.iter_entities() {
         if let Some(thread) = entity.get::<Thread>() {
-            target.spawn(thread.clone());
+            let serial = thread.serial;
+            let copy = target.spawn(thread.clone()).id();
+            target
+                .resource_mut::<Runtime>()
+                .thread_entities
+                .insert(serial, copy);
         }
     }
 }
@@ -90,6 +96,11 @@ pub(crate) fn install_level(
         .collect();
     let mut runtime = world.resource_mut::<Runtime>();
     runtime.program = Some(program.clone());
+    runtime.engine_player_fields = program
+        .symbols
+        .iter()
+        .map(|symbol| host::players::is_engine_field(symbol))
+        .collect();
     runtime.natives = bound;
     runtime.objects.insert(0, BTreeMap::new());
     runtime.objects.insert(1, BTreeMap::new());
