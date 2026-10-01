@@ -943,27 +943,43 @@ fn encode_request_body(body: &RequestBody) -> Result<Vec<u8>, ProtocolError> {
 fn decode_request_body(body: &mut Reader<'_>) -> Result<RequestBody, ProtocolError> {
     Ok(match body.u8()? {
         TAG_STATUS => RequestBody::Status,
-        TAG_CREATE_ROOM => RequestBody::CreateRoom {
-            name: body.string(MAX_ADVERT_NAME_BYTES)?,
-            map: body.string(MAX_MAP_BYTES)?,
-            mode: body.string(MAX_MODE_BYTES)?,
-            max_players: body.u8()?,
-            requires: ContentFlags(body.u8()?),
-        },
+        TAG_CREATE_ROOM => {
+            let name = body.string(MAX_ADVERT_NAME_BYTES)?;
+            let map = body.string(MAX_MAP_BYTES)?;
+            let mode = body.string(MAX_MODE_BYTES)?;
+            let max_players = body.u8()?;
+            let requires = ContentFlags(body.u8()?);
+            validate_advert(&name, &map, &mode, max_players)?;
+            RequestBody::CreateRoom {
+                name,
+                map,
+                mode,
+                max_players,
+                requires,
+            }
+        }
         TAG_JOIN_ROOM => RequestBody::JoinRoom {
             room_id: AdvertId(body.array()?),
             have: ContentFlags(body.u8()?),
         },
         TAG_LEAVE_ROOM => RequestBody::LeaveRoom,
-        TAG_SET_OPTIONS => RequestBody::SetOptions {
-            map: body.string(MAX_MAP_BYTES)?,
-            mode: body.string(MAX_MODE_BYTES)?,
-            joinable: bool_byte(body.u8()?)?,
-        },
-        TAG_START_MATCH => RequestBody::StartMatch {
-            map: body.string(MAX_MAP_BYTES)?,
-            mode: body.string(MAX_MODE_BYTES)?,
-        },
+        TAG_SET_OPTIONS => {
+            let map = body.string(MAX_MAP_BYTES)?;
+            let mode = body.string(MAX_MODE_BYTES)?;
+            let joinable = bool_byte(body.u8()?)?;
+            validate_map_mode(&map, &mode)?;
+            RequestBody::SetOptions {
+                map,
+                mode,
+                joinable,
+            }
+        }
+        TAG_START_MATCH => {
+            let map = body.string(MAX_MAP_BYTES)?;
+            let mode = body.string(MAX_MODE_BYTES)?;
+            validate_map_mode(&map, &mode)?;
+            RequestBody::StartMatch { map, mode }
+        }
         TAG_END_MATCH => RequestBody::EndMatch {
             room_id: AdvertId(body.array()?),
             epoch: body.u32()?,
