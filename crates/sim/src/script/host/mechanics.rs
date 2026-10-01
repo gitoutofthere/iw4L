@@ -134,6 +134,13 @@ fn advance_bodies(world: &mut World) {
             };
             body.velocity[2] -= GRAVITY * TICK_S;
             let end: [f32; 3] = std::array::from_fn(|i| origin[i] + body.velocity[i] * TICK_S);
+            if [origin, angles, body.velocity, end]
+                .into_iter()
+                .any(|v| Value::Vector(v).ensure_finite().is_err())
+            {
+                diag::warn!(Sim, "gsc: body on object {object} cancelled: non-finite body sample");
+                return false;
+            }
             let trace = crate::frame::FrameWorld::from_world(world).trace_static_world(
                 origin,
                 end,
@@ -147,6 +154,10 @@ fn advance_bodies(world: &mut World) {
                 trace.fraction
             };
             let at: [f32; 3] = std::array::from_fn(|i| origin[i] + (end[i] - origin[i]) * fraction);
+            if Value::Vector(at).ensure_finite().is_err() {
+                diag::warn!(Sim, "gsc: body on object {object} cancelled: non-finite body sample");
+                return false;
+            }
             body.ticks += 1;
             let rested = fraction < 1.0 || body.ticks >= SETTLE_TICKS;
             let mut runtime = world.resource_mut::<Runtime>();
@@ -182,12 +193,17 @@ fn apply_entity_links(world: &mut World) {
         let local = std::array::from_fn(|i| offset[i] + link.origin[i]);
         let (child_axis, origin) =
             math_iw4::matrix_multiply43(math_iw4::angles_to_axis(link.angles), local, axis, base);
+        let angles = math_iw4::axis_to_angles(child_axis);
+        if [origin, angles]
+            .into_iter()
+            .any(|v| Value::Vector(v).ensure_finite().is_err())
+        {
+            diag::warn!(Sim, "gsc: link on object {id} detached: non-finite pose");
+            runtime.entities.get_mut(&id).unwrap().linked_to = None;
+            continue;
+        }
         runtime.set_object_field(id, "origin", Value::Vector(origin));
-        runtime.set_object_field(
-            id,
-            "angles",
-            Value::Vector(math_iw4::axis_to_angles(child_axis)),
-        );
+        runtime.set_object_field(id, "angles", Value::Vector(angles));
     }
 }
 
