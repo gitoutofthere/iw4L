@@ -34,28 +34,26 @@ pub(super) fn level_endon_armed(world: &World, name: &str) -> bool {
 }
 
 pub(super) fn return_from(world: &mut World, function: &str, now: i64) -> usize {
-    let runtime = world.resource::<Runtime>();
-    let Some(&function) = runtime
+    let Some(&function) = world
+        .resource::<Runtime>()
         .program
         .as_ref()
         .and_then(|program| program.names.get(function))
     else {
         return 0;
     };
-    let inside: Vec<_> = runtime
-        .thread_order
-        .iter()
-        .filter_map(|serial| {
-            let entity = runtime.thread_entities[serial].entity;
-            let thread = world.get::<Thread>(entity)?;
+    let inside: Vec<_> = world
+        .query::<(Entity, &Thread)>()
+        .iter(world)
+        .filter_map(|(entity, thread)| {
             let depth = thread.frames.iter().position(|f| f.function == function)?;
             Some((entity, depth))
         })
         .collect();
     for &(entity, depth) in &inside {
-        let mut thread = take_thread(world, entity);
+        let mut thread = world.entity_mut(entity).take::<Thread>().unwrap();
         unwind(world, &mut thread, depth, now, false);
-        put_thread(world, entity, thread);
+        world.entity_mut(entity).insert(thread);
     }
     inside.len()
 }
@@ -80,7 +78,12 @@ fn deliver_pending(world: &mut World, thread: &mut Thread, now: i64) -> Result<(
 }
 
 fn deliver_external(world: &mut World, now: i64) {
-    let mut carrier = detached_thread();
+    let mut carrier = Thread {
+        serial: u64::MAX,
+        frames: Vec::new(),
+        stack: Vec::new(),
+        state: ThreadState::Complete,
+    };
     let pending = std::mem::take(&mut world.resource_mut::<Runtime>().pending_notifies);
     let program = world.resource::<Runtime>().program.clone().unwrap();
     for (receiver, name, args) in pending {
@@ -213,7 +216,10 @@ fn spawn_thread(
 fn park(world: &mut World, thread: Thread) {
     let serial = thread.serial;
     let entity = world.spawn(thread).id();
-    world.resource_mut::<Runtime>().park_thread(serial, entity);
+    world
+        .resource_mut::<Runtime>()
+        .thread_entities
+        .insert(serial, entity);
 }
 
 pub(super) fn new_thread(
@@ -1091,7 +1097,7 @@ fn find_thread(world: &mut World, serial: u64) -> Option<Entity> {
         .resource::<Runtime>()
         .thread_entities
         .get(&serial)
-        .map(|slot| slot.entity);
+        .copied();
     if let Some(entity) = remembered
         && world
             .get::<Thread>(entity)
@@ -1106,32 +1112,6 @@ fn find_thread(world: &mut World, serial: u64) -> Option<Entity> {
         .map(|(e, _)| e)
 }
 
-fn detached_thread() -> Thread {
-    // No thread is ever given serial u64::MAX and this one has no frames, so
-    // lookups by serial and walks over frames pass it by.
-    Thread {
-        serial: u64::MAX,
-        frames: Vec::new(),
-        stack: Vec::new(),
-        state: ThreadState::Complete,
-    }
-}
-
-fn take_thread(world: &mut World, entity: Entity) -> Thread {
-    let thread = std::mem::replace(
-        &mut *world.get_mut::<Thread>(entity).unwrap(),
-        detached_thread(),
-    );
-    world.resource_mut::<Runtime>().detach_thread(thread.serial);
-    thread
-}
-
-fn put_thread(world: &mut World, entity: Entity, thread: Thread) {
-    let serial = thread.serial;
-    *world.get_mut::<Thread>(entity).unwrap() = thread;
-    world.resource_mut::<Runtime>().restore_thread(serial);
-}
-
 fn with_thread<R>(
     world: &mut World,
     current: &mut Thread,
@@ -1142,7 +1122,7 @@ fn with_thread<R>(
         return Some(f(world, current, true));
     }
     let entity = find_thread(world, serial)?;
-    let mut thread = take_thread(world, entity);
+    let mut thread = world.entity_mut(entity).take::<Thread>().unwrap();
     let result = f(world, &mut thread, false);
     if thread.state == ThreadState::Complete {
         world.despawn(entity);
@@ -1151,13 +1131,12 @@ fn with_thread<R>(
             .thread_entities
             .remove(&serial);
     } else {
-        put_thread(world, entity, thread);
+        world.entity_mut(entity).insert(thread);
     }
     Some(result)
 }
 
 fn retire(runtime: &mut Runtime, serial: u64) {
-    runtime.detach_thread(serial);
     runtime.thread_entities.remove(&serial);
     runtime.waiters.retain_thread(serial, |_| false);
     dequeue(runtime, serial);
@@ -1329,12 +1308,11 @@ pub(crate) fn advance_scheduler(world: &mut World) {
     let dead: Vec<_> = if doomed.is_empty() {
         Vec::new()
     } else {
-        let runtime = world.resource::<Runtime>();
-        runtime
-            .thread_order
-            .iter()
-            .filter(|serial| doomed.contains(*serial))
-            .map(|serial| (runtime.thread_entities[serial].entity, *serial))
+        world
+            .query::<(Entity, &Thread)>()
+            .iter(world)
+            .filter(|(_, thread)| doomed.contains(&thread.serial))
+            .map(|(entity, thread)| (entity, thread.serial))
             .collect()
     };
     for (entity, serial) in dead {
@@ -1392,14 +1370,14 @@ fn run_ready(world: &mut World, program: &Program, now: i64) {
             kill(world, entity, serial);
             continue;
         }
-        let mut thread = take_thread(world, entity);
+        let mut thread = world.entity_mut(entity).take::<Thread>().unwrap();
         thread.state = ThreadState::Runnable;
         world.resource_mut::<Runtime>().budget = INSTRUCTION_BUDGET;
         execute(world, program, &mut thread, now);
         if thread.state == ThreadState::Complete {
             kill(world, entity, serial);
         } else {
-            put_thread(world, entity, thread);
+            world.entity_mut(entity).insert(thread);
         }
         if world.resource::<Runtime>().fault.is_some() {
             break;
