@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use perfetto_sdk::track_event::{EventContext, TrackEventDebugArg};
 use perfetto_sdk::{track_event_begin, track_event_end};
 
@@ -13,7 +15,13 @@ fn f64_arg(ctx: &mut EventContext, name: &'static str, value: f32) {
 }
 
 fn str_arg(ctx: &mut EventContext, name: &'static str, value: &str) {
-    ctx.add_debug_arg(name, TrackEventDebugArg::String(value));
+    // Perfetto debug strings require an interior-NUL-free C string.
+    let value = if value.contains('\0') {
+        Cow::Owned(value.replace('\0', "\\0"))
+    } else {
+        Cow::Borrowed(value)
+    };
+    ctx.add_debug_arg(name, TrackEventDebugArg::String(&value));
 }
 
 pub fn player_tick(
