@@ -1216,18 +1216,13 @@ impl UdpClientLink {
                 if self.baselines.contains_key(&snapshot_seq) {
                     return Ok(false);
                 }
-                let baseline = if baseline_seq == 0 {
-                    None
-                } else {
-                    match self.baselines.get(&baseline_seq).cloned() {
-                        Some(baseline) => Some(baseline),
-                        None => return Ok(false),
-                    }
-                };
                 let mut decoder = SnapshotDecoder::new();
                 let mut world_decoder = WorldObjectSyncDecoder::default();
-                if let Some(baseline) = baseline.as_ref() {
-                    decoder.adopt_baseline(baseline);
+                if baseline_seq != 0 {
+                    let Some(baseline) = self.baselines.get(&baseline_seq) else {
+                        return Ok(false);
+                    };
+                    decoder.adopt_entity_baseline(baseline);
                     world_decoder.adopt_baseline(baseline.meta.world_objects.clone());
                 }
                 self.in_ack = header.sequence;
