@@ -410,6 +410,18 @@ impl Runtime {
                 .find(|(k, _)| k.eq_ignore_ascii_case("classname"))
                 .map_or("", |(_, v)| v.as_str());
             if classname == "worldspawn" {
+                for (key, text) in pairs {
+                    if key.eq_ignore_ascii_case("northyaw") {
+                        for number in [
+                            super::natives::iw4::atof(text) as f32,
+                            text.trim().parse::<f32>().unwrap_or(0.0),
+                        ] {
+                            Value::Float(number).ensure_finite().map_err(|m| {
+                                format!("map entity {ordinal} ({classname}) field {key}: {m}")
+                            })?;
+                        }
+                    }
+                }
                 self.engine.worldspawn = pairs
                     .iter()
                     .map(|(k, v)| (k.to_ascii_lowercase(), v.clone()))
@@ -432,7 +444,9 @@ impl Runtime {
                     continue;
                 };
                 let id = self.new_object()?;
-                let values = self.arrays.get_mut(&array).ok_or("level.struct is gone")?;
+                let values = std::sync::Arc::make_mut(
+                    self.arrays.get_mut(&array).ok_or("level.struct is gone")?,
+                );
                 let index = values.len() as i32;
                 values.insert(ArrayKey::Integer(index), Value::Object(id));
                 id
@@ -452,11 +466,12 @@ impl Runtime {
                 let value = match key.as_str() {
                     "origin" | "angles" => Value::Vector(vector(value)),
                     "angle" => {
-                        self.set_object_field(
-                            id,
-                            "angles",
-                            Value::Vector([0.0, super::natives::iw4::atof(value) as f32, 0.0]),
-                        );
+                        let angles =
+                            Value::Vector([0.0, super::natives::iw4::atof(value) as f32, 0.0]);
+                        angles.ensure_finite().map_err(|m| {
+                            format!("map entity {ordinal} ({classname}) field {key}: {m}")
+                        })?;
+                        self.set_object_field(id, "angles", angles);
                         continue;
                     }
                     "spawnflags" | "count" | "health" | "dmg" | "maxhealth" => {
@@ -483,6 +498,9 @@ impl Runtime {
                         Some(KeyType::String) | None => Value::string(value),
                     },
                 };
+                value
+                    .ensure_finite()
+                    .map_err(|m| format!("map entity {ordinal} ({classname}) field {key}: {m}"))?;
                 self.set_object_field(id, &key, value);
             }
             if let Some(entity) = self.entities.get_mut(&id) {
