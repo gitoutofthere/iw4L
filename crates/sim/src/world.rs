@@ -3265,9 +3265,13 @@ pub fn snapshot_fault(snapshot: &Snapshot, weapon_count: usize) -> Option<&'stat
         ps.weapons
             .iter()
             .any(|&weapon| weapon > 0 && weapon as usize >= weapon_count)
-            || [ps.weapon, ps.weapon_primary, ps.off_hand_index.max(0) as u32]
-                .iter()
-                .any(|&weapon| weapon != 0 && weapon as usize >= weapon_count)
+            || [
+                ps.weapon,
+                ps.weapon_primary,
+                ps.off_hand_index.max(0) as u32,
+            ]
+            .iter()
+            .any(|&weapon| weapon != 0 && weapon as usize >= weapon_count)
     }) {
         return Some("weapon index outside local catalog");
     }
@@ -3316,7 +3320,11 @@ fn entity_link_fault(snapshot: &Snapshot) -> Option<&'static str> {
         if meta.entity_kernel.occupied_kind(state.number) != Some(crate::EntityRunKind::Item) {
             return Some("ET_ITEM does not occupy an Item kernel slot");
         }
-        if !meta.item_ammo.iter().any(|ammo| ammo.entnum == state.number) {
+        if !meta
+            .item_ammo
+            .iter()
+            .any(|ammo| ammo.entnum == state.number)
+        {
             return Some("ET_ITEM omitted ItemWeaponSetAmmo state");
         }
     }
