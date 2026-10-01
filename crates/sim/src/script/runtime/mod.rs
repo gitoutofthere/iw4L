@@ -565,20 +565,24 @@ fn store_object_field(
     Ok(())
 }
 
+fn spawns(op: &Op) -> bool {
+    matches!(op, Op::Spawn(..) | Op::Indirect(_, _, true))
+}
+
 fn instruction(
     world: &mut World,
     program: &Program,
     thread: &mut Thread,
-    op: Op,
+    op: &Op,
     now: i64,
 ) -> Result<(), String> {
-    let spawn = matches!(op, Op::Spawn(..) | Op::Indirect(_, _, true));
+    let spawn = spawns(op);
     let method = matches!(
         op,
         Op::Call(_, _, true) | Op::Spawn(_, _, true) | Op::Indirect(_, true, _)
     );
-    match op {
-        Op::Constant(value) => thread.stack.push(value),
+    match *op {
+        Op::Constant(ref value) => thread.stack.push(value.clone()),
         Op::FunctionRef(_) => return Err("invalid IR: unlinked function reference".into()),
         Op::Global(global) => thread.stack.push(match global {
             Global::SelfRef => thread.frames.last().unwrap().receiver.clone(),
@@ -831,7 +835,7 @@ fn instruction(
             for arg in &mut args {
                 *arg = copy_value(world, std::mem::replace(arg, Value::Undefined))?;
             }
-            let callee = match op {
+            let callee = match *op {
                 Op::Call(callee, _, _) | Op::Spawn(callee, _, _) => callee,
                 Op::Indirect(..) => match pop(thread)? {
                     Value::Function(id) => Callee::Script(id),
@@ -1009,7 +1013,7 @@ fn instruction(
             let receiver = event_receiver(pop(thread)?)?;
             notify(world, thread, &receiver, &name, &arguments, now)?;
         }
-        Op::Await(outputs) => {
+        Op::Await(ref outputs) => {
             let name = event_name(pop(thread)?)?;
             let receiver = event_receiver(pop(thread)?)?;
             register(
@@ -1017,7 +1021,9 @@ fn instruction(
                 thread,
                 receiver,
                 name,
-                WaiterKind::Waittill { outputs },
+                WaiterKind::Waittill {
+                    outputs: outputs.clone(),
+                },
             );
         }
         Op::AwaitMatch(argc) => {
@@ -1385,8 +1391,7 @@ fn run_ready(world: &mut World, program: &Program, now: i64) {
         let Some(entity) = find_thread(world, serial) else {
             continue;
         };
-        let receivers = entity_receivers(world, world.get::<Thread>(entity).unwrap());
-        if any_deleted(world, &receivers) {
+        if waits_on_deleted(world, serial) {
             kill(world, entity, serial);
             continue;
         }
@@ -1426,13 +1431,13 @@ pub(super) fn execute(world: &mut World, program: &Program, thread: &mut Thread,
         } else {
             budget -= 1;
             thread.frames.last_mut().unwrap().pc += 1;
-            if matches!(op, Op::Call(..) | Op::Spawn(..) | Op::Indirect(..)) {
+            if spawns(op) {
                 world.resource_mut::<Runtime>().budget = budget;
-                let result = instruction(world, program, thread, op.clone(), now);
+                let result = instruction(world, program, thread, op, now);
                 budget = world.resource::<Runtime>().budget;
                 result
             } else {
-                instruction(world, program, thread, op.clone(), now)
+                instruction(world, program, thread, op, now)
             }
         };
         let Err(message) = result else {
@@ -1663,22 +1668,12 @@ fn threads_waiting_on_deleted(world: &World) -> std::collections::BTreeSet<u64> 
 }
 
 /// Deleting a waited-on object ends the thread; a thread whose self is deleted keeps running.
-fn entity_receivers(world: &World, thread: &Thread) -> Vec<Value> {
-    world
-        .resource::<Runtime>()
-        .waiters
-        .of_thread(thread.serial)
-        .map(|w| &w.receiver)
-        .filter(|value| matches!(value, Value::Object(_)))
-        .cloned()
-        .collect()
-}
-
-fn any_deleted(world: &World, receivers: &[Value]) -> bool {
+fn waits_on_deleted(world: &World, serial: u64) -> bool {
     let runtime = world.resource::<Runtime>();
-    receivers.iter().any(|value| {
-        matches!(value, Value::Object(id) if runtime.dead.contains(id) || !runtime.objects.contains_key(id))
-    })
+    runtime
+        .waiters
+        .of_thread(serial)
+        .any(|w| matches!(w.receiver, Value::Object(id) if !runtime.live(&id)))
 }
 
 impl Runtime {
