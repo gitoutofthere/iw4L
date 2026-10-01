@@ -645,13 +645,22 @@ fn load_seat_field(seat: &crate::ScriptSeat, name: &str) -> Value {
 }
 
 fn store_seat_field(seat: &mut crate::ScriptSeat, name: &str, value: &Value) -> Result<(), String> {
+    value
+        .ensure_finite()
+        .map_err(|m| format!("player field {name}: {m}"))?;
     let number = match value {
         Value::Int(n) => *n as f32,
         Value::Float(f) => *f,
         Value::Undefined => -1.0,
         other => return Err(format!("player field {name} takes a number, not {other:?}")),
     };
-    let ms = (number.max(0.0) * 1000.0).round() as i32;
+    let ms = if matches!(name, "archivetime" | "killcamlength") {
+        let scaled = number.max(0.0) * 1000.0;
+        Value::Float(scaled).ensure_finite()?;
+        scaled.round() as i32
+    } else {
+        0
+    };
     match name {
         "forcespectatorclient" => seat.spectator_client = number as i32,
         "killcamentity" => seat.kill_cam_entity = number as i32,
@@ -895,10 +904,15 @@ pub(crate) fn store_field(
     value: &Value,
 ) -> Result<bool, String> {
     let id = ClientId(client);
-    let int = |value: &Value| match value {
-        Value::Int(n) => Ok(*n),
-        Value::Float(f) => Ok(*f as i32),
-        other => Err(format!("player field {name} takes a number, not {other:?}")),
+    let int = |value: &Value| {
+        value
+            .ensure_finite()
+            .map_err(|m| format!("player field {name}: {m}"))?;
+        match value {
+            Value::Int(n) => Ok(*n),
+            Value::Float(f) => Ok(*f as i32),
+            other => Err(format!("player field {name} takes a number, not {other:?}")),
+        }
     };
     if SEAT_FIELDS.contains(&name) {
         if let Some(slot) = world.resource_mut::<Runtime>().players.get_mut(&client) {
@@ -946,6 +960,9 @@ pub(crate) fn store_field(
             let Value::Vector(v) = value else {
                 return Err(format!("player field {name} takes a vector"));
             };
+            value
+                .ensure_finite()
+                .map_err(|m| format!("player field {name}: {m}"))?;
             let mut frame = FrameWorld::from_world(world);
             if name == "origin" {
                 frame.set_origin(id, *v);

@@ -510,13 +510,10 @@ pub(super) fn binary(op: Binary, a: Value, b: Value) -> Result<Value, String> {
             Value::Int(i32::from(ordered != inverted))
         }
     };
-    match &result {
-        Value::Float(n) if !n.is_finite() => Err("non-finite arithmetic result".into()),
-        Value::Vector(v) if !v.iter().all(|n| n.is_finite()) => {
-            Err("non-finite arithmetic result".into())
-        }
-        _ => Ok(result),
-    }
+    result
+        .ensure_finite()
+        .map_err(|_| "non-finite arithmetic result".to_owned())?;
+    Ok(result)
 }
 
 fn object_key(runtime: &mut Runtime, key: ArrayKey) -> Result<u32, String> {
@@ -524,6 +521,34 @@ fn object_key(runtime: &mut Runtime, key: ArrayKey) -> Result<u32, String> {
         ArrayKey::String(key) => Ok(runtime.symbol(&key)),
         ArrayKey::Integer(_) => Err("object index must be a string".into()),
     }
+}
+
+fn store_object_field(
+    world: &mut World,
+    id: u64,
+    field: u32,
+    name: &str,
+    value: Value,
+) -> Result<(), String> {
+    let runtime = world.resource::<Runtime>();
+    if matches!(name, "origin" | "angles")
+        && (runtime.entities.contains_key(&id) || runtime.player_client(id).is_some())
+    {
+        value
+            .ensure_finite()
+            .map_err(|m| format!("entity field {name}: {m}"))?;
+    }
+    let mut runtime = world.resource_mut::<Runtime>();
+    let fields = runtime
+        .objects
+        .get_mut(&id)
+        .ok_or("invalid script object reference")?;
+    if value == Value::Undefined {
+        fields.remove(&field);
+    } else {
+        fields.insert(field, value);
+    }
+    Ok(())
 }
 
 fn instruction(
@@ -734,9 +759,9 @@ fn instruction(
             let value = copy_value(world, pop(thread)?)?;
             let key = array_key(pop(thread)?)?;
             let receiver = pop(thread)?;
-            let mut runtime = world.resource_mut::<Runtime>();
             match receiver {
                 Value::Array(id) => {
+                    let mut runtime = world.resource_mut::<Runtime>();
                     let values = runtime
                         .arrays
                         .get_mut(&id)
@@ -748,16 +773,11 @@ fn instruction(
                     }
                 }
                 Value::Object(id) => {
-                    let field = object_key(&mut runtime, key)?;
-                    let fields = runtime
-                        .objects
-                        .get_mut(&id)
-                        .ok_or("invalid object reference")?;
-                    if value == Value::Undefined {
-                        fields.remove(&field);
-                    } else {
-                        fields.insert(field, value);
-                    }
+                    let ArrayKey::String(name) = key else {
+                        return Err("object index must be a string".into());
+                    };
+                    let field = world.resource_mut::<Runtime>().symbol(&name);
+                    store_object_field(world, id, field, &name, value)?;
                 }
                 _ => return Err("index assignment requires array or object".into()),
             }
@@ -842,14 +862,32 @@ fn instruction(
                 Callee::Native(index) => {
                     let native = world.resource::<Runtime>().natives[index as usize];
                     let name = &program.natives[index as usize].name;
+                    receiver
+                        .ensure_finite()
+                        .map_err(|m| format!("{name}: receiver: {m}"))?;
+                    for (index, arg) in args.iter().enumerate() {
+                        arg.ensure_finite()
+                            .map_err(|m| format!("{name}: parameter {}: {m}", index + 1))?;
+                    }
                     // A defect in one builtin costs its caller an undefined result, not the match.
                     let value = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
                         native(world, &receiver, &args)
                     }))
                     .unwrap_or_else(|_| Err("builtin panicked".into()))
                     .map_err(|m| format!("{name}: {m}"))?;
-                    thread.stack.push(value);
+                    let finite = value
+                        .ensure_finite()
+                        .map_err(|m| format!("{name}: result: {m}"));
+                    thread.stack.push(if finite.is_ok() {
+                        value
+                    } else {
+                        Value::Undefined
+                    });
+                    let depth = thread.frames.len();
                     deliver_pending(world, thread, now)?;
+                    if thread.frames.len() == depth {
+                        finite?;
+                    }
                 }
                 Callee::Unlinked(_) => return Err("invalid IR: unlinked call".into()),
             }
@@ -939,27 +977,15 @@ fn instruction(
             let Value::Object(id) = receiver else {
                 return Err("native entity fields are not bound".into());
             };
-            if let Some(client) = world.resource::<Runtime>().player_client(id)
-                && super::host::players::store_field(
-                    world,
-                    client,
-                    &program.symbols[field as usize],
-                    &value,
-                )?
+            let name = &program.symbols[field as usize];
+            let client = world.resource::<Runtime>().player_client(id);
+            if let Some(client) = client
+                && super::host::players::store_field(world, client, name, &value)?
             {
                 return Ok(());
             }
-            super::host::hud::store_field(world, id, &program.symbols[field as usize], &value)?;
-            let mut runtime = world.resource_mut::<Runtime>();
-            let fields = runtime
-                .objects
-                .get_mut(&id)
-                .ok_or("invalid script object reference")?;
-            if value == Value::Undefined {
-                fields.remove(&field);
-            } else {
-                fields.insert(field, value);
-            }
+            super::host::hud::store_field(world, id, name, &value)?;
+            store_object_field(world, id, field, name, value)?;
         }
         Op::Notify(argc) => {
             let base = thread

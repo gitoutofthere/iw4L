@@ -26,10 +26,17 @@ const BODY_MINS: [f32; 3] = [-12.0, -12.0, 0.0];
 const BODY_MAXS: [f32; 3] = [12.0, 12.0, 24.0];
 
 impl Mechanics {
-    pub(crate) fn start(&mut self, object: u64, motion: Motion) {
+    pub(crate) fn start(&mut self, object: u64, motion: Motion) -> Result<(), String> {
+        let end_ms = motion
+            .start_ms
+            .checked_add(motion.duration_ms)
+            .ok_or("motion duration exceeds time range")?;
+        motion.sample(motion.start_ms)?;
+        motion.sample(end_ms)?;
         let motions = self.motions.entry(object).or_default();
         motions.retain(|m| m.field != motion.field);
         motions.push(motion);
+        Ok(())
     }
 
     pub(crate) fn stop(&mut self, object: u64, field: &str) {
@@ -43,11 +50,11 @@ impl Mechanics {
         self.bodies.insert(object, Body { velocity, ticks: 0 });
     }
 
-    pub(crate) fn velocity(&self, object: u64, now: i64) -> [f32; 3] {
+    pub(crate) fn velocity(&self, object: u64, now: i64) -> Result<[f32; 3], String> {
         self.motions
             .get(&object)
             .and_then(|motions| motions.iter().find(|m| m.field == "origin"))
-            .map_or([0.0; 3], |m| m.sample(now).1)
+            .map_or(Ok([0.0; 3]), |m| m.sample(now).map(|(_, velocity)| velocity))
     }
 }
 
@@ -84,7 +91,13 @@ fn advance_motions(world: &mut World, now: i64) {
         motions.retain(|object, _| runtime.entities.contains_key(object));
         for (object, list) in motions.iter_mut() {
             list.retain(|motion| {
-                let (value, _) = motion.sample(now);
+                let (value, _) = match motion.sample(now) {
+                    Ok(sample) => sample,
+                    Err(message) => {
+                        diag::warn!(Sim, "gsc: motion on object {object} cancelled: {message}");
+                        return false;
+                    }
+                };
                 runtime.set_object_field(*object, motion.field, Value::Vector(value));
                 let done = now - motion.start_ms >= motion.duration_ms;
                 if done {
@@ -202,10 +215,10 @@ pub(crate) enum MotionPath {
 const GRAVITY: f32 = 800.0;
 
 impl Motion {
-    pub(crate) fn sample(&self, now: i64) -> ([f32; 3], [f32; 3]) {
+    pub(crate) fn sample(&self, now: i64) -> Result<([f32; 3], [f32; 3]), String> {
         let elapsed = (now - self.start_ms).clamp(0, self.duration_ms);
         let t = elapsed as f32 / 1000.0;
-        match self.path {
+        let (position, velocity) = match self.path {
             MotionPath::Linear {
                 from,
                 to,
@@ -249,6 +262,9 @@ impl Motion {
                 v[2] -= GRAVITY * t;
                 (p, v)
             }
-        }
+        };
+        Value::Vector(position).ensure_finite()?;
+        Value::Vector(velocity).ensure_finite()?;
+        Ok((position, velocity))
     }
 }
