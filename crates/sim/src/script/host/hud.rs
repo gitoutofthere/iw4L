@@ -90,8 +90,10 @@ fn now_ms(world: &World) -> i32 {
     i32::try_from(u64::from(tick) * u64::from(crate::MATCH_TICK_MS)).unwrap_or(i32::MAX)
 }
 
-fn seconds_ms(seconds: f32) -> i32 {
-    (seconds * 1000.0).round().clamp(0.0, i32::MAX as f32) as i32
+fn seconds_ms(seconds: f32) -> Result<i32, String> {
+    let scaled = seconds * 1000.0;
+    Value::Float(scaled).ensure_finite()?;
+    Ok(scaled.round().clamp(0.0, i32::MAX as f32) as i32)
 }
 
 fn team_number(team: &str) -> i32 {
@@ -161,6 +163,9 @@ fn edit<R>(
 }
 
 fn number(name: &str, value: &Value) -> Result<f32, String> {
+    value
+        .ensure_finite()
+        .map_err(|m| format!("hud element field {name}: {m}"))?;
     match value {
         Value::Int(n) => Ok(*n as f32),
         Value::Float(f) => Ok(*f),
@@ -273,6 +278,9 @@ pub(crate) fn store_field(
                 let Value::Vector(rgb) = value else {
                     return Err(format!("hud element field {name} takes a vector"));
                 };
+                value
+                    .ensure_finite()
+                    .map_err(|m| format!("hud element field {name}: {m}"))?;
                 if name == "color" {
                     elem.color_rgba = with_rgb(elem.color_rgba, *rgb);
                 } else {
@@ -312,7 +320,7 @@ pub(crate) fn store_field(
 
 fn timer(world: &mut World, receiver: &Value, args: &[Value], kind: i32) -> Result<Value, String> {
     let (_, slot) = slot_of(world, receiver)?;
-    let ms = seconds_ms(float(args, 0)?);
+    let ms = seconds_ms(float(args, 0)?)?;
     let now = now_ms(world);
     edit(world, slot, |s| {
         s.elem.elem_type = kind;
@@ -327,8 +335,8 @@ fn timer(world: &mut World, receiver: &Value, args: &[Value], kind: i32) -> Resu
 
 fn clock(world: &mut World, receiver: &Value, args: &[Value], kind: i32) -> Result<Value, String> {
     let (_, slot) = slot_of(world, receiver)?;
-    let ms = seconds_ms(float(args, 0)?);
-    let duration = seconds_ms(float(args, 1)?);
+    let ms = seconds_ms(float(args, 0)?)?;
+    let duration = seconds_ms(float(args, 1)?)?;
     let material = string(args, 2)?;
     let width = optional(args, 3, int)?.unwrap_or(0);
     let height = optional(args, 4, int)?.unwrap_or(0);
@@ -576,7 +584,7 @@ pub(crate) fn register(registry: &mut NativeRegistry) {
     });
     registry.register(Method, "fadeovertime", |world, receiver, args| {
         let (_, slot) = slot_of(world, receiver)?;
-        let ms = seconds_ms(float(args, 0)?);
+        let ms = seconds_ms(float(args, 0)?)?;
         let now = now_ms(world);
         edit(world, slot, |s| {
             s.elem.from_color_rgba = pack(lerp_hud_colors(&s.elem, now));
@@ -587,7 +595,7 @@ pub(crate) fn register(registry: &mut NativeRegistry) {
     });
     registry.register(Method, "moveovertime", |world, receiver, args| {
         let (_, slot) = slot_of(world, receiver)?;
-        let ms = seconds_ms(float(args, 0)?);
+        let ms = seconds_ms(float(args, 0)?)?;
         let now = now_ms(world);
         edit(world, slot, |s| {
             let e = &mut s.elem;
@@ -610,7 +618,7 @@ pub(crate) fn register(registry: &mut NativeRegistry) {
     });
     registry.register(Method, "scaleovertime", |world, receiver, args| {
         let (_, slot) = slot_of(world, receiver)?;
-        let ms = seconds_ms(float(args, 0)?);
+        let ms = seconds_ms(float(args, 0)?)?;
         let width = int(args, 1)?;
         let height = int(args, 2)?;
         let now = now_ms(world);
@@ -640,7 +648,7 @@ pub(crate) fn register(registry: &mut NativeRegistry) {
         "changefontscaleovertime",
         |world, receiver, args| {
             let (_, slot) = slot_of(world, receiver)?;
-            let ms = seconds_ms(float(args, 0)?);
+            let ms = seconds_ms(float(args, 0)?)?;
             let now = now_ms(world);
             edit(world, slot, |s| {
                 s.elem.from_font_scale = hud_elem_lerp_font_scale(&s.elem, now);
