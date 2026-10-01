@@ -438,7 +438,7 @@ pub fn receive_ticks(
 ) {
     push_phase(trace, "Receive");
     if let Some(link) = link.as_mut() {
-        match link.recv_ticks() {
+        match link.recv_ticks(prediction.0.world().weapon_combat_len()) {
             Ok(ticks) => {
                 for tick in ticks {
                     received.0.push_back(tick);

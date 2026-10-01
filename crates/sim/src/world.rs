@@ -3252,9 +3252,7 @@ fn assert_entity_runtime_snapshot(snapshot: &Snapshot) {
     }
 }
 
-/// What a client must not adopt from the wire: section links the host builds
-/// from one state, and trajectory types the client cannot evaluate.
-pub fn snapshot_fault(snapshot: &Snapshot) -> Option<&'static str> {
+pub fn snapshot_fault(snapshot: &Snapshot, weapon_count: usize) -> Option<&'static str> {
     let meta = &snapshot.meta;
     if snapshot
         .players
@@ -3262,6 +3260,16 @@ pub fn snapshot_fault(snapshot: &Snapshot) -> Option<&'static str> {
         .any(|(id, _)| meta.for_client(*id).is_none())
     {
         return Some("player row without client meta");
+    }
+    if snapshot.players.iter().any(|(_, ps)| {
+        ps.weapons
+            .iter()
+            .any(|&weapon| weapon > 0 && weapon as usize >= weapon_count)
+            || [ps.weapon, ps.weapon_primary, ps.off_hand_index.max(0) as u32]
+                .iter()
+                .any(|&weapon| weapon != 0 && weapon as usize >= weapon_count)
+    }) {
+        return Some("weapon index outside local catalog");
     }
     let supported = |tr: i32| entity_iw4::trajectory_type_supported(tr);
     if meta
