@@ -1,6 +1,8 @@
 //! The owner-approved end-to-end scenarios; see README.md.
 
 mod report;
+#[cfg(test)]
+mod resource_reads;
 mod runner;
 mod scenario;
 mod scenarios {
