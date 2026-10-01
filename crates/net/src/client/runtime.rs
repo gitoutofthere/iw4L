@@ -308,7 +308,7 @@ pub fn cycle_weapon_select(
     let facts = |weapon| {
         world
             .weapon_combat_row(weapon)
-            .expect("owned weapon must have a captured catalog row")
+            .unwrap_or_else(weapon_iw4::WeaponCombatFacts::none)
     };
     let Some(target) = cycle_weapon(
         &ps.weapons,
@@ -438,7 +438,7 @@ pub fn receive_ticks(
 ) {
     push_phase(trace, "Receive");
     if let Some(link) = link.as_mut() {
-        match link.recv_ticks() {
+        match link.recv_ticks(prediction.0.world().weapon_combat_len()) {
             Ok(ticks) => {
                 for tick in ticks {
                     received.0.push_back(tick);

@@ -5585,6 +5585,7 @@ dependencies = [
  "gamemode_iw4",
  "glam",
  "hud_iw4",
+ "libm",
  "math_iw4",
  "movement_iw4",
  "perf",

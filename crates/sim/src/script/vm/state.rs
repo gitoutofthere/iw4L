@@ -10,6 +10,7 @@ pub(crate) struct Frame {
     pub(crate) stack_base: usize,
     pub(crate) receiver: Value,
     pub(crate) locals: Vec<Value>,
+    pub(crate) endons: usize,
 }
 
 #[derive(Clone, Debug, PartialEq)]

@@ -15,10 +15,13 @@ use crate::prepare::scene::view_parms::PreparedSceneView;
 use crate::prepare::scene::world::{WorldScene, WorldSmodelLightingSample};
 
 fn smodel_lighting_enabled() -> bool {
-    !matches!(
-        std::env::var("IW4L_SMODEL_LIGHTING").as_deref(),
-        Ok("0") | Ok("false") | Ok("off") | Ok("no")
-    )
+    static ON: std::sync::OnceLock<bool> = std::sync::OnceLock::new();
+    *ON.get_or_init(|| {
+        !matches!(
+            std::env::var("IW4L_SMODEL_LIGHTING").as_deref(),
+            Ok("0") | Ok("false") | Ok("off") | Ok("no")
+        )
+    })
 }
 
 const SMODEL_LIGHTING_HOST_FLAGS_UNKNOWN: u8 = 0;

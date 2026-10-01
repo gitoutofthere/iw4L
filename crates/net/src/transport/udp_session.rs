@@ -1026,7 +1026,7 @@ impl UdpClientLink {
         std::mem::take(&mut self.controls)
     }
 
-    pub fn recv_ticks(&mut self) -> Result<Vec<ReceivedTick>, String> {
+    pub fn recv_ticks(&mut self, weapon_count: usize) -> Result<Vec<ReceivedTick>, String> {
         let mut ticks = Vec::new();
         let mut snap_acks = Vec::new();
         for (_, bytes) in self.relay.take_inbound() {
@@ -1035,14 +1035,14 @@ impl UdpClientLink {
                 Err(_) => continue,
             };
             if !matches!(packet, ServerPacket::Control { .. }) {
-                self.apply_server_packet(packet, &mut ticks, &mut snap_acks)?;
+                self.apply_server_packet(packet, &mut ticks, &mut snap_acks, weapon_count)?;
             }
         }
-        self.drain_bootstrap_offers(&mut ticks, &mut snap_acks)?;
+        self.drain_bootstrap_offers(&mut ticks, &mut snap_acks, weapon_count)?;
         for (_, bytes) in self.relay.take_control_inbound() {
             let packet = decode_server_packet(&bytes, &self.limits).map_err(|e| e.to_string())?;
             if matches!(packet, ServerPacket::Control { .. }) {
-                self.apply_server_packet(packet, &mut ticks, &mut snap_acks)?;
+                self.apply_server_packet(packet, &mut ticks, &mut snap_acks, weapon_count)?;
             }
         }
         self.adopt_entered_client();
@@ -1072,6 +1072,7 @@ impl UdpClientLink {
         &mut self,
         ticks: &mut Vec<ReceivedTick>,
         snap_acks: &mut Vec<u32>,
+        weapon_count: usize,
     ) -> Result<(), String> {
         let (live, from_lane) = {
             let Some(lane) = &self.bootstrap else {
@@ -1106,7 +1107,7 @@ impl UdpClientLink {
                     if self.connection.is_none() {
                         self.connection = Some(connection);
                     }
-                    match self.apply_server_bytes(&packet, ticks, snap_acks) {
+                    match self.apply_server_bytes(&packet, ticks, snap_acks, weapon_count) {
                         Ok(true) => {
                             self.last_applied_offer = Some((bootstrap_id, snapshot_seq));
                             self.pending_applied.push(BootstrapMessage::Applied {
@@ -1155,9 +1156,10 @@ impl UdpClientLink {
         bytes: &[u8],
         ticks: &mut Vec<ReceivedTick>,
         snap_acks: &mut Vec<u32>,
+        weapon_count: usize,
     ) -> Result<bool, String> {
         let packet = decode_server_packet(bytes, &self.limits).map_err(|e| e.to_string())?;
-        self.apply_server_packet(packet, ticks, snap_acks)
+        self.apply_server_packet(packet, ticks, snap_acks, weapon_count)
     }
 
     fn apply_server_packet(
@@ -1165,6 +1167,7 @@ impl UdpClientLink {
         packet: ServerPacket,
         ticks: &mut Vec<ReceivedTick>,
         snap_acks: &mut Vec<u32>,
+        weapon_count: usize,
     ) -> Result<bool, String> {
         match packet {
             ServerPacket::Control { header, payload } => {
@@ -1216,18 +1219,13 @@ impl UdpClientLink {
                 if self.baselines.contains_key(&snapshot_seq) {
                     return Ok(false);
                 }
-                let baseline = if baseline_seq == 0 {
-                    None
-                } else {
-                    match self.baselines.get(&baseline_seq).cloned() {
-                        Some(baseline) => Some(baseline),
-                        None => return Ok(false),
-                    }
-                };
                 let mut decoder = SnapshotDecoder::new();
                 let mut world_decoder = WorldObjectSyncDecoder::default();
-                if let Some(baseline) = baseline.as_ref() {
-                    decoder.adopt_baseline(baseline);
+                if baseline_seq != 0 {
+                    let Some(baseline) = self.baselines.get(&baseline_seq) else {
+                        return Ok(false);
+                    };
+                    decoder.adopt_entity_baseline(baseline);
                     world_decoder.adopt_baseline(baseline.meta.world_objects.clone());
                 }
                 self.in_ack = header.sequence;
@@ -1238,6 +1236,10 @@ impl UdpClientLink {
                     .decode(&frame.snapshot_delta)
                     .map_err(|e| e.to_string())?;
                 snapshot.meta = frame.snapshot_meta.clone();
+                if let Some(fault) = sim::snapshot_fault(&snapshot, weapon_count) {
+                    diag::warn!(Net, "snapshot {snapshot_seq} rejected: {fault}");
+                    return Ok(false);
+                }
                 self.note_applied_snapshot(snapshot_seq);
                 self.baselines.insert(snapshot_seq, snapshot.clone());
                 self.required_baseline_seq = self.required_baseline_seq.max(baseline_seq);

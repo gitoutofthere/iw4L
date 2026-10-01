@@ -103,8 +103,7 @@ pub(crate) fn steer(
         projectile.guide.stage = projectile.guide.stage.max(1);
         if projectile.guide.stage == 1 {
             let flat_forward = forward.truncate().normalize_or_zero();
-            let climb_angle = (flat_forward.dot(delta.truncate()) / delta.z)
-                .atan()
+            let climb_angle = libm::atanf(flat_forward.dot(delta.truncate()) / delta.z)
                 .abs()
                 .to_degrees();
             let ceiling = if projectile.guide.top { 3000.0 } else { 0.0 };

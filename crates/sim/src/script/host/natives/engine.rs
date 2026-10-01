@@ -84,15 +84,22 @@ fn origin_of(world: &mut World, value: &Value) -> Result<[f32; 3], String> {
 }
 
 pub(crate) fn keyed_array(world: &mut World, pairs: Vec<(&str, Value)>) -> Result<Value, String> {
+    for (key, value) in &pairs {
+        value
+            .ensure_finite()
+            .map_err(|m| format!("array member {key}: {m}"))?;
+    }
     let mut runtime = runtime(world);
     let id = runtime.next_object;
     runtime.next_object = id.checked_add(1).ok_or("object identifier exhausted")?;
     runtime.arrays.insert(
         id,
-        pairs
-            .into_iter()
-            .map(|(k, v)| (ArrayKey::String(k.into()), v))
-            .collect(),
+        std::sync::Arc::new(
+            pairs
+                .into_iter()
+                .map(|(k, v)| (ArrayKey::String(k.into()), v))
+                .collect(),
+        ),
     );
     Ok(Value::Array(id))
 }
@@ -338,7 +345,9 @@ fn seconds_ms(seconds: f32) -> Result<i64, String> {
     if !(seconds > 0.0) {
         return Err("total time must be positive".into());
     }
-    Ok((seconds * 1000.0).round().max(1.0) as i64)
+    let scaled = seconds * 1000.0;
+    Value::Float(scaled).ensure_finite()?;
+    Ok(scaled.round().max(1.0) as i64)
 }
 
 fn start_motion(
@@ -360,7 +369,7 @@ fn start_motion(
             duration_ms,
             done,
         },
-    );
+    )?;
     Ok(Value::Undefined)
 }
 
@@ -414,6 +423,7 @@ fn add_angle(
     let id = entity_id(world, receiver)?;
     let mut angles = vector_field(world, id, "angles");
     angles[axis] += delta;
+    Value::Vector(angles).ensure_finite()?;
     runtime(world).set_object_field(id, "angles", Value::Vector(angles));
     Ok(Value::Undefined)
 }
@@ -869,7 +879,7 @@ fn register_placement(registry: &mut NativeRegistry) {
         }
         let now = now_ms(world);
         Ok(Value::Vector(
-            world.resource::<Mechanics>().velocity(id, now),
+            world.resource::<Mechanics>().velocity(id, now)?,
         ))
     });
     registry.register(Method, "getentitynumber", |world, receiver, _| {
@@ -977,25 +987,19 @@ fn register_motion(registry: &mut NativeRegistry) {
     use Namespace::Method;
 
     registry.register(Method, "linkto", |world, receiver, args| {
-        if let Some(client) = runtime(world).player_client_of(receiver) {
-            super::player::link_to(
+        if runtime(world).player_client_of(receiver).is_some() {
+            let offset = optional(args, 2, vector)?
+                .map(|origin| -> Result<_, String> {
+                    Ok((origin, optional(args, 3, vector)?.unwrap_or(ZERO)))
+                })
+                .transpose()?;
+            return super::player::link_to(
                 world,
                 receiver,
                 &args[..args.len().min(2)],
                 super::super::players::LinkView::Free,
-            )?;
-            if let Some(origin) = optional(args, 2, vector)? {
-                let angles = optional(args, 3, vector)?.unwrap_or(ZERO);
-                if let Some(link) = runtime(world)
-                    .players
-                    .get_mut(&client)
-                    .and_then(|slot| slot.link.as_mut())
-                {
-                    link.origin = origin;
-                    link.angles = angles;
-                }
-            }
-            return Ok(Value::Undefined);
+                offset,
+            );
         }
         let parent = entity_id(world, arg(args, 0)?)?;
         let id = entity_id(world, receiver)?;
@@ -1023,6 +1027,8 @@ fn register_motion(registry: &mut NativeRegistry) {
                 )
             }
         };
+        Value::Vector(origin).ensure_finite()?;
+        Value::Vector(angles).ensure_finite()?;
         let tag_offset = tag.is_none().then_some(ZERO);
         runtime(world).entities.get_mut(&id).unwrap().linked_to =
             Some(super::super::entities::Link {
@@ -1143,6 +1149,7 @@ fn register_motion(registry: &mut NativeRegistry) {
         let id = entity_id(world, receiver)?;
         let start = vector_field(world, id, "origin");
         let up = add(start, [0.0, 0.0, 128.0]);
+        Value::Vector(up).ensure_finite()?;
         let t = trace(
             world,
             start,
@@ -1153,6 +1160,8 @@ fn register_motion(registry: &mut NativeRegistry) {
         );
         let top = lerp(start, up, t.fraction);
         let down = add(top, [0.0, 0.0, -262_144.0]);
+        Value::Vector(top).ensure_finite()?;
+        Value::Vector(down).ensure_finite()?;
         let t = trace(
             world,
             top,
@@ -1162,6 +1171,7 @@ fn register_motion(registry: &mut NativeRegistry) {
             MASK_PLAYER_SOLID,
         );
         let ground = lerp(top, down, t.fraction);
+        Value::Vector(ground).ensure_finite()?;
         runtime(world).set_object_field(id, "origin", Value::Vector(ground));
         Ok(Value::Undefined)
     });
